@@ -20,6 +20,7 @@ The below code maintains that the script is always running and that the computer
 */
 
 #Persistent
+chronoOpened = 0
 SetTimer, AutoUpdate, 900000
 SetTimer, KeepAwake, 600000
 
@@ -195,10 +196,18 @@ AutoUpdate:
 	eB1 = https://vivintsolar.my.salesforce.com/00O41000008GHth
 	eB2 = https://vivintsolar.my.salesforce.com/00O41000008GHtr
 	
-	; Now that the variables have been put in place, we'll run chronoInput.
-	run % chronoInput
-	sleep, 200
-	send, {F6}{F6}
+	/*
+	Now that the variables have been put in place, we'll run chronoInput.
+	Will try seeing if keeping only one chrono input page open would help.
+	Should only open the chrono input once.
+	*/
+	if (chronoOpened = 0)
+	{
+		run % chronoInput
+		sleep, 200
+		send, {F6}{F6}
+		chronoOpened := ++chronoOpened
+	}
 	
 	;~ ; Comment these below to stop chrono update for that team
 	runUpdate([wB1, wB2])

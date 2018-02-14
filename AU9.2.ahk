@@ -21,6 +21,7 @@ The below code maintains that the script is always running and that the computer
 
 #Persistent
 chronoOpened = 0
+maxmizeCount = 0
 SetTimer, AutoUpdate, 900000
 SetTimer, KeepAwake, 600000
 
@@ -302,7 +303,11 @@ These must return true to continue, meaning that the red or orange message have 
 update()
 {
 	sleep, 800
-	WinMaximize, A
+	if (maximizeCount = 0)
+	{
+		WinMaximize, A
+		maximizeCount := ++maximizeCount
+	}
 	chromePageWait()
 	fixAccessDenied()
 	missed := copy()
@@ -799,15 +804,15 @@ fixAccessDenied()
         If ErrorLevel = 0
 		{
 			Click, %FoundX%, %FoundY% Left, 1
-		}
-        /*
+		}        
 		If ErrorLevel
         {
+			/*
             MsgBox, 49, Continue?, Image / Pixel Not Found.`nPress OK to continue.
             IfMsgBox, Cancel
-                Return
+			*/
+			Return
         }
-		*/
     }
     Return
 }

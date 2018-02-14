@@ -304,6 +304,7 @@ update()
 	sleep, 800
 	WinMaximize, A
 	chromePageWait()
+	fixAccessDenied()
 	missed := copy()
 	
 	/*
@@ -351,6 +352,7 @@ update()
 		}
 		waitOrangeMsg()
 	}
+	fixAccessDenied()
 	
 	/*
 	End of checking for Salesforce and Chrono Input being ready.
@@ -385,6 +387,7 @@ update()
 		else
 			break
 	}
+	fixAccessDenied()
 	
 	return false
 }
@@ -788,7 +791,7 @@ An attempt at fixing a Google Sheet error.
 */
 fixAccessDenied()
 {
-    Loop, 5
+    Loop, 50
     {
         CoordMode, Pixel, Window
         ImageSearch, FoundX, FoundY, 308, 466, 1611, 668, %CD%\google-btn-accessdenied.bmp

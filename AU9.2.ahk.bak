@@ -784,6 +784,40 @@ closeTabs()
 }
 
 /*
+An attempt at fixing a Google Sheet error.
+*/
+fixAccessDenied()
+{
+    Loop, 5
+    {
+        CoordMode, Pixel, Window
+        ImageSearch, FoundX, FoundY, 308, 466, 1611, 668, %CD%\google-btn-accessdenied.bmp
+        CenterImgSrchCoords(CD "\google-btn-accessdenied.bmp", FoundX, FoundY)
+        If ErrorLevel = 0
+            Click, %FoundX%, %FoundY% Left, 1
+        If ErrorLevel
+        {
+            MsgBox, 49, Continue?, Image / Pixel Not Found.`nPress OK to continue.
+            IfMsgBox, Cancel
+                Return
+        }
+    }
+    Return
+    
+    CenterImgSrchCoords(File, ByRef CoordX, ByRef CoordY)
+    {
+        static LoadedPic
+        LastEL := ErrorLevel
+        Gui, Pict:Add, Pic, vLoadedPic, %File%
+        GuiControlGet, LoadedPic, Pict:Pos
+        Gui, Pict:Destroy
+        CoordX += LoadedPicW // 2
+        CoordY += LoadedPicH // 2
+        ErrorLevel := LastEL
+    }
+}
+
+/*
 
  /$$   /$$             /$$     /$$                                    
 | $$  | $$            | $$    | $$                                    

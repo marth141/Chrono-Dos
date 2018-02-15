@@ -564,9 +564,10 @@ This is specifically looking for the green of the Sheet page in the top left cor
 When it is green, it'll return true and update() will continue. On false, it'll loop.
 */
 checkGreen()
-{
+{	
 	Loop 100
 	{
+		errorImageSearch(accessDeniedImg, 310, 466, 1609, 664)
 		;MsgBox,,, NOT Green!, .1
 		PixelGetColor, color, 25, 145
 		if(Color = 0x5D9F00)  ; 0x589D25
@@ -651,8 +652,7 @@ checkColorWait(checkColor, x, y)
 Waits for a color at a location before pasting.
 */
 waitPaste(checkColor, x, y)
-{
-	fixAccessDenied(accessDeniedImg)
+{	
 	Loop 400
 	{
 		send, {Home}
@@ -778,17 +778,17 @@ closeTabs()
 	return
 }
 
-/* fixAccessDenied() Explanation
+/* errorImageSearch() Explanation
 An attempt at fixing a Google Sheet error.
 */
-fixAccessDenied(file)
+errorImageSearch(file, x1, y1, x2, y2)
 {
     Loop, 100
     {
 		Sleep, 50
         CoordMode, Pixel, Screen
-        ImageSearch, FoundX, FoundY, 310, 466, 1609, 664, %file%
-        CenterImgSrchCoords(CD "\google-btn-accessdenied.bmp", FoundX, FoundY)
+        ImageSearch, FoundX, FoundY, x1, y1, x2, y2, file
+        CenterImgSrchCoords(file, FoundX, FoundY)
         If ErrorLevel = 0
 		{
 			Click, %FoundX%, %FoundY% Left, 1
@@ -806,7 +806,7 @@ fixAccessDenied(file)
 }
 
 /* CenterImgSrchCoords() Explanation
-Needed by fixAccessDenied()
+Needed by errorImageSearch()
 */
 CenterImgSrchCoords(File, ByRef CoordX, ByRef CoordY)
 {

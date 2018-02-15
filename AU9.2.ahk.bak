@@ -307,7 +307,6 @@ update()
 		maximizeCount := ++maximizeCount
 	}
 	chromePageWait()
-	fixAccessDenied()
 	missed := copy()
 	
 	/*
@@ -355,7 +354,6 @@ update()
 		}
 		waitOrangeMsg()
 	}
-	fixAccessDenied()
 	
 	/*
 	End of checking for Salesforce and Chrono Input being ready.
@@ -390,7 +388,6 @@ update()
 		else
 			break
 	}
-	fixAccessDenied()
 	
 	return false
 }

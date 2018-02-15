@@ -25,6 +25,8 @@ maxmizeCount = 0
 SetTimer, AutoUpdate, 900000
 SetTimer, KeepAwake, 600000
 
+accessDeniedImg = %CD%\google-btn-accessdenied.bmp
+
 /* Labels Section
 
  /$$                 /$$                 /$$          
@@ -646,7 +648,7 @@ Waits for a color at a location before pasting.
 */
 waitPaste(checkColor, x, y)
 {
-	fixAccessDenied()
+	fixAccessDenied(accessDeniedImg)
 	Loop 400
 	{
 		send, {Home}
@@ -775,13 +777,13 @@ closeTabs()
 /* fixAccessDenied() Explanation
 An attempt at fixing a Google Sheet error.
 */
-fixAccessDenied()
+fixAccessDenied(file)
 {
     Loop, 100
     {
 		Sleep, 50
         CoordMode, Pixel, Screen
-        ImageSearch, FoundX, FoundY, 310, 466, 1609, 664, %CD%\google-btn-accessdenied.bmp
+        ImageSearch, FoundX, FoundY, 310, 466, 1609, 664, %file%
         CenterImgSrchCoords(CD "\google-btn-accessdenied.bmp", FoundX, FoundY)
         If ErrorLevel = 0
 		{

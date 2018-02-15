@@ -36,3 +36,9 @@ Common MidTop MsgN: 959, 115+(33*N)
 
 Common MidBot Msg1: 959, 140
 Common MidBot Msg1: 959, 140+(33*N)
+
+Furthest Top Y MsgLog: 115
+Furthest Bot Y MsgLog: 437
+
+Furthest Top X MsgLog: 733
+Furthest Bot X MsgLog: 1186

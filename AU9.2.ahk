@@ -646,6 +646,7 @@ Waits for a color at a location before pasting.
 */
 waitPaste(checkColor, x, y)
 {
+	fixAccessDenied()
 	Loop 400
 	{
 		send, {Home}

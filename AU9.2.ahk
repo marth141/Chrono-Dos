@@ -796,10 +796,11 @@ An attempt at fixing a Google Sheet error.
 */
 fixAccessDenied()
 {
-    Loop, 50
+    Loop, 100
     {
-        CoordMode, Pixel, Window
-        ImageSearch, FoundX, FoundY, 308, 466, 1611, 668, %CD%\google-btn-accessdenied.bmp
+		Sleep, 50
+        CoordMode, Pixel, Screen
+        ImageSearch, FoundX, FoundY, 310, 466, 1609, 664, %CD%\google-btn-accessdenied.bmp
         CenterImgSrchCoords(CD "\google-btn-accessdenied.bmp", FoundX, FoundY)
         If ErrorLevel = 0
 		{

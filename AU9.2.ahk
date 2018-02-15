@@ -1,4 +1,4 @@
-/*
+/* Foreword Section
 
  /$$$$$$$$                                                                    /$$
 | $$_____/                                                                   | $$
@@ -25,7 +25,7 @@ maxmizeCount = 0
 SetTimer, AutoUpdate, 900000
 SetTimer, KeepAwake, 600000
 
-/*
+/* Labels Section
 
  /$$                 /$$                 /$$          
 | $$                | $$                | $$          
@@ -40,8 +40,7 @@ SetTimer, KeepAwake, 600000
                                                       
 */
 
-/*
-AutoUpdate:
+/* Autoupdate Explanation
 
 THIS IS THE START OF THE SCRIPT! ULTIMATELY GOES TO update()!
 Contains all of the set up to get the Chrono updater running.
@@ -236,8 +235,7 @@ AutoUpdate:
 	return
 }
 
-/*
-KeepAwake:
+/* KeepAwake Explanation
 
 Keep awake is to keep the computer from falling asleep while the Chrono updater is running.
 */
@@ -249,7 +247,7 @@ KeepAwake:
 	return
 }
 
-/*
+/* Functions Section
 
  /$$$$$$$$                              /$$     /$$                              
 | $$_____/                             | $$    |__/                              
@@ -264,8 +262,7 @@ KeepAwake:
                                                                                  
 */
 
-/*
-runUpdate
+/* runUpdate() Explanation
 
 Updates the arrays of links used in autoUpdate:
 */
@@ -286,8 +283,7 @@ runUpdate(urlArray)
 	}
 }
 
-/*
-update
+/* update() Explanation
 
 First few if and while statements will loop until all conditions have been met.
 Primarily, it is double-checking that it is on a Salesforce page, the Chrono Input is open,
@@ -397,8 +393,7 @@ update()
 	return false
 }
 
-/*
-copy
+/* copy() Explanation
 
 This checks if you're logged into Salesforce or not.
 If updater not working, look here and use the debugger.
@@ -451,8 +446,7 @@ copy()
 	Send, ^w
 }
 
-/*
-paste
+/* paste() Explanation
 
 Simply pastes clipboard contents, then returns.
 */
@@ -465,8 +459,7 @@ paste()
 	return
 }
 
-/*
-chromePageWait
+/* chromePageWait() Explanation
 
 Waits for Chrome to be open.
 
@@ -493,8 +486,7 @@ chromePageWait()
 	Sleep, 500
 }
 
-/*
-waitRedBtn
+/* waitRedBtn() Explanation
 
 Looks for a Red button somewhere in the middle of the page, not sure why.
 */
@@ -508,8 +500,7 @@ waitRedBtn()
 	Sleep, 100
 }
 
-/*
-waitOrangeMsg
+/* waitOrangeMsg() Explanation
 
 Returns true if timeout on orange msg
 return false if orange msg disappeared or was never there
@@ -542,8 +533,7 @@ waitOrangeMsg()
 	return false ;return false if orange msg disapears or was never there. 
 }
 
-/*
-waitRedMsg
+/* waitRedMsg() Explanation
 
 Returns true if red msg found
 return false if no red msg found
@@ -561,8 +551,7 @@ waitRedMsg()
 	return false ;return false if orange msg disapears or was never there. 
 }
 
-/*
-checkGreen
+/* checkGreen() Explanation
 
 Checks for green coloring in the Chrono Input tab at a specific pixel location.
 This is specifically looking for the green of the Sheet page in the top left corner.
@@ -582,8 +571,7 @@ checkGreen()
 	return true
 }
 
-/*
-checkOrange
+/* checkOrange() Explanation
 
 Will check at a specific coodinate if a color exists.
 I think it's looking for the Google "Running Script" message.
@@ -613,8 +601,7 @@ checkOrange()
 	return true
 }
 
-/*
-checkColor
+/* checkColor() Explanation
 
 Takes a color input at a specified location.
 It then checks if the color is that color at that location.
@@ -634,9 +621,7 @@ checkColor(checkColor, x, y)
 	return false
 }
 
-
-/*
-checkColorWait
+/* checkColorWait() Explanation
 
 Takes a color input at a coordinate then checks if that color exists.
 This one waits a little longer than checkColor()
@@ -655,8 +640,7 @@ checkColorWait(checkColor, x, y)
 }
 
 
-/*
-waitPaste
+/* waitPaste() Explanation
 
 Waits for a color at a location before pasting.
 */
@@ -674,8 +658,7 @@ waitPaste(checkColor, x, y)
 	return false
 }
 
-/*
-checkPopUp
+/* checkPopUp() Explanation
 
 Checks for a color in a popup. If the color is there, it'll click to resolve the popup.
 The returns are vestigial. When this function is called, the returns do not matter other than being there for safety.
@@ -698,8 +681,7 @@ checkPopUp(checkColor, x, y)
 	return false
 }
 
-/*
-signIn
+/* signIn() Explanation
 
 Signs in to okta
 */
@@ -730,8 +712,7 @@ signIn()
 	
 }
 
-/*
-checkPopUp2
+/* checkPopUp2() Explanation
 
 A sleepier checkPopUp function.
 Checks for a color in a popup. If the color is there, it'll click to resolve the popup.
@@ -757,8 +738,7 @@ checkPopUp2(checkColor, x, y)
 	return true
 }
 
-/*
-closeTabs
+/* closeTabs() Explanation
 
 Closes tabs.
 */
@@ -791,7 +771,7 @@ closeTabs()
 	return
 }
 
-/*
+/* fixAccessDenied() Explanation
 An attempt at fixing a Google Sheet error.
 */
 fixAccessDenied()
@@ -818,7 +798,7 @@ fixAccessDenied()
     Return
 }
 
-/*
+/* CenterImgSrchCoords() Explanation
 Needed by fixAccessDenied()
 */
 CenterImgSrchCoords(File, ByRef CoordX, ByRef CoordY)
@@ -833,7 +813,7 @@ CenterImgSrchCoords(File, ByRef CoordX, ByRef CoordY)
 	ErrorLevel := LastEL
 }
 
-/*
+/* Hotkeys Section
 
  /$$   /$$             /$$     /$$                                    
 | $$  | $$            | $$    | $$                                    
@@ -848,8 +828,7 @@ CenterImgSrchCoords(File, ByRef CoordX, ByRef CoordY)
                                                    \______/           
 */
 
-/*
-Pause
+/* Pause Script Explanation
 
 Pauses the script during it's execution with ctrl+p
 */
@@ -859,8 +838,7 @@ MsgBox, PAUSE
 return
 }
 
-/*
-ESC
+/* Shutdown Script Explanation
 
 Closes the script entirely when ctrl+esc is pressed.
 */
@@ -870,7 +848,7 @@ ExitApp
 Return
 }
 
-/*
+/* Archived Code
 
   /$$$$$$                      /$$       /$$                           /$$        /$$$$$$                  /$$          
  /$$__  $$                    | $$      |__/                          | $$       /$$__  $$                | $$          
@@ -884,7 +862,7 @@ Return
                                                                                                                         
                                                                                                                         
 Discovery the mystery of this code!
-*/
+
 
 ;~ ;******************************************************************************************************
 ;~ /*
@@ -926,3 +904,4 @@ Discovery the mystery of this code!
 	;~ update()
 	;~ Return
 ;~ }
+*/

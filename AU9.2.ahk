@@ -782,7 +782,7 @@ An attempt at fixing a Google Sheet error.
 */
 errorImageSearch(needleF)
 {
-	Loop 50
+	Loop 10
 	{
 		CoordMode, Pixel, Screen
 		ImageSearch, FoundX, FoundY, 0, 0, 1920, 1080, %needleF%

@@ -25,13 +25,13 @@ maxmizeCount = 0
 SetTimer, AutoUpdate, 900000
 SetTimer, KeepAwake, 600000
 
-accessDeniedImg = %CD%\images\google-btn-accessdenied.bmp
-accessChangedImg = %CD%\images\google-msg-AccessChanged.bmp
-rowErrorImg = %CD%\images\google-msg-RowError.bmp
-runningScriptCancel = %CD%\images\google-msg-RunningScriptWCancel.bmp
-runningScriptNoCancel = %CD%\images\google-msg-RunningScriptWOCancel.bmp
-savingTimeout = %CD%\images\google-msg-SavingTimeout.bmp
-serviceError = %CD%\images\google-msg-ServiceError.bmp
+accessDeniedImg := "%CD%\images\google-btn-accessdenied.bmp"
+accessChangedImg := "%CD%\images\google-msg-AccessChanged.bmp"
+rowErrorImg := "%CD%\images\google-msg-RowError.bmp"
+runningScriptCancel := "%CD%\images\google-msg-RunningScriptWCancel.bmp"
+runningScriptNoCancel := "%CD%\images\google-msg-RunningScriptWOCancel.bmp"
+savingTimeout := "%CD%\images\google-msg-SavingTimeout.bmp"
+serviceError := "%CD%\images\google-msg-ServiceError.bmp"
 
 
 /* Labels Section
@@ -780,12 +780,12 @@ closeTabs()
 /* errorImageSearch() Explanation
 An attempt at fixing a Google Sheet error.
 */
-errorImageSearch(NeedleF)
+errorImageSearch(needleF)
 {
 	Loop 50
 	{
 		CoordMode, Pixel, Screen
-		ImageSearch, FoundX, FoundY, 0, 0, 1920, 1080, NeedleF
+		ImageSearch, FoundX, FoundY, 0, 0, 1920, 1080, %needleF%
 		CenterImgSrchCoords(NeedleF, FoundX, FoundY)
 		If ErrorLevel = 0
 		{

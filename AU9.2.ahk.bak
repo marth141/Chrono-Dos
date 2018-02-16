@@ -567,7 +567,7 @@ checkGreen()
 {	
 	Loop 100
 	{
-		errorImageSearch(accessDeniedImg, 310, 466, 1609, 664)
+		errorImageSearch(accessDeniedImg)
 		;MsgBox,,, NOT Green!, .1
 		PixelGetColor, color, 25, 145
 		if(Color = 0x5D9F00)  ; 0x589D25
@@ -645,7 +645,6 @@ checkColorWait(checkColor, x, y)
 	}
 	return false
 }
-
 
 /* waitPaste() Explanation
 
@@ -781,28 +780,26 @@ closeTabs()
 /* errorImageSearch() Explanation
 An attempt at fixing a Google Sheet error.
 */
-errorImageSearch(file, x1, y1, x2, y2)
+errorImageSearch(NeedleF)
 {
-    Loop, 100
-    {
-		Sleep, 50
-        CoordMode, Pixel, Screen
-        ImageSearch, FoundX, FoundY, x1, y1, x2, y2, file
-        CenterImgSrchCoords(file, FoundX, FoundY)
-        If ErrorLevel = 0
+	Loop
+	{
+		CoordMode, Pixel, Screen
+		ImageSearch, FoundX, FoundY, 0, 0, 1920, 1080, NeedleF
+		CenterImgSrchCoords(NeedleF, FoundX, FoundY)
+		If ErrorLevel = 0
 		{
 			Click, %FoundX%, %FoundY% Left, 1
-		}        
+		}
 		If ErrorLevel
-        {
-			/*
-            MsgBox, 49, Continue?, Image / Pixel Not Found.`nPress OK to continue.
-            IfMsgBox, Cancel
-			*/
-			Return
-        }
-    }
-    Return
+		{
+			Loop, 2
+			{
+				SoundBeep
+			}
+		}
+	}
+	Until ErrorLevel = 0
 }
 
 /* CenterImgSrchCoords() Explanation

@@ -796,16 +796,24 @@ errorImageSearch(needleF)
 		If ErrorLevel = 0
 		{
 			Click, %FoundX%, %FoundY% Left, 1
+			break
 		}
 		If ErrorLevel
 		{
-			Loop, 2
+			Loop 1
 			{
-				SoundBeep
+				SoundBeep, 2093, 117
+				SoundBeep, 2093, 117
+				SoundBeep, 2093, 117
+				SoundBeep, 2093, 117
+				SoundBeep, 3137, 234
+				SoundBeep, 3521, 234
+				SoundBeep, 3951, 469
+				SoundBeep, 3521, 156
+				SoundBeep, 3951, 469
 			}
 		}
 	}
-	Until ErrorLevel = 0
 }
 
 /* CenterImgSrchCoords() Explanation

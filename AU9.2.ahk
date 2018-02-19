@@ -25,16 +25,6 @@ maxmizeCount = 0
 SetTimer, AutoUpdate, 900000
 SetTimer, KeepAwake, 600000
 
-accessDeniedImg			:= "%CD%\images\google-btn-accessdenied.bmp"
-accessChangedImg		:= "%CD%\images\google-msg-AccessChanged.bmp"
-rowErrorImg				:= "%CD%\images\google-msg-RowError.bmp"
-runningScriptCancel		:= "%CD%\images\google-msg-RunningScriptWCancel.bmp"
-runningScriptNoCancel	:= "%CD%\images\google-msg-RunningScriptWOCancel.bmp"
-savingTimeout 			:= "%CD%\images\google-msg-SavingTimeout.bmp"
-serviceError 			:= "%CD%\images\google-msg-ServiceError.bmp"
-leaveButton 			:= "%CD%\images\goog-btn-leave.bmp"
-
-
 /* Labels Section
 
  /$$                 /$$                 /$$          
@@ -401,7 +391,16 @@ update()
 		else
 			break
 	}
-	errorImageSearch(goog-btn-leave)
+	accessDeniedImg			:= "%CD%\images\google-btn-accessdenied.bmp"
+	accessChangedImg		:= "%CD%\images\google-msg-AccessChanged.bmp"
+	rowErrorImg				:= "%CD%\images\google-msg-RowError.bmp"
+	runningScriptCancel		:= "%CD%\images\google-msg-RunningScriptWCancel.bmp"
+	runningScriptNoCancel	:= "%CD%\images\google-msg-RunningScriptWOCancel.bmp"
+	savingTimeout 			:= "%CD%\images\google-msg-SavingTimeout.bmp"
+	serviceError 			:= "%CD%\images\google-msg-ServiceError.bmp"
+	leaveButton 			:= "%CD%\images\goog-btn-leave.bmp"
+	
+	errorImageSearch(leaveButton)
 	errorImageSearch(accessDeniedImg)
 	
 	return false

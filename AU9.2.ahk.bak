@@ -788,7 +788,7 @@ An attempt at fixing a Google Sheet error.
 */
 errorImageSearch(needleF)
 {
-	Loop 10
+	Loop 1
 	{
 		CoordMode, Pixel, Screen
 		ImageSearch, FoundX, FoundY, 0, 0, A_ScreenWidth, A_ScreenHeight, %needleF%
@@ -802,15 +802,7 @@ errorImageSearch(needleF)
 		{
 			Loop 1
 			{
-				SoundBeep, 2093, 117
-				SoundBeep, 2093, 117
-				SoundBeep, 2093, 117
-				SoundBeep, 2093, 117
-				SoundBeep, 3137, 234
-				SoundBeep, 3521, 234
-				SoundBeep, 3951, 469
-				SoundBeep, 3521, 156
-				SoundBeep, 3951, 469
+				SoundPlay, %A_WorkingDir%\sounds\FFVicShort.mid, 1
 			}
 		}
 	}

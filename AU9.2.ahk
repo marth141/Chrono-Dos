@@ -391,14 +391,14 @@ update()
 		else
 			break
 	}
-	accessDeniedImg			:= "%CD%\images\google-btn-accessdenied.bmp"
-	accessChangedImg		:= "%CD%\images\google-msg-AccessChanged.bmp"
-	rowErrorImg				:= "%CD%\images\google-msg-RowError.bmp"
-	runningScriptCancel		:= "%CD%\images\google-msg-RunningScriptWCancel.bmp"
-	runningScriptNoCancel	:= "%CD%\images\google-msg-RunningScriptWOCancel.bmp"
-	savingTimeout 			:= "%CD%\images\google-msg-SavingTimeout.bmp"
-	serviceError 			:= "%CD%\images\google-msg-ServiceError.bmp"
-	leaveButton 			:= "%CD%\images\goog-btn-leave.bmp"
+	accessDeniedImg			= %A_WorkingDir%\images\google-btn-accessdenied.bmp
+	accessChangedImg		= %A_WorkingDir%\images\google-msg-AccessChanged.bmp
+	rowErrorImg				= %A_WorkingDir%\images\google-msg-RowError.bmp
+	runningScriptCancel		= %A_WorkingDir%\images\google-msg-RunningScriptWCancel.bmp
+	runningScriptNoCancel	= %A_WorkingDir%\images\google-msg-RunningScriptWOCancel.bmp
+	savingTimeout 			= %A_WorkingDir%\images\google-msg-SavingTimeout.bmp
+	serviceError 			= %A_WorkingDir%\images\google-msg-ServiceError.bmp
+	leaveButton 			= %A_WorkingDir%\images\goog-btn-leave.bmp
 	
 	errorImageSearch(leaveButton)
 	errorImageSearch(accessDeniedImg)
@@ -791,7 +791,7 @@ errorImageSearch(needleF)
 	Loop 10
 	{
 		CoordMode, Pixel, Screen
-		ImageSearch, FoundX, FoundY, 0, 0, 1920, 1080, %needleF%
+		ImageSearch, FoundX, FoundY, 0, 0, A_ScreenWidth, A_ScreenHeight, %needleF%
 		CenterImgSrchCoords(NeedleF, FoundX, FoundY)
 		If ErrorLevel = 0
 		{

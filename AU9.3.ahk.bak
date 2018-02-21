@@ -300,6 +300,16 @@ AutoUpdate:
    */
    update()
    {
+      accessDeniedImg = %A_WorkingDir%\images\google-btn-accessdenied.bmp
+      accessChangedImg = %A_WorkingDir%\images\google-msg-AccessChanged.bmp
+      rowErrorImg = %A_WorkingDir%\images\google-msg-RowError.bmp
+      runningScriptCancel = %A_WorkingDir%\images\google-msg-RunningScriptWCancel.bmp
+      runningScriptNoCancel	= %A_WorkingDir%\images\google-msg-RunningScriptWOCancel.bmp
+      savingTimeout = %A_WorkingDir%\images\google-msg-SavingTimeout.bmp
+      serviceError = %A_WorkingDir%\images\google-msg-ServiceError.bmp
+      leaveButton = %A_WorkingDir%\images\google-btn-leave.bmp
+      sheetsIcon = %A_WorkingDir%\images\google-newSheetsIcon.bmp
+      
       sleep, 800
       if (maximizeCount = 0)
       {
@@ -386,15 +396,7 @@ AutoUpdate:
          }
          else
             break
-      }
-      accessDeniedImg			= %A_WorkingDir%\images\google-btn-accessdenied.bmp
-      accessChangedImg		= %A_WorkingDir%\images\google-msg-AccessChanged.bmp
-      rowErrorImg				= %A_WorkingDir%\images\google-msg-RowError.bmp
-      runningScriptCancel		= %A_WorkingDir%\images\google-msg-RunningScriptWCancel.bmp
-      runningScriptNoCancel	= %A_WorkingDir%\images\google-msg-RunningScriptWOCancel.bmp
-      savingTimeout 			= %A_WorkingDir%\images\google-msg-SavingTimeout.bmp
-      serviceError 			= %A_WorkingDir%\images\google-msg-ServiceError.bmp
-      leaveButton 			= %A_WorkingDir%\images\goog-btn-leave.bmp
+      }      
       
       errorImageSearch(leaveButton)
       errorImageSearch(accessDeniedImg)
@@ -564,6 +566,9 @@ waitRedMsg()
 Checks for green coloring in the Chrono Input tab at a specific pixel location.
 This is specifically looking for the green of the Sheet page in the top left corner.
 When it is green, it'll return true and update() will continue. On false, it'll loop.
+
+Update Feb 2018
+Now looks for Google Sheets icon to be able to tell if Google Sheets.
 */
 checkGreen()
 {
@@ -571,9 +576,9 @@ checkGreen()
    {
       ;MsgBox,,, NOT Green!, .1
       ;PixelGetColor, color, 24, 106
-      needle = %A_WorkingDir%\images\goog-btn-leave.bmp
+      needle = %A_WorkingDir%\images\google-newSheetsIcon.bmp
       ImageSearch,,,0,0,A_ScreenWidth,A_ScreenHeight,needle
-      if ErrorLevel ; Green as of Feb 2018
+      if ErrorLevel ; Icon as of Feb 2018
          return false
       Sleep, 50
    }
@@ -781,19 +786,19 @@ closeTabs()
 /* errorImageSearch() Explanation
 An attempt at fixing a Google Sheet error.
 */
-errorImageSearch(needleF)
+errorImageSearch(needleF, clickNeeded)
 {
    Loop 1
    {
       CoordMode, Pixel, Screen
       ImageSearch, FoundX, FoundY, 0, 0, A_ScreenWidth, A_ScreenHeight, %needleF%
       CenterImgSrchCoords(NeedleF, FoundX, FoundY)
-      If ErrorLevel = 0
+      If ErrorLevel = 0 && clickNeeded = 1
       {
          Click, %FoundX%, %FoundY% Left, 1
          break
       }
-      If ErrorLevel
+      If ErrorLevel 
       {
          Loop 1
          {

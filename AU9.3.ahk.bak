@@ -309,6 +309,7 @@ AutoUpdate:
       serviceError = %A_WorkingDir%\images\google-msg-ServiceError.bmp
       leaveButton = %A_WorkingDir%\images\google-btn-leave.bmp
       sheetsIcon = %A_WorkingDir%\images\google-newSheetsIcon.bmp
+      dismissMsg = %A_WorkingDir%\images\google-msg-DismissRed.bmp
       
       sleep, 800
       if (maximizeCount = 0)
@@ -400,6 +401,7 @@ AutoUpdate:
       
       errorImageSearch(leaveButton, true)
       errorImageSearch(accessDeniedImg, true)
+      errorImageSearch(dismissMsg, true)
       
       return false
    }
@@ -793,13 +795,13 @@ errorImageSearch(needleF, clickNeeded:=false)
       CoordMode, Pixel, Screen
       ImageSearch, FoundX, FoundY, 0, 0, A_ScreenWidth, A_ScreenHeight, %needleF%
       CenterImgSrchCoords(NeedleF, FoundX, FoundY)
-      If ErrorLevel = 0 && clickNeeded = true
+      If ErrorLevel = 0 && clickNeeded = true ; If found and click needed, click it.
       {
          Click, %FoundX%, %FoundY% Left, 1
          return true
          break
       }
-      If ErrorLevel && clickNeeded = false
+      else If ErrorLevel && clickNeeded = false ; If not found and click not needed.
       {
          Loop 1
          {

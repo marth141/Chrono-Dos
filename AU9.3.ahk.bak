@@ -398,8 +398,8 @@ AutoUpdate:
             break
       }      
       
-      errorImageSearch(leaveButton)
-      errorImageSearch(accessDeniedImg)
+      errorImageSearch(leaveButton, true)
+      errorImageSearch(accessDeniedImg, true)
       
       return false
    }
@@ -786,19 +786,19 @@ closeTabs()
 /* errorImageSearch() Explanation
 An attempt at fixing a Google Sheet error.
 */
-errorImageSearch(needleF, clickNeeded)
+errorImageSearch(needleF, clickNeeded:=false)
 {
    Loop 1
    {
       CoordMode, Pixel, Screen
       ImageSearch, FoundX, FoundY, 0, 0, A_ScreenWidth, A_ScreenHeight, %needleF%
       CenterImgSrchCoords(NeedleF, FoundX, FoundY)
-      If ErrorLevel = 0 && clickNeeded = 1
+      If ErrorLevel = 0 && clickNeeded = true
       {
          Click, %FoundX%, %FoundY% Left, 1
          break
       }
-      If ErrorLevel 
+      If ErrorLevel && clickNeeded = false
       {
          Loop 1
          {

@@ -326,9 +326,9 @@ AutoUpdate:
       if(missed)
       {
          return missed
-      }
+      }      
       
-      while(checkGreen()) ;check if spreadsheet open by green box
+      while(errorImageSearch(sheetsIcon, false)) ;check if spreadsheet open by green box
       Send, {F5}
       
       while(checkOrange()) ;wait till orange message gone, else ctrl+z run button again
@@ -796,6 +796,7 @@ errorImageSearch(needleF, clickNeeded:=false)
       If ErrorLevel = 0 && clickNeeded = true
       {
          Click, %FoundX%, %FoundY% Left, 1
+         return true
          break
       }
       If ErrorLevel && clickNeeded = false
@@ -803,6 +804,7 @@ errorImageSearch(needleF, clickNeeded:=false)
          Loop 1
          {
             SoundPlay, %A_WorkingDir%\sounds\FFVicShort.mid, 1
+            return false
          }}}}
 
 /* CenterImgSrchCoords() Explanation

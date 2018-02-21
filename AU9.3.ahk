@@ -570,8 +570,10 @@ checkGreen()
    Loop 100
    {
       ;MsgBox,,, NOT Green!, .1
-      PixelGetColor, color, 24, 106
-      if(Color = 0x18A86D) ; Green as of Feb 2018
+      ;PixelGetColor, color, 24, 106
+      needle = %A_WorkingDir%\images\goog-btn-leave.bmp
+      ImageSearch,,,0,0,A_ScreenWidth,A_ScreenHeight,needle
+      if ErrorLevel ; Green as of Feb 2018
          return false
       Sleep, 50
    }

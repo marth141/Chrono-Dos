@@ -570,8 +570,8 @@ checkGreen()
    Loop 100
    {
       ;MsgBox,,, NOT Green!, .1
-      PixelGetColor, color, 25, 145
-      if(Color = 0x5D9F00)  ; 0x589D25
+      PixelGetColor, color, 24, 106
+      if(Color = 0x18A86D) ; Green as of Feb 2018
          return false
       Sleep, 50
    }

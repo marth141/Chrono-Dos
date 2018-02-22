@@ -369,7 +369,6 @@ update()
    End of checking for Salesforce and Chrono Input being ready.
    */
    
-   errorImageSearch(dismissMsg, true)
    paste() ; Will just paste and return to continue down.
    
    if(!waitPaste(0x29782F, 1340, 310)) ;check if green-go box is green, else restart  0x1D7638
@@ -401,7 +400,8 @@ update()
    }      
    
    errorImageSearch(leaveButton, true)
-   errorImageSearch(accessDeniedImg, true)   
+   errorImageSearch(accessDeniedImg, true)
+   errorImageSearch(dismissMsg, true)
    
    return false
 }

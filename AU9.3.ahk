@@ -303,15 +303,15 @@ These must return true to continue, meaning that the red or orange message have 
 */
 update()
 {
-   accessDeniedImg = %A_WorkingDir%\images\google-btn-accessdenied.bmp
+   accessDeniedImg = %A_WorkingDir%\images\google-btn-AccessDenied.bmp
    accessChangedImg = %A_WorkingDir%\images\google-msg-AccessChanged.bmp
    rowErrorImg = %A_WorkingDir%\images\google-msg-RowError.bmp
    runningScriptCancel = %A_WorkingDir%\images\google-msg-RunningScriptWCancel.bmp
    runningScriptNoCancel	= %A_WorkingDir%\images\google-msg-RunningScriptWOCancel.bmp
    savingTimeout = %A_WorkingDir%\images\google-msg-SavingTimeout.bmp
    serviceError = %A_WorkingDir%\images\google-msg-ServiceError.bmp
-   leaveButton = %A_WorkingDir%\images\google-btn-leave.bmp
-   sheetsIcon = %A_WorkingDir%\images\google-newSheetsIcon.bmp
+   leaveButton = %A_WorkingDir%\images\google-btn-Leave.bmp
+   sheetsIcon = %A_WorkingDir%\images\google-ico-SheetsLg.bmp
    dismissMsg = %A_WorkingDir%\images\google-msg-DismissRed.bmp
    
    sleep, 800
@@ -372,6 +372,7 @@ update()
    End of checking for Salesforce and Chrono Input being ready.
    */
    
+   errorImageSearch(dismissMsg, true)
    paste() ; Will just paste and return to continue down.
    
    if(!waitPaste(0x29782F, 1340, 310)) ;check if green-go box is green, else restart  0x1D7638
@@ -403,62 +404,48 @@ update()
    }      
    
    errorImageSearch(leaveButton, true)
-   errorImageSearch(accessDeniedImg, true)
-   errorImageSearch(dismissMsg, true)
+   errorImageSearch(accessDeniedImg, true)   
    
    return false
 }
 
 /* copy() Explanation
 
-This checks if you're logged into Salesforce or not.
-If updater not working, look here and use the debugger.
-While statement checks if color is not D49711 (Hex Color).
-Color is defined as white, so this is true, the loop will run.
-The statements marked with ;~ in this loop are for debugging and finding the color value for the While loop.
-At a specific coodinate, it'll check for the color C17D00. This is to make sure you're logged in.
-If you're not, it'll run the signIn function which will take you to okta to sign in.
-This is done by returning the missed variable as the signIn() back to update() then running through signIn() which will return true.
-The update() function should restart after this and redo copy().
-
-If it was not loaded properly, or not finding the right color, it'll loop and no pages will be copied.
-Once it has been found, a variable "found" gets set to true and a new loop starts.
-This second loop, white(found), will copy the salesforce page then search for "Grand Totals"
-if that is found, it closes the tab to the Google sheet Input.
+Checks if in Salesforce by looking for the Salesforce Icon.
+If it is not found, will go to sign in and return a missed.
+If it is found, will copy and close the Salesforce tab.
 */
 copy()
 {
-   ; Defining default color as white.
-   color = 0x000000	
-   while(color != 0xD49711) ;color != 0xD69A0A || salesforce blue; If white is not white.
+   salesforceIcon = %A_WorkingDir%\images\salesforce-ico-SalesForceLg.bmp
+   ImageSearch, ovx, ovy, 0, 0, %A_ScreenWidth%, %A_ScreenHeight%, %salesforceIcon%
+   if ErrorLevel ; If error is not blank or 0
    {
-      ;~ MsgBox,,, NOT Blue!, .1
-      ;~ MsgBox,,, %color% %x% %y% 
-      PixelGetColor, color, 55, 136
-      if(color = 0xC17D00)
-      {
-         MsgBox,,, You're not signed in, 2
-         missed := signIn()
-         return missed
-      }
+      MsgBox,,, You're not signed in, 2
+      missed := signIn()
+      return missed   
       Sleep, 100
    }
-   chromePageWait()
-   found := true
-   While(found)
+   else ; If Salesforce icon found, do this.
    {
-      Send, ^a
-      Sleep, 800
-      Send, ^c
-      ClipWait
-      search = Grand Totals
-      IfInString, Clipboard, %search%
+      chromePageWait()
+      found := true
+      While(found)
       {
-         found := false
-         ;MsgBox, Found grand total
-      }}
-   Sleep, 500
-   Send, ^w
+         Send, ^a
+         Sleep, 800
+         Send, ^c
+         ClipWait
+         search = Grand Totals
+         IfInString, Clipboard, %search%
+         {
+            found := false
+            ;MsgBox, Found grand total
+         }
+      }
+      Sleep, 500
+      Send, ^w
+   }   
 }
 
 /* paste() Explanation

@@ -418,6 +418,7 @@ If it is found, will copy and close the Salesforce tab.
 copy()
 {
    salesforceIcon = %A_WorkingDir%\images\salesforce-ico-SalesForceLg.bmp
+   chromePageWait()
    ImageSearch, ovx, ovy, 0, 0, %A_ScreenWidth%, %A_ScreenHeight%, %salesforceIcon%
    if ErrorLevel ; If error is not blank or 0
    {

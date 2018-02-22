@@ -213,29 +213,26 @@ AutoUpdate:
    }
    
    ;~ ; Comment these below to stop chrono update for that team
-   runUpdate([wB1, wB2])
-   runUpdate([eB1, eB2])
-   runUpdate([westB1, westB2])
-   runUpdate([centralB1, centralB2])
-   runUpdate([atlanticB1, atlanticB2])
-   runUpdate([noB1, noB2, noB3, noB4, noB5])
-   runUpdate([soB1, soB2, soB3, soB4, soB5])
-   runUpdate([swB1, swB2, swB3, swB4, swB5])
-   runUpdate([gritB1, gritB2, gritB3, gritB4, gritB5])
-   runUpdate([newEngB1, newEngB2, newEngB3, newEngB4, newEngB5])
-   runUpdate([legionB1, legionB2, legionB3, legionB4, legionB5])
-   runUpdate([nisB1, nisB2, nisB3, nisB4, nisB5])
-   runUpdate([dB1, dB2, dB3, dB4, dB5])
-   runUpdate([qcPass])
-   runUpdate([cpQC, cpQCCompleted, cpQCChecked])
-   runUpdate([ppQCPool, ppQCSREEPool, ppQCCadObjWChecks, ppQCCadCompleted, ppQCSREEWChecks, ppQCSREECompleted])
-   runUpdate([vrAudit])
-   
-   
-   
-   send, ^w
-   
-   return
+   Loop
+   {
+      runUpdate([wB1, wB2])
+      runUpdate([eB1, eB2])
+      runUpdate([westB1, westB2])
+      runUpdate([centralB1, centralB2])
+      runUpdate([atlanticB1, atlanticB2])
+      runUpdate([noB1, noB2, noB3, noB4, noB5])
+      runUpdate([soB1, soB2, soB3, soB4, soB5])
+      runUpdate([swB1, swB2, swB3, swB4, swB5])
+      runUpdate([gritB1, gritB2, gritB3, gritB4, gritB5])
+      runUpdate([newEngB1, newEngB2, newEngB3, newEngB4, newEngB5])
+      runUpdate([legionB1, legionB2, legionB3, legionB4, legionB5])
+      runUpdate([nisB1, nisB2, nisB3, nisB4, nisB5])
+      runUpdate([dB1, dB2, dB3, dB4, dB5])
+      runUpdate([qcPass])
+      runUpdate([cpQC, cpQCCompleted, cpQCChecked])
+      runUpdate([ppQCPool, ppQCSREEPool, ppQCCadObjWChecks, ppQCCadCompleted, ppQCSREEWChecks, ppQCSREECompleted])
+      runUpdate([vrAudit])
+   }
 }
    
 /* KeepAwake Explanation

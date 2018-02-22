@@ -22,8 +22,8 @@ The below code maintains that the script is always running and that the computer
 #Persistent
 chronoOpened = 0
 maxmizeCount = 0
-SetTimer, AutoUpdate, 900000
-SetTimer, KeepAwake, 600000
+; SetTimer, AutoUpdate, 900000 ; Every 15 minutes
+SetTimer, KeepAwake, 600000 ; Every 10 minutes
 
 /* Labels Section
 
@@ -825,6 +825,34 @@ CenterImgSrchCoords(File, ByRef CoordX, ByRef CoordY)
    CoordX += LoadedPicW // 2
    CoordY += LoadedPicH // 2
    ErrorLevel := LastEL
+}
+
+checkTabs()
+{
+   /*
+   Screen is 1920x1080
+   Tabs Start at pixel (18,0).
+   Tabs are (x+193,y) pixels apart.
+   At maximum screen, tabs are between (x,0), (x,27).
+   
+   Check between (18,0) and (210,27) for Google Sheets
+   If found, add to Sheets Count.
+      
+   Counter = 0, 1, 2...
+   
+   loop
+   MAX_TABS = 5
+   Check Between (18+(193*(x))<=1080,0) and (210+(193*(x))<=1080,27)
+   If Found, counter++,
+      if found twice or more,
+         loop counter-1
+         middle click foundCount sheet's icon
+   If Found, counter++,
+      if found twice or more,
+         loop counter-1
+         shift tab until active sheet's icon, close 1 sheets tab
+   if searchx >= 1080, stop
+   */
 }
 
 /* Hotkeys Section

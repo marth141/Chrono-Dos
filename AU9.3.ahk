@@ -433,9 +433,9 @@ copy()
    {
       ImageSearch, ovx, ovy, 0, 0, %A_ScreenWidth%, %A_ScreenHeight%, %salesforceIcon%
       if ErrorLevel ; If not found
-      {
-         missed := signIn()
-         return missed
+      {         
+         ; missed := signIn() ; I don't think signIn() is required.
+         ; return missed ; This mis is not required.
          Sleep, 100
       }
    }

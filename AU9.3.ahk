@@ -413,21 +413,33 @@ update()
 
 Checks if in Salesforce by looking for the Salesforce Icon.
 If it is not found, will go to sign in and return a missed.
-If it is found, will copy and close the Salesforce tab.
+If it is found, will copy and close the Salesforce tab.   
+
+Keeping for debugging.
+
+if ErrorLevel ; If error is not blank or 0
+{
+   MsgBox,,, You're not signed in, 2
+   missed := signIn()
+   return missed   
+   Sleep, 100
+}
 */
 copy()
 {
    salesforceIcon = %A_WorkingDir%\images\salesforce-ico-SalesForceLg.bmp
-   chromePageWait()
-   ImageSearch, ovx, ovy, 0, 0, %A_ScreenWidth%, %A_ScreenHeight%, %salesforceIcon%
-   if ErrorLevel ; If error is not blank or 0
+   
+   Loop
    {
-      MsgBox,,, You're not signed in, 2
-      missed := signIn()
-      return missed   
-      Sleep, 100
+      ImageSearch, ovx, ovy, 0, 0, %A_ScreenWidth%, %A_ScreenHeight%, %salesforceIcon%
+      if ErrorLevel ; If not found
+      {
+         missed := signIn()
+         return missed
+         Sleep, 100
+      }
    }
-   else ; If Salesforce icon found, do this.
+   until ErrorLevel = 0
    {
       chromePageWait()
       found := true
@@ -446,7 +458,7 @@ copy()
       }
       Sleep, 500
       Send, ^w
-   }   
+   }
 }
 
 /* paste() Explanation

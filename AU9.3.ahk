@@ -270,9 +270,10 @@ Updates the arrays of links used in autoUpdate:
 runUpdate(urlArray)
 {
 	sfProcessingImg = %A_WorkingDir%\images\salesforce-msg-Processing.bmp
-		missed := true ;Switch on and off for these reports
-		while(missed) ;Filters the switch and also repeats failures
-		{	
+	missed := true ;Switch on and off for these reports
+	
+	while(missed) ;Filters the switch and also repeats failures
+	{
 		if(urlArray = %cpQC%)
 		{
 			loop
@@ -280,7 +281,7 @@ runUpdate(urlArray)
 				ImageSearch,ovx,ovy,0,0,A_ScreenWidth,A_ScreenHeight,%sfProcessingImg%
 				if ErrorLevel = 0
 				{
-					SoundBeep
+					SoundPlay,*32
 				}
 			}
 			until ErrorLevel ; Until not found...
@@ -288,7 +289,6 @@ runUpdate(urlArray)
 				break
 			}
 		}
-	
 		Loop % urlArray.Length()
 		{
 			run % urlArray[A_Index]
@@ -342,10 +342,7 @@ update()
 	if(missed)
 	{
 		return missed
-	}		
-	
-	while(errorImageSearch(sheetsIcon, false)) ;check if spreadsheet open by green box
-	Send, {F5}
+	}
 	
 	while(checkOrange()) ;wait till orange message gone, else ctrl+z run button again
 	{
@@ -378,6 +375,11 @@ update()
 			break
 		}
 		waitOrangeMsg()
+	}
+	
+	while(errorImageSearch(sheetsIcon, false)) ;check if spreadsheet open by green box
+	{
+		Send, {F5}
 	}
 	
 	/*
@@ -448,8 +450,7 @@ copy()
 		{
 			; missed := signIn() ; I don't think signIn() is required.
 			; return missed ; This mis is not required.
-			SoundPlay, *32, wait ; Salesforce not found.
-			Sleep, 100
+			SoundPlay, *-1, 1 ; Salesforce not found.
 		}
 	}
 	until ErrorLevel = 0
@@ -458,16 +459,16 @@ copy()
 		found := true
 		While(found)
 		{
-		Send, ^a
-		Sleep, 800
-		Send, ^c
-		ClipWait
-		search = Grand Totals
-		IfInString, Clipboard, %search%
-		{
-			found := false
-			;MsgBox, Found grand total
-		}
+			Send, ^a
+			Sleep, 800
+			Send, ^c
+			ClipWait
+			search = Grand Totals
+			IfInString, Clipboard, %search%
+			{
+				found := false
+				;MsgBox, Found grand total
+			}
 		}
 		Sleep, 500
 		Send, ^w
@@ -806,24 +807,26 @@ An attempt at fixing a Google Sheet error.
 */
 errorImageSearch(needleF, clickNeeded:=false)
 {
-	Loop 1
+	Loop
 	{
-			CoordMode, Pixel, Screen
-			ImageSearch, FoundX, FoundY, 0, 0, A_ScreenWidth, A_ScreenHeight, %needleF%
-			CenterImgSrchCoords(NeedleF, FoundX, FoundY)
-			If ErrorLevel = 0 && %clickNeeded% = true ; If found and click needed, click it.
+		CoordMode, Pixel, Screen
+		ImageSearch, FoundX, FoundY, 0, 0, %A_ScreenWidth%, %A_ScreenHeight%, %needleF%
+		CenterImgSrchCoords(NeedleF, FoundX, FoundY)
+		If ErrorLevel = 0 && %clickNeeded% = true ; If found and click needed, click it.
+		{
+			SoundPlay, *-1, 1
+			Click, %FoundX%, %FoundY% Left, 1
+			return true
+		}
+		else If ErrorLevel && %clickNeeded% = false ; If not found and click not needed.
+		{
 			{
-				Click, %FoundX%, %FoundY% Left, 1
-				return true
-				break
+				SoundPlay, %A_WorkingDir%\sounds\FFVicShort.mid, 1
+				return false
 			}
-			else If ErrorLevel && %clickNeeded% = false ; If not found and click not needed.
-			{
-				Loop 1
-				{
-						SoundPlay, %A_WorkingDir%\sounds\FFVicShort.mid, 1
-						return false
-				}}}}
+		}
+	}
+}
 
 /* CenterImgSrchCoords() Explanation
 Needed by errorImageSearch()

@@ -277,6 +277,10 @@ runUpdate(urlArray)
 			loop
 			{
 				ImageSearch,ovx,ovy,0,0,A_ScreenWidth,A_ScreenHeight,%sfProcessingImg%
+                if ErrorLevel = 0
+               {
+                  SoundBeep
+               }
 			}
 			until ErrorLevel ; Until not found...
 			{

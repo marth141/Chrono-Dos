@@ -818,12 +818,15 @@ errorImageSearch(needleF, clickNeeded:=false)
 			Click, %FoundX%, %FoundY% Left, 1
 			return true
 		}
+		else If ErrorLevel = 0 && %clickNeeded% = false ; If not found and click not needed.
+		{
+			SoundPlay, *-1, 1
+			return false
+		}
 		else If ErrorLevel && %clickNeeded% = false ; If not found and click not needed.
 		{
-			{
-				SoundPlay, %A_WorkingDir%\sounds\FFVicShort.mid, 1
-				return false
-			}
+			SoundPlay, %A_WorkingDir%\sounds\FFVicShort.mid, 1
+			return false
 		}
 	}
 }

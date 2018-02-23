@@ -377,44 +377,45 @@ update()
 		waitOrangeMsg()
 	}
 	
-	while(errorImageSearch(sheetsIcon)) ;check if spreadsheet open by green box
+	ImageSearch, ovx, ovy, 0, 0, %A_ScreenWidth%, %A_ScreenHeight%, %sheetsIcon%
+	if ErrorLevel
 	{
-		Send, {F5}
+		paste() ; Will just paste and return to continue down.
+	
+		if(!waitPaste(0x29782F, 1340, 310)) ;check if green-go box is green, else restart	0x1D7638
+		{
+			return true
+		}
+		Sleep, 500
+		Loop
+		{
+			MouseClick, left, 1506, 324	;Click play button
+			if(waitRedMsg())
+			{
+				MsgBox,,, Error, .5
+				send, {F5}
+				sleep, 800
+				chromePageWait()
+				waitOrangeMsg()
+				sleep, 2000
+				MsgBox,,, here, 1
+				continue
+			}
+			if(waitOrangeMsg())
+			{
+				MsgBox,,, Timed Out, 1
+				Send, {F5}
+				sleep, 800
+				return true
+			}
+			else
+			break
+		}
 	}
 	
 	/*
 	End of checking for Salesforce and Chrono Input being ready.
 	*/
-	
-	paste() ; Will just paste and return to continue down.
-	
-	if(!waitPaste(0x29782F, 1340, 310)) ;check if green-go box is green, else restart	0x1D7638
-		return true
-	Sleep, 500
-	Loop
-	{
-		MouseClick, left, 1506, 324	;Click play button
-		if(waitRedMsg())
-		{
-		MsgBox,,, Error, .5
-		send, {F5}
-		sleep, 800
-		chromePageWait()
-		waitOrangeMsg()
-		sleep, 2000
-		MsgBox,,, here, 1
-		continue
-		}
-		if(waitOrangeMsg())
-		{
-		MsgBox,,, Timed Out, 1
-		Send, {F5}
-		sleep, 800
-		return true
-		}
-		else
-		break
-	}
 	
 	errorImageSearch(leaveButton)
 	errorImageSearch(accessDeniedImg)
@@ -812,7 +813,7 @@ errorImageSearch(needleF)
 		CoordMode, Pixel, Screen
 		ImageSearch, FoundX, FoundY, 0, 0, %A_ScreenWidth%, %A_ScreenHeight%, %needleF%
 		CenterImgSrchCoords(NeedleF, FoundX, FoundY)
-		If ErrorLevel = 0 ; If found and click needed, click it.
+		If ErrorLevel = 0 ; If found, click it.
 		{
 			SoundPlay, *-1, 1
 			Click, %FoundX%, %FoundY% Left, 1

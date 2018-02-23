@@ -377,7 +377,7 @@ update()
 		waitOrangeMsg()
 	}
 	
-	while(errorImageSearch(sheetsIcon, false)) ;check if spreadsheet open by green box
+	while(errorImageSearch(sheetsIcon)) ;check if spreadsheet open by green box
 	{
 		Send, {F5}
 	}
@@ -416,9 +416,9 @@ update()
 		break
 	}
 	
-	errorImageSearch(leaveButton, true)
-	errorImageSearch(accessDeniedImg, true)
-	errorImageSearch(dismissMsg, true)
+	errorImageSearch(leaveButton)
+	errorImageSearch(accessDeniedImg)
+	errorImageSearch(dismissMsg)
 	
 	return false
 }
@@ -805,25 +805,20 @@ closeTabs()
 /* errorImageSearch() Explanation
 An attempt at fixing a Google Sheet error.
 */
-errorImageSearch(needleF, clickNeeded:=false)
+errorImageSearch(needleF)
 {
 	Loop
 	{
 		CoordMode, Pixel, Screen
 		ImageSearch, FoundX, FoundY, 0, 0, %A_ScreenWidth%, %A_ScreenHeight%, %needleF%
 		CenterImgSrchCoords(NeedleF, FoundX, FoundY)
-		If ErrorLevel = 0 && %clickNeeded% = 1 ; If found and click needed, click it.
+		If ErrorLevel = 0 ; If found and click needed, click it.
 		{
 			SoundPlay, *-1, 1
 			Click, %FoundX%, %FoundY% Left, 1
 			return true
 		}
-		else If ErrorLevel = 0 && %clickNeeded% = 0 ; If not found and click not needed.
-		{
-			SoundPlay, *-1, 1
-			return false
-		}
-		else If ErrorLevel && %clickNeeded% = 0 ; If not found and click not needed.
+		else If ErrorLevel; If not found and click not needed.
 		{
 			SoundPlay, %A_WorkingDir%\sounds\FFVicShort.mid, 1
 			return false

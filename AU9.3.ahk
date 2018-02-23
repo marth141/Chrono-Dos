@@ -378,7 +378,7 @@ update()
 	}
 	
 	ImageSearch, ovx, ovy, 0, 0, %A_ScreenWidth%, %A_ScreenHeight%, %sheetsIcon%
-	if ErrorLevel
+	if ErrorLevel = 0
 	{
 		paste() ; Will just paste and return to continue down.
 	

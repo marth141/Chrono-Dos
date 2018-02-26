@@ -226,7 +226,7 @@ AutoUpdate:
 		runUpdate([gritB1, gritB2, gritB3, gritB4, gritB5])
 		runUpdate([newEngB1, newEngB2, newEngB3, newEngB4, newEngB5])
 		runUpdate([legionB1, legionB2, legionB3, legionB4, legionB5])
-		runUpdate([nisB1, nisB2, nisB3, nisB4, nisB5])
+		;runUpdate([nisB1, nisB2, nisB3, nisB4, nisB5])
 		runUpdate([dB1, dB2, dB3, dB4, dB5])
 		runUpdate([qcPass])
 		runUpdate([cpQC, cpQCCompleted, cpQCChecked])
@@ -377,8 +377,25 @@ update()
 		waitOrangeMsg()
 	}
 	
-	ImageSearch, ovx, ovy, 0, 0, %A_ScreenWidth%, %A_ScreenHeight%, %sheetsIcon%
-	if ErrorLevel = 0
+	Loop
+	{
+		ImageSearch, ovx, ovy, 0, 0, %A_ScreenWidth%, %A_ScreenHeight%, %dismissMsg%
+		if ErrorLevel = 0 ; if found
+		{
+			Send, {F5}
+			chromePageWait()
+		}
+		else
+		{
+			break
+		}
+	}
+	
+	Loop
+	{
+		ImageSearch, ovx, ovy, 0, 0, %A_ScreenWidth%, %A_ScreenHeight%, %sheetsIcon%
+	}
+	until ErrorLevel = 0
 	{
 		paste() ; Will just paste and return to continue down.
 	
@@ -419,7 +436,6 @@ update()
 	
 	errorImageSearch(leaveButton)
 	errorImageSearch(accessDeniedImg)
-	errorImageSearch(dismissMsg)
 	
 	return false
 }
@@ -457,17 +473,17 @@ copy()
 	until ErrorLevel = 0
 	{
 		chromePageWait()
-		found := true
-		While(found)
+		found := false
+		While(found = false)
 		{
 			Send, ^a
-			Sleep, 800
+			Sleep, 5000
 			Send, ^c
-			ClipWait
+			ClipWait, 5
 			search = Grand Totals
 			IfInString, Clipboard, %search%
 			{
-				found := false
+				found := true
 				;MsgBox, Found grand total
 			}
 		}
@@ -816,12 +832,12 @@ errorImageSearch(needleF)
 		If ErrorLevel = 0 ; If found, click it.
 		{
 			SoundPlay, *-1, 1
-			Click, %FoundX%, %FoundY% Left, 1
+			Click, %FoundX%, %FoundY%-20 Left, 1
 			return true
 		}
 		else If ErrorLevel ; If not found and click not needed.
 		{
-			SoundPlay, %A_WorkingDir%\sounds\FFVicShort.mid, 1
+			SoundPlay, *-1, 1
 			return false
 		}
 	}

@@ -435,7 +435,7 @@ update()
 	*/
 	
 	errorImageSearch(leaveButton)
-	errorImageSearch(accessDeniedImg)	
+	errorImageSearch(accessDeniedImg)
 	
 	return false
 }

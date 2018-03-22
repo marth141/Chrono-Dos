@@ -5,9 +5,9 @@
 
 var master_Backlog = function () {
 	this.PROPBackLog = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('DEPT Proposal');
-	this.CPRDBacklog = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('DEPT CP RD BACKLOG');
-	this.SNWPBacklog = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('DEPT SNOW PROPOSAL BACKLOG');
-	this.CADLBacklog = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Dept CAD Lite Backlog');
+	// this.CPRDBacklog = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('DEPT CP RD BACKLOG');
+	// this.SNWPBacklog = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('DEPT SNOW PROPOSAL BACKLOG');
+	// this.CADLBacklog = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Dept CAD Lite Backlog');
 };
 
 var office_Collection = function () {
@@ -24,43 +24,93 @@ function main() {
 	var dim = getDimensions(masterBacklog.PROPBackLog);
 	var backlogRange = getBacklogRange(masterBacklog.PROPBackLog, dim);
 
-	sort(masterBacklog, dim, backlogRange);
-	find_OperatingCenter(masterBacklog.PROPBackLog, dim, backlogRange);
-}
-
-function sort(backlogCollection) {
-	for (var backlog in backlogCollection) {
-		if (backlogCollection[backlog] !== null) {
-			if (backlogCollection[backlog].getRange('D2').getValue() instanceof Date) {
-				backlogCollection[backlog].getRange('A2:Z').sort([
-					{ column: 4, ascending: true }
-				]);
-			}
-		} else {
-			console.error('No backlog found.');
+	for (var backlog in masterBacklog) {
+		if (masterBacklog[backlog] !== null) {
+			var backlogSheet = masterBacklog[backlog];
+			removeLateDates(backlogSheet, dim);
+			sortAndCleanDates(backlogSheet, dim);
+			dim = getDimensions(backlogSheet);
+			findMark_Region(backlogSheet, dim, backlogRange);
 		}
 	}
 }
 
-function find_OperatingCenter(backlogSheet, dim, backlogRange) {
+function sortAndCleanDates(backlogSheet, dim) {
+	var dateCol = giveMeThatColumn('Opportunity: Proposal Status Date', dim, backlogSheet);
+	var delCol = giveMeThatColumn('Opportunity: Proposal Requested', dim, backlogSheet);
+	backlogSheet.getRange('A2:Z').sort([
+		{ column: dateCol, ascending: true }
+	]);
+	removeDoubleDate(backlogSheet, delCol, dateCol);
+}
+
+function removeDoubleDate(backlogSheet, delCol, dateCol) {
+	backlogSheet.getRange(1, dateCol).setValue('Proposal Date');
+	backlogSheet.deleteColumn(delCol);
+}
+
+function removeLateDates(backlogSheet, dim) {
+	if (checkForDates('Opportunity: Proposal Requested', dim, backlogSheet) &&
+		checkForDates('Opportunity: Proposal Status Date', dim, backlogSheet)) {
+		var date1 = giveMeThatColumn('Opportunity: Proposal Requested', dim, backlogSheet);
+		var date2 = giveMeThatColumn('Opportunity: Proposal Status Date', dim, backlogSheet);
+		for (var row = 2; row < dim[0]; row++) {
+			var dateValue1 = backlogSheet.getRange(row, date1).getValue();
+			var dateValue2 = backlogSheet.getRange(row, date2).getValue();
+			if (dateValue1 > dateValue2) {
+				backlogSheet.getRange(row, date2).setValue(dateValue1);
+			} else if (dateValue1 < dateValue2) {
+				backlogSheet.getRange(row, date1).setValue(dateValue2);
+			} else if (dateValue1 === dateValue2) {
+				continue;
+			}
+		}
+	} else {
+		console.error('No backlog found.');
+	}
+}
+
+
+
+function checkForDates(searchString, dim, backlogSheet) {
+	for (var col = 1; col < dim[1]; col++) {
+		if (backlogSheet.getRange(1, col).getValue().match(searchString)) { // 'Opportunity: Proposal Requested'
+			if (backlogSheet.getRange(2, col).getValue() instanceof Date) {
+				return true;
+			}
+		}
+	}
+}
+
+function giveMeThatColumn(searchString, dim, backlogSheet) {
+	for (var col = 1; col < dim[1]; col++) {
+		if (backlogSheet.getRange(1, col).getValue().match(searchString)) { // 'Opportunity: Proposal Requested'
+			if (backlogSheet.getRange(2, col).getValue() instanceof Date) {
+				return col;
+			}
+		}
+	}
+}
+
+function findMark_Region(backlogSheet, dim, backlogRange) {
 	for (var col = 0; col < dim[1]; col++) {
 		if (backlogRange[0][col].match('Service: Regional Operating Center*')) {
-			mark_OperatingCenter(backlogSheet, col, backlogRange, dim);
+			mark_Region(backlogSheet, col, backlogRange, dim);
 		}
 	}
 }
 
-function mark_OperatingCenter(backlogSheet, col, spot_Range, dim) {
+function mark_Region(backlogSheet, col, backlogRange, dim) {
 	var offices = new office_Collection();
 	var region;
 	backlogSheet.getRange(1, dim[1] + 1).setValue('Region');
 	for (var row = 1; row < dim[0]; row++) {
-		var stateAbrv = spot_Range[row][col].substr(0, 2);
+		var stateAbrv = backlogRange[row][col].substr(0, 2);
 		if (offices.SouthWest.indexOf(stateAbrv) > -1) {
 			region = 'Southwest';
 			writeRegion(backlogSheet, row, dim, region);
 		} else if (stateAbrv === 'CA') {
-			caliRegion(spot_Range, offices, region, backlogSheet, row, col, dim);
+			mark_caliRegion(backlogRange, offices, region, backlogSheet, row, col, dim);
 		} else if (offices.NewEnglan.indexOf(stateAbrv) > -1) {
 			region = 'New England';
 			writeRegion(backlogSheet, row, dim, region);
@@ -74,7 +124,7 @@ function mark_OperatingCenter(backlogSheet, col, spot_Range, dim) {
 	}
 }
 
-function caliRegion(spot_Range, offices, region, backlogSheet, row, col, dim) {
+function mark_caliRegion(spot_Range, offices, region, backlogSheet, row, col, dim) {
 	var stateAbrv = spot_Range[row][col].substr(3, 2);
 	if (offices.SouthCali.indexOf(stateAbrv) > -1) {
 		region = 'SoCal';
@@ -95,10 +145,10 @@ function writeRegion(backlogSheet, row, dim, region) {
 	backlogSheet.getRange(row + 1, dim[1] + 1).setValue(region);
 }
 
-function getDimensions(masterBacklog) {
-	if (masterBacklog !== null) {
-		var lastRow = masterBacklog.getLastRow();
-		var lastCol = masterBacklog.getLastColumn();
+function getDimensions(backlogSheet) {
+	if (backlogSheet !== null) {
+		var lastRow = backlogSheet.getLastRow();
+		var lastCol = backlogSheet.getLastColumn();
 		var dimensions = [];
 		dimensions.push(lastRow);
 		dimensions.push(lastCol);

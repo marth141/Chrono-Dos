@@ -20,6 +20,7 @@ function main() {
 	var masterBacklogs = new master_Backlogs();
 
 	dateOperations(masterBacklogs.Collection);
+	regionMarker(masterBacklogs.Collection);
 	return;
 }
 
@@ -41,7 +42,7 @@ function dateOperations(masterBacklogs) {
 		} else if (masterBacklogs[backlog] === null) {
 			throw 'The backlog was null in dateOperations()';
 		} else {
-			console.log('This backlog: ' + masterBacklogs[backlog].getName() + ' is not being worked.')
+			console.log('This backlog: ' + masterBacklogs[backlog].getName() + ' is not being worked.');
 			continue;
 		}
 	}
@@ -167,6 +168,7 @@ function sortAndCleanDates(backlogSheet, dateAdjLog, dim, dateCol, delCol) {
 	backlogSheet.getRange(2, 1, dim[0], dim[1]).sort([
 		{ column: dateCol + 1, ascending: true }
 	]);
+	SpreadsheetApp.flush();
 	removeDoubleDate(backlogSheet, dateCol, delCol);
 	return;
 }
@@ -189,52 +191,65 @@ function removeDoubleDate(backlogSheet, dateCol, delCol) {
 
 function regionMarker(masterBacklogs) {
 	for (var backlog in masterBacklogs) {
-		if (masterBacklogs[backlog] !== null) {
-			var backlogSheet = masterBacklogs[backlog];
-			var dim = getDimensions(backlogSheet);
-			var col = giveMeThatColumn('Service: Regional Operating Center*', dim, backlogSheet);
-			mark_Region(backlogSheet, col, dim);
+		if (masterBacklogs[backlog].getName() === 'DEPT Proposal') {
+			var propBacklog = masterBacklogs[backlog];
+			var dim = getDimensions(propBacklog);
+			var backlogArray = getBacklogArray(propBacklog, dim);
+			var col = giveMeThatColumn('Service: Regional Operating Center*', backlogArray, dim);
+			mark_Region(propBacklog, backlogArray, col, dim);
+		} else if (masterBacklogs[backlog] === null) {
+			throw 'The backlog was null in dateOperations()';
+		} else {
+			console.log('This backlog: ' + masterBacklogs[backlog].getName() + ' is not being worked.');
+			continue;
 		}
 	}
 }
 
-function mark_Region(backlogSheet, col, dim) {
+function mark_Region(backlogSheet, backlogArray, col, dim) {
 	var offices = new office_Collection();
 	var region;
-	backlogSheet.getRange(1, dim[1] + 1).setValue('Region');
-	for (var row = 1; row < dim[0]; row++) {
-		var stateAbrv = backlogSheet.getRange(row, col).getValue().substr(0, 2);
+	backlogArray[0][dim[1]] = 'Region';
+	for (var row = 1; row <= dim[0] - 1; row++) {
+		var stateAbrv = backlogArray[row][col].substr(0, 2);
 		if (offices.SouthWest.indexOf(stateAbrv) > -1) {
 			region = 'Southwest';
-			writeRegion(backlogSheet, row, dim, region);
+			backlogArray = writeRegion(backlogArray, row, dim, region);
 		} else if (stateAbrv === 'CA') {
-			mark_CaliRegion(offices, region, backlogSheet, row, col, dim);
+			backlogArray = mark_CaliRegion(offices, region, backlogArray, row, col, dim);
 		} else if (offices.NewEnglan.indexOf(stateAbrv) > -1) {
 			region = 'New England';
-			writeRegion(backlogSheet, row, dim, region);
+			backlogArray = writeRegion(backlogArray, row, dim, region);
 		} else if (offices.Legion.indexOf(stateAbrv) > -1) {
 			region = 'Legion';
-			writeRegion(backlogSheet, row, dim, region);
+			backlogArray = writeRegion(backlogArray, row, dim, region);
 		} else if (offices.GritMovem.indexOf(stateAbrv) > -1) {
 			region = 'Grit Movement';
-			writeRegion(backlogSheet, row, dim, region);
+			backlogArray = writeRegion(backlogArray, row, dim, region);
 		}
 	}
+	console.log(dim[1]);
+	backlogSheet.getRange(1, 1, dim[0], dim[1] + 1).setValues(backlogArray);
+	SpreadsheetApp.flush();
+	return;
 }
 
-function mark_CaliRegion(offices, region, backlogSheet, row, col, dim) {
-	var stateAbrv = backlogSheet.getRange(row, col).getValue().substr(0, 2);
+function mark_CaliRegion(offices, region, backlogArray, row, col, dim) {
+	var stateAbrv = backlogArray[row][col].substr(3, 2);
 	if (offices.SouthCali.indexOf(stateAbrv) > -1) {
 		region = 'SoCal';
-		writeRegion(backlogSheet, row, dim, region);
+		backlogArray = writeRegion(backlogArray, row, dim, region);
+		return backlogArray;
 	} else if (offices.NorthCali.indexOf(stateAbrv) > -1) {
 		region = 'NorCal';
-		writeRegion(backlogSheet, row, dim, region);
+		backlogArray = writeRegion(backlogArray, row, dim, region);
+		return backlogArray;
 	}
 }
 
-function writeRegion(backlogSheet, row, dim, region) {
-	backlogSheet.getRange(row + 1, dim[1] + 1).setValue(region);
+function writeRegion(backlogArray, row, dim, region) {
+	backlogArray[row][dim[1]] = region;
+	return backlogArray;
 }
 
 /**

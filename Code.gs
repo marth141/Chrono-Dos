@@ -26,7 +26,7 @@ function unitTypeMarker(masterBacklogs) {
 			var propBacklog = masterBacklogs[backlog];
 			var dim = getDimensions(propBacklog);
 			var backlogArray = getBacklogArray(propBacklog, dim);
-			var col = getMeThatColumn('Opportunity: Design Path*', backlogArray, dim);
+			var col = getMeThatColumn('Opportunity: Design Path', backlogArray, dim);
 			var markedUnits = markUnits(propBacklog, backlogArray, col, dim);
 			propBacklog.getRange(1, 1, dim[0], dim[1] + 1).setValues(markedUnits);
 			propBacklog.deleteColumn(col + 1);
@@ -48,7 +48,7 @@ function markUnits(propBacklog, backlogArray, col, dim) {
 			backlogArray[row][dim[1]] = 'GSR';
 		} else if (backlogArray[row][col].match(/AURORA/i)) {
 			backlogArray[row][dim[1]] = 'AURORA';
-		}		
+		}
 	}
 	return backlogArray;
 }
@@ -85,14 +85,16 @@ function proposalDateCleaner(propBacklog) {
 	var backlogArray = getBacklogArray(propBacklog, dim);
 	var dateCol1;
 	var dateCol2;
+	var stateCol;
 	if (validateHeader('Opportunity: Proposal Requested', backlogArray, dim) &&
 		validateHeader('Opportunity: Proposal Status Date', backlogArray, dim)) {
 		dateCol1 = getMeThatColumn('Opportunity: Proposal Requested', backlogArray, dim);
 		dateCol2 = getMeThatColumn('Opportunity: Proposal Status Date', backlogArray, dim);
+		stateCol = getMeThatColumn('Opportunity: Office: Office Name', backlogArray, dim);
 	} else {
 		throw 'Unable to find all date columns for proposalDateCleaner()';
 	}
-	var dateAdjLog = removeLateDates(backlogArray, dim, dateCol1, dateCol2);
+	var dateAdjLog = removeLateDates(backlogArray, dim, dateCol1, dateCol2, stateCol);
 	sortAndCleanDates(propBacklog, dateAdjLog, dim, dateCol1, dateCol2);
 }
 
@@ -147,21 +149,32 @@ function checkForDates(searchString, backlogArray, dim) {
  * @param {Number} dateCol2 
  * @returns The date corrected backlog.
  */
-function removeLateDates(backlogArray, dim, dateCol1, dateCol2) {
+function removeLateDates(backlogArray, dim, dateCol1, dateCol2, stateCol) {
 	if (dateCol2 !== null) {
 		for (var row = 1; row <= dim[0] - 1; row++) {
-			var dateValue1 = backlogArray[row][dateCol1];
-			var dateValue2 = backlogArray[row][dateCol2];
-			if (dateValue1 > dateValue2) {
-				backlogArray[row][dateCol2] = dateValue1;
-			} else if (dateValue1 < dateValue2) {
-				backlogArray[row][dateCol1] = dateValue2;
-			} else if (dateValue1 === dateValue2) {
-				continue;
-			}
-			return backlogArray;
+			var dateValue1 = new Date(backlogArray[row][dateCol1]);
+			var dateValue2 = new Date(backlogArray[row][dateCol2]);
+			var stateAbrv = backlogArray[row][stateCol].substr(0, 2);
+			backlogArray = compareDates(backlogArray, dateValue1, dateValue2, row, dateCol1, dateCol2);
 		}
+		return backlogArray;
 	} else if (dateCol2 === null) {
+		return backlogArray;
+	}
+}
+
+function compareDates(backlogArray, dateValue1, dateValue2, row, dateCol1, dateCol2) {
+	if (dateValue1 > dateValue2) {
+		dateValue1.setHours(17, 0, 0);
+		backlogArray[row][dateCol2] = dateValue1.addHours(24);
+		return backlogArray;
+	} else if (dateValue1 < dateValue2) {
+		dateValue2.setHours(17, 0, 0);
+		backlogArray[row][dateCol1] = dateValue2.addHours(24);
+		return backlogArray;
+	} else {
+		dateValue1.setHours(17, 0, 0);
+		backlogArray[row][dateCol1] = dateValue1.addHours(24);
 		return backlogArray;
 	}
 }
@@ -210,7 +223,7 @@ function regionMarker(masterBacklogs) {
 			var propBacklog = masterBacklogs[backlog];
 			var dim = getDimensions(propBacklog);
 			var backlogArray = getBacklogArray(propBacklog, dim);
-			var col = getMeThatColumn('Service: Regional Operating Center*', backlogArray, dim);
+			var col = getMeThatColumn('Service: Regional Operating Center', backlogArray, dim);
 			var markedRegions = markRegion(propBacklog, backlogArray, col, dim);
 			var markedNatOffices = markNatlRegion(propBacklog, markedRegions, dim);
 			propBacklog.getRange(1, 1, dim[0], dim[1] + 1).setValues(markedNatOffices);
@@ -265,7 +278,7 @@ function markCaliRegion(offices, region, backlogArray, row, col, dim) {
 }
 
 function markNatlRegion(backlogSheet, firstMark, dim) {
-	var col = getMeThatColumn('Opportunity: Office: Office Name*', firstMark, dim);
+	var col = getMeThatColumn('Opportunity: Office: Office Name', firstMark, dim);
 	var markedNatOffices = markNatOffice(firstMark, col, dim);
 	return markedNatOffices;
 }
@@ -320,4 +333,71 @@ function getMeThatColumn(searchString, backlogArray, dim) {
 			return col;
 		}
 	}
+}
+
+Date.prototype.addHours = function (h) {
+	this.setTime(this.getTime() + h * 60 * 60 * 1000); return this;
+};
+
+function getTimeOffset(state)
+{
+  switch(state)
+  {
+    case 'HI':
+      return 4;
+    case 'WA':
+    case 'OR':
+    case 'CA':
+    case 'NV':
+      return 1;
+    case 'AZ':
+    case 'MT':
+    case 'ID':
+    case 'WY':
+    case 'UT':
+    case 'CO':
+    case 'NM':
+      return 0;
+    case 'AL':
+    case 'AR':
+    case 'IL':
+    case 'IA':
+    case 'KS':
+    case 'KY':
+    case 'LA':
+    case 'MN':
+    case 'MS':
+    case 'MO':
+    case 'NE':
+    case 'ND':
+    case 'OK':
+    case 'SD':
+    case 'TN':
+    case 'TX':
+    case 'WI':
+      return -1;
+    case 'CT':
+    case 'DE':
+    case 'FL':
+    case 'GA':
+    case 'IN':
+    case 'ME':
+    case 'MD':
+    case 'MA':
+    case 'MI':
+    case 'NH':
+    case 'NJ':
+    case 'NY':
+    case 'NC':
+    case 'OH':
+    case 'PA':
+    case 'RI':
+    case 'SC':
+    case 'VT':
+    case 'VA':
+    case 'DC':
+    case 'WV':
+      return -2;
+      
+  }
 }

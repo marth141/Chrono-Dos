@@ -53,6 +53,10 @@ function markUnits(propBacklog, backlogArray, col, dim) {
 	return backlogArray;
 }
 
+function gsrChecker(backlogArray, dim) {
+	var contractType = getMeThatColumn('Project: Contract Type', backlogArray, dim);
+}
+
 /**
  * Begins the process for filtering dates in backlogs.
  * 
@@ -155,7 +159,7 @@ function removeLateDates(backlogArray, dim, dateCol1, dateCol2, stateCol) {
 			var dateValue1 = new Date(backlogArray[row][dateCol1]);
 			var dateValue2 = new Date(backlogArray[row][dateCol2]);
 			var stateAbrv = backlogArray[row][stateCol].substr(0, 2);
-			backlogArray = compareDates(backlogArray, dateValue1, dateValue2, row, dateCol1, dateCol2);
+			backlogArray = compareDates(backlogArray, dateValue1, dateValue2, row, dateCol1, dateCol2, stateAbrv);
 		}
 		return backlogArray;
 	} else if (dateCol2 === null) {
@@ -163,17 +167,21 @@ function removeLateDates(backlogArray, dim, dateCol1, dateCol2, stateCol) {
 	}
 }
 
-function compareDates(backlogArray, dateValue1, dateValue2, row, dateCol1, dateCol2) {
+function compareDates(backlogArray, dateValue1, dateValue2, row, dateCol1, dateCol2, stateAbrv) {
+	var fivePM = 17;
 	if (dateValue1 > dateValue2) {
-		dateValue1.setHours(17, 0, 0);
+		fivePM += getTimeOffset(stateAbrv);
+		dateValue1.setHours(fivePM, 0, 0);
 		backlogArray[row][dateCol2] = dateValue1.addHours(24);
 		return backlogArray;
 	} else if (dateValue1 < dateValue2) {
-		dateValue2.setHours(17, 0, 0);
+		fivePM += getTimeOffset(stateAbrv);
+		dateValue2.setHours(fivePM, 0, 0);
 		backlogArray[row][dateCol1] = dateValue2.addHours(24);
 		return backlogArray;
 	} else {
-		dateValue1.setHours(17, 0, 0);
+		fivePM += getTimeOffset(stateAbrv);
+		dateValue1.setHours(fivePM, 0, 0);
 		backlogArray[row][dateCol1] = dateValue1.addHours(24);
 		return backlogArray;
 	}
@@ -339,65 +347,62 @@ Date.prototype.addHours = function (h) {
 	this.setTime(this.getTime() + h * 60 * 60 * 1000); return this;
 };
 
-function getTimeOffset(state)
-{
-  switch(state)
-  {
-    case 'HI':
-      return 4;
-    case 'WA':
-    case 'OR':
-    case 'CA':
-    case 'NV':
-      return 1;
-    case 'AZ':
-    case 'MT':
-    case 'ID':
-    case 'WY':
-    case 'UT':
-    case 'CO':
-    case 'NM':
-      return 0;
-    case 'AL':
-    case 'AR':
-    case 'IL':
-    case 'IA':
-    case 'KS':
-    case 'KY':
-    case 'LA':
-    case 'MN':
-    case 'MS':
-    case 'MO':
-    case 'NE':
-    case 'ND':
-    case 'OK':
-    case 'SD':
-    case 'TN':
-    case 'TX':
-    case 'WI':
-      return -1;
-    case 'CT':
-    case 'DE':
-    case 'FL':
-    case 'GA':
-    case 'IN':
-    case 'ME':
-    case 'MD':
-    case 'MA':
-    case 'MI':
-    case 'NH':
-    case 'NJ':
-    case 'NY':
-    case 'NC':
-    case 'OH':
-    case 'PA':
-    case 'RI':
-    case 'SC':
-    case 'VT':
-    case 'VA':
-    case 'DC':
-    case 'WV':
-      return -2;
-      
-  }
+function getTimeOffset(stateAbrv) {
+	switch (stateAbrv) {
+		case 'HI':
+			return 4;
+		case 'WA':
+		case 'OR':
+		case 'CA':
+		case 'NV':
+			return 1;
+		case 'AZ':
+		case 'MT':
+		case 'ID':
+		case 'WY':
+		case 'UT':
+		case 'CO':
+		case 'NM':
+			return 0;
+		case 'AL':
+		case 'AR':
+		case 'IL':
+		case 'IA':
+		case 'KS':
+		case 'KY':
+		case 'LA':
+		case 'MN':
+		case 'MS':
+		case 'MO':
+		case 'NE':
+		case 'ND':
+		case 'OK':
+		case 'SD':
+		case 'TN':
+		case 'TX':
+		case 'WI':
+			return -1;
+		case 'CT':
+		case 'DE':
+		case 'FL':
+		case 'GA':
+		case 'IN':
+		case 'ME':
+		case 'MD':
+		case 'MA':
+		case 'MI':
+		case 'NH':
+		case 'NJ':
+		case 'NY':
+		case 'NC':
+		case 'OH':
+		case 'PA':
+		case 'RI':
+		case 'SC':
+		case 'VT':
+		case 'VA':
+		case 'DC':
+		case 'WV':
+			return -2;
+	}
 }

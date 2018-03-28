@@ -26,10 +26,10 @@ function unitTypeMarker(masterBacklogs) {
 			var propBacklog = masterBacklogs[backlog];
 			var dim = getDimensions(propBacklog);
 			var backlogArray = getBacklogArray(propBacklog, dim);
-			var col = getMeThatColumn('Opportunity: Design Path', backlogArray, dim);
-			var markedUnits = markUnits(propBacklog, backlogArray, col, dim);
+			var designPath = getMeThatColumn('Opportunity: Design Path', backlogArray, dim);
+			var markedUnits = markUnits(propBacklog, backlogArray, designPath, dim);
 			propBacklog.getRange(1, 1, dim[0], dim[1] + 1).setValues(markedUnits);
-			propBacklog.deleteColumn(col + 1);
+			propBacklog.deleteColumn(designPath + 1);
 			SpreadsheetApp.flush();
 			return;
 		} else if (masterBacklogs[backlog] === null) {
@@ -55,6 +55,8 @@ function markUnits(propBacklog, backlogArray, col, dim) {
 
 function gsrChecker(backlogArray, dim) {
 	var contractType = getMeThatColumn('Project: Contract Type', backlogArray, dim);
+	var utilityType = getMeThatColumn('Project: Utility', backlogArray, dim);
+	var oppType = getMeThatColumn('Opportunity: Type', backlogArray, dim);
 }
 
 /**

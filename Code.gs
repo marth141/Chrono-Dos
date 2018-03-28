@@ -45,7 +45,7 @@ function markUnits(propBacklog, backlogArray, col, dim) {
 	backlogArray[0][dim[1]] = 'Unit Type';
 	for (var row = 1; row <= dim[0] - 1; row++) {
 		if (backlogArray[row][col].match(/GSR/i)) {
-			backlogArray[row][dim[1]] = 'GSR';
+			
 		} else if (backlogArray[row][col].match(/AURORA/i)) {
 			backlogArray[row][dim[1]] = 'AURORA';
 		}
@@ -53,10 +53,17 @@ function markUnits(propBacklog, backlogArray, col, dim) {
 	return backlogArray;
 }
 
-function gsrChecker(backlogArray, dim) {
+function otsMarker(backlogArray, dim) {
 	var contractType = getMeThatColumn('Project: Contract Type', backlogArray, dim);
 	var utilityType = getMeThatColumn('Project: Utility', backlogArray, dim);
 	var oppType = getMeThatColumn('Opportunity: Type', backlogArray, dim);
+	var region = getMeThatColumn('Region', backlogArray, dim);
+
+	if (contractType !== ['lease'] &&
+		utilityType !== ['smud'] &&
+		region !== ['Southwest']) {
+		backlogArray[row][dim[1]] = 'OTS GSR';
+	}
 }
 
 /**
@@ -337,6 +344,15 @@ function getBacklogArray(backlogSheet, dim) {
 	}
 }
 
+/**
+ * Get's a column header in a 2D array from the
+ * 0th row of the Array. Returns its index.
+ * 
+ * @param {String} searchString 
+ * @param {Array} backlogArray 
+ * @param {Array} dim 
+ * @returns Header's column number.
+ */
 function getMeThatColumn(searchString, backlogArray, dim) {
 	for (var col = 1; col <= dim[1] - 1; col++) {
 		if (backlogArray[0][col].match(searchString)) {

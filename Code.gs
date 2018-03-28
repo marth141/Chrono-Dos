@@ -16,10 +16,12 @@ function main() {
 
 	dateOperations(masterBacklogs.Collection);
 	regionMarker(masterBacklogs.Collection);
+	unitTypeMarker(masterBacklogs.Collection);
+	solProjLinkCreator(masterBacklogs.Collection);
 	return;
 }
 
-function unitTypeMarker(masterBacklogs) {
+function solProjLinkCreator(masterBacklogs) {
 	masterBacklogs = new master_Backlogs(); // Debug starter.
 	masterBacklogs = masterBacklogs.Collection; // Debug starter.
 	for (var backlog in masterBacklogs) {
@@ -27,12 +29,43 @@ function unitTypeMarker(masterBacklogs) {
 			var propBacklog = masterBacklogs[backlog];
 			var dim = getDimensions(propBacklog);
 			var backlogArray = getBacklogArray(propBacklog, dim);
+			// The above might be a good base function for MANY OTHER FUNCTIONS.
+			// For note, the below are necessary for the construction of a link.
+			// In other sccripts, they are different but necessary things for completing their process.
+			var solProjLink = getMeThatColumn('Project: Solar Project ID', backlogArray, dim);
+			var solProjName = getMeThatColumn('Project: Project Name', backlogArray, dim);
+			// Now we get to the actual doing of the thing. ZHU LI, DO THE THING!
+			var linksBacklog = constructLink(solProjLink, solProjName, backlogArray, dim);
+			// This could be a function that updates and deletes.
+			propBacklog.getRange(1, 1, dim[0], dim[1]).setValues(linksBacklog);
+			propBacklog.deleteColumn(solProjLink + 1);
+			SpreadsheetApp.flush();
+			return;
+		}
+	}
+}
+
+function constructLink(solProjLink, solProjName, backlogArray, dim) {
+	for (var row = 1; row <= dim[0] - 1; row++) {
+		backlogArray[row][solProjName] = '=HYPERLINK("https://vivintsolar.my.salesforce.com/' + backlogArray[row][solProjLink] + '", "' + backlogArray[row][solProjName] + '")';
+	}
+	return backlogArray;
+}
+
+function unitTypeMarker(masterBacklogs) {
+	// masterBacklogs = new master_Backlogs(); // Debug starter.
+	// masterBacklogs = masterBacklogs.Collection; // Debug starter.
+	for (var backlog in masterBacklogs) {
+		if (masterBacklogs[backlog].getName() === 'DEPT Proposal') {
+			var propBacklog = masterBacklogs[backlog];
+			var dim = getDimensions(propBacklog);
+			var backlogArray = getBacklogArray(propBacklog, dim);
 			var designPath = getMeThatColumn('Opportunity: Design Path', backlogArray, dim);
 			var opporType = getMeThatColumn('Opportunity: Type', backlogArray, dim);
-			var markedUnits = markUnits(propBacklog, backlogArray, designPath, opporType, dim);
+			var markedUnits = markUnits(backlogArray, designPath, opporType, dim);
 			propBacklog.getRange(1, 1, dim[0], dim[1] + 1).setValues(markedUnits);
-			// propBacklog.deleteColumn(designPath + 1);
-			// propBacklog.deleteColumn(opporType + 1);
+			propBacklog.deleteColumn(designPath + 1);
+			propBacklog.deleteColumn(opporType + 1);
 			SpreadsheetApp.flush();
 			return;
 		} else if (masterBacklogs[backlog] === null) {
@@ -44,7 +77,7 @@ function unitTypeMarker(masterBacklogs) {
 	}
 }
 
-function markUnits(propBacklog, backlogArray, designPath, opporType, dim) {
+function markUnits(backlogArray, designPath, opporType, dim) {
 	backlogArray[0][dim[1]] = 'Unit Type';
 	var designPathString;
 	for (var row = 1; row <= dim[0] - 1; row++) {

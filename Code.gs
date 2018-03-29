@@ -112,7 +112,7 @@ function otsMarker(backlogArray, opporType, row, dim, designPathString) {
 /**
  * Begins the process for filtering dates in backlogs.
  * 
- * @param {any} masterBacklogs 
+ * @param {[Sheet]} masterBacklogs 
  */
 function dateOperations(masterBacklogs) {
 	for (var backlog in masterBacklogs) {
@@ -195,15 +195,16 @@ function checkForDates(searchString, backlogArray, dim) {
 }
 
 /**
- * Compares date values for Proposal Backlog.
- * Will overwrite the oldest date with the
- * earliest date.
+ * Sets up variables for comparing dates by
+ * locating the columns and state abreviations
+ * for the rest of the dateOperations().
  * 
  * @param {Array} backlogArray 
  * @param {Array} dim 
  * @param {Number} dateCol1 
  * @param {Number} dateCol2 
- * @returns The date corrected backlog.
+ * @returns If dateCol2 is not null, corrected dates backlog is returned.
+ * @returns If dateCol2 is null, the backlog is returned unchanged.
  */
 function removeLateDates(backlogArray, dim, dateCol1, dateCol2, stateCol) {
 	if (dateCol2 !== null) {
@@ -219,6 +220,19 @@ function removeLateDates(backlogArray, dim, dateCol1, dateCol2, stateCol) {
 	}
 }
 
+/**
+ * Compares two dates and will overwrite the
+ * oldest date with the earliest.
+ * 
+ * @param {Array} backlogArray 
+ * @param {Date} dateValue1 
+ * @param {Date} dateValue2 
+ * @param {Number} row 
+ * @param {Number} dateCol1 
+ * @param {Number} dateCol2 
+ * @param {String} stateAbrv 
+ * @returns a new backlogArray with the dates "Normalized".
+ */
 function compareDates(backlogArray, dateValue1, dateValue2, row, dateCol1, dateCol2, stateAbrv) {
 	var fivePM = 17;
 	if (dateValue1 > dateValue2) {
@@ -241,14 +255,14 @@ function compareDates(backlogArray, dateValue1, dateValue2, row, dateCol1, dateC
 
 /**
  * Will sort the date column within the google
- * sheet. Removes the redundant date column.
+ * sheet then Removes the redundant date column.
  * 
  * @param {Sheet} backlogSheet 
  * @param {Array} dateAdjLog 
  * @param {Array} dim 
  * @param {Number} dateCol 
  * @param {Number} delCol 
- * @returns 
+ * @returns void
  */
 function sortAndCleanDates(backlogSheet, dateAdjLog, dim, dateCol, delCol) {
 	backlogSheet.getRange(1, 1, dim[0], dim[1]).setValues(dateAdjLog);
@@ -264,12 +278,13 @@ function sortAndCleanDates(backlogSheet, dateAdjLog, dim, dateCol, delCol) {
 /**
  * Removes the column that is a copy of the
  * date column to keep. This redundancy is
- * due to the dates overwriting each other.
+ * due to the dates overwriting each other in
+ * compareDates().
  * 
  * @param {Sheet} backlogSheet 
  * @param {Number} dateCol 
  * @param {Number} delCol 
- * @returns 
+ * @returns void
  */
 function removeDoubleDate(backlogSheet, dateCol, delCol) {
 	backlogSheet.deleteColumn(delCol + 1);

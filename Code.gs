@@ -17,19 +17,55 @@ function main() {
 	dateOperations(masterBacklogs.Collection);
 	regionMarker(masterBacklogs.Collection);
 	unitTypeMarker(masterBacklogs.Collection);
+	solProjLinkCreator(masterBacklogs.Collection);
 	return;
 }
 
-function unitTypeMarker(masterBacklogs) {
+function solProjLinkCreator(masterBacklogs) {
+	masterBacklogs = new master_Backlogs(); // Debug starter.
+	masterBacklogs = masterBacklogs.Collection; // Debug starter.
 	for (var backlog in masterBacklogs) {
 		if (masterBacklogs[backlog].getName() === 'DEPT Proposal') {
 			var propBacklog = masterBacklogs[backlog];
 			var dim = getDimensions(propBacklog);
 			var backlogArray = getBacklogArray(propBacklog, dim);
-			var col = getMeThatColumn('Opportunity: Design Path', backlogArray, dim);
-			var markedUnits = markUnits(propBacklog, backlogArray, col, dim);
+			// The above might be a good base function for MANY OTHER FUNCTIONS.
+			// For note, the below are necessary for the construction of a link.
+			// In other sccripts, they are different but necessary things for completing their process.
+			var solProjLink = getMeThatColumn('Project: Solar Project ID', backlogArray, dim);
+			var solProjName = getMeThatColumn('Project: Project Name', backlogArray, dim);
+			// Now we get to the actual doing of the thing. ZHU LI, DO THE THING!
+			var linksBacklog = constructLink(solProjLink, solProjName, backlogArray, dim);
+			// This could be a function that updates and deletes.
+			propBacklog.getRange(1, 1, dim[0], dim[1]).setValues(linksBacklog);
+			propBacklog.deleteColumn(solProjLink + 1);
+			SpreadsheetApp.flush();
+			return;
+		}
+	}
+}
+
+function constructLink(solProjLink, solProjName, backlogArray, dim) {
+	for (var row = 1; row <= dim[0] - 1; row++) {
+		backlogArray[row][solProjName] = '=HYPERLINK("https://vivintsolar.my.salesforce.com/' + backlogArray[row][solProjLink] + '", "' + backlogArray[row][solProjName] + '")';
+	}
+	return backlogArray;
+}
+
+function unitTypeMarker(masterBacklogs) {
+	// masterBacklogs = new master_Backlogs(); // Debug starter.
+	// masterBacklogs = masterBacklogs.Collection; // Debug starter.
+	for (var backlog in masterBacklogs) {
+		if (masterBacklogs[backlog].getName() === 'DEPT Proposal') {
+			var propBacklog = masterBacklogs[backlog];
+			var dim = getDimensions(propBacklog);
+			var backlogArray = getBacklogArray(propBacklog, dim);
+			var designPath = getMeThatColumn('Opportunity: Design Path', backlogArray, dim);
+			var opporType = getMeThatColumn('Opportunity: Type', backlogArray, dim);
+			var markedUnits = markUnits(backlogArray, designPath, opporType, dim);
 			propBacklog.getRange(1, 1, dim[0], dim[1] + 1).setValues(markedUnits);
-			propBacklog.deleteColumn(col + 1);
+			propBacklog.deleteColumn(designPath + 1);
+			propBacklog.deleteColumn(opporType + 1);
 			SpreadsheetApp.flush();
 			return;
 		} else if (masterBacklogs[backlog] === null) {
@@ -41,16 +77,36 @@ function unitTypeMarker(masterBacklogs) {
 	}
 }
 
-function markUnits(propBacklog, backlogArray, col, dim) {
+function markUnits(backlogArray, designPath, opporType, dim) {
 	backlogArray[0][dim[1]] = 'Unit Type';
+	var designPathString;
 	for (var row = 1; row <= dim[0] - 1; row++) {
-		if (backlogArray[row][col].match(/GSR/i)) {
-			backlogArray[row][dim[1]] = 'GSR';
-		} else if (backlogArray[row][col].match(/AURORA/i)) {
-			backlogArray[row][dim[1]] = 'AURORA';
+		if (backlogArray[row][designPath].match(/GSR/i)) {
+			designPathString = 'GSR';
+			otsMarker(backlogArray, opporType, row, dim, designPathString);
+		} else if (backlogArray[row][designPath].match(/AURORA/i) ||
+			backlogArray[row][designPath].match(/ADDRESS NOT FOUND/i)) {
+			designPathString = 'AURORA';
+			otsMarker(backlogArray, opporType, row, dim, designPathString);
 		}
 	}
 	return backlogArray;
+}
+
+function otsMarker(backlogArray, opporType, row, dim, designPathString) {
+	var contractCol = getMeThatColumn('Project: Contract Type', backlogArray, dim);
+	var utilityCol = getMeThatColumn('Project: Utility', backlogArray, dim);
+	var regionCol = getMeThatColumn('Region', backlogArray, dim);
+	var serviceNumber = backlogArray[row];
+
+	if (serviceNumber[contractCol].match(/lease/i) &&
+		serviceNumber[utilityCol].match(/smud/i) &&
+		serviceNumber[opporType].match(/add-on/i) &&
+		serviceNumber[regionCol].match(/southwest/i) !== null) {
+		backlogArray[row][dim[1]] = 'OTS ' + designPathString;
+	} else {
+		backlogArray[row][dim[1]] = designPathString;
+	}
 }
 
 /**
@@ -155,7 +211,7 @@ function removeLateDates(backlogArray, dim, dateCol1, dateCol2, stateCol) {
 			var dateValue1 = new Date(backlogArray[row][dateCol1]);
 			var dateValue2 = new Date(backlogArray[row][dateCol2]);
 			var stateAbrv = backlogArray[row][stateCol].substr(0, 2);
-			backlogArray = compareDates(backlogArray, dateValue1, dateValue2, row, dateCol1, dateCol2);
+			backlogArray = compareDates(backlogArray, dateValue1, dateValue2, row, dateCol1, dateCol2, stateAbrv);
 		}
 		return backlogArray;
 	} else if (dateCol2 === null) {
@@ -163,17 +219,21 @@ function removeLateDates(backlogArray, dim, dateCol1, dateCol2, stateCol) {
 	}
 }
 
-function compareDates(backlogArray, dateValue1, dateValue2, row, dateCol1, dateCol2) {
+function compareDates(backlogArray, dateValue1, dateValue2, row, dateCol1, dateCol2, stateAbrv) {
+	var fivePM = 17;
 	if (dateValue1 > dateValue2) {
-		dateValue1.setHours(17, 0, 0);
+		fivePM += getTimeOffset(stateAbrv);
+		dateValue1.setHours(fivePM, 0, 0);
 		backlogArray[row][dateCol2] = dateValue1.addHours(24);
 		return backlogArray;
 	} else if (dateValue1 < dateValue2) {
-		dateValue2.setHours(17, 0, 0);
+		fivePM += getTimeOffset(stateAbrv);
+		dateValue2.setHours(fivePM, 0, 0);
 		backlogArray[row][dateCol1] = dateValue2.addHours(24);
 		return backlogArray;
 	} else {
-		dateValue1.setHours(17, 0, 0);
+		fivePM += getTimeOffset(stateAbrv);
+		dateValue1.setHours(fivePM, 0, 0);
 		backlogArray[row][dateCol1] = dateValue1.addHours(24);
 		return backlogArray;
 	}
@@ -327,6 +387,15 @@ function getBacklogArray(backlogSheet, dim) {
 	}
 }
 
+/**
+ * Get's a column header in a 2D array from the
+ * 0th row of the Array. Returns its index.
+ * 
+ * @param {String} searchString 
+ * @param {Array} backlogArray 
+ * @param {Array} dim 
+ * @returns Header's column number.
+ */
 function getMeThatColumn(searchString, backlogArray, dim) {
 	for (var col = 1; col <= dim[1] - 1; col++) {
 		if (backlogArray[0][col].match(searchString)) {
@@ -339,65 +408,62 @@ Date.prototype.addHours = function (h) {
 	this.setTime(this.getTime() + h * 60 * 60 * 1000); return this;
 };
 
-function getTimeOffset(state)
-{
-  switch(state)
-  {
-    case 'HI':
-      return 4;
-    case 'WA':
-    case 'OR':
-    case 'CA':
-    case 'NV':
-      return 1;
-    case 'AZ':
-    case 'MT':
-    case 'ID':
-    case 'WY':
-    case 'UT':
-    case 'CO':
-    case 'NM':
-      return 0;
-    case 'AL':
-    case 'AR':
-    case 'IL':
-    case 'IA':
-    case 'KS':
-    case 'KY':
-    case 'LA':
-    case 'MN':
-    case 'MS':
-    case 'MO':
-    case 'NE':
-    case 'ND':
-    case 'OK':
-    case 'SD':
-    case 'TN':
-    case 'TX':
-    case 'WI':
-      return -1;
-    case 'CT':
-    case 'DE':
-    case 'FL':
-    case 'GA':
-    case 'IN':
-    case 'ME':
-    case 'MD':
-    case 'MA':
-    case 'MI':
-    case 'NH':
-    case 'NJ':
-    case 'NY':
-    case 'NC':
-    case 'OH':
-    case 'PA':
-    case 'RI':
-    case 'SC':
-    case 'VT':
-    case 'VA':
-    case 'DC':
-    case 'WV':
-      return -2;
-      
-  }
+function getTimeOffset(stateAbrv) {
+	switch (stateAbrv) {
+		case 'HI':
+			return 4;
+		case 'WA':
+		case 'OR':
+		case 'CA':
+		case 'NV':
+			return 1;
+		case 'AZ':
+		case 'MT':
+		case 'ID':
+		case 'WY':
+		case 'UT':
+		case 'CO':
+		case 'NM':
+			return 0;
+		case 'AL':
+		case 'AR':
+		case 'IL':
+		case 'IA':
+		case 'KS':
+		case 'KY':
+		case 'LA':
+		case 'MN':
+		case 'MS':
+		case 'MO':
+		case 'NE':
+		case 'ND':
+		case 'OK':
+		case 'SD':
+		case 'TN':
+		case 'TX':
+		case 'WI':
+			return -1;
+		case 'CT':
+		case 'DE':
+		case 'FL':
+		case 'GA':
+		case 'IN':
+		case 'ME':
+		case 'MD':
+		case 'MA':
+		case 'MI':
+		case 'NH':
+		case 'NJ':
+		case 'NY':
+		case 'NC':
+		case 'OH':
+		case 'PA':
+		case 'RI':
+		case 'SC':
+		case 'VT':
+		case 'VA':
+		case 'DC':
+		case 'WV':
+			return -2;
+	}
 }

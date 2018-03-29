@@ -53,6 +53,25 @@ function getMeThatColumn(searchString, backlogArray, dim) {
 	for (var col = 1; col <= dim[1] - 1; col++) {
 		if (backlogArray[0][col].match(searchString)) {
 			return col;
+		} else {
+			throw "getMeThatColumn() could not find: " + searchString;
 		}
+	}
+}
+
+/**
+ * used to validate headers if the data below is
+ * something to be validated. Can be expanded.
+ * 
+ * @param {String} header 
+ * @param {Array} backlogArray 
+ * @param {Array} dim 
+ * @returns True - Header has valid data; False - Header is corrupted.
+ */
+function validateHeader(header, backlogArray, dim) {
+	if (checkForDates(header, backlogArray, dim)) {
+		return true;
+	} else {
+		throw 'validateDates() cannot find: ' + header;
 	}
 }

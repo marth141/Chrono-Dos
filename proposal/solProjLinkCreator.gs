@@ -24,6 +24,11 @@ function solProjLinkCreator(masterBacklogs) {
 			propBacklog.deleteColumn(solProjLink + 1);
 			SpreadsheetApp.flush();
 			return;
+		} else if (masterBacklogs[backlog] === null) {
+			throw 'The backlog was null in solProjLinkCreator()';
+		} else {
+			console.log('This backlog: ' + masterBacklogs[backlog].getName() + ' is not being worked.');
+			continue;
 		}
 	}
 }

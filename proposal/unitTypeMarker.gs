@@ -12,16 +12,18 @@ function unitTypeMarker(masterBacklogs) {
 			var propBacklog = masterBacklogs[backlog];
 			var dim = getDimensions(propBacklog);
 			var backlogArray = getBacklogArray(propBacklog, dim);
+			// Above is a set up, below is an action.
 			var designPath = getMeThatColumn('Opportunity: Design Path', backlogArray, dim);
 			var opporType = getMeThatColumn('Opportunity: Type', backlogArray, dim);
 			var markedUnits = markUnits(backlogArray, designPath, opporType, dim);
+			// Above is a set up, below is an action.
 			propBacklog.getRange(1, 1, dim[0], dim[1] + 1).setValues(markedUnits);
 			propBacklog.deleteColumn(designPath + 1);
 			propBacklog.deleteColumn(opporType + 1);
 			SpreadsheetApp.flush();
 			return;
 		} else if (masterBacklogs[backlog] === null) {
-			throw 'The backlog was null in dateOperations()';
+			throw 'The backlog was null in unitTypeMarker()';
 		} else {
 			console.log('This backlog: ' + masterBacklogs[backlog].getName() + ' is not being worked.');
 			continue;

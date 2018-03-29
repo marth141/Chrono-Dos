@@ -10,15 +10,17 @@ function regionMarker(masterBacklogs) {
 			var propBacklog = masterBacklogs[backlog];
 			var dim = getDimensions(propBacklog);
 			var backlogArray = getBacklogArray(propBacklog, dim);
+			// Above is a set up, below is an action.
 			var col = getMeThatColumn('Service: Regional Operating Center', backlogArray, dim);
 			var markedRegions = markRegion(propBacklog, backlogArray, col, dim);
 			var markedNatOffices = markNatlRegion(propBacklog, markedRegions, dim);
+			// Above is a set up, below is an action.
 			propBacklog.getRange(1, 1, dim[0], dim[1] + 1).setValues(markedNatOffices);
 			propBacklog.deleteColumn(col + 1);
 			SpreadsheetApp.flush();
 			return;
 		} else if (masterBacklogs[backlog] === null) {
-			throw 'The backlog was null in dateOperations()';
+			throw 'The backlog was null in regionMarker()';
 		} else {
 			console.log('This backlog: ' + masterBacklogs[backlog].getName() + ' is not being worked.');
 			continue;

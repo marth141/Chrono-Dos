@@ -5,30 +5,8 @@
  */
 function debugDateOp() {
   var masterBacklogs = new master_Backlogs();
-  dateOperations(masterBacklogs.Collection);
+  prop_DateCleaner(masterBacklogs.Collection);
   return;
-}
-
-/**
- * Begins the process for filtering dates in backlogs.
- * Currently will locate "DEPT Proposal", may make a universal
- * backlog process junction.
- * 
- * @param {Sheet[]} masterBacklogs Master Backlog's sheet collection.
- */
-function dateOperations(masterBacklogs) {
-  for (var backlog in masterBacklogs) {
-    if (masterBacklogs[backlog].getName() === 'DEPT Proposal') {
-      var propBacklog = masterBacklogs[backlog];
-      // Above is a set up, below is an action.
-      proposalDateCleaner(propBacklog);
-    } else if (masterBacklogs[backlog] === null) {
-      throw 'The backlog was null in dateOperations()';
-    } else {
-      console.log('This backlog: ' + masterBacklogs[backlog].getName() + ' is not being worked.');
-      continue;
-    }
-  }
 }
 
 /**
@@ -39,7 +17,7 @@ function dateOperations(masterBacklogs) {
  * 
  * @param {Sheet} propBacklog The backlog to be edited.
  */
-function proposalDateCleaner(propBacklog) {
+function prop_DateCleaner(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
   var propReqDate, propStatDate, stateOffice;
@@ -66,7 +44,7 @@ function proposalDateCleaner(propBacklog) {
  * @param {Array} dim 
  * @returns True - If instance of date; False - If not instance of date.
  */
-function checkForDates(searchString, backlogArray, dim) {
+function prop_checkForDates(searchString, backlogArray, dim) {
   for (var col = 0; col <= dim[1] - 1; col++) {
     if (backlogArray[0][col].match(searchString)) {
       if (backlogArray[1][col] instanceof Date) {

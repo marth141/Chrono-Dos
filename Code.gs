@@ -6,11 +6,7 @@ function main() {
     throw 'Could not obtain lock after 30 seconds.';
   }
   var masterBacklogs = new master_Backlogs();
-  dateOperations(masterBacklogs.Collection);
-  regionMarker(masterBacklogs.Collection);
-  unitTypeMarker(masterBacklogs.Collection);
-  solProjLinkCreator(masterBacklogs.Collection);
-  cadNameColCreator(masterBacklogs.Collection);
+  backlogProcessJunction(masterBacklogs.Collection);
   lock.releaseLock();
   return;
 }

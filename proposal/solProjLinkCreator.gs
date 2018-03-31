@@ -5,11 +5,11 @@
  */
 function debugSolProj() {
   var masterBacklogs = new master_Backlogs();
-  prop_solProjLinkCreator(masterBacklogs.Collection);
+  prop_SolProjLinkCreator(masterBacklogs.Collection);
   return;
 }
 
-function prop_solProjLinkCreator(propBacklog) {
+function prop_SolProjLinkCreator(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
   // The above might be a good base function for MANY OTHER FUNCTIONS.
@@ -18,7 +18,7 @@ function prop_solProjLinkCreator(propBacklog) {
   var solProjLink = getMeThatColumn('Project: Solar Project ID', backlogArray, dim);
   var solProjName = getMeThatColumn('Project: Project Name', backlogArray, dim);
   // Now we get to the actual doing of the thing. ZHU LI, DO THE THING!
-  var linksBacklog = prop_constructLink(solProjLink, solProjName, backlogArray, dim);
+  var linksBacklog = prop_ConstructLink(solProjLink, solProjName, backlogArray, dim);
   // This could be a function that updates and deletes.
   propBacklog.getRange(1, 1, dim[0], dim[1]).setValues(linksBacklog);
   propBacklog.deleteColumn(solProjLink + 1);
@@ -26,7 +26,7 @@ function prop_solProjLinkCreator(propBacklog) {
   return;
 }
 
-function prop_constructLink(solProjLink, solProjName, backlogArray, dim) {
+function prop_ConstructLink(solProjLink, solProjName, backlogArray, dim) {
   for (var row = 1; row <= dim[0] - 1; row++) {
     backlogArray[row][solProjName] = '=HYPERLINK("https://vivintsolar.my.salesforce.com/' + backlogArray[row][solProjLink] + '", "' + backlogArray[row][solProjName] + '")';
   }

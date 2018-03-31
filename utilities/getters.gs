@@ -69,7 +69,7 @@ function getMeThatColumn(searchString, backlogArray, dim) {
  * @returns True - Header has valid data; False - Header is corrupted.
  */
 function validateHeader(header, backlogArray, dim) {
-  if (prop_checkForDates(header, backlogArray, dim)) {
+  if (prop_CheckForDates(header, backlogArray, dim)) {
     return true;
   } else {
     throw 'validateDates() cannot find: ' + header;

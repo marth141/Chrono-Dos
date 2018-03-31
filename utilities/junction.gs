@@ -3,10 +3,10 @@ function backlogProcessJunction(masterBacklogs) {
     if (masterBacklogs[backlog].getName() === 'DEPT Proposal') {
       var propBacklog = masterBacklogs[backlog];
       prop_DateCleaner(propBacklog);
-      prop_regionMarker(propBacklog);
-      prop_unitTypeMarker(propBacklog);
-      prop_solProjLinkCreator(propBacklog);
-      prop_cadNameColCreator(propBacklog);
+      prop_RegionMarker(propBacklog);
+      prop_UnitTypeMarker(propBacklog);
+      prop_SolProjLinkCreator(propBacklog);
+      prop_CadNameColCreator(propBacklog);
     } else if (masterBacklogs[backlog] === null) {
       throw 'The backlog was null in dateOperations()';
     } else {

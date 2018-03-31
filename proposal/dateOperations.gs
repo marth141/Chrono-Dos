@@ -31,8 +31,8 @@ function prop_DateCleaner(propBacklog) {
   } else if (validateHeader('Opportunity: Proposal Status Date', backlogArray, dim) === false) {
     throw 'Unable to find column: Opportunity: Proposal Status Date';
   }
-  var dateAdjLog = removeLateDates(backlogArray, dim, propReqDate, propStatDate, stateOffice);
-  sortAndCleanDates(propBacklog, dateAdjLog, dim, propReqDate, propStatDate);
+  var dateAdjLog = prop_RemoveLateDates(backlogArray, dim, propReqDate, propStatDate, stateOffice);
+  prop_SortAndCleanDates(propBacklog, dateAdjLog, dim, propReqDate, propStatDate);
 }
 
 /**
@@ -44,7 +44,7 @@ function prop_DateCleaner(propBacklog) {
  * @param {Array} dim 
  * @returns True - If instance of date; False - If not instance of date.
  */
-function prop_checkForDates(searchString, backlogArray, dim) {
+function prop_CheckForDates(searchString, backlogArray, dim) {
   for (var col = 0; col <= dim[1] - 1; col++) {
     if (backlogArray[0][col].match(searchString)) {
       if (backlogArray[1][col] instanceof Date) {
@@ -71,13 +71,13 @@ function prop_checkForDates(searchString, backlogArray, dim) {
  * @returns If dateCol2 is not null, corrected dates backlog is returned.
  * @returns If dateCol2 is null, the backlog is returned unchanged.
  */
-function removeLateDates(backlogArray, dim, propReqDate, propStatDate, stateOffice) {
+function prop_RemoveLateDates(backlogArray, dim, propReqDate, propStatDate, stateOffice) {
   if (propStatDate !== null) {
     for (var row = 1; row <= dim[0] - 1; row++) {
       var dateValue1 = new Date(backlogArray[row][propReqDate]);
       var dateValue2 = new Date(backlogArray[row][propStatDate]);
       var stateAbrv = backlogArray[row][stateOffice].substr(0, 2);
-      backlogArray = compareDates(backlogArray, dateValue1, dateValue2, row, propReqDate, propStatDate, stateAbrv);
+      backlogArray = prop_CompareDates(backlogArray, dateValue1, dateValue2, row, propReqDate, propStatDate, stateAbrv);
     }
     return backlogArray;
   } else if (propStatDate === null) {
@@ -98,7 +98,7 @@ function removeLateDates(backlogArray, dim, propReqDate, propStatDate, stateOffi
  * @param {String} stateAbrv 
  * @returns a new backlogArray with the dates "Normalized".
  */
-function compareDates(backlogArray, dateValue1, dateValue2, row, propReqDate, propStatDate, stateAbrv) {
+function prop_CompareDates(backlogArray, dateValue1, dateValue2, row, propReqDate, propStatDate, stateAbrv) {
   var fivePM = 17;
   if (dateValue1 > dateValue2) {
     fivePM += getTimeOffset(stateAbrv);
@@ -129,14 +129,14 @@ function compareDates(backlogArray, dateValue1, dateValue2, row, propReqDate, pr
  * @param {Number} propStatDate 
  * @returns void
  */
-function sortAndCleanDates(backlogSheet, dateAdjLog, dim, propReqDate, propStatDate) {
+function prop_SortAndCleanDates(backlogSheet, dateAdjLog, dim, propReqDate, propStatDate) {
   backlogSheet.getRange(1, 1, dim[0], dim[1]).setValues(dateAdjLog);
   backlogSheet.getRange(2, 1, dim[0], dim[1]).sort([
     { column: propReqDate + 1, ascending: true }
   ]);
   backlogSheet.getRange(1, propReqDate + 1).setValue('Proposal Date');
   SpreadsheetApp.flush();
-  removeDoubleDate(backlogSheet, propStatDate);
+  prop_RemoveDoubleDate(backlogSheet, propStatDate);
   return;
 }
 
@@ -150,7 +150,7 @@ function sortAndCleanDates(backlogSheet, dateAdjLog, dim, propReqDate, propStatD
  * @param {Number} propStatDate 
  * @returns void
  */
-function removeDoubleDate(backlogSheet, propStatDate) {
+function prop_RemoveDoubleDate(backlogSheet, propStatDate) {
   backlogSheet.deleteColumn(propStatDate + 1);
   SpreadsheetApp.flush();
   return;

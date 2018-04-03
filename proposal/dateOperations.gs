@@ -3,7 +3,7 @@
  * 
  * @returns void
  */
-function debugDateOp() {
+function debugDateCleaner() {
   var masterBacklogs = new master_Backlogs();
   prop_DateCleaner(masterBacklogs.Collection);
   return;

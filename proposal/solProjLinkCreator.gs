@@ -9,6 +9,14 @@ function debugSolProj() {
   return;
 }
 
+/**
+ * This one will get the variables for the Solar
+ * project link creator. This allows the Solar Project
+ * entries to be vivintsolar links.
+ * 
+ * @param {Sheet} propBacklog 
+ * @returns 
+ */
 function prop_SolProjLinkCreator(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
@@ -26,6 +34,17 @@ function prop_SolProjLinkCreator(propBacklog) {
   return;
 }
 
+/**
+ * This will construct the link and put in the backlog
+ * array. This array will be pasted back over the
+ * report page.
+ * 
+ * @param {String} solProjLink The ID of the CAD Object for link.
+ * @param {String} solProjName The SP- Name of the Solar Project.
+ * @param {Array} backlogArray The backlog array.
+ * @param {Array} dim The dimensions of the backlog sheet.
+ * @returns The backlog array with new SolProj link.
+ */
 function prop_ConstructLink(solProjLink, solProjName, backlogArray, dim) {
   for (var row = 1; row <= dim[0] - 1; row++) {
     backlogArray[row][solProjName] = '=HYPERLINK("https://vivintsolar.my.salesforce.com/' + backlogArray[row][solProjLink] + '", "' + backlogArray[row][solProjName] + '")';

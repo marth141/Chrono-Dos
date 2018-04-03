@@ -25,8 +25,8 @@ function backlogProcessJunction(masterBacklogs) {
       prop_DateCleaner(propBacklog);
       prop_RegionMarker(propBacklog);
       prop_UnitTypeMarker(propBacklog);
-      prop_SolProjLinkCreator(propBacklog);
       prop_CadNameColCreator(propBacklog);
+      prop_SolProjLinkCreator(propBacklog);
     } else if (masterBacklogs[backlog] === null) {
       throw 'The backlog was null in dateOperations()';
     } else {

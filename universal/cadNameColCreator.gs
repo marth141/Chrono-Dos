@@ -41,7 +41,7 @@ function cadNameColCreator(propBacklog) {
  * @returns The backlog array with the new CAD Name column.
  */
 function fillCadNameCol(backlogArray, dim, cadNameCol) {
-  backlogArray[0][cadNameCol] = 'CAD NAME';
+  backlogArray[0][cadNameCol] = 'CAD Name';
   for (var row = 1; row <= dim[0] - 1; row++) {
     backlogArray[row][cadNameCol] = '-';
   }

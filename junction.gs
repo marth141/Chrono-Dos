@@ -39,6 +39,7 @@ function backlogProcessJunction(masterBacklogs) {
     } else if (masterBacklogs[backlog].getName() === 'DEPT CP RD BACKLOG') {
       workThisBacklog = masterBacklogs[backlog];
       regionMarker(workThisBacklog);
+      lite_UnitTypeMarker(workThisBacklog);
       cadNameColCreator(workThisBacklog);
       solProjLinkCreator(workThisBacklog);
       continue;

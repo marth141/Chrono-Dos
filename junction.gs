@@ -32,6 +32,7 @@ function backlogProcessJunction(masterBacklogs) {
     } else if (masterBacklogs[backlog].getName() === 'DEPT SNOW PROPOSAL BACKLOG') {
       workThisBacklog = masterBacklogs[backlog];
       regionMarker(workThisBacklog);
+      snow_UnitTypeMarker(workThisBacklog);
       cadNameColCreator(workThisBacklog);
       solProjLinkCreator(workThisBacklog);
       continue;

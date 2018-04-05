@@ -40,8 +40,8 @@ function backlogProcessJunction(masterBacklogs) {
       workThisBacklog = masterBacklogs[backlog];
       regionMarker(workThisBacklog);
       cprd_UnitTypeMarker(workThisBacklog);
-      cprd_CadNameColCreator(workThisBacklog);
-      solProjLinkCreator(workThisBacklog);
+      cprd_LinkCreator(workThisBacklog);
+      //solProjLinkCreator(workThisBacklog);
       continue;
     } else if (masterBacklogs[backlog].getName() === 'DEPT CAD Lite Backlog') {
       workThisBacklog = masterBacklogs[backlog];

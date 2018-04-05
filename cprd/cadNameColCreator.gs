@@ -5,7 +5,7 @@
  */
 function debugCpRdCadName() {
   var masterBacklogs = new master_Backlogs();
-  cprd_CadNameColCreator(masterBacklogs.Collection);
+  cprd_LinkCreator(masterBacklogs.Collection);
   return;
 }
 
@@ -17,33 +17,42 @@ function debugCpRdCadName() {
  * @param {Sheet} propBacklog The backlog sheet to gain information.
  * @returns 
  */
-function cprd_CadNameColCreator(propBacklog) {
+function cprd_LinkCreator(propBacklog) {
+  //propBacklog = propBacklog[3]; // For debugging
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
-  var solarProjCol = getMeThatColumn('Project Name', backlogArray, dim);
-  propBacklog.insertColumnAfter(solarProjCol + 1);
-  dim = getDimensions(propBacklog);
-  backlogArray = getBacklogArray(propBacklog, dim);
-  var cadNameCol = solarProjCol + 1;
-  var cadNameArray = cprd_FillCadNameCol(backlogArray, dim, cadNameCol);
-  propBacklog.getRange(1, 1, dim[0], dim[1]).setValues(cadNameArray);
+  // The above might be a good base function for MANY OTHER FUNCTIONS.
+  // For note, the below are necessary for the construction of a link.
+  // In other sccripts, they are different but necessary things for completing their process.
+  var cadLink = getMeThatColumn('Solar CAD ID', backlogArray, dim);
+  var cadNumber = getMeThatColumn('CAD Name', backlogArray, dim);
+  var solProjLink = getMeThatColumn('Solar Project ID', backlogArray, dim);
+  var solProjName = getMeThatColumn('Project Name', backlogArray, dim);
+  // Now we get to the actual doing of the thing. ZHU LI, DO THE THING!
+  var linksBacklog = constructLink(solProjLink, solProjName, backlogArray, dim);
+  linksBacklog = constructLink(cadLink, cadNumber, linksBacklog, dim);
+  // This could be a function that updates and deletes.
+  propBacklog.getRange(1, 1, dim[0], dim[1]).setValues(linksBacklog);
+  propBacklog.deleteColumn(cadLink + 1);
+  propBacklog.deleteColumn(solProjLink + 1);
   SpreadsheetApp.flush();
-  console.log(cadNameArray);
   return;
 }
 
 /**
- * Fills in the CAD Name column with the blanks.
+ * This will construct the link and put in the backlog
+ * array. This array will be pasted back over the
+ * report page.
  * 
- * @param {Array} backlogArray The backlog array to add new column
+ * @param {String} cadLink The ID of the CAD Object for link.
+ * @param {String} cadNumber The SP- Name of the Solar Project.
+ * @param {Array} backlogArray The backlog array.
  * @param {Array} dim The dimensions of the backlog sheet.
- * @param {Number} cadNameCol The location of the CAD Name column.
- * @returns The backlog array with the new CAD Name column.
+ * @returns The backlog array with new SolProj link.
  */
-function cprd_FillCadNameCol(backlogArray, dim, cadNameCol) {
-  backlogArray[0][cadNameCol] = 'CAD Name';
+function constructLink(cadLink, cadNumber, backlogArray, dim) {
   for (var row = 1; row <= dim[0] - 1; row++) {
-    backlogArray[row][cadNameCol] = '-';
+    backlogArray[row][cadNumber] = '=HYPERLINK("https://vivintsolar.my.salesforce.com/' + backlogArray[row][cadLink] + '", "' + backlogArray[row][cadNumber] + '")';
   }
   return backlogArray;
 }

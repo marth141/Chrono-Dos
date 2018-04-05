@@ -22,27 +22,30 @@ function backlogProcessJunction(masterBacklogs) {
   var workThisBacklog;
   for (var backlog in masterBacklogs) {
     if (masterBacklogs[backlog].getName() === 'DEPT PROPOSAL BACKLOG') {
-      // workThisBacklog = masterBacklogs[backlog];
-      // prop_DateCleaner(workThisBacklog);
-      // regionMarker(workThisBacklog);
-      // prop_UnitTypeMarker(workThisBacklog);
-      // cadNameColCreator(workThisBacklog);
-      // prop_SolProjLinkCreator(workThisBacklog);
+      workThisBacklog = masterBacklogs[backlog];
+      prop_DateCleaner(workThisBacklog);
+      regionMarker(workThisBacklog);
+      prop_UnitTypeMarker(workThisBacklog);
+      cadNameColCreator(workThisBacklog);
+      solProjLinkCreator(workThisBacklog);
       continue;
     } else if (masterBacklogs[backlog].getName() === 'DEPT SNOW PROPOSAL BACKLOG') {
       workThisBacklog = masterBacklogs[backlog];
-      // regionMarker(workThisBacklog);
+      regionMarker(workThisBacklog);
       cadNameColCreator(workThisBacklog);
+      solProjLinkCreator(workThisBacklog);
       continue;
     } else if (masterBacklogs[backlog].getName() === 'DEPT CP RD BACKLOG') {
       workThisBacklog = masterBacklogs[backlog];
-      // regionMarker(workThisBacklog);
+      regionMarker(workThisBacklog);
       cadNameColCreator(workThisBacklog);
+      solProjLinkCreator(workThisBacklog);
       continue;
     } else if (masterBacklogs[backlog].getName() === 'DEPT CAD Lite Backlog') {
       workThisBacklog = masterBacklogs[backlog];
-      // regionMarker(workThisBacklog);
+      regionMarker(workThisBacklog);
       cadNameColCreator(workThisBacklog);
+      solProjLinkCreator(workThisBacklog);
       continue;
     } else if (masterBacklogs[backlog] === null) {
       throw 'The backlog was null in dateOperations()';

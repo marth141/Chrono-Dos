@@ -5,7 +5,7 @@
  */
 function debugSolProj() {
   var masterBacklogs = new master_Backlogs();
-  prop_SolProjLinkCreator(masterBacklogs.Collection);
+  solProjLinkCreator(masterBacklogs.Collection);
   return;
 }
 
@@ -17,16 +17,16 @@ function debugSolProj() {
  * @param {Sheet} propBacklog 
  * @returns 
  */
-function prop_SolProjLinkCreator(propBacklog) {
+function solProjLinkCreator(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
   // The above might be a good base function for MANY OTHER FUNCTIONS.
   // For note, the below are necessary for the construction of a link.
   // In other sccripts, they are different but necessary things for completing their process.
-  var solProjLink = getMeThatColumn('Project: Solar Project ID', backlogArray, dim);
-  var solProjName = getMeThatColumn('Project: Project Name', backlogArray, dim);
+  var solProjLink = getMeThatColumn('Solar Project ID', backlogArray, dim);
+  var solProjName = getMeThatColumn('Project Name', backlogArray, dim);
   // Now we get to the actual doing of the thing. ZHU LI, DO THE THING!
-  var linksBacklog = prop_ConstructLink(solProjLink, solProjName, backlogArray, dim);
+  var linksBacklog = constructLink(solProjLink, solProjName, backlogArray, dim);
   // This could be a function that updates and deletes.
   propBacklog.getRange(1, 1, dim[0], dim[1]).setValues(linksBacklog);
   propBacklog.deleteColumn(solProjLink + 1);
@@ -45,7 +45,7 @@ function prop_SolProjLinkCreator(propBacklog) {
  * @param {Array} dim The dimensions of the backlog sheet.
  * @returns The backlog array with new SolProj link.
  */
-function prop_ConstructLink(solProjLink, solProjName, backlogArray, dim) {
+function constructLink(solProjLink, solProjName, backlogArray, dim) {
   for (var row = 1; row <= dim[0] - 1; row++) {
     backlogArray[row][solProjName] = '=HYPERLINK("https://vivintsolar.my.salesforce.com/' + backlogArray[row][solProjLink] + '", "' + backlogArray[row][solProjName] + '")';
   }

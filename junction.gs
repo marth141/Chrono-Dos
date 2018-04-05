@@ -20,13 +20,17 @@
  */
 function backlogProcessJunction(masterBacklogs) {
   for (var backlog in masterBacklogs) {
-    if (masterBacklogs[backlog].getName() === 'DEPT Proposal') {
+    if (masterBacklogs[backlog].getName() === 'DEPT PROPOSAL BACKLOG') {
       var propBacklog = masterBacklogs[backlog];
       prop_DateCleaner(propBacklog);
       prop_RegionMarker(propBacklog);
       prop_UnitTypeMarker(propBacklog);
       prop_CadNameColCreator(propBacklog);
       prop_SolProjLinkCreator(propBacklog);
+      return;
+    } else if (masterBacklogs[backlog].getName() === 'DEPT SNOW PROPOSAL BACKLOG') {
+      console.log('Under construction.');
+      return;
     } else if (masterBacklogs[backlog] === null) {
       throw 'The backlog was null in dateOperations()';
     } else {

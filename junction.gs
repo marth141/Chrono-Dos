@@ -19,17 +19,19 @@
  * @param {any} masterBacklogs The constructor of the backlogs contained in this spreadsheet.
  */
 function backlogProcessJunction(masterBacklogs) {
+  var workThisBacklog;
   for (var backlog in masterBacklogs) {
     if (masterBacklogs[backlog].getName() === 'DEPT PROPOSAL BACKLOG') {
-      var propBacklog = masterBacklogs[backlog];
-      prop_DateCleaner(propBacklog);
-      prop_RegionMarker(propBacklog);
-      prop_UnitTypeMarker(propBacklog);
-      prop_CadNameColCreator(propBacklog);
-      prop_SolProjLinkCreator(propBacklog);
-      return;
+      // workThisBacklog = masterBacklogs[backlog];
+      // prop_DateCleaner(workThisBacklog);
+      // regionMarker(workThisBacklog);
+      // prop_UnitTypeMarker(workThisBacklog);
+      // prop_CadNameColCreator(workThisBacklog);
+      // prop_SolProjLinkCreator(workThisBacklog);
+      continue;
     } else if (masterBacklogs[backlog].getName() === 'DEPT SNOW PROPOSAL BACKLOG') {
-      console.log('Under construction.');
+      workThisBacklog = masterBacklogs[backlog];
+      regionMarker(workThisBacklog);
       return;
     } else if (masterBacklogs[backlog] === null) {
       throw 'The backlog was null in dateOperations()';

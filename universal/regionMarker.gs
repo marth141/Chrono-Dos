@@ -5,7 +5,7 @@
  */
 function debugRegMar() {
   var masterBacklogs = new master_Backlogs();
-  prop_RegionMarker(masterBacklogs.Collection);
+  regionMarker(masterBacklogs.Collection);
   return;
 }
 
@@ -14,19 +14,19 @@ function debugRegMar() {
  * Variables will be passed into prop_MarkRegion and
  * prop_MarkNatlRegion.
  * 
- * @param {Sheet} propBacklog The backlog sheet to be worked on.
+ * @param {Sheet} backlog The backlog sheet to be worked on.
  * @returns 
  */
-function prop_RegionMarker(propBacklog) {
-  var dim = getDimensions(propBacklog);
-  var backlogArray = getBacklogArray(propBacklog, dim);
+function regionMarker(backlog) {
+  var dim = getDimensions(backlog);
+  var backlogArray = getBacklogArray(backlog, dim);
   // Above is a set up, below is an action.
   var regOpCenterCol = getMeThatColumn('Service: Regional Operating Center', backlogArray, dim);
-  var markedRegions = prop_MarkRegion(propBacklog, backlogArray, regOpCenterCol, dim);
-  var markedNatOffices = prop_MarkNatlRegion(propBacklog, markedRegions, dim);
+  var markedRegions = markRegion(backlog, backlogArray, regOpCenterCol, dim);
+  var markedNatOffices = markNatlRegion(backlog, markedRegions, dim);
   // Above is a set up, below is an action.
-  propBacklog.getRange(1, 1, dim[0], dim[1] + 1).setValues(markedNatOffices);
-  propBacklog.deleteColumn(regOpCenterCol + 1);
+  backlog.getRange(1, 1, dim[0], dim[1] + 1).setValues(markedNatOffices);
+  backlog.deleteColumn(regOpCenterCol + 1);
   SpreadsheetApp.flush();
   return;
 }
@@ -42,7 +42,7 @@ function prop_RegionMarker(propBacklog) {
  * @param {Array} dim The dimensions of the backlog sheet.
  * @returns The backlog array after marking regions.
  */
-function prop_MarkRegion(backlogSheet, backlogArray, regOpCenterCol, dim) {
+function markRegion(backlogSheet, backlogArray, regOpCenterCol, dim) {
   var offices = new office_Collection();
   var region;
   backlogArray[0][dim[1]] = 'Region';
@@ -50,18 +50,18 @@ function prop_MarkRegion(backlogSheet, backlogArray, regOpCenterCol, dim) {
     var stateAbrv = backlogArray[row][regOpCenterCol].substr(0, 2);
     if (offices.SouthWest.indexOf(stateAbrv) > -1) {
       region = 'Southwest';
-      backlogArray = prop_WriteRegion(backlogArray, row, dim, region);
+      backlogArray = writeRegion(backlogArray, row, dim, region);
     } else if (stateAbrv === 'CA') {
-      backlogArray = prop_MarkCaliRegion(offices, region, backlogArray, row, regOpCenterCol, dim);
+      backlogArray = markCaliRegion(offices, region, backlogArray, row, regOpCenterCol, dim);
     } else if (offices.NewEnglan.indexOf(stateAbrv) > -1) {
       region = 'New England';
-      backlogArray = prop_WriteRegion(backlogArray, row, dim, region);
+      backlogArray = writeRegion(backlogArray, row, dim, region);
     } else if (offices.Legion.indexOf(stateAbrv) > -1) {
       region = 'Legion';
-      backlogArray = prop_WriteRegion(backlogArray, row, dim, region);
+      backlogArray = writeRegion(backlogArray, row, dim, region);
     } else if (offices.GritMovem.indexOf(stateAbrv) > -1) {
       region = 'Grit Movement';
-      backlogArray = prop_WriteRegion(backlogArray, row, dim, region);
+      backlogArray = writeRegion(backlogArray, row, dim, region);
     }
   }
   return backlogArray;
@@ -78,15 +78,15 @@ function prop_MarkRegion(backlogSheet, backlogArray, regOpCenterCol, dim) {
  * @param {Array} dim The dimensions of the sheet.
  * @returns 
  */
-function prop_MarkCaliRegion(offices, region, backlogArray, sNumberRow, regOpCenterCol, dim) {
+function markCaliRegion(offices, region, backlogArray, sNumberRow, regOpCenterCol, dim) {
   var stateAbrv = backlogArray[sNumberRow][regOpCenterCol].substr(3, 2);
   if (offices.SouthCali.indexOf(stateAbrv) > -1) {
     region = 'SoCal';
-    backlogArray = prop_WriteRegion(backlogArray, sNumberRow, dim, region);
+    backlogArray = writeRegion(backlogArray, sNumberRow, dim, region);
     return backlogArray;
   } else if (offices.NorthCali.indexOf(stateAbrv) > -1) {
     region = 'NorCal';
-    backlogArray = prop_WriteRegion(backlogArray, sNumberRow, dim, region);
+    backlogArray = writeRegion(backlogArray, sNumberRow, dim, region);
     return backlogArray;
   }
 }
@@ -100,9 +100,9 @@ function prop_MarkCaliRegion(offices, region, backlogArray, sNumberRow, regOpCen
  * @param {Array} dim The dimensions of the sheet. Should be 1 bigger.
  * @returns A completed backlog with Retail, Dealer, and NIS marked.
  */
-function prop_MarkNatlRegion(backlogSheet, markedRegions, dim) {
-  var OpproOfficeCol = getMeThatColumn('Opportunity: Office: Office Name', markedRegions, dim);
-  var markedNatOffices = prop_MarkNatlOffice(markedRegions, OpproOfficeCol, dim);
+function markNatlRegion(backlogSheet, markedRegions, dim) {
+  var OpproOfficeCol = getMeThatColumn('Opportunity: Office:*', markedRegions, dim);
+  var markedNatOffices = markNatlOffice(markedRegions, OpproOfficeCol, dim);
   return markedNatOffices;
 }
 
@@ -115,18 +115,18 @@ function prop_MarkNatlRegion(backlogSheet, markedRegions, dim) {
  * @param {Array} dim The dimensions of the backlog sheet.
  * @returns The backlog with all the marked Natl Offices.
  */
-function prop_MarkNatlOffice(markedRegions, opproOfficeCol, dim) {
+function markNatlOffice(markedRegions, opproOfficeCol, dim) {
   var region;
   for (var row = 1; row <= dim[0] - 1; row++) {
     if (markedRegions[row][opproOfficeCol].match(/NIS/i)) {
       region = 'NIS';
-      markedRegions = prop_WriteRegion(markedRegions, row, dim, region);
+      markedRegions = writeRegion(markedRegions, row, dim, region);
     } else if (markedRegions[row][opproOfficeCol].match(/Dealer/i)) {
       region = 'Dealer';
-      markedRegions = prop_WriteRegion(markedRegions, row, dim, region);
+      markedRegions = writeRegion(markedRegions, row, dim, region);
     } else if (markedRegions[row][opproOfficeCol].match(/Retail/i)) {
       region = 'Retail';
-      markedRegions = prop_WriteRegion(markedRegions, row, dim, region);
+      markedRegions = writeRegion(markedRegions, row, dim, region);
     }
   }
   return markedRegions;
@@ -142,7 +142,7 @@ function prop_MarkNatlOffice(markedRegions, opproOfficeCol, dim) {
  * @param {String} region The region string to be filled in.
  * @returns An edited backlog array with the region filled in.
  */
-function prop_WriteRegion(backlogArray, sNumberRow, dim, region) {
+function writeRegion(backlogArray, sNumberRow, dim, region) {
   backlogArray[sNumberRow][dim[1]] = region;
   return backlogArray;
 }

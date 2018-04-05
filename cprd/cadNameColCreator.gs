@@ -3,9 +3,9 @@
  * 
  * @returns void
  */
-function debugCadName() {
+function debugCpRdCadName() {
   var masterBacklogs = new master_Backlogs();
-  uni_CadNameColCreator(masterBacklogs.Collection);
+  cprd_CadNameColCreator(masterBacklogs.Collection);
   return;
 }
 
@@ -17,7 +17,7 @@ function debugCadName() {
  * @param {Sheet} propBacklog The backlog sheet to gain information.
  * @returns 
  */
-function uni_CadNameColCreator(propBacklog) {
+function cprd_CadNameColCreator(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
   var solarProjCol = getMeThatColumn('Project Name', backlogArray, dim);
@@ -25,7 +25,7 @@ function uni_CadNameColCreator(propBacklog) {
   dim = getDimensions(propBacklog);
   backlogArray = getBacklogArray(propBacklog, dim);
   var cadNameCol = solarProjCol + 1;
-  var cadNameArray = uni_FillCadNameCol(backlogArray, dim, cadNameCol);
+  var cadNameArray = cprd_FillCadNameCol(backlogArray, dim, cadNameCol);
   propBacklog.getRange(1, 1, dim[0], dim[1]).setValues(cadNameArray);
   SpreadsheetApp.flush();
   console.log(cadNameArray);
@@ -40,7 +40,7 @@ function uni_CadNameColCreator(propBacklog) {
  * @param {Number} cadNameCol The location of the CAD Name column.
  * @returns The backlog array with the new CAD Name column.
  */
-function uni_FillCadNameCol(backlogArray, dim, cadNameCol) {
+function cprd_FillCadNameCol(backlogArray, dim, cadNameCol) {
   backlogArray[0][cadNameCol] = 'CAD Name';
   for (var row = 1; row <= dim[0] - 1; row++) {
     backlogArray[row][cadNameCol] = '-';

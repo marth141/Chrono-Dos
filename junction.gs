@@ -26,27 +26,28 @@ function backlogProcessJunction(masterBacklogs) {
       prop_DateCleaner(workThisBacklog);
       regionMarker(workThisBacklog);
       prop_UnitTypeMarker(workThisBacklog);
-      cadNameColCreator(workThisBacklog);
+      uni_CadNameColCreator(workThisBacklog);
       solProjLinkCreator(workThisBacklog);
       continue;
     } else if (masterBacklogs[backlog].getName() === 'DEPT SNOW PROPOSAL BACKLOG') {
       workThisBacklog = masterBacklogs[backlog];
       regionMarker(workThisBacklog);
       snow_UnitTypeMarker(workThisBacklog);
-      cadNameColCreator(workThisBacklog);
+      uni_CadNameColCreator(workThisBacklog);
       solProjLinkCreator(workThisBacklog);
       continue;
     } else if (masterBacklogs[backlog].getName() === 'DEPT CP RD BACKLOG') {
       workThisBacklog = masterBacklogs[backlog];
       regionMarker(workThisBacklog);
       cprd_UnitTypeMarker(workThisBacklog);
+      cprd_CadNameColCreator(workThisBacklog);
       solProjLinkCreator(workThisBacklog);
       continue;
     } else if (masterBacklogs[backlog].getName() === 'DEPT CAD Lite Backlog') {
       workThisBacklog = masterBacklogs[backlog];
       regionMarker(workThisBacklog);
       lite_UnitTypeMarker(workThisBacklog);
-      cadNameColCreator(workThisBacklog);
+      uni_CadNameColCreator(workThisBacklog);
       solProjLinkCreator(workThisBacklog);
       continue;
     } else if (masterBacklogs[backlog] === null) {

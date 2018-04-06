@@ -71,6 +71,8 @@ function getMeThatColumn(searchString, backlogArray, dim) {
 function validateHeader(header, backlogArray, dim) {
   if (prop_CheckForDates(header, backlogArray, dim)) {
     return true;
+  } else if (snow_CheckForDates(header, backlogArray, dim)) {
+    return true;
   } else {
     throw 'validateDates() cannot find: ' + header;
   }

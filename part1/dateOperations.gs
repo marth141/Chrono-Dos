@@ -1,22 +1,23 @@
 /**
- * For debugging dateOperations().
- * 
- * @returns void
- */
-function debugDateCleaner() {
+* For debugging dateOperations().
+* 
+* @returns void
+*/
+function debugPartOneDateCleaner() {
   var masterBacklogs = new master_Backlogs();
-  partone_DateCleaner(masterBacklogs.Collection);
+  masterBacklogs = masterBacklogs.Collection;
+  partone_DateCleaner(masterBacklogs[4]);
   return;
 }
 
 /**
- * For the proposal backlog, checks for date
- * columns, verifies they are dates, removes
- * the late dates and will sort and clean the
- * backlog.
- * 
- * @param {Sheet} propBacklog The backlog to be edited.
- */
+* For the proposal backlog, checks for date
+* columns, verifies they are dates, removes
+* the late dates and will sort and clean the
+* backlog.
+* 
+* @param {Sheet} propBacklog The backlog to be edited.
+*/
 function partone_DateCleaner(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
@@ -35,26 +36,29 @@ function partone_DateCleaner(propBacklog) {
 }
 
 /**
- * Sets up variables for comparing dates by
- * locating the columns and state abreviations
- * for the rest of the dateOperations().
- * 
- * @param {Array} backlogArray 
- * @param {Array} dim 
- * @param {Number} phaseSSCompCol 
- * @param {Number} OpPropStatDateCol 
- * @param {String} ssExtCompCol
- * @returns If dateCol2 is not null, corrected dates backlog is returned.
- * @returns If dateCol2 is null, the backlog is returned unchanged.
- */
+* Sets up variables for comparing dates by
+* locating the columns and state abreviations
+* for the rest of the dateOperations().
+* 
+* @param {Array} backlogArray 
+* @param {Array} dim 
+* @param {Number} phaseSSCompCol 
+* @param {Number} OpPropStatDateCol 
+* @param {String} ssExtCompCol
+* @returns If dateCol2 is not null, corrected dates backlog is returned.
+* @returns If dateCol2 is null, the backlog is returned unchanged.
+*/
 function partone_RemoveLateDates(backlogArray, dim, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateOfficeCol) {
   if (OpPropStatDateCol !== null) {
     for (var row = 1; row <= dim[0] - 1; row++) {
-      var dateValue1 = new Date(backlogArray[row][phaseSSCompCol]);
+      var dateValue1 = new Date(backlogArray[row][phaseSSCompCol]);      
       var dateValue2 = new Date(backlogArray[row][OpPropStatDateCol]);
-      var datevalue3 = new Date(backlogArray[row][ssExtCompCol]);
+      var dateValue3 = new Date(backlogArray[row][ssExtCompCol]);
       var stateAbrv = backlogArray[row][stateOfficeCol].substr(0, 2);
-      backlogArray = partone_CompareDates(backlogArray, dateValue1, dateValue2, datevalue3, row, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateAbrv);
+      dateValue1 = invalidFix(dateValue1);
+      dateValue2 = invalidFix(dateValue2);
+      dateValue3 = invalidFix(dateValue3);
+      backlogArray = partone_CompareDates(backlogArray, dateValue1, dateValue2, dateValue3, row, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateAbrv);
     }
     return backlogArray;
   } else if (OpPropStatDateCol === null) {
@@ -62,33 +66,42 @@ function partone_RemoveLateDates(backlogArray, dim, phaseSSCompCol, OpPropStatDa
   }
 }
 
+function invalidFix(dateValue) {
+  if (dateValue == 'Invalid Date') {
+    dateValue = new Date(1970, 1, 1, 0, 0, 0, 0);
+    return dateValue;
+  } else {
+    return dateValue;
+  }
+}
+
 /**
- * 
- * 
- * @param {Array} backlogArray The backlog array to be edited.
- * @param {Date} dateValue1 Phase: Site Survey Completed
- * @param {Date} dateValue2 Opportunity: Proposal Status Date
- * @param {Date} dateValue3 Phase: Site Survey Exterior Completed
- * @param {Number} row The service number to be edited
- * @param {Number} phaseSSCompCol The column for phaseSSComp
- * @param {Number} OpPropStatDateCol The Column for OpPropStatDate
- * @param {Number} ssExtCompCol The Column for ssExtComp
- * @param {String} stateAbrv The stateAbrv
- * @returns 
- */
+* 
+* 
+* @param {Array} backlogArray The backlog array to be edited.
+* @param {Date} dateValue1 Phase: Site Survey Completed
+* @param {Date} dateValue2 Opportunity: Proposal Status Date
+* @param {Date} dateValue3 Phase: Site Survey Exterior Completed
+* @param {Number} row The service number to be edited
+* @param {Number} phaseSSCompCol The column for phaseSSComp
+* @param {Number} OpPropStatDateCol The Column for OpPropStatDate
+* @param {Number} ssExtCompCol The Column for ssExtComp
+* @param {String} stateAbrv The stateAbrv
+* @returns 
+*/
 function partone_CompareDates(backlogArray, dateValue1, dateValue2, dateValue3, row, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateAbrv) {
   var fivePM = 17;
-  if (dateValue2 < dateValue1 && dateValue1 > dateValue3) {
+  if (dateValue2 <= dateValue1 && dateValue1 >= dateValue3) {
     fivePM += getTimeOffset(stateAbrv);
     dateValue1.setHours(fivePM, 0, 0);
     backlogArray[row][OpPropStatDateCol] = addHours(dateValue1, 24);
     return backlogArray;
-  } else if (dateValue1 < dateValue2 && dateValue2 > dateValue3) {
+  } else if (dateValue1 <= dateValue2 && dateValue2 >= dateValue3) {
     fivePM += getTimeOffset(stateAbrv);
     dateValue2.setHours(fivePM, 0, 0);
     backlogArray[row][OpPropStatDateCol] = addHours(dateValue2, 24);
     return backlogArray;
-  } else if (dateValue1 < dateValue3 && dateValue3 > dateValue2) {
+  } else if (dateValue1 <= dateValue3 && dateValue3 >= dateValue2) {
     fivePM += getTimeOffset(stateAbrv);
     dateValue1.setHours(fivePM, 0, 0);
     backlogArray[row][OpPropStatDateCol] = addHours(dateValue3, 24);
@@ -97,16 +110,16 @@ function partone_CompareDates(backlogArray, dateValue1, dateValue2, dateValue3, 
 }
 
 /**
- * Will sort the date column within the google
- * sheet then Removes the redundant date column.
- * 
- * @param {Sheet} backlogSheet The backlog Google Sheet
- * @param {Array} dateAdjLog The Date Adjusted Backlog Array
- * @param {Array} dim The dimensions of the backlog Google Sheet
- * @param {Number} OpPropStatDateCol
- * @param {Number} propStatDate 
- * @returns void
- */
+* Will sort the date column within the google
+* sheet then Removes the redundant date column.
+* 
+* @param {Sheet} backlogSheet The backlog Google Sheet
+* @param {Array} dateAdjLog The Date Adjusted Backlog Array
+* @param {Array} dim The dimensions of the backlog Google Sheet
+* @param {Number} OpPropStatDateCol
+* @param {Number} propStatDate 
+* @returns void
+*/
 function partone_SortAndCleanDates(backlogSheet, dateAdjLog, dim, OpPropStatDateCol, phaseSSCompCol, ssExtCompCol) {
   backlogSheet.getRange(1, 1, dim[0], dim[1]).setValues(dateAdjLog);
   backlogSheet.getRange(2, 1, dim[0], dim[1]).sort([
@@ -120,15 +133,15 @@ function partone_SortAndCleanDates(backlogSheet, dateAdjLog, dim, OpPropStatDate
 }
 
 /**
- * Removes the column that is a copy of the
- * date column to keep. This redundancy is
- * due to the dates overwriting each other in
- * compareDates().
- * 
- * @param {Sheet} backlogSheet 
- * @param {Number} propStatDate 
- * @returns void
- */
+* Removes the column that is a copy of the
+* date column to keep. This redundancy is
+* due to the dates overwriting each other in
+* compareDates().
+* 
+* @param {Sheet} backlogSheet 
+* @param {Number} propStatDate 
+* @returns void
+*/
 function partone_RemoveDoubleDate(backlogSheet, propStatDate) {
   backlogSheet.deleteColumn(propStatDate + 1);
   SpreadsheetApp.flush();

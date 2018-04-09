@@ -33,29 +33,6 @@ function snow_DateCleaner(propBacklog) {
 }
 
 /**
- * Checks that there is a date under the header
- * specified.
- * 
- * @param {String} searchString 
- * @param {Array} backlogArray 
- * @param {Array} dim 
- * @returns True - If instance of date; False - If not instance of date.
- */
-function snow_CheckForDates(searchString, backlogArray, dim) {
-  for (var col = 0; col <= dim[1] - 1; col++) {
-    if (backlogArray[0][col].match(searchString)) {
-      if (backlogArray[1][col] instanceof Date) {
-        return true;
-      } else {
-        throw 'The backlog has a date column but no date in first row. Is it corrupted?';
-      }
-    } else if (col === dim[1] - 1) {
-      throw 'The column \'' + searchString + '\' string could not be found.';
-    }
-  }
-}
-
-/**
  * Sets up variables for comparing dates by
  * locating the columns and state abreviations
  * for the rest of the dateOperations().

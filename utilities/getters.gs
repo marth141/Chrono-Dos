@@ -69,11 +69,32 @@ function getMeThatColumn(searchString, backlogArray, dim) {
  * @returns True - Header has valid data; False - Header is corrupted.
  */
 function validateHeader(header, backlogArray, dim) {
-  if (prop_CheckForDates(header, backlogArray, dim)) {
-    return true;
-  } else if (snow_CheckForDates(header, backlogArray, dim)) {
+  if (CheckForDates(header, backlogArray, dim)) {
     return true;
   } else {
     throw 'validateDates() cannot find: ' + header;
+  }
+}
+
+/**
+ * Checks that there is a date under the header
+ * specified.
+ * 
+ * @param {String} searchString 
+ * @param {Array} backlogArray 
+ * @param {Array} dim 
+ * @returns True - If instance of date; False - If not instance of date.
+ */
+function CheckForDates(searchString, backlogArray, dim) {
+  for (var col = 0; col <= dim[1] - 1; col++) {
+    if (backlogArray[0][col].match(searchString)) {
+      if (backlogArray[1][col] instanceof Date) {
+        return true;
+      } else {
+        throw 'The backlog has a date column but no date in first row. Is it corrupted?';
+      }
+    } else if (col === dim[1] - 1) {
+      throw 'The column \'' + searchString + '\' string could not be found.';
+    }
   }
 }

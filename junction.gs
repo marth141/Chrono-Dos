@@ -47,8 +47,9 @@ function backlogProcessJunction(masterBacklogs) {
       workThisBacklog = masterBacklogs[backlog];
       regionMarker(workThisBacklog);
       lite_UnitTypeMarker(workThisBacklog);
+      partone_DateCleaner(workThisBacklog);
       uni_CadNameColCreator(workThisBacklog);
-      solProjLinkCreator(workThisBacklog);
+      solProjLinkCreator(workThisBacklog);      
       continue;
     } else if (masterBacklogs[backlog] === null) {
       throw 'The backlog was null in dateOperations()';

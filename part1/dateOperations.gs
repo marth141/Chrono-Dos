@@ -30,7 +30,8 @@ function partone_DateCleaner(propBacklog) {
     throw 'Unable to find column: Opportunity: Proposal Status Date';
   }
   var dateAdjLog = partone_RemoveLateDates(backlogArray, dim, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateOfficeCol);
-  partone_SortAndCleanDates(propBacklog, dateAdjLog, dim, phaseSSCompCol, OpPropStatDateCol);
+  partone_SortAndCleanDates(propBacklog, dateAdjLog, dim, OpPropStatDateCol, phaseSSCompCol, ssExtCompCol);
+  return;
 }
 
 /**
@@ -99,21 +100,22 @@ function partone_CompareDates(backlogArray, dateValue1, dateValue2, dateValue3, 
  * Will sort the date column within the google
  * sheet then Removes the redundant date column.
  * 
- * @param {Sheet} backlogSheet 
- * @param {Array} dateAdjLog 
- * @param {Array} dim 
- * @param {Number} dateCol 
+ * @param {Sheet} backlogSheet The backlog Google Sheet
+ * @param {Array} dateAdjLog The Date Adjusted Backlog Array
+ * @param {Array} dim The dimensions of the backlog Google Sheet
+ * @param {Number} OpPropStatDateCol
  * @param {Number} propStatDate 
  * @returns void
  */
-function partone_SortAndCleanDates(backlogSheet, dateAdjLog, dim, propReqDate, propStatDate) {
+function partone_SortAndCleanDates(backlogSheet, dateAdjLog, dim, OpPropStatDateCol, phaseSSCompCol, ssExtCompCol) {
   backlogSheet.getRange(1, 1, dim[0], dim[1]).setValues(dateAdjLog);
   backlogSheet.getRange(2, 1, dim[0], dim[1]).sort([
-    { column: propReqDate + 1, ascending: true }
+    { column: OpPropStatDateCol + 1, ascending: true }
   ]);
-  backlogSheet.getRange(1, propReqDate + 1).setValue('Proposal Date');
+  backlogSheet.getRange(1, OpPropStatDateCol + 1).setValue('Proposal Date');
   SpreadsheetApp.flush();
-  partone_RemoveDoubleDate(backlogSheet, propStatDate);
+  partone_RemoveDoubleDate(backlogSheet, phaseSSCompCol);
+  partone_RemoveDoubleDate(backlogSheet, ssExtCompCol);
   return;
 }
 

@@ -67,7 +67,7 @@ function partone_RemoveLateDates(backlogArray, dim, phaseSSCompCol, OpPropStatDa
 }
 
 function invalidFix(dateValue) {
-  if (dateValue == 'Invalid Date') {
+  if (dateValue.toString() === 'Invalid Date') {
     dateValue = new Date(1970, 1, 1, 0, 0, 0, 0);
     return dateValue;
   } else {

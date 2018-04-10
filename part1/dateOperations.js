@@ -127,7 +127,7 @@ function partone_SortAndCleanDates(backlogSheet, dateAdjLog, dim, OpPropStatDate
   ]);
   backlogSheet.getRange(1, OpPropStatDateCol + 1).setValue('Proposal Date');
   SpreadsheetApp.flush();
-  // Removing for debugging
+  // Removing for debugging /
   return;
 }
 

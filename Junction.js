@@ -32,7 +32,7 @@ function debugJunction() {
 function backlogProcessJunction(masterBacklogs) {
   var workThisBacklog;
   for (var backlog in masterBacklogs) {
-    //backlog = 0; // For debugging.
+    backlog = 1; // For debugging.
     if (masterBacklogs[backlog].getName() === 'DEPT PROPOSAL BACKLOG') {
       workThisBacklog = masterBacklogs[backlog];
       prop_DateCleaner(workThisBacklog);
@@ -40,6 +40,7 @@ function backlogProcessJunction(masterBacklogs) {
       prop_UnitTypeMarker(workThisBacklog);
       uni_CadNameColCreator(workThisBacklog);
       uni_SolProjLinkCreator(workThisBacklog);
+      gimmieDaJson(workThisBacklog);
       continue;
     } else if (masterBacklogs[backlog].getName() === 'DEPT SNOW PROPOSAL BACKLOG') {
       workThisBacklog = masterBacklogs[backlog];
@@ -70,4 +71,12 @@ function backlogProcessJunction(masterBacklogs) {
       continue;
     }
   }
+}
+
+function gimmieDaJson(workThisBacklog) {
+  var dim = getDimensions(workThisBacklog);
+  var backlogArray = getBacklogArray(workThisBacklog, dim);
+  var json = JSON.parse(backlogArray);
+  console.log(json);
+  return;
 }

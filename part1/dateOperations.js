@@ -117,12 +117,12 @@ function partone_CompareDates(backlogArray, dateValue1, dateValue2, row, phaseSS
 * @param {Number} propStatDate 
 * @returns void
 */
-function partone_SortAndCleanDates(backlogSheet, dateAdjLog, dim, OpPropStatDateCol, phaseSSCompCol, ssExtCompCol) {
+function partone_SortAndCleanDates(backlogSheet, dateAdjLog, dim, phaseSSCompCol, ssExtCompCol) {
   backlogSheet.getRange(1, 1, dim[0], dim[1]).setValues(dateAdjLog);
   backlogSheet.getRange(2, 1, dim[0], dim[1]).sort([
-    { column: OpPropStatDateCol + 1, ascending: true }
+    { column: phaseSSCompCol + 1, ascending: true }
   ]);
-  backlogSheet.getRange(1, OpPropStatDateCol + 1).setValue('Proposal Date');
+  backlogSheet.getRange(1, phaseSSCompCol + 1).setValue('Proposal Date');
   partone_RemoveDoubleDate(backlogSheet, ssExtCompCol);
   SpreadsheetApp.flush();
   // Removing for debugging

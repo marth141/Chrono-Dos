@@ -32,7 +32,7 @@ function debugJunction() {
 function backlogProcessJunction(masterBacklogs) {
   var workThisBacklog;
   for (var backlog in masterBacklogs) {
-    var backlog = 4; // For debugging
+    // var backlog = 4; // For debugging
     if (masterBacklogs[backlog].getName() === 'DEPT PROPOSAL BACKLOG') {
       workThisBacklog = masterBacklogs[backlog];
       prop_DateCleaner(workThisBacklog);
@@ -52,6 +52,7 @@ function backlogProcessJunction(masterBacklogs) {
       workThisBacklog = masterBacklogs[backlog];
       regionMarker(workThisBacklog);
       cprd_UnitTypeMarker(workThisBacklog);
+      cprd_DateCleaner(workThisBacklog);
       cprd_LinkCreator(workThisBacklog);
       //solProjLinkCreator(workThisBacklog); // Not necessary.
       continue;

@@ -3,9 +3,9 @@
 * 
 * @returns void
 */
-function debugSolProj() {
-  var masterBacklogs = new master_Backlogs();
-  solProjLinkCreator(masterBacklogs.Collection);
+function debugUniSolProj() {
+  var masterBacklogs = new serviceMasterBacklog();
+  uni_SolProjLinkCreator(masterBacklogs.Collection);
   return;
 }
 
@@ -17,7 +17,7 @@ function debugSolProj() {
 * @param {Sheet} propBacklog 
 * @returns 
 */
-function solProjLinkCreator(propBacklog) {
+function uni_SolProjLinkCreator(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
   // The above might be a good base function for MANY OTHER FUNCTIONS.

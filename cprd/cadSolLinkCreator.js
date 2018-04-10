@@ -3,8 +3,8 @@
 * 
 * @returns void
 */
-function debugCpRdCadName() {
-  var masterBacklogs = new master_Backlogs();
+function debugCPRDCadName() {
+  var masterBacklogs = new serviceMasterBacklog();
   cprd_LinkCreator(masterBacklogs.Collection);
   return;
 }

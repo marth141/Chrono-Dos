@@ -4,7 +4,7 @@
 * @returns void
 */
 function debugJunction() {
-  var masterBacklogs = new master_Backlogs();
+  var masterBacklogs = new serviceMasterBacklog();
   backlogProcessJunction(masterBacklogs.Collection);
   return;
 }
@@ -36,33 +36,32 @@ function backlogProcessJunction(masterBacklogs) {
     if (masterBacklogs[backlog].getName() === 'DEPT PROPOSAL BACKLOG') {
       workThisBacklog = masterBacklogs[backlog];
       prop_DateCleaner(workThisBacklog);
-      regionMarker(workThisBacklog);
+      uni_RegionMarker(workThisBacklog);
       prop_UnitTypeMarker(workThisBacklog);
       uni_CadNameColCreator(workThisBacklog);
-      solProjLinkCreator(workThisBacklog);
+      uni_SolProjLinkCreator(workThisBacklog);
       continue;
     } else if (masterBacklogs[backlog].getName() === 'DEPT SNOW PROPOSAL BACKLOG') {
       workThisBacklog = masterBacklogs[backlog];
-      regionMarker(workThisBacklog);
+      uni_RegionMarker(workThisBacklog);
       snow_UnitTypeMarker(workThisBacklog);
       uni_CadNameColCreator(workThisBacklog);
-      solProjLinkCreator(workThisBacklog);
+      uni_SolProjLinkCreator(workThisBacklog);
       continue;
     } else if (masterBacklogs[backlog].getName() === 'DEPT CP RD BACKLOG') {
       workThisBacklog = masterBacklogs[backlog];
-      regionMarker(workThisBacklog);
+      uni_RegionMarker(workThisBacklog);
       cprd_UnitTypeMarker(workThisBacklog);
       cprd_DateCleaner(workThisBacklog);
       cprd_LinkCreator(workThisBacklog);
-      //solProjLinkCreator(workThisBacklog); // Not necessary.
       continue;
     } else if (masterBacklogs[backlog].getName() === 'DEPT PART 1 BACKLOG') {
       workThisBacklog = masterBacklogs[backlog];
-      regionMarker(workThisBacklog);
-      lite_UnitTypeMarker(workThisBacklog);
+      uni_RegionMarker(workThisBacklog);
+      partOne_UnitTypeMarker(workThisBacklog);
       partone_DateCleaner(workThisBacklog);
       uni_CadNameColCreator(workThisBacklog);
-      solProjLinkCreator(workThisBacklog);
+      uni_SolProjLinkCreator(workThisBacklog);
       continue;
     } else if (masterBacklogs[backlog] === null) {
       throw 'The backlog was null in dateOperations()';

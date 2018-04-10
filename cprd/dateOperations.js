@@ -4,7 +4,7 @@
 * @returns void
 */
 function debugCPRDDateCleaner() {
-  var masterBacklogs = new master_Backlogs();
+  var masterBacklogs = new serviceMasterBacklog();
   masterBacklogs = masterBacklogs.Collection;
   cprd_DateCleaner(masterBacklogs[3]);
   return;
@@ -92,19 +92,19 @@ function invalidFix(dateValue) {
 function cprd_CompareDates(backlogArray, dateValue1, dateValue2, dateValue3, row, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateAbrv) {
   var fivePM = 17;
   if (dateValue2 <= dateValue1 && dateValue1 >= dateValue3) {
-    fivePM += getTimeOffset(stateAbrv);
+    fivePM += timeStateOffset(stateAbrv);
     dateValue1.setHours(fivePM, 0, 0);
-    backlogArray[row][OpPropStatDateCol] = addHours(dateValue1, 24);
+    backlogArray[row][OpPropStatDateCol] = timeAddHours(dateValue1, 24);
     return backlogArray;
   } else if (dateValue1 <= dateValue2 && dateValue2 >= dateValue3) {
-    fivePM += getTimeOffset(stateAbrv);
+    fivePM += timeStateOffset(stateAbrv);
     dateValue2.setHours(fivePM, 0, 0);
-    backlogArray[row][OpPropStatDateCol] = addHours(dateValue2, 24);
+    backlogArray[row][OpPropStatDateCol] = timeAddHours(dateValue2, 24);
     return backlogArray;
   } else if (dateValue1 <= dateValue3 && dateValue3 >= dateValue2) {
-    fivePM += getTimeOffset(stateAbrv);
+    fivePM += timeStateOffset(stateAbrv);
     dateValue1.setHours(fivePM, 0, 0);
-    backlogArray[row][OpPropStatDateCol] = addHours(dateValue3, 24);
+    backlogArray[row][OpPropStatDateCol] = timeAddHours(dateValue3, 24);
     return backlogArray;
   }
 }

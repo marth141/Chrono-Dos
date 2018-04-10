@@ -3,8 +3,8 @@
 * 
 * @returns void
 */
-function debugLiteUnitType() {
-  var masterBacklogs = new master_Backlogs();
+function debugPartOneUnitType() {
+  var masterBacklogs = new serviceMasterBacklog();
   lite_UnitTypeMarker(masterBacklogs.Collection);
   return;
 }

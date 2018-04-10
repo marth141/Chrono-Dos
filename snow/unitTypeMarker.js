@@ -4,7 +4,7 @@
 * @returns void
 */
 function debugSnowUnitType() {
-  var masterBacklogs = new master_Backlogs();
+  var masterBacklogs = new serviceMasterBacklog();
   snow_UnitTypeMarker(masterBacklogs.Collection);
   return;
 }

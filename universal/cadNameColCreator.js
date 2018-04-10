@@ -3,8 +3,8 @@
 * 
 * @returns void
 */
-function debugCadName() {
-  var masterBacklogs = new master_Backlogs();
+function debugUniCadName() {
+  var masterBacklogs = new serviceMasterBacklog();
   uni_CadNameColCreator(masterBacklogs.Collection);
   return;
 }

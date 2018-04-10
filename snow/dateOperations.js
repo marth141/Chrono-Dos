@@ -4,7 +4,7 @@
 * @returns void
 */
 function debugSnowDateCleaner() {
-  var masterBacklogs = new master_Backlogs();
+  var masterBacklogs = new serviceMasterBacklog();
   snow_DateCleaner(masterBacklogs.Collection);
   return;
 }
@@ -49,7 +49,7 @@ function snow_RemoveLateDates(backlogArray, dim, assignmentDate) {
   if (assignmentDate !== null) {
     for (var row = 1; row <= dim[0] - 1; row++) {
       var dateValue = new Date(backlogArray[row][assignmentDate]);
-      backlogArray[row][assignmentDate] = addHours(dateValue, 24);
+      backlogArray[row][assignmentDate] = timeAddHours(dateValue, 24);
     }
     return backlogArray;
   } else if (assignmentDate === null) {

@@ -3,8 +3,8 @@
 * 
 * @returns void
 */
-function debugUnitType() {
-  var masterBacklogs = new master_Backlogs();
+function debugPropUnitType() {
+  var masterBacklogs = new serviceMasterBacklog();
   prop_UnitTypeMarker(masterBacklogs.Collection);
   return;
 }

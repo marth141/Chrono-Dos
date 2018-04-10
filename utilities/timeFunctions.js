@@ -5,7 +5,7 @@
 * @param {Number} h 
 * @returns The date with hours adjusted.
 */
-function addHours(date, h) {
+function timeAddHours(date, h) {
   date.setTime(date.getTime() + h* 60* 60* 1000); return date;
 }
 
@@ -17,7 +17,7 @@ function addHours(date, h) {
 * @param {String} stateAbrv 
 * @returns A number to offset 1700 by.
 */
-function getTimeOffset(stateAbrv) {
+function timeStateOffset(stateAbrv) {
   switch (stateAbrv) {
     case 'HI':
       return 4;

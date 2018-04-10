@@ -4,7 +4,7 @@
 * @returns void
 */
 function debugPartOneDateCleaner() {
-  var masterBacklogs = new master_Backlogs();
+  var masterBacklogs = new serviceMasterBacklog();
   masterBacklogs = masterBacklogs.Collection;
   partone_DateCleaner(masterBacklogs[4]);
   return;
@@ -89,19 +89,19 @@ function invalidFix(dateValue) {
 function partone_CompareDates(backlogArray, dateValue1, dateValue2, row, phaseSSCompCol, ssExtCompCol, stateAbrv) {
   var fivePM = 17;
   if (dateValue1 > dateValue2) {
-    fivePM += getTimeOffset(stateAbrv);
+    fivePM += timeStateOffset(stateAbrv);
     dateValue1.setHours(fivePM, 0, 0);
-    backlogArray[row][phaseSSCompCol] = addHours(dateValue1, 24);
+    backlogArray[row][phaseSSCompCol] = timeAddHours(dateValue1, 24);
     return backlogArray;
   } else if (dateValue1 < dateValue2) {
-    fivePM += getTimeOffset(stateAbrv);
+    fivePM += timeStateOffset(stateAbrv);
     dateValue2.setHours(fivePM, 0, 0);
-    backlogArray[row][phaseSSCompCol] = addHours(dateValue2, 24);
+    backlogArray[row][phaseSSCompCol] = timeAddHours(dateValue2, 24);
     return backlogArray;
   } else {
-    fivePM += getTimeOffset(stateAbrv);
+    fivePM += timeStateOffset(stateAbrv);
     dateValue1.setHours(fivePM, 0, 0);
-    backlogArray[row][phaseSSCompCol] = addHours(dateValue1, 24);
+    backlogArray[row][phaseSSCompCol] = timeAddHours(dateValue1, 24);
     return backlogArray;
   }
 }

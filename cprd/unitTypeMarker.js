@@ -3,8 +3,8 @@
 * 
 * @returns void
 */
-function debugCpRdUnitType() {
-  var masterBacklogs = new master_Backlogs();
+function debugCPRDUnitType() {
+  var masterBacklogs = new serviceMasterBacklog();
   cprd_UnitTypeMarker(masterBacklogs.Collection);
   return;
 }

@@ -21,17 +21,16 @@ function debugPartOneDateCleaner() {
 function partone_DateCleaner(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
-  var phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateOfficeCol;
-  if (validateHeader('Opportunity: Proposal Status Date', backlogArray, dim)) {
+  var phaseSSCompCol, ssExtCompCol, stateOfficeCol;
+  if (validateHeader('Phase: Site Survey Completed', backlogArray, dim)) {
     phaseSSCompCol = getMeThatColumn('Phase: Site Survey Completed', backlogArray, dim);
-    OpPropStatDateCol = getMeThatColumn('Opportunity: Proposal Status Date', backlogArray, dim);
     ssExtCompCol = getMeThatColumn('Phase: Site Survey Exterior Completed', backlogArray, dim);
     stateOfficeCol = getMeThatColumn('Opportunity: Office: Office Name', backlogArray, dim);
   } else if (validateHeader('Opportunity: Proposal Status Date', backlogArray, dim) === false) {
     throw 'Unable to find column: Opportunity: Proposal Status Date';
   }
-  var dateAdjLog = partone_RemoveLateDates(backlogArray, dim, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateOfficeCol);
-  partone_SortAndCleanDates(propBacklog, dateAdjLog, dim, OpPropStatDateCol, phaseSSCompCol, ssExtCompCol);
+  var dateAdjLog = partone_RemoveLateDates(backlogArray, dim, phaseSSCompCol, ssExtCompCol, stateOfficeCol);
+  partone_SortAndCleanDates(propBacklog, dateAdjLog, dim, phaseSSCompCol, ssExtCompCol);
   return;
 }
 
@@ -48,20 +47,18 @@ function partone_DateCleaner(propBacklog) {
 * @returns If dateCol2 is not null, corrected dates backlog is returned.
 * @returns If dateCol2 is null, the backlog is returned unchanged.
 */
-function partone_RemoveLateDates(backlogArray, dim, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateOfficeCol) {
-  if (OpPropStatDateCol !== null) {
+function partone_RemoveLateDates(backlogArray, dim, phaseSSCompCol, ssExtCompCol, stateOfficeCol) {
+  if (phaseSSCompCol !== null) {
     for (var row = 1; row <= dim[0] - 1; row++) {
       var dateValue1 = new Date(backlogArray[row][phaseSSCompCol]);
-      var dateValue2 = new Date(backlogArray[row][OpPropStatDateCol]);
-      var dateValue3 = new Date(backlogArray[row][ssExtCompCol]);
+      var dateValue2 = new Date(backlogArray[row][ssExtCompCol]);
       var stateAbrv = backlogArray[row][stateOfficeCol].substr(0, 2);
       dateValue1 = invalidFix(dateValue1);
       dateValue2 = invalidFix(dateValue2);
-      dateValue3 = invalidFix(dateValue3);
-      backlogArray = partone_CompareDates(backlogArray, dateValue1, dateValue2, dateValue3, row, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateAbrv);
+      backlogArray = partone_CompareDates(backlogArray, dateValue1, dateValue2, row, phaseSSCompCol, ssExtCompCol, stateAbrv);
     }
     return backlogArray;
-  } else if (OpPropStatDateCol === null) {
+  } else if (phaseSSCompCol === null) {
     return backlogArray;
   }
 }
@@ -89,22 +86,22 @@ function invalidFix(dateValue) {
 * @param {String} stateAbrv The stateAbrv
 * @returns 
 */
-function partone_CompareDates(backlogArray, dateValue1, dateValue2, dateValue3, row, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateAbrv) {
+function partone_CompareDates(backlogArray, dateValue1, dateValue2, row, phaseSSCompCol, ssExtCompCol, stateAbrv) {
   var fivePM = 17;
-  if (dateValue2 <= dateValue1 && dateValue1 >= dateValue3) {
+  if (dateValue1 > dateValue2) {
     fivePM += getTimeOffset(stateAbrv);
     dateValue1.setHours(fivePM, 0, 0);
-    backlogArray[row][OpPropStatDateCol] = addHours(dateValue1, 24);
+    backlogArray[row][phaseSSCompCol] = addHours(dateValue1, 24);
     return backlogArray;
-  } else if (dateValue1 <= dateValue2 && dateValue2 >= dateValue3) {
+  } else if (dateValue1 < dateValue2) {
     fivePM += getTimeOffset(stateAbrv);
     dateValue2.setHours(fivePM, 0, 0);
-    backlogArray[row][OpPropStatDateCol] = addHours(dateValue2, 24);
+    backlogArray[row][phaseSSCompCol] = addHours(dateValue2, 24);
     return backlogArray;
-  } else if (dateValue1 <= dateValue3 && dateValue3 >= dateValue2) {
+  } else {
     fivePM += getTimeOffset(stateAbrv);
     dateValue1.setHours(fivePM, 0, 0);
-    backlogArray[row][OpPropStatDateCol] = addHours(dateValue3, 24);
+    backlogArray[row][phaseSSCompCol] = addHours(dateValue1, 24);
     return backlogArray;
   }
 }

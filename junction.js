@@ -6,7 +6,7 @@
 function debugJunction() {
   var masterBacklogs = new master_Backlogs();
   masterBacklogs = masterBacklogs.Collection;
-  partone_DateCleaner(masterBacklogs[4]);
+  backlogProcessJunction(masterBacklogs[4]);
   return;
 }
 

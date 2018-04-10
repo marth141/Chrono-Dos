@@ -123,8 +123,7 @@ function partone_SortAndCleanDates(backlogSheet, dateAdjLog, dim, OpPropStatDate
     { column: OpPropStatDateCol + 1, ascending: true }
   ]);
   backlogSheet.getRange(1, OpPropStatDateCol + 1).setValue('Proposal Date');
-  partone_RemoveDoubleDate(backlogSheet, phaseSSCompCol);
-  partone_RemoveDoubleDate(backlogSheet, ssExtCompCol - 1);
+  partone_RemoveDoubleDate(backlogSheet, ssExtCompCol);
   SpreadsheetApp.flush();
   // Removing for debugging
   return;

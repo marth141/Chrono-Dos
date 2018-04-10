@@ -5,8 +5,7 @@
 */
 function debugJunction() {
   var masterBacklogs = new master_Backlogs();
-  masterBacklogs = masterBacklogs.Collection;
-  backlogProcessJunction(masterBacklogs[4]);
+  backlogProcessJunction(masterBacklogs.Collection);
   return;
 }
 
@@ -33,6 +32,7 @@ function debugJunction() {
 function backlogProcessJunction(masterBacklogs) {
   var workThisBacklog;
   for (var backlog in masterBacklogs) {
+    var backlog = 4; // For debugging
     if (masterBacklogs[backlog].getName() === 'DEPT PROPOSAL BACKLOG') {
       workThisBacklog = masterBacklogs[backlog];
       prop_DateCleaner(workThisBacklog);

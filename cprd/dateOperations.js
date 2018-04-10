@@ -6,7 +6,7 @@
 function debugPartOneDateCleaner() {
   var masterBacklogs = new master_Backlogs();
   masterBacklogs = masterBacklogs.Collection;
-  cprd_DateCleaner(masterBacklogs[4]);
+  cprd_DateCleaner(masterBacklogs[3]);
   return;
 }
 
@@ -21,17 +21,17 @@ function debugPartOneDateCleaner() {
 function cprd_DateCleaner(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
-  var phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateOfficeCol;
-  if (validateHeader('Opportunity: Proposal Status Date', backlogArray, dim)) {
-    phaseSSCompCol = getMeThatColumn('Phase: Site Survey Completed', backlogArray, dim);
-    OpPropStatDateCol = getMeThatColumn('Opportunity: Proposal Status Date', backlogArray, dim);
-    ssExtCompCol = getMeThatColumn('Phase: Site Survey Exterior Completed', backlogArray, dim);
-    stateOfficeCol = getMeThatColumn('Opportunity: Office: Office Name', backlogArray, dim);
+  var opPropCompCol, initPropCompCol, redesReqCol, stateOfficeCol;
+  if (validateHeader('Opportunity: Proposal Requested', backlogArray, dim)) {
+    opPropCompCol = getMeThatColumn('Opportunity: Proposal Requested', backlogArray, dim);
+    initPropCompCol = getMeThatColumn('Initial Proposal Completed', backlogArray, dim);
+    redesReqCol = getMeThatColumn('Redesign Requested', backlogArray, dim);
+    stateOfficeCol = getMeThatColumn('Opportunity: Office', backlogArray, dim);
   } else if (validateHeader('Opportunity: Proposal Status Date', backlogArray, dim) === false) {
     throw 'Unable to find column: Opportunity: Proposal Status Date';
   }
-  var dateAdjLog = partone_RemoveLateDates(backlogArray, dim, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateOfficeCol);
-  partone_SortAndCleanDates(propBacklog, dateAdjLog, dim, OpPropStatDateCol, phaseSSCompCol, ssExtCompCol);
+  var dateAdjLog = cprd_RemoveLateDates(backlogArray, dim, opPropCompCol, initPropCompCol, redesReqCol, stateOfficeCol);
+  cprd_SortAndCleanDates(propBacklog, dateAdjLog, dim, initPropCompCol, opPropCompCol, redesReqCol);
   return;
 }
 
@@ -48,7 +48,7 @@ function cprd_DateCleaner(propBacklog) {
 * @returns If dateCol2 is not null, corrected dates backlog is returned.
 * @returns If dateCol2 is null, the backlog is returned unchanged.
 */
-function partone_RemoveLateDates(backlogArray, dim, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateOfficeCol) {
+function cprd_RemoveLateDates(backlogArray, dim, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateOfficeCol) {
   if (OpPropStatDateCol !== null) {
     for (var row = 1; row <= dim[0] - 1; row++) {
       var dateValue1 = new Date(backlogArray[row][phaseSSCompCol]);
@@ -58,7 +58,7 @@ function partone_RemoveLateDates(backlogArray, dim, phaseSSCompCol, OpPropStatDa
       dateValue1 = invalidFix(dateValue1);
       dateValue2 = invalidFix(dateValue2);
       dateValue3 = invalidFix(dateValue3);
-      backlogArray = partone_CompareDates(backlogArray, dateValue1, dateValue2, dateValue3, row, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateAbrv);
+      backlogArray = cprd_CompareDates(backlogArray, dateValue1, dateValue2, dateValue3, row, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateAbrv);
     }
     return backlogArray;
   } else if (OpPropStatDateCol === null) {
@@ -89,7 +89,7 @@ function invalidFix(dateValue) {
 * @param {String} stateAbrv The stateAbrv
 * @returns 
 */
-function partone_CompareDates(backlogArray, dateValue1, dateValue2, dateValue3, row, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateAbrv) {
+function cprd_CompareDates(backlogArray, dateValue1, dateValue2, dateValue3, row, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateAbrv) {
   var fivePM = 17;
   if (dateValue2 <= dateValue1 && dateValue1 >= dateValue3) {
     fivePM += getTimeOffset(stateAbrv);
@@ -120,14 +120,14 @@ function partone_CompareDates(backlogArray, dateValue1, dateValue2, dateValue3, 
 * @param {Number} propStatDate 
 * @returns void
 */
-function partone_SortAndCleanDates(backlogSheet, dateAdjLog, dim, OpPropStatDateCol, phaseSSCompCol, ssExtCompCol) {
+function cprd_SortAndCleanDates(backlogSheet, dateAdjLog, dim, OpPropStatDateCol, phaseSSCompCol, ssExtCompCol) {
   backlogSheet.getRange(1, 1, dim[0], dim[1]).setValues(dateAdjLog);
   backlogSheet.getRange(2, 1, dim[0], dim[1]).sort([
     { column: OpPropStatDateCol + 1, ascending: true }
   ]);
   backlogSheet.getRange(1, OpPropStatDateCol + 1).setValue('Proposal Date');
-  partone_RemoveDoubleDate(backlogSheet, phaseSSCompCol);
-  partone_RemoveDoubleDate(backlogSheet, ssExtCompCol - 1);
+  cprd_RemoveDoubleDate(backlogSheet, phaseSSCompCol);
+  cprd_RemoveDoubleDate(backlogSheet, ssExtCompCol - 1);
   SpreadsheetApp.flush();
   // Removing for debugging
   return;
@@ -143,7 +143,7 @@ function partone_SortAndCleanDates(backlogSheet, dateAdjLog, dim, OpPropStatDate
 * @param {Number} propStatDate 
 * @returns void
 */
-function partone_RemoveDoubleDate(backlogSheet, propStatDate) {
+function cprd_RemoveDoubleDate(backlogSheet, propStatDate) {
   backlogSheet.deleteColumn(propStatDate + 1);
   SpreadsheetApp.flush();
   return;

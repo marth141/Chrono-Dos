@@ -127,6 +127,8 @@ function partone_SortAndCleanDates(backlogSheet, dateAdjLog, dim, OpPropStatDate
   ]);
   backlogSheet.getRange(1, OpPropStatDateCol + 1).setValue('Proposal Date');
   SpreadsheetApp.flush();
+  dim = getDimensions(backlogSheet);
+  dateAdjLog = getBacklogArray(backlogSheet, dim);
   phaseSSCompCol = getMeThatColumn('Phase: Site Survey Completed', dateAdjLog, dim);
   ssExtCompCol = getMeThatColumn('Phase: Site Survey Exterior Completed', dateAdjLog, dim);
   // Removing for debugging

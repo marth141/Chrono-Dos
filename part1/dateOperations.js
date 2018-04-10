@@ -6,7 +6,7 @@
 function debugPartOneDateCleaner() {
   var masterBacklogs = new master_Backlogs();
   masterBacklogs = masterBacklogs.Collection;
-  cprd_DateCleaner(masterBacklogs[4]);
+  partone_DateCleaner(masterBacklogs[4]);
   return;
 }
 
@@ -18,7 +18,7 @@ function debugPartOneDateCleaner() {
 * 
 * @param {Sheet} propBacklog The backlog to be edited.
 */
-function cprd_DateCleaner(propBacklog) {
+function partone_DateCleaner(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
   var phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateOfficeCol;

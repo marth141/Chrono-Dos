@@ -5,7 +5,7 @@
 */
 function debugPartOneUnitType() {
   var masterBacklogs = new serviceMasterBacklog();
-  lite_UnitTypeMarker(masterBacklogs.Collection);
+  partOne_UnitTypeMarker(masterBacklogs.Collection);
   return;
 }
 
@@ -17,7 +17,7 @@ function debugPartOneUnitType() {
 * @param {any} propBacklog The sheet to act on.
 * @returns 
 */
-function lite_UnitTypeMarker(propBacklog) {
+function partOne_UnitTypeMarker(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
   backlogArray = lite_MarkUnits(backlogArray, dim);

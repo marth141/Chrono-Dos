@@ -1,31 +1,28 @@
 /**
 * This is currently where the code starts.
-* The code will get a "lock" after 30 seconds.
-* Documentation: 
-* https://developers.google.com/apps-script/reference/lock/
-* Example:
-* https://stackoverflow.com/questions/43223774/how-to-understand-lockservice-and-implement-it-correctly
-* 
-* This is to prevent concurrent running from
-* being problematic. Kind of like everyone has
-* to take their turn. It'll then gather every
-* backlog as "masterBacklogs", a constructor.
-* It'll then work with all the backlog sheets
-* that are contained in "Collection".
-* Once it is done, it'll release the lock
-* and stop (return).
-* 
+*
 * @returns To end the function.
 */
 function main() {
   try {
+    //Wait my turn for upto 30 seconds.
     serviceLock.waitLock(30000);
   } catch (e) {
+    //If I could not get a turn, throw error message to user.
     console.log(e);
     throw 'Could not obtain lock after 30 seconds.';
   }
+
+  //On my turn...
   var masterBacklogs = new serviceMasterBacklog();
+
+  //Go to Junction.js, for each backlog
+  //perform creation and formatting jobs.
+  //Helps perform unique operations for
+  //unique backlogs.
   backlogProcessJunction(masterBacklogs.Collection);
+
+  //End my turn.
   serviceLock.releaseLock();
   return;
 }

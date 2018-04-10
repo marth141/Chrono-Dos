@@ -1,60 +1,54 @@
 /**
-* Gets the dimensions of a backlog sheet.
-* Sheets start at 1 index, so the dimensions
-* will worked with this same way.
-* Remember, when going from Sheet dimensions
-* to array dimensions to -1 or +1.
-* 
-* @param {Sheet} backlogSheet The sheet to get dimensions from.
-* @returns Dimensions at start 1 Index of sheet data.
+* Gets the dimensions of a Google Sheet (Don't use an Array!)
+*
+* @param {Sheet} sheet to get dimensions for.
+* @returns [row,col] dimensions with a start index of 1.
 */
-function getDimensions(backlogSheet) {
-  if (backlogSheet !== null) {
-    var lastRow = backlogSheet.getLastRow();
-    var lastCol = backlogSheet.getLastColumn();
+function getDimensions(sheet) {
+  if (sheet !== null) {
     var dimensions = [];
+    var lastRow = sheet.getLastRow();
+    var lastCol = sheet.getLastColumn();
     dimensions.push(lastRow);
     dimensions.push(lastCol);
     return dimensions;
   } else {
-    throw 'getDimensions() has a null; backlogSheet: ' + backlogSheet;
+    throw 'getDimensions() has a null; backlogSheet: ' + sheet;
   }
 }
 
 /**
-* Will turn a backlog sheet and range into an
-* array to work with through the script.
-* Remember, Sheet dimensions (dim) starts at 1.
-* An array in Javascript starts at 0.
-* 
-* @param {Sheet} backlogSheet The sheet to turn into an array.
-* @param {Array} dim The sheet dimensions of the sheet data.
-* @returns The backlogSheet's data as an array.
+* Creates an Array containing the data in the Google Sheet.
+* Use a Google Sheet and a [lastRow,lastCol] array from getDimensions().
+*
+* @param {Sheet} sheet to turn into an array.
+* @param {Array} lastIndex of the sheet data.
+* @returns the new array. 1:1 sheet:array.
 */
-function getBacklogArray(backlogSheet, dim) {
-  if (backlogSheet !== null) {
-    var backlogData = backlogSheet.getRange(1, 1, dim[0], dim[1]).getValues();
+function getBacklogArray(sheet, lastIndex) {
+  if (sheet !== null) {
+    var backlogData = sheet.getRange(1, 1, lastIndex[0], lastIndex[1]).getValues();
     return backlogData;
   } else {
-    throw 'getBacklogArray() has a null; backlogSheet: ' + backlogSheet;
+    throw 'getBacklogArray() has a null; backlogSheet: ' + sheet;
   }
 }
 
 /**
 * Get's a column header in a 2D array from the
 * 0th row of the Array. Returns its index.
-* 
-* @param {String} searchString The header of the column to find.
-* @param {Array} backlogArray The backlog data array to search.
-* @param {Array} dim The dimensions of the backlog sheet, not the array.
-* @returns Header's column number.
+*
+* @param {String} columnName to look for in the array.
+* @param {Array} backlogArray to search for the columnName.
+* @param {Array} lastIndex of the Google Sheet. Will -1 to for array searching.
+* @returns searched header's column number.
 */
-function getMeThatColumn(searchString, backlogArray, dim) {
-  for (var col = 1; col <= dim[1] - 1; col++) {
-    if (backlogArray[0][col].match(searchString)) {
+function getMeThatColumn(columnName, backlogArray, lastIndex) {
+  for (var col = 1; col <= lastIndex[1] - 1; col++) {
+    if (backlogArray[0][col].match(columnName)) {
       return col;
-    } else if (col === dim[1] - 1) {
-      throw "getMeThatColumn() could not find: " + searchString;
+    } else if (col === lastIndex[1] - 1) {
+      throw "getMeThatColumn() could not find: " + columnName;
     }
   }
 }

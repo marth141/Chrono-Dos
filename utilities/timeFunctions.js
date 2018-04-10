@@ -1,21 +1,21 @@
 /**
 * Adds hours to a date value.
-* 
-* @param {Date} date 
-* @param {Number} h 
+*
+* @param {Date} date
+* @param {Number} hours
 * @returns The date with hours adjusted.
 */
-function timeAddHours(date, h) {
-  date.setTime(date.getTime() + h* 60* 60* 1000); return date;
+function timeAddHours(date, hours) {
+  date.setTime(date.getTime() + hours * 60 * 60 * 1000); return date;
 }
 
 /**
 * Will determine 1700 hour offset to MST
 * by matching the state abreviation with
 * the cases listed.
-* 
-* @param {String} stateAbrv 
-* @returns A number to offset 1700 by.
+*
+* @param {String} stateAbrv
+* @returns 1700 (5:00PM) from a matching state but adjusted for MST.
 */
 function timeStateOffset(stateAbrv) {
   switch (stateAbrv) {

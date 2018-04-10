@@ -3,7 +3,7 @@
 * 
 * @returns void
 */
-function debugPartOneDateCleaner() {
+function debugCPRDDateCleaner() {
   var masterBacklogs = new master_Backlogs();
   masterBacklogs = masterBacklogs.Collection;
   cprd_DateCleaner(masterBacklogs[3]);

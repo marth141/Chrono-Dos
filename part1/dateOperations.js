@@ -128,6 +128,7 @@ function partone_SortAndCleanDates(backlogSheet, dateAdjLog, dim, OpPropStatDate
   backlogSheet.getRange(1, OpPropStatDateCol + 1).setValue('Proposal Date');
   SpreadsheetApp.flush();
   partone_RemoveDoubleDate(backlogSheet, phaseSSCompCol);
+  partone_RemoveDoubleDate(backlogSheet, ssExtCompCol - 1);
   ssExtCompCol = getMeThatColumn('Phase: Site Survey Exterior Completed', dateAdjLog, dim);
   // Removing for debugging
   return;

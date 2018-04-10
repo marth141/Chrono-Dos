@@ -5,7 +5,8 @@
 */
 function debugPropDateCleaner() {
   var masterBacklogs = new serviceMasterBacklog();
-  prop_DateCleaner(masterBacklogs.Collection);
+  masterBacklogs = masterBacklogs.Collection;
+  prop_DateCleaner(masterBacklogs[1]);
   return;
 }
 
@@ -25,7 +26,7 @@ function prop_DateCleaner(propBacklog) {
       validateHeader('Opportunity: Proposal Status Date', backlogArray, dim)) {
     propReqDate = getMeThatColumn('Opportunity: Proposal Requested', backlogArray, dim);
     propStatDate = getMeThatColumn('Opportunity: Proposal Status Date', backlogArray, dim);
-    stateOffice = getMeThatColumn('Opportunity: Office: Office Name', backlogArray, dim);
+    stateOffice = getMeThatColumn('Service: Regional Operating Center', backlogArray, dim);
   } else if (validateHeader('Opportunity: Proposal Requested', backlogArray, dim) === false) {
     throw 'Unable to find column: Opportunity: Proposal Requested';
   } else if (validateHeader('Opportunity: Proposal Status Date', backlogArray, dim) === false) {

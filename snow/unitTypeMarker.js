@@ -4,9 +4,9 @@
 * @returns void
 */
 function debugSnowUnitType() {
- var masterBacklogs = new master_Backlogs();
- snow_UnitTypeMarker(masterBacklogs.Collection);
- return;
+  var masterBacklogs = new master_Backlogs();
+  snow_UnitTypeMarker(masterBacklogs.Collection);
+  return;
 }
 
 /**
@@ -18,13 +18,13 @@ function debugSnowUnitType() {
 * @returns 
 */
 function snow_UnitTypeMarker(propBacklog) {
- var dim = getDimensions(propBacklog);
- var backlogArray = getBacklogArray(propBacklog, dim);
- backlogArray = snow_MarkUnits(backlogArray, dim);
- // Above is a set up, below is an action.
- propBacklog.getRange(1, 1, dim[0], dim[1] + 1).setValues(backlogArray);
- SpreadsheetApp.flush();
- return;
+  var dim = getDimensions(propBacklog);
+  var backlogArray = getBacklogArray(propBacklog, dim);
+  backlogArray = snow_MarkUnits(backlogArray, dim);
+  // Above is a set up, below is an action.
+  propBacklog.getRange(1, 1, dim[0], dim[1] + 1).setValues(backlogArray);
+  SpreadsheetApp.flush();
+  return;
 }
 
 /**
@@ -39,9 +39,9 @@ function snow_UnitTypeMarker(propBacklog) {
 * @returns A new backlog array with Unit Type's marked.
 */
 function snow_MarkUnits(backlogArray, dim) {
- backlogArray[0][dim[1]] = 'Unit Type';
- for (var sNumberRow = 1; sNumberRow <= dim[0] - 1; sNumberRow++) {
-  backlogArray[sNumberRow][dim[1]] = 'SNOW PROP';
- }
- return backlogArray;
+  backlogArray[0][dim[1]] = 'Unit Type';
+  for (var sNumberRow = 1; sNumberRow <= dim[0] - 1; sNumberRow++) {
+    backlogArray[sNumberRow][dim[1]] = 'SNOW PROP';
+  }
+  return backlogArray;
 }

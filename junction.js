@@ -4,10 +4,10 @@
 * @returns void
 */
 function debugJunction() {
- var masterBacklogs = new master_Backlogs();
- masterBacklogs = masterBacklogs.Collection;
- partone_DateCleaner(masterBacklogs[4]);
- return;
+  var masterBacklogs = new master_Backlogs();
+  masterBacklogs = masterBacklogs.Collection;
+  partone_DateCleaner(masterBacklogs[4]);
+  return;
 }
 
 /**
@@ -31,43 +31,43 @@ function debugJunction() {
 * @param {any} masterBacklogs The constructor of the backlogs contained in this spreadsheet.
 */
 function backlogProcessJunction(masterBacklogs) {
- var workThisBacklog;
- for (var backlog in masterBacklogs) {
-  if (masterBacklogs[backlog].getName() === 'DEPT PROPOSAL BACKLOG') {
-   workThisBacklog = masterBacklogs[backlog];
-   prop_DateCleaner(workThisBacklog);
-   regionMarker(workThisBacklog);
-   prop_UnitTypeMarker(workThisBacklog);
-   uni_CadNameColCreator(workThisBacklog);
-   solProjLinkCreator(workThisBacklog);
-   continue;
-  } else if (masterBacklogs[backlog].getName() === 'DEPT SNOW PROPOSAL BACKLOG') {
-   workThisBacklog = masterBacklogs[backlog];
-   regionMarker(workThisBacklog);
-   snow_UnitTypeMarker(workThisBacklog);
-   uni_CadNameColCreator(workThisBacklog);
-   solProjLinkCreator(workThisBacklog);
-   continue;
-  } else if (masterBacklogs[backlog].getName() === 'DEPT CP RD BACKLOG') {
-   workThisBacklog = masterBacklogs[backlog];
-   regionMarker(workThisBacklog);
-   cprd_UnitTypeMarker(workThisBacklog);
-   cprd_LinkCreator(workThisBacklog);
-   //solProjLinkCreator(workThisBacklog); // Not necessary.
-   continue;
-  } else if (masterBacklogs[backlog].getName() === 'DEPT PART 1 BACKLOG') {
-   workThisBacklog = masterBacklogs[backlog];
-   regionMarker(workThisBacklog);
-   lite_UnitTypeMarker(workThisBacklog);
-   partone_DateCleaner(workThisBacklog);
-   uni_CadNameColCreator(workThisBacklog);
-   solProjLinkCreator(workThisBacklog);
-   continue;
-  } else if (masterBacklogs[backlog] === null) {
-   throw 'The backlog was null in dateOperations()';
-  } else {
-   console.log('This backlog: ' + masterBacklogs[backlog].getName() + ' is not being worked.');
-   continue;
+  var workThisBacklog;
+  for (var backlog in masterBacklogs) {
+    if (masterBacklogs[backlog].getName() === 'DEPT PROPOSAL BACKLOG') {
+      workThisBacklog = masterBacklogs[backlog];
+      prop_DateCleaner(workThisBacklog);
+      regionMarker(workThisBacklog);
+      prop_UnitTypeMarker(workThisBacklog);
+      uni_CadNameColCreator(workThisBacklog);
+      solProjLinkCreator(workThisBacklog);
+      continue;
+    } else if (masterBacklogs[backlog].getName() === 'DEPT SNOW PROPOSAL BACKLOG') {
+      workThisBacklog = masterBacklogs[backlog];
+      regionMarker(workThisBacklog);
+      snow_UnitTypeMarker(workThisBacklog);
+      uni_CadNameColCreator(workThisBacklog);
+      solProjLinkCreator(workThisBacklog);
+      continue;
+    } else if (masterBacklogs[backlog].getName() === 'DEPT CP RD BACKLOG') {
+      workThisBacklog = masterBacklogs[backlog];
+      regionMarker(workThisBacklog);
+      cprd_UnitTypeMarker(workThisBacklog);
+      cprd_LinkCreator(workThisBacklog);
+      //solProjLinkCreator(workThisBacklog); // Not necessary.
+      continue;
+    } else if (masterBacklogs[backlog].getName() === 'DEPT PART 1 BACKLOG') {
+      workThisBacklog = masterBacklogs[backlog];
+      regionMarker(workThisBacklog);
+      lite_UnitTypeMarker(workThisBacklog);
+      partone_DateCleaner(workThisBacklog);
+      uni_CadNameColCreator(workThisBacklog);
+      solProjLinkCreator(workThisBacklog);
+      continue;
+    } else if (masterBacklogs[backlog] === null) {
+      throw 'The backlog was null in dateOperations()';
+    } else {
+      console.log('This backlog: ' + masterBacklogs[backlog].getName() + ' is not being worked.');
+      continue;
+    }
   }
- }
 }

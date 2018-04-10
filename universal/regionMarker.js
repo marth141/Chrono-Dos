@@ -4,9 +4,9 @@
 * @returns void
 */
 function debugRegMar() {
- var masterBacklogs = new master_Backlogs();
- regionMarker(masterBacklogs.Collection);
- return;
+  var masterBacklogs = new master_Backlogs();
+  regionMarker(masterBacklogs.Collection);
+  return;
 }
 
 /**
@@ -18,17 +18,17 @@ function debugRegMar() {
 * @returns 
 */
 function regionMarker(backlog) {
- var dim = getDimensions(backlog);
- var backlogArray = getBacklogArray(backlog, dim);
- // Above is a set up, below is an action.
- var regOpCenterCol = getMeThatColumn('Service: Regional Operating Center', backlogArray, dim);
- var markedRegions = markRegion(backlog, backlogArray, regOpCenterCol, dim);
- var markedNatOffices = markNatlRegion(backlog, markedRegions, dim);
- // Above is a set up, below is an action.
- backlog.getRange(1, 1, dim[0], dim[1] + 1).setValues(markedNatOffices);
- backlog.deleteColumn(regOpCenterCol + 1);
- SpreadsheetApp.flush();
- return;
+  var dim = getDimensions(backlog);
+  var backlogArray = getBacklogArray(backlog, dim);
+  // Above is a set up, below is an action.
+  var regOpCenterCol = getMeThatColumn('Service: Regional Operating Center', backlogArray, dim);
+  var markedRegions = markRegion(backlog, backlogArray, regOpCenterCol, dim);
+  var markedNatOffices = markNatlRegion(backlog, markedRegions, dim);
+  // Above is a set up, below is an action.
+  backlog.getRange(1, 1, dim[0], dim[1] + 1).setValues(markedNatOffices);
+  backlog.deleteColumn(regOpCenterCol + 1);
+  SpreadsheetApp.flush();
+  return;
 }
 
 /**
@@ -43,28 +43,28 @@ function regionMarker(backlog) {
 * @returns The backlog array after marking regions.
 */
 function markRegion(backlogSheet, backlogArray, regOpCenterCol, dim) {
- var offices = new office_Collection();
- var region;
- backlogArray[0][dim[1]] = 'Region';
- for (var row = 1; row <= dim[0] - 1; row++) {
-  var stateAbrv = backlogArray[row][regOpCenterCol].substr(0, 2);
-  if (offices.SouthWest.indexOf(stateAbrv) > -1) {
-   region = 'Southwest';
-   backlogArray = writeRegion(backlogArray, row, dim, region);
-  } else if (stateAbrv === 'CA') {
-   backlogArray = markCaliRegion(offices, region, backlogArray, row, regOpCenterCol, dim);
-  } else if (offices.NewEnglan.indexOf(stateAbrv) > -1) {
-   region = 'New England';
-   backlogArray = writeRegion(backlogArray, row, dim, region);
-  } else if (offices.Legion.indexOf(stateAbrv) > -1) {
-   region = 'Legion';
-   backlogArray = writeRegion(backlogArray, row, dim, region);
-  } else if (offices.GritMovem.indexOf(stateAbrv) > -1) {
-   region = 'Grit Movement';
-   backlogArray = writeRegion(backlogArray, row, dim, region);
+  var offices = new office_Collection();
+  var region;
+  backlogArray[0][dim[1]] = 'Region';
+  for (var row = 1; row <= dim[0] - 1; row++) {
+    var stateAbrv = backlogArray[row][regOpCenterCol].substr(0, 2);
+    if (offices.SouthWest.indexOf(stateAbrv) > -1) {
+      region = 'Southwest';
+      backlogArray = writeRegion(backlogArray, row, dim, region);
+    } else if (stateAbrv === 'CA') {
+      backlogArray = markCaliRegion(offices, region, backlogArray, row, regOpCenterCol, dim);
+    } else if (offices.NewEnglan.indexOf(stateAbrv) > -1) {
+      region = 'New England';
+      backlogArray = writeRegion(backlogArray, row, dim, region);
+    } else if (offices.Legion.indexOf(stateAbrv) > -1) {
+      region = 'Legion';
+      backlogArray = writeRegion(backlogArray, row, dim, region);
+    } else if (offices.GritMovem.indexOf(stateAbrv) > -1) {
+      region = 'Grit Movement';
+      backlogArray = writeRegion(backlogArray, row, dim, region);
+    }
   }
- }
- return backlogArray;
+  return backlogArray;
 }
 
 /**
@@ -79,16 +79,16 @@ function markRegion(backlogSheet, backlogArray, regOpCenterCol, dim) {
 * @returns 
 */
 function markCaliRegion(offices, region, backlogArray, sNumberRow, regOpCenterCol, dim) {
- var stateAbrv = backlogArray[sNumberRow][regOpCenterCol].substr(3, 2);
- if (offices.SouthCali.indexOf(stateAbrv) > -1) {
-  region = 'SoCal';
-  backlogArray = writeRegion(backlogArray, sNumberRow, dim, region);
-  return backlogArray;
- } else if (offices.NorthCali.indexOf(stateAbrv) > -1) {
-  region = 'NorCal';
-  backlogArray = writeRegion(backlogArray, sNumberRow, dim, region);
-  return backlogArray;
- }
+  var stateAbrv = backlogArray[sNumberRow][regOpCenterCol].substr(3, 2);
+  if (offices.SouthCali.indexOf(stateAbrv) > -1) {
+    region = 'SoCal';
+    backlogArray = writeRegion(backlogArray, sNumberRow, dim, region);
+    return backlogArray;
+  } else if (offices.NorthCali.indexOf(stateAbrv) > -1) {
+    region = 'NorCal';
+    backlogArray = writeRegion(backlogArray, sNumberRow, dim, region);
+    return backlogArray;
+  }
 }
 
 /**
@@ -101,9 +101,9 @@ function markCaliRegion(offices, region, backlogArray, sNumberRow, regOpCenterCo
 * @returns A completed backlog with Retail, Dealer, and NIS marked.
 */
 function markNatlRegion(backlogSheet, markedRegions, dim) {
- var OpproOfficeCol = getMeThatColumn('Opportunity: Office:*', markedRegions, dim);
- var markedNatOffices = markNatlOffice(markedRegions, OpproOfficeCol, dim);
- return markedNatOffices;
+  var OpproOfficeCol = getMeThatColumn('Opportunity: Office:*', markedRegions, dim);
+  var markedNatOffices = markNatlOffice(markedRegions, OpproOfficeCol, dim);
+  return markedNatOffices;
 }
 
 /**
@@ -116,20 +116,20 @@ function markNatlRegion(backlogSheet, markedRegions, dim) {
 * @returns The backlog with all the marked Natl Offices.
 */
 function markNatlOffice(markedRegions, opproOfficeCol, dim) {
- var region;
- for (var row = 1; row <= dim[0] - 1; row++) {
-  if (markedRegions[row][opproOfficeCol].match(/NIS/i)) {
-   region = 'NIS';
-   markedRegions = writeRegion(markedRegions, row, dim, region);
-  } else if (markedRegions[row][opproOfficeCol].match(/Dealer/i)) {
-   region = 'Dealer';
-   markedRegions = writeRegion(markedRegions, row, dim, region);
-  } else if (markedRegions[row][opproOfficeCol].match(/Retail/i)) {
-   region = 'Retail';
-   markedRegions = writeRegion(markedRegions, row, dim, region);
+  var region;
+  for (var row = 1; row <= dim[0] - 1; row++) {
+    if (markedRegions[row][opproOfficeCol].match(/NIS/i)) {
+      region = 'NIS';
+      markedRegions = writeRegion(markedRegions, row, dim, region);
+    } else if (markedRegions[row][opproOfficeCol].match(/Dealer/i)) {
+      region = 'Dealer';
+      markedRegions = writeRegion(markedRegions, row, dim, region);
+    } else if (markedRegions[row][opproOfficeCol].match(/Retail/i)) {
+      region = 'Retail';
+      markedRegions = writeRegion(markedRegions, row, dim, region);
+    }
   }
- }
- return markedRegions;
+  return markedRegions;
 }
 
 /**
@@ -143,6 +143,6 @@ function markNatlOffice(markedRegions, opproOfficeCol, dim) {
 * @returns An edited backlog array with the region filled in.
 */
 function writeRegion(backlogArray, sNumberRow, dim, region) {
- backlogArray[sNumberRow][dim[1]] = region;
- return backlogArray;
+  backlogArray[sNumberRow][dim[1]] = region;
+  return backlogArray;
 }

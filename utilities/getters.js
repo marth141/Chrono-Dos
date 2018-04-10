@@ -9,16 +9,16 @@
 * @returns Dimensions at start 1 Index of sheet data.
 */
 function getDimensions(backlogSheet) {
- if (backlogSheet !== null) {
-  var lastRow = backlogSheet.getLastRow();
-  var lastCol = backlogSheet.getLastColumn();
-  var dimensions = [];
-  dimensions.push(lastRow);
-  dimensions.push(lastCol);
-  return dimensions;
- } else {
-  throw 'getDimensions() has a null; backlogSheet: ' + backlogSheet;
- }
+  if (backlogSheet !== null) {
+    var lastRow = backlogSheet.getLastRow();
+    var lastCol = backlogSheet.getLastColumn();
+    var dimensions = [];
+    dimensions.push(lastRow);
+    dimensions.push(lastCol);
+    return dimensions;
+  } else {
+    throw 'getDimensions() has a null; backlogSheet: ' + backlogSheet;
+  }
 }
 
 /**
@@ -32,12 +32,12 @@ function getDimensions(backlogSheet) {
 * @returns The backlogSheet's data as an array.
 */
 function getBacklogArray(backlogSheet, dim) {
- if (backlogSheet !== null) {
-  var backlogData = backlogSheet.getRange(1, 1, dim[0], dim[1]).getValues();
-  return backlogData;
- } else {
-  throw 'getBacklogArray() has a null; backlogSheet: ' + backlogSheet;
- }
+  if (backlogSheet !== null) {
+    var backlogData = backlogSheet.getRange(1, 1, dim[0], dim[1]).getValues();
+    return backlogData;
+  } else {
+    throw 'getBacklogArray() has a null; backlogSheet: ' + backlogSheet;
+  }
 }
 
 /**
@@ -50,13 +50,13 @@ function getBacklogArray(backlogSheet, dim) {
 * @returns Header's column number.
 */
 function getMeThatColumn(searchString, backlogArray, dim) {
- for (var col = 1; col <= dim[1] - 1; col++) {
-  if (backlogArray[0][col].match(searchString)) {
-   return col;
-  } else if (col === dim[1] - 1) {
-   throw "getMeThatColumn() could not find: " + searchString;
+  for (var col = 1; col <= dim[1] - 1; col++) {
+    if (backlogArray[0][col].match(searchString)) {
+      return col;
+    } else if (col === dim[1] - 1) {
+      throw "getMeThatColumn() could not find: " + searchString;
+    }
   }
- }
 }
 
 /**
@@ -69,11 +69,11 @@ function getMeThatColumn(searchString, backlogArray, dim) {
 * @returns True - Header has valid data; False - Header is corrupted.
 */
 function validateHeader(header, backlogArray, dim) {
- if (CheckForDates(header, backlogArray, dim)) {
-  return true;
- } else {
-  throw 'validateDates() cannot find: ' + header;
- }
+  if (CheckForDates(header, backlogArray, dim)) {
+    return true;
+  } else {
+    throw 'validateDates() cannot find: ' + header;
+  }
 }
 
 /**
@@ -86,15 +86,15 @@ function validateHeader(header, backlogArray, dim) {
 * @returns True - If instance of date; False - If not instance of date.
 */
 function CheckForDates(searchString, backlogArray, dim) {
- for (var col = 0; col <= dim[1] - 1; col++) {
-  if (backlogArray[0][col].match(searchString)) {
-   if (backlogArray[1][col] instanceof Date) {
-    return true;
-   } else {
-    throw 'The backlog has a date column but no date in first row. Is it corrupted?';
-   }
-  } else if (col === dim[1] - 1) {
-   throw 'The column \'' + searchString + '\' string could not be found.';
+  for (var col = 0; col <= dim[1] - 1; col++) {
+    if (backlogArray[0][col].match(searchString)) {
+      if (backlogArray[1][col] instanceof Date) {
+        return true;
+      } else {
+        throw 'The backlog has a date column but no date in first row. Is it corrupted?';
+      }
+    } else if (col === dim[1] - 1) {
+      throw 'The column \'' + searchString + '\' string could not be found.';
+    }
   }
- }
 }

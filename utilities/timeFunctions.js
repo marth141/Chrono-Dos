@@ -15,7 +15,7 @@ function timeAddHours(date, hours) {
 * the cases listed.
 *
 * @param {String} stateAbrv
-* @returns 1700 (5:00PM) from a matching state but adjusted for MST.
+* @returns 1700 (5:00PM) MST equivalent of a matching state.
 */
 function timeStateOffset(stateAbrv) {
   switch (stateAbrv) {

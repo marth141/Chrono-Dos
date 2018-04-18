@@ -460,6 +460,9 @@ copy()
       }}
    Sleep, 500
    Send, ^w
+   Sleep, 500
+   Send, {F5}
+   Sleep, 4250
 }
 
 /* paste() Explanation

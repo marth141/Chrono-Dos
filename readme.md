@@ -1,6 +1,7 @@
 # Auto Updater - Salesforce Report Paster for Chrono
 ## Authors
 Eric Van Wagoner
+
 Nathan Casados
 
 ## Summary

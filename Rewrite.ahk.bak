@@ -10,7 +10,7 @@ AutoUpdate:
 {
 	SetTitleMatchMode, 2
 	chronoOpened:= 0
-	checkSQLUpdateFinished()
+	; checkSQLUpdateFinished()
 	checkTimeAfterFive()
 	updateEmployeeDB()	
 	

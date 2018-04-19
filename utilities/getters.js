@@ -52,3 +52,27 @@ function getMeThatColumn(columnName, backlogArray, lastIndex) {
     }
   }
 }
+
+
+// var oldBacklog = reportTableFinder(backlogCropper.thisBlankFilteredArray(inputSheet));
+  // var newBacklog = reportTableFinder(backlogCropper.thisBlankFilteredArray(updateSheet)).sort();
+
+  function compareBacklogs(oldBacklog, newBacklog) {
+    // Find Columns
+  
+    for (var newRowIndex = 1; newRowIndex < newBacklog.length; newRowIndex++) {
+      var found = false;
+      var newServiceNumberRow = newBacklog[newRowIndex];
+      do {
+        for (var oldRowIndex = 1; oldRowIndex < oldBacklog.length; oldRowIndex++) {
+          var oldServiceNumberRow = oldBacklog[oldRowIndex];
+          if (newServiceNumberRow[0] === oldServiceNumberRow[0]) {
+            if (newServiceNumberRow === oldServiceNumberRow)
+            found = true;
+          }
+        }
+      } while (found === false);
+    }
+    return;
+  }
+

@@ -1,3 +1,6 @@
+var SpreadsheetApp;
+var LockService;
+
 /**
 * Instantiates the Master Backlog sheets to be
 * a function like variable.
@@ -16,6 +19,10 @@
 var serviceMasterBacklog = function () {
   this.Collection = SpreadsheetApp.getActiveSpreadsheet().getSheets();
 };
+
+function stagingBacklogs() {
+  this.Collection = SpreadsheetApp.getActiveSpreadsheet().getSheets();
+}
 
 /**
 * Instantiates the department offices globally.

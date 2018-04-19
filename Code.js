@@ -20,7 +20,8 @@ function main() {
   //perform creation and formatting jobs.
   //Helps perform unique operations for
   //unique backlogs.
-  backlogProcessJunction(masterBacklogs.Collection, undefined);
+  //backlogProcessJunction(masterBacklogs.Collection, undefined);
+  findOldandNew(masterBacklogs.Collection);
 
   //End my turn.
   serviceLock.releaseLock();

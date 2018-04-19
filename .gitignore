@@ -1,0 +1,6 @@
+**/TestingDocuments
+**/node_modules
+.clasp.json
+.claspignore
+jsconfig.json
+package.json

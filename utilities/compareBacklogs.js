@@ -10,6 +10,23 @@ function debugCompare() {
   return;
 }
 
+function compareBacklogs() {
+  // Get old backlog array
+  // Get new backlog array
+  // Get columns to compare
+  // Compare Columns
+  // Keep Old if conditions met,
+  // else add new
+}
+
+function getOldBacklog() {
+
+}
+
+function getNewBacklog() {
+
+}
+
 function findOldandNew(masterBacklogs, overRide) {
   var newBacklog;
   var oldBacklog;

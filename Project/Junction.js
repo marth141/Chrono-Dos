@@ -1,8 +1,8 @@
 /* exported debugJunction */
 function debugJunction() {
   var masterBacklogs = new serviceMasterBacklog();
-  var overRide;
-  backlogProcessJunction(masterBacklogs.Collection, overRide);
+  var overRide = 1;
+  backlogProcessJunction(masterBacklogs.Collection[overRide]);
   return;
 }
 

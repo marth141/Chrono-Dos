@@ -1,3 +1,4 @@
+/* exported addLastColumns */
 function addLastColumns(stagingBacklog) {
   var dim = getDimensions(stagingBacklog);
   var addColumnOrigin = dim[1] + 1;

@@ -1,4 +1,4 @@
-
+/* exported getDimensions, getBacklogArray, getMeThatColumn */
 function getDimensions(sheet) {
   if (sheet !== null) {
     var dimensions = [];

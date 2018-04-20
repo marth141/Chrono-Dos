@@ -1,8 +1,4 @@
-/**
-* Used for debugging.
-*
-* @returns
-*/
+/* exported debugJunction */
 function debugJunction() {
   var masterBacklogs = new serviceMasterBacklog();
   var overRide;
@@ -23,7 +19,7 @@ function backlogProcessJunction(masterBacklogs, overRide) {
       prop_UnitTypeMarker(workThisBacklog);
       uni_CadNameColCreator(workThisBacklog);
       uni_SolProjLinkCreator(workThisBacklog);
-      addColumns();
+      addLastColumns(workThisBacklog);
       compareBacklogs(workThisBacklog);
       break;
     } else if (masterBacklogs[backlog].getName() === 'staging_DEPT SNOW PROPOSAL BACKLOG') {

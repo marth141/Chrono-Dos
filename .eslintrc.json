@@ -1,4 +1,10 @@
 {
+    "parserOptions": {
+        "ecmaVersion": 5,
+        "ecmaFeatures": {
+            "impliedStrict": true
+        }
+    },
     "env": {
         "browser": true
     },
@@ -21,7 +27,6 @@
             "always"
         ],
         "no-undef": "off",
-        "no-console":"off",
-        "no-unused-vars":"off"
+        "no-console":"off"
     }
 }

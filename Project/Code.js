@@ -3,6 +3,7 @@
 *
 * @returns To end the function.
 */
+/* exported main */
 function main() {
   try {
     //Wait my turn for upto 30 seconds.

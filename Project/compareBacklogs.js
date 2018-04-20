@@ -1,8 +1,4 @@
-/**
-* Used for debugging.
-*
-* @returns
-*/
+/* exported debugCompare */
 function debugCompare() {
   var masterBacklogs = new serviceMasterBacklog();
   var overRide = 1;

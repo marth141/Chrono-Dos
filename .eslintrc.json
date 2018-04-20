@@ -1,8 +1,4 @@
 {
-    "parserOptions": {
-        "ecmaVersion": 5,
-        "sourceType": "module"
-    },
     "env": {
         "browser": true
     },
@@ -10,10 +6,10 @@
     "rules": {
         "indent": [
             "error",
-            "tab"
+            2
         ],
         "linebreak-style": [
-            "error",
+            "off",
             "windows"
         ],
         "quotes": [
@@ -23,6 +19,9 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "no-undef": "off",
+        "no-console":"off",
+        "no-unused-vars":"off"
     }
 }

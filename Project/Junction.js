@@ -12,7 +12,7 @@ function debugJunction() {
 
 function backlogProcessJunction(masterBacklogs, overRide) {
   var workThisBacklog;
-  for (var backlog in masterBacklogs) {      
+  for (var backlog in masterBacklogs) {
     if (overRide !== undefined) {
       backlog = overRide;
     }
@@ -23,6 +23,7 @@ function backlogProcessJunction(masterBacklogs, overRide) {
       prop_UnitTypeMarker(workThisBacklog);
       uni_CadNameColCreator(workThisBacklog);
       uni_SolProjLinkCreator(workThisBacklog);
+      compareBacklogs(workThisBacklog);
       break;
     } else if (masterBacklogs[backlog].getName() === 'staging_DEPT SNOW PROPOSAL BACKLOG') {
       workThisBacklog = masterBacklogs[backlog];

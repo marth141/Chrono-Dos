@@ -5,12 +5,21 @@
 */
 function debugCompare() {
   var masterBacklogs = new serviceMasterBacklog();
-  var overRide;
-  findOldandNew(masterBacklogs.Collection, overRide);
+  var overRide = 1;
+  compareBacklogs(masterBacklogs.Collection[overRide]);
   return;
 }
 
-function compareBacklogs() {
+function compareBacklogs(stagingBacklog) {
+  var stagingName = stagingBacklog.getName();
+  var stagingDim = getDimensions(stagingBacklog);
+  var updateName = stagingName.replace('staging_', '');
+  var updateBacklog = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(updateName);
+  var toUpdateDim = getDimensions(updateBacklog);
+  var oldBacklog = getBacklogArray(stagingBacklog, stagingDim);
+  var newBacklog = getBacklogArray(updateBacklog, toUpdateDim);
+  console.log('Old Backlog: ' + oldBacklog);
+  console.log('new Backlog: ' + newBacklog);
   // Get old backlog array
   // Get new backlog array
   // Get columns to compare
@@ -51,7 +60,7 @@ function findOldandNew(masterBacklogs, overRide) {
         continue;
       }
     }
-  } while (backlogsFound = false);
+  } while (backlogsFound === false);
 }
 
 function otherCompareBacklogs() {

@@ -1,15 +1,14 @@
 /* exported debugJunction */
 function debugJunction() {
   var masterBacklogs = new serviceMasterBacklog();
-  var overRide = 1;
-  backlogProcessJunction(masterBacklogs.Collection[overRide]);
+  backlogProcessJunction(masterBacklogs.Collection);
   return;
 }
 
 function backlogProcessJunction(masterBacklogs, overRide) {
   var workThisBacklog;
   for (var backlog in masterBacklogs) {
-    if (overRide !== undefined) {
+    if (overRide !== undefined){
       backlog = overRide;
     }
     if (masterBacklogs[backlog].getName() === 'staging_DEPT PROPOSAL BACKLOG') {

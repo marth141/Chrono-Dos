@@ -1,4 +1,11 @@
 /* exported addLastColumns */
+function debugAddLastColumns() {
+  var masterBacklogs = new serviceMasterBacklog();
+  var overRide = 1;
+  addLastColumns(masterBacklogs.Collection[overRide]);
+  return;
+}
+
 function addLastColumns(stagingBacklog) {
   var dim = getDimensions(stagingBacklog);
   var addColumnOrigin = dim[1] + 1;
@@ -6,7 +13,8 @@ function addLastColumns(stagingBacklog) {
   var columnsToAdd = ['Assigned', 'Priority', 'Status'];
   var toAddIndex = 0;
   for (var addHere = addColumnOrigin; addHere <= lastColToAdd; addHere++) {
-    stagingBacklog.getRange(0, addHere).setValue(columnsToAdd[toAddIndex]);
+    stagingBacklog.getRange(1, addHere).setValue(columnsToAdd[toAddIndex]);
     toAddIndex++;
   }
+  SpreadsheetApp.flush();
 }

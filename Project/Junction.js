@@ -23,6 +23,7 @@ function backlogProcessJunction(masterBacklogs, overRide) {
       prop_UnitTypeMarker(workThisBacklog);
       uni_CadNameColCreator(workThisBacklog);
       uni_SolProjLinkCreator(workThisBacklog);
+      addColumns();
       compareBacklogs(workThisBacklog);
       break;
     } else if (masterBacklogs[backlog].getName() === 'staging_DEPT SNOW PROPOSAL BACKLOG') {

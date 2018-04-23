@@ -347,7 +347,7 @@ update()
       return missed
    }      
    
-   while(errorImageSearch(sheetsIcon, false)) ;check if spreadsheet open by green box
+   while(errorImageSearch(sheetsIcon)) ;check if spreadsheet open by green box
    Send, {F5}
    
    while(checkOrange()) ;wait till orange message gone, else ctrl+z run button again
@@ -418,9 +418,9 @@ update()
          break
    }      
    
-   errorImageSearch(leaveButton, true)
-   errorImageSearch(accessDeniedImg, true)
-   errorImageSearch(dismissMsg, true)
+   errorImageSearch(leaveButton)
+   errorImageSearch(accessDeniedImg)
+   errorImageSearch(dismissMsg)
    
    return false
 }

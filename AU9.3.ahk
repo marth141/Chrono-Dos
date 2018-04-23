@@ -63,16 +63,16 @@ AutoUpdate:
    run % sqlBat
    
    ; Waits until the SQL script is done before continuing.
-   ;Sleep, 800
-   ;Loop ;wait till cmd prompt is closed
-   ;{
-   ;   IfWinNotActive, cmd
-   ;      break
-   ;}
+   Sleep, 800
+   Loop ;wait till cmd prompt is closed
+   {
+      IfWinNotActive, cmd
+         break
+   }
    
    ; Only runs between 5am-12pm Monday-Friday
-   if(A_hour < 5)
-      Return
+   ;if(A_hour < 5)
+   ;   Return
    ;run the report numbers at 1
    ;~ if(A_hour = 1 and A_Min < 32) and (A_WDay != 1 and A_WDay != 7)
    ;~ {

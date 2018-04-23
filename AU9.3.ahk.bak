@@ -59,8 +59,8 @@ AutoUpdate:
    chronoOpened:=0
    
    ; Sets up a variable for a script that accesses a SQL database.
-   ;sqlBat = C:\Users\%A_UserName%\Documents\sqldeveloper\sqldeveloper\bin\Employees.bat
-   ;run % sqlBat
+   sqlBat = C:\Users\%A_UserName%\Documents\sqldeveloper\sqldeveloper\bin\Employees.bat
+   run % sqlBat
    
    ; Waits until the SQL script is done before continuing.
    ;Sleep, 800

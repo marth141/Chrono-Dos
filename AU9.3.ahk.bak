@@ -17,14 +17,13 @@ just outside of the SciTE folder. Then the debugger will work and you can begin 
 The ASCII art is to be able to show sections of the code. They are broken up by types of things found in those sections.
 Labels, is where everything starts. Functions, are where most of the script works, and the Hotkeys are used for working with the script during execution.
 The below code maintains that the script is always running and that the computer is kept awake by going to the labels AutoUpdate and KeepAwake.
-
 */
 
 #Persistent
 chronoOpened = 0
 maxmizeCount = 0
-; SetTimer, AutoUpdate, 900000 ; Every 15 minutes
-SetTimer, KeepAwake, 600000 ; Every 10 minutes
+SetTimer, AutoUpdate, 900000
+SetTimer, KeepAwake, 600000
 
 /* Labels Section
 
@@ -37,6 +36,8 @@ SetTimer, KeepAwake, 600000 ; Every 10 minutes
 | $$$$$$$$|  $$$$$$$| $$$$$$$/|  $$$$$$$| $$ /$$$$$$$/
 |________/ \_______/|_______/  \_______/|__/|_______/ 
 
+
+
 */
 
 /* Autoupdate Explanation
@@ -46,7 +47,6 @@ Contains all of the set up to get the Chrono updater running.
 It contains a call to a SQL database script in batch. I believe this updates employees.
 It contains all of the necessary webpages to access for updating the Chrono as variables.
 It'll run chronoUpdate, when it's finished without errors.
-
 */
 AutoUpdate:
 {
@@ -59,8 +59,8 @@ AutoUpdate:
    chronoOpened:=0
    
    ; Sets up a variable for a script that accesses a SQL database.
-   sqlBat = C:\Users\%A_UserName%\Documents\sqldeveloper\sqldeveloper\bin\Employees.bat
-   run % sqlBat
+   ;sqlBat = C:\Users\%A_UserName%\Documents\sqldeveloper\sqldeveloper\bin\Employees.bat
+   ;run % sqlBat
    
    ; Waits until the SQL script is done before continuing.
    ;Sleep, 800
@@ -218,14 +218,14 @@ AutoUpdate:
    ;runUpdate([westB1, westB2])
    ;runUpdate([centralB1, centralB2])
    ;runUpdate([atlanticB1, atlanticB2])
-   runUpdate([noB1, noB2, noB3, noB4, noB5])
-   runUpdate([soB1, soB2, soB3, soB4, soB5])
-   runUpdate([swB1, swB2, swB3, swB4, swB5])
-   runUpdate([gritB1, gritB2, gritB3, gritB4, gritB5])
-   runUpdate([newEngB1, newEngB2, newEngB3, newEngB4, newEngB5])
-   runUpdate([legionB1, legionB2, legionB3, legionB4, newEngB5])
-   runUpdate([nisB1, nisB2, nisB3, nisB4, nisB5])
-   runUpdate([dB1, dB2, dB3, dB4, dB5])
+   runUpdate([noB1, noB2, noB3, noB4])
+   runUpdate([soB1, soB2, soB3, soB4])
+   runUpdate([swB1, swB2, swB3, swB4])
+   runUpdate([gritB1, gritB2, gritB3, gritB4])
+   runUpdate([newEngB1, newEngB2, newEngB3, newEngB4])
+   runUpdate([legionB1, legionB2, legionB3, legionB4])
+   runUpdate([nisB1, nisB2, nisB3, nisB4])
+   runUpdate([dB1, dB2, dB3, dB4])
    runUpdate([qcPass])
    runUpdate([cpQC, cpQCCompleted, cpQCChecked])
    runUpdate([ppQCPool, ppQCSREEPool, ppQCCadObjWChecks, ppQCCadCompleted, ppQCSREEWChecks, ppQCSREECompleted])
@@ -237,20 +237,19 @@ AutoUpdate:
    
    return
 }
-	
+   
 /* KeepAwake Explanation
 
 Keep awake is to keep the computer from falling asleep while the Chrono updater is running.
-
 */
 KeepAwake:
 {
-	MouseMove, 100, 1011
-	sleep, 1000
-	MouseMove, 20, 1011
-	return
+   MouseMove, 100, 1011
+   sleep, 1000
+   MouseMove, 20, 1011
+   return
 }
-	
+   
 /* Functions Section
 
 /$$$$$$$$                              /$$     /$$                              
@@ -272,36 +271,22 @@ Updates the arrays of links used in autoUpdate:
 */
 runUpdate(urlArray)
 {
-	sfProcessingImg = %A_WorkingDir%\images\salesforce-msg-Processing.bmp
-	missed := true ;Switch on and off for these reports
-	
-	while(missed) ;Filters the switch and also repeats failures
-	{
-		if(urlArray = %cpQC%)
-		{
-			loop
-			{
-				ImageSearch,ovx,ovy,0,0,A_ScreenWidth,A_ScreenHeight,%sfProcessingImg%
-				if ErrorLevel = 0
-				{
-					SoundPlay,*32
-				}
-			}
-			until ErrorLevel ; Until not found...
-			{
-				break
-			}
-		}
-		Loop % urlArray.Length()
-		{
-			run % urlArray[A_Index]
-			if(update())
-				missed := true
-			else
-				missed := false
-		}
-	}
-}
+   missed := true ;Switch on and off for these reports
+   while(missed) ;Filters the switch and also repeats failures
+   {
+      if(urlArray = %cpQC%)
+      {
+         Sleep, 60000
+      }
+      
+      Loop % urlArray.Length()
+      {
+         run % urlArray[A_Index]
+         if(update())
+            missed := true
+         else
+            missed := false
+      }}}
 
 /* update() Explanation
 
@@ -347,7 +332,7 @@ update()
       return missed
    }      
    
-   while(errorImageSearch(sheetsIcon)) ;check if spreadsheet open by green box
+   while(errorImageSearch(sheetsIcon, false)) ;check if spreadsheet open by green box
    Send, {F5}
    
    while(checkOrange()) ;wait till orange message gone, else ctrl+z run button again
@@ -418,66 +403,63 @@ update()
          break
    }      
    
-   errorImageSearch(leaveButton)
-   errorImageSearch(accessDeniedImg)
-   errorImageSearch(dismissMsg)
+   errorImageSearch(leaveButton, true)
+   errorImageSearch(accessDeniedImg, true)
+   errorImageSearch(dismissMsg, true)
    
    return false
 }
 
 /* copy() Explanation
 
-Checks if in Salesforce by looking for the Salesforce Icon.
-If it is not found, will go to sign in and return a missed.
-If it is found, will copy and close the Salesforce tab.	
+This checks if you're logged into Salesforce or not.
+If updater not working, look here and use the debugger.
+While statement checks if color is not D49711 (Hex Color).
+Color is defined as white, so this is true, the loop will run.
+The statements marked with ;~ in this loop are for debugging and finding the color value for the While loop.
+At a specific coodinate, it'll check for the color C17D00. This is to make sure you're logged in.
+If you're not, it'll run the signIn function which will take you to okta to sign in.
+This is done by returning the missed variable as the signIn() back to update() then running through signIn() which will return true.
+The update() function should restart after this and redo copy().
 
-Keeping for debugging.
-
-if ErrorLevel ; If error is not blank or 0
-{
-	MsgBox,,, You're not signed in, 2
-	missed := signIn()
-	return missed	
-	Sleep, 100
-}
+If it was not loaded properly, or not finding the right color, it'll loop and no pages will be copied.
+Once it has been found, a variable "found" gets set to true and a new loop starts.
+This second loop, white(found), will copy the salesforce page then search for "Grand Totals"
+if that is found, it closes the tab to the Google sheet Input.
 */
 copy()
 {
-	salesforceIcon = %A_WorkingDir%\images\salesforce-ico-SalesForceLg.bmp
-	
-	Loop
-	{
-		ImageSearch, ovx, ovy, 0, 0, %A_ScreenWidth%, %A_ScreenHeight%, %salesforceIcon%
-		if ErrorLevel ; If not found
-		{
-			; missed := signIn() ; I don't think signIn() is required.
-			; return missed ; This mis is not required.
-			SoundPlay, *-1, 1 ; Salesforce not found.
-		}
-	}
-	until ErrorLevel = 0
-	{
-		chromePageWait()
-		found := false
-		While(found = false)
-		{
-			Send, ^a
-			Sleep, 5000
-			Send, ^c
-			ClipWait, 5
-			search = Grand Totals
-			IfInString, Clipboard, %search%
-			{
-				found := true
-				;MsgBox, Found grand total
-			}
-		}
+   ; Defining default color as white.
+   color = 0x000000	
+   while(color != 0xD49711) ;color != 0xD69A0A || salesforce blue; If white is not white.
+   {
+      ;~ MsgBox,,, NOT Blue!, .1
+      ;~ MsgBox,,, %color% %x% %y% 
+      PixelGetColor, color, 55, 136
+      if(color = 0xC17D00)
+      {
+         MsgBox,,, You're not signed in, 2
+         missed := signIn()
+         return missed
+      }
+      Sleep, 100
+   }
+   chromePageWait()
+   found := true
+   While(found)
+   {
+      Send, ^a
+      Sleep, 800
+      Send, ^c
+      ClipWait
+      search = Grand Totals
+      IfInString, Clipboard, %search%
+      {
+         found := false
+         ;MsgBox, Found grand total
+      }}
    Sleep, 500
    Send, ^w
-   Sleep, 500
-   Send, {F5}
-   Sleep, 4250
-	}
 }
 
 /* paste() Explanation
@@ -486,11 +468,11 @@ Simply pastes clipboard contents, then returns.
 */
 paste()
 {
-	Send, ^v
-	Sleep, 500
-	clipboard = ; Empty the clipboard
-	
-	return
+   Send, ^v
+   Sleep, 500
+   clipboard = ; Empty the clipboard
+   
+   return
 }
 
 /* chromePageWait() Explanation
@@ -499,25 +481,25 @@ Waits for Chrome to be open.
 
 while (A_Cursor != "Wait")
 {
-	MsgBox, here
-	continue
+   MsgBox, here
+   continue
 }
 */
 chromePageWait()
 {
-	Loop 20
-	{
-			if(A_Cursor = "AppStarting")
-			{
-				while (A_Cursor = "AppStarting")
-				{
-						Sleep, 100
-				}
-				return
-			}
-			Sleep, 50
-	}
-	Sleep, 500
+   Loop 20
+   {
+      if(A_Cursor = "AppStarting")
+      {
+         while (A_Cursor = "AppStarting")
+         {
+            Sleep, 100
+         }
+         return
+      }
+      Sleep, 50
+   }
+   Sleep, 500
 }
 
 /* waitRedBtn() Explanation
@@ -526,12 +508,12 @@ Looks for a Red button somewhere in the middle of the page, not sure why.
 */
 waitRedBtn()
 {
-	while(Color != 0x0000FF)
-	{
-			PixelGetColor, color, 967, 305
-			Sleep, 100
-	}
-	Sleep, 100
+   while(Color != 0x0000FF)
+   {
+      PixelGetColor, color, 967, 305
+      Sleep, 100
+   }
+   Sleep, 100
 }
 
 /* waitOrangeMsg() Explanation
@@ -541,30 +523,30 @@ return false if orange msg disappeared or was never there
 */
 waitOrangeMsg()
 {
-	Loop 10 ;loop till orange msg appears, else wait and dismiss
-	{
-			;~ MsgBox,,, NOT Orange!, .1
-			;~ MsgBox,,, %color% %x% %y%
-			PixelGetColor, color, 959, 137
-			if(Color = 0xC1EFF8)	;	 0xBFEDF8
-				 break
-			Sleep, 50
-	}
-	PixelGetColor, color, 959, 145
-	if(Color = 0xC1EFF8) ;loop till orange message disapears
-	{
-			Loop 120
-			{
-				;~ MsgBox,,, Orange, .1
-				PixelGetColor, color, 959, 137
-				if(Color != 0xC1EFF8)
-						return false
-				Sleep, 500
-			}
-			return true ;return true if timedout and orange msg never diasapeard
-	}
-	Sleep, 100
-	return false ;return false if orange msg disapears or was never there.
+   Loop 10 ;loop till orange msg appears, else wait and dismiss
+   {
+      ;~ MsgBox,,, NOT Orange!, .1
+      ;~ MsgBox,,, %color% %x% %y%
+      PixelGetColor, color, 959, 137
+      if(Color = 0xC1EFF8)  ;   0xBFEDF8
+         break
+      Sleep, 50
+   }
+   PixelGetColor, color, 959, 145
+   if(Color = 0xC1EFF8) ;loop till orange message disapears
+   {
+      Loop 120
+      {
+         ;~ MsgBox,,, Orange, .1
+         PixelGetColor, color, 959, 137
+         if(Color != 0xC1EFF8)
+            return false
+         Sleep, 500
+      }
+      return true ;return true if timedout and orange msg never diasapeard
+   }
+   Sleep, 100
+   return false ;return false if orange msg disapears or was never there.
 }
 
 /* waitRedMsg() Explanation
@@ -574,15 +556,15 @@ return false if no red msg found
 */
 waitRedMsg()
 {
-	Loop 5 ;loop till orange msg appears, else wait and dismiss
-	{
-			;~ MsgBox,,, RED, .5
-			PixelGetColor, color, 959, 137
-			if(Color = 0x394AD7)
-				return true
-			Sleep, 100
-	}
-	return false ;return false if orange msg disapears or was never there.
+   Loop 5 ;loop till orange msg appears, else wait and dismiss
+   {
+      ;~ MsgBox,,, RED, .5
+      PixelGetColor, color, 959, 137
+      if(Color = 0x394AD7)
+         return true
+      Sleep, 100
+   }
+   return false ;return false if orange msg disapears or was never there.
 }
 
 /* checkGreen() Explanation
@@ -596,18 +578,18 @@ Now looks for Google Sheets icon to be able to tell if Google Sheets.
 */
 checkGreen()
 {
-	Loop 100
-	{
-			;MsgBox,,, NOT Green!, .1
-			;PixelGetColor, color, 24, 106
-			needle = %A_WorkingDir%\images\google-newSheetsIcon.bmp
-			ImageSearch,,,0,0,A_ScreenWidth,A_ScreenHeight,needle
-			if ErrorLevel ; Icon as of Feb 2018
-				 return false
-			Sleep, 50
-	}
-	Sleep, 100
-	return true
+   Loop 100
+   {
+      ;MsgBox,,, NOT Green!, .1
+      ;PixelGetColor, color, 24, 106
+      needle = %A_WorkingDir%\images\google-newSheetsIcon.bmp
+      ImageSearch,,,0,0,A_ScreenWidth,A_ScreenHeight,needle
+      if ErrorLevel ; Icon as of Feb 2018
+         return false
+      Sleep, 50
+   }
+   Sleep, 100
+   return true
 }
 
 /* checkOrange() Explanation
@@ -620,24 +602,24 @@ On return false, the update() function will continue.
 */
 checkOrange()
 {
-	Loop 100
-	{
-			;MsgBox,,, NOT Orange!, .1
-			PixelGetColor, color, 965, 142
-			if(Color = 0xC1EFF8)	; 0xBEEDF9
-				break
-			Sleep, 10
-	}
-	Sleep, 500
-	Loop 600
-	{
-			;MsgBox,,, NOT Orange!, .1
-			PixelGetColor, color, 965, 142
-			if(Color != 0xC1EFF8)	; 0xBEEDF9
-				return false
-			Sleep, 50
-	}
-	return true
+   Loop 100
+   {
+      ;MsgBox,,, NOT Orange!, .1
+      PixelGetColor, color, 965, 142
+      if(Color = 0xC1EFF8)  ; 0xBEEDF9
+         break
+      Sleep, 10
+   }
+   Sleep, 500
+   Loop 600
+   {
+      ;MsgBox,,, NOT Orange!, .1
+      PixelGetColor, color, 965, 142
+      if(Color != 0xC1EFF8)  ; 0xBEEDF9
+         return false
+      Sleep, 50
+   }
+   return true
 }
 
 /* checkColor() Explanation
@@ -649,15 +631,15 @@ On false, it'll clear the Chrono Input and loop again.
 */
 checkColor(checkColor, x, y)
 {
-	Loop 100
-	{
-			PixelGetColor, color, x, y
-			;~ MsgBox,,, %color% %x% %y%`, %checkColor%
-			if(Color = checkColor)
-				return true
-			Sleep, 10
-	}
-	return false
+   Loop 100
+   {
+      PixelGetColor, color, x, y
+      ;~ MsgBox,,, %color% %x% %y%`, %checkColor%
+      if(Color = checkColor)
+         return true
+      Sleep, 10
+   }
+   return false
 }
 
 /* checkColorWait() Explanation
@@ -667,15 +649,15 @@ This one waits a little longer than checkColor()
 */
 checkColorWait(checkColor, x, y)
 {
-	Loop 200
-	{
-			PixelGetColor, color, x, y
-			;~ MsgBox,,, %color% %x% %y%`, %checkColor%
-			if(Color = checkColor)
-				return true
-			Sleep, 50
-	}
-	return false
+   Loop 200
+   {
+      PixelGetColor, color, x, y
+      ;~ MsgBox,,, %color% %x% %y%`, %checkColor%
+      if(Color = checkColor)
+         return true
+      Sleep, 50
+   }
+   return false
 }
 
 /* waitPaste() Explanation
@@ -684,16 +666,16 @@ Waits for a color at a location before pasting.
 */
 waitPaste(checkColor, x, y)
 {
-	Loop 400
-	{
-			send, {Home}
-			PixelGetColor, color, x, y
-			;~ MsgBox,,, %color% %x% %y%`, %checkColor%
-			if(Color = checkColor)
-				return true
-			Sleep, 50
-	}
-	return false
+   Loop 400
+   {
+      send, {Home}
+      PixelGetColor, color, x, y
+      ;~ MsgBox,,, %color% %x% %y%`, %checkColor%
+      if(Color = checkColor)
+         return true
+      Sleep, 50
+   }
+   return false
 }
 
 /* checkPopUp() Explanation
@@ -703,20 +685,20 @@ The returns are vestigial. When this function is called, the returns do not matt
 */
 checkPopUp(checkColor, x, y)
 {
-	Loop 50
-	{
-			PixelGetColor, color, x, y
-			;~ MsgBox,,, %color% %x% %y%`, %checkColor%, .5
-			if(Color = checkColor)
-			{
-				;~ Sleep, 5000
-				MouseClick, left, x, y
-				Sleep, 500
-				return true
-			}
-			Sleep, 50
-	}
-	return false
+   Loop 50
+   {
+      PixelGetColor, color, x, y
+      ;~ MsgBox,,, %color% %x% %y%`, %checkColor%, .5
+      if(Color = checkColor)
+      {
+         ;~ Sleep, 5000
+         MouseClick, left, x, y
+         Sleep, 500
+         return true
+      }
+      Sleep, 50
+   }
+   return false
 }
 
 /* signIn() Explanation
@@ -725,28 +707,28 @@ Signs in to okta
 */
 signIn()
 {
-	okta = https://vivintsolar.okta.com/app/UserHome
-	Run %okta%
-	Sleep, 500
-	popUp := true
-	while(popUp)
-	{
-			popUp := checkPopUp2(0xCC8400, 839, 600)
-			MouseMove, 835, 632
-	}
-	popUp := true
-	while(popUp)
-	{
-			popUp := checkPopUp2(0xDB9C00, 486, 351)
-	}
-	
-	popUp := true
-	while(popUp)
-	{
-			popUp := checkPopUp2(0xD69A09, 57, 146)
-	}
-	closeTabs()
-	return true
+   okta = https://vivintsolar.okta.com/app/UserHome
+   Run %okta%
+   Sleep, 500
+   popUp := true
+   while(popUp)
+   {
+      popUp := checkPopUp2(0xCC8400, 839, 600)
+      MouseMove, 835, 632
+   }
+   popUp := true
+   while(popUp)
+   {
+      popUp := checkPopUp2(0xDB9C00, 486, 351)
+   }
+   
+   popUp := true
+   while(popUp)
+   {
+      popUp := checkPopUp2(0xD69A09, 57, 146)
+   }
+   closeTabs()
+   return true
 }
 
 /* checkPopUp2() Explanation
@@ -757,22 +739,22 @@ The returns are vestigial. When this function is called, the returns do not matt
 */
 checkPopUp2(checkColor, x, y)
 {
-	Loop 50
-	{
-			PixelGetColor, color, x, y
-			MouseMove, x, y
-			;~ MsgBox,,, %color% %checkColor%, 2
-			;~ MsgBox, %color% %checkColor%
-			if(Color = checkColor)
-			{
-				Sleep, 500
-				MouseClick, left, x, y
-				Sleep, 500
-				return false
-			}
-			Sleep, 50
-	}
-	return true
+   Loop 50
+   {
+      PixelGetColor, color, x, y
+      MouseMove, x, y
+      ;~ MsgBox,,, %color% %checkColor%, 2
+      ;~ MsgBox, %color% %checkColor%
+      if(Color = checkColor)
+      {
+         Sleep, 500
+         MouseClick, left, x, y
+         Sleep, 500
+         return false
+      }
+      Sleep, 50
+   }
+   return true
 }
 
 /* closeTabs() Explanation
@@ -781,97 +763,69 @@ Closes tabs.
 */
 closeTabs()
 {
-	WinActivate, ahk_class Chrome_WidgetWin_1
-	Loop
-	{
-			WinGetTitle, title, A
-			IfInString, title, New Tab
-				break
-			else
-				Send, ^w
-			;~ Sleep, 800
-			Loop 20
-			{
-				PixelGetColor, color, 280, 102
-				if(Color = 0xFCFCFC)
-				{
-						;MsgBox,,, NOT POP UP!, .1
-						Sleep, 500
-						MouseClick, left, 277, 106 
-						Sleep, 500
-						Send, ^w
-						break
-				}
-				Sleep, 50
-			}}
-	return
+   WinActivate, ahk_class Chrome_WidgetWin_1
+   Loop
+   {
+      WinGetTitle, title, A
+      IfInString, title, New Tab
+         break
+      else
+         Send, ^w
+      ;~ Sleep, 800
+      Loop 20
+      {
+         PixelGetColor, color, 280, 102
+         if(Color = 0xFCFCFC)
+         {
+            ;MsgBox,,, NOT POP UP!, .1
+            Sleep, 500
+            MouseClick, left, 277, 106 
+            Sleep, 500
+            Send, ^w
+            break
+         }
+         Sleep, 50
+      }}
+   return
 }
 
 /* errorImageSearch() Explanation
 An attempt at fixing a Google Sheet error.
 */
-errorImageSearch(needleF)
+errorImageSearch(needleF, clickNeeded:=false)
 {
-	Loop
-	{
-		CoordMode, Pixel, Screen
-		ImageSearch, FoundX, FoundY, 0, 0, %A_ScreenWidth%, %A_ScreenHeight%, %needleF%
-		CenterImgSrchCoords(NeedleF, FoundX, FoundY)
-		If ErrorLevel = 0 ; If found, click it.
-		{
-			SoundPlay, *-1, 1
-			Click, %FoundX%, %FoundY%-20 Left, 1
-			return true
-		}
-		else If ErrorLevel ; If not found and click not needed.
-		{
-			SoundPlay, *-1, 1
-			return false
-		}
-	}
-}
+   Loop 1
+   {
+      CoordMode, Pixel, Screen
+      ImageSearch, FoundX, FoundY, 0, 0, A_ScreenWidth, A_ScreenHeight, %needleF%
+      CenterImgSrchCoords(NeedleF, FoundX, FoundY)
+      If ErrorLevel = 0 && clickNeeded = true ; If found and click needed, click it.
+      {
+         Click, %FoundX%, %FoundY% Left, 1
+         return true
+         break
+      }
+      else If ErrorLevel && clickNeeded = false ; If not found and click not needed.
+      {
+         Loop 1
+         {
+            SoundPlay, %A_WorkingDir%\sounds\FFVicShort.mid, 1
+            return false
+         }}}}
 
 /* CenterImgSrchCoords() Explanation
 Needed by errorImageSearch()
 */
 CenterImgSrchCoords(File, ByRef CoordX, ByRef CoordY)
 {
-	static LoadedPic
-	LastEL := ErrorLevel
-	Gui, Pict:Add, Pic, vLoadedPic, %File%
-	GuiControlGet, LoadedPic, Pict:Pos
-	Gui, Pict:Destroy
-	CoordX += LoadedPicW // 2
-	CoordY += LoadedPicH // 2
-	ErrorLevel := LastEL
-}
-
-checkTabs()
-{
-	/*
-	Screen is 1920x1080
-	Tabs Start at pixel (18,0).
-	Tabs are (x+193,y) pixels apart.
-	At maximum screen, tabs are between (x,0), (x,27).
-	
-	Check between (18,0) and (210,27) for Google Sheets
-	If found, add to Sheets Count.
-			
-	Counter = 0, 1, 2...
-	
-	loop
-	MAX_TABS = 5
-	Check Between (18+(193*(x))<=1080,0) and (210+(193*(x))<=1080,27)
-	If Found, counter++,
-			if found twice or more,
-				loop counter-1
-				middle click foundCount sheet's icon
-	If Found, counter++,
-			if found twice or more,
-				loop counter-1
-				shift tab until active sheet's icon, close 1 sheets tab
-	if searchx >= 1080, stop
-	*/
+   static LoadedPic
+   LastEL := ErrorLevel
+   Gui, Pict:Add, Pic, vLoadedPic, %File%
+   GuiControlGet, LoadedPic, Pict:Pos
+   Gui, Pict:Destroy
+   CoordX += LoadedPicW // 2
+   CoordY += LoadedPicH // 2
+   ErrorLevel := LastEL
 }
 
 /* Hotkeys Section
@@ -895,8 +849,8 @@ Pauses the script during it's execution with ctrl+p
 */
 ^p::
 {
-	MsgBox, PAUSE
-	return
+   MsgBox, PAUSE
+   return
 }
 
 /* Shutdown Script Explanation
@@ -905,8 +859,8 @@ Closes the script entirely when ctrl+esc is pressed.
 */
 ^Esc::
 {
-	ExitApp
-	Return
+   ExitApp
+   Return
 }
 
 /* Archived Code
@@ -965,4 +919,4 @@ Discovery the mystery of this code!
 ;~ update()
 ;~ Return
 ;~ }
-*/
+*/              

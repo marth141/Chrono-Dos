@@ -418,9 +418,9 @@ update()
          break
    }      
    
-   errorImageSearch(leaveButton, true)
-   errorImageSearch(accessDeniedImg, true)
-   errorImageSearch(dismissMsg, true)
+   errorImageSearch(leaveButton)
+   errorImageSearch(accessDeniedImg)
+   errorImageSearch(dismissMsg)
    
    return false
 }

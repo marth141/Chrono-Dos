@@ -1,3 +1,5 @@
+/* exported debugPropDateCleaner */
+
 /**
 * For debugging dateOperations().
 * 
@@ -5,8 +7,7 @@
 */
 function debugPropDateCleaner() {
   var masterBacklogs = new serviceMasterBacklog();
-  masterBacklogs = masterBacklogs.Collection;
-  prop_DateCleaner(masterBacklogs[1]);
+  prop_DateCleaner(masterBacklogs.Collection[1]);
   return;
 }
 
@@ -23,7 +24,7 @@ function prop_DateCleaner(propBacklog) {
   var backlogArray = getBacklogArray(propBacklog, dim);
   var propReqDate, propStatDate, stateOffice;
   if (validateHeader('Opportunity: Proposal Requested', backlogArray, dim) &&
-      validateHeader('Opportunity: Proposal Status Date', backlogArray, dim)) {
+    validateHeader('Opportunity: Proposal Status Date', backlogArray, dim)) {
     propReqDate = getMeThatColumn('Opportunity: Proposal Requested', backlogArray, dim);
     propStatDate = getMeThatColumn('Opportunity: Proposal Status Date', backlogArray, dim);
     stateOffice = getMeThatColumn('Service: Regional Operating Center', backlogArray, dim);

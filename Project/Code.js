@@ -1,9 +1,10 @@
+/* exported main */
+
 /**
 * This is currently where the code starts.
 *
-* @returns To end the function.
+* @returns void
 */
-/* exported main */
 function main() {
   try {
     //Wait my turn for upto 30 seconds.
@@ -14,13 +15,8 @@ function main() {
     throw 'Could not obtain lock after 30 seconds.';
   }
 
-  //On my turn...
   var masterBacklogs = new serviceMasterBacklog();
 
-  //Go to Junction.js, for each backlog
-  //perform creation and formatting jobs.
-  //Helps perform unique operations for
-  //unique backlogs.
   backlogProcessJunction(masterBacklogs.Collection, undefined);
   findOldandNew(masterBacklogs.Collection);
 

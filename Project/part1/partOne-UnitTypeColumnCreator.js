@@ -1,10 +1,21 @@
+/* exported
+debugPartOneUnitType
+*/
+
+/* global
+ServiceMasterBacklog
+SpreadsheetApp
+getBacklogArray
+getDimensions
+*/
+
 /**
 * For debugging unitTypeMarker().
 * 
 * @returns void
 */
 function debugPartOneUnitType() {
-  var masterBacklogs = new serviceMasterBacklog();
+  var masterBacklogs = new ServiceMasterBacklog();
   partOne_UnitTypeMarker(masterBacklogs.Collection);
   return;
 }

@@ -1,10 +1,22 @@
+/* exported
+debugCPRDCadName
+*/
+
+/* global
+ServiceMasterBacklog
+SpreadsheetApp
+getBacklogArray
+getDimensions
+getMeThatColumn
+*/
+
 /**
 * For debugging dateOperations().
 * 
 * @returns void
 */
 function debugCPRDCadName() {
-  var masterBacklogs = new serviceMasterBacklog();
+  var masterBacklogs = new ServiceMasterBacklog();
   cprd_LinkCreator(masterBacklogs.Collection);
   return;
 }

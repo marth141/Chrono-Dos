@@ -1,4 +1,11 @@
-/* exported getDimensions, getBacklogArray, getMeThatColumn */
+/* exported
+getBacklogArray
+getDimensions
+getMeThatColumn
+*/
+
+/* global
+*/
 function getDimensions(sheet) {
   if (sheet !== null) {
     var dimensions = [];

@@ -1,10 +1,21 @@
+/* exported
+debugCPRDUnitType
+*/
+
+/* global
+ServiceMasterBacklog
+SpreadsheetApp
+getBacklogArray
+getDimensions
+*/
+
 /**
 * For debugging unitTypeMarker().
 * 
 * @returns void
 */
 function debugCPRDUnitType() {
-  var masterBacklogs = new serviceMasterBacklog();
+  var masterBacklogs = new ServiceMasterBacklog();
   cprd_UnitTypeMarker(masterBacklogs.Collection);
   return;
 }

@@ -1,3 +1,11 @@
+/* exported
+timeAddHours
+timeStateOffset
+*/
+
+/* global
+*/
+
 /**
 * Adds hours to a date value.
 *

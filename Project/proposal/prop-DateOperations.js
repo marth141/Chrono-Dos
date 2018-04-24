@@ -1,4 +1,17 @@
-/* exported debugPropDateCleaner */
+/* exported
+debugPropDateCleaner
+*/
+
+/* global
+ServiceMasterBacklog
+SpreadsheetApp
+getBacklogArray
+getDimensions
+getMeThatColumn
+timeAddHours
+timeStateOffset
+validateHeader
+*/
 
 /**
 * For debugging dateOperations().
@@ -6,7 +19,7 @@
 * @returns void
 */
 function debugPropDateCleaner() {
-  var masterBacklogs = new serviceMasterBacklog();
+  var masterBacklogs = new ServiceMasterBacklog();
   prop_DateCleaner(masterBacklogs.Collection[1]);
   return;
 }

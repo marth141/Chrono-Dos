@@ -1,10 +1,19 @@
-/**
-* For debugging dateOperations().
-* 
-* @returns void
+/* exported
+debugCPRDDateCleaner
+*/
+
+/* global
+ServiceMasterBacklog
+SpreadsheetApp
+getBacklogArray
+getDimensions
+getMeThatColumn
+timeAddHours
+timeStateOffset
+validateHeader
 */
 function debugCPRDDateCleaner() {
-  var masterBacklogs = new serviceMasterBacklog();
+  var masterBacklogs = new ServiceMasterBacklog();
   masterBacklogs = masterBacklogs.Collection;
   cprd_DateCleaner(masterBacklogs[3]);
   return;

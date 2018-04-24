@@ -1,3 +1,10 @@
+/* exported
+validateHeader
+*/
+
+/* global
+*/
+
 /**
 * used to validate headers if the data below is
 * something to be validated. Can be expanded.

@@ -1,10 +1,21 @@
+/* exported
+debugSnowUnitType
+*/
+
+/* global
+ServiceMasterBacklog
+SpreadsheetApp
+getBacklogArray
+getDimensions
+*/
+
 /**
 * For debugging unitTypeMarker().
-* 
+*
 * @returns void
 */
 function debugSnowUnitType() {
-  var masterBacklogs = new serviceMasterBacklog();
+  var masterBacklogs = new ServiceMasterBacklog();
   snow_UnitTypeMarker(masterBacklogs.Collection);
   return;
 }

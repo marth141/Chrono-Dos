@@ -1,13 +1,18 @@
-/* exported serviceMasterBacklog, serviceOfficeCollection, serviceLock */
-var serviceMasterBacklog = function() {
+/* exported
+ServiceLock
+ServiceMasterBacklog
+ServiceOfficeCollection
+*/
+
+/* global
+LockService
+SpreadsheetApp
+*/
+var ServiceMasterBacklog = function () {
   this.Collection = SpreadsheetApp.getActiveSpreadsheet().getSheets();
 };
 
-function stagingBacklogs() {
-  this.Collection = SpreadsheetApp.getActiveSpreadsheet().getSheets();
-}
-
-var serviceOfficeCollection = function() {
+var ServiceOfficeCollection = function () {
   this.GritMovem = ['NJ', 'NY', 'PA'];
   this.Legion = ['FL', 'MD', 'SC', 'VA'];
   this.NewEnglan = ['CT', 'MA', 'NH', 'RI', 'VT'];
@@ -16,4 +21,8 @@ var serviceOfficeCollection = function() {
   this.SouthWest = ['AZ', 'CO', 'HI', 'NM', 'NV', 'TX', 'UT'];
 };
 
-var serviceLock = LockService.getScriptLock();
+var ServiceLock = LockService.getScriptLock();
+
+function stagingBacklogs() {
+  this.Collection = SpreadsheetApp.getActiveSpreadsheet().getSheets();
+}

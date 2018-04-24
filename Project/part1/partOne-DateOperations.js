@@ -1,10 +1,25 @@
+/* exported
+debugPartOneDateCleaner
+*/
+
+/* global
+ServiceMasterBacklog
+SpreadsheetApp
+getBacklogArray
+getDimensions
+getMeThatColumn
+timeAddHours
+timeStateOffset
+validateHeader
+*/
+
 /**
 * For debugging dateOperations().
 * 
 * @returns void
 */
 function debugPartOneDateCleaner() {
-  var masterBacklogs = new serviceMasterBacklog();
+  var masterBacklogs = new ServiceMasterBacklog();
   masterBacklogs = masterBacklogs.Collection;
   partone_DateCleaner(masterBacklogs[4]);
   return;

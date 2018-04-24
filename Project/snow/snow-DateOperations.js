@@ -1,10 +1,24 @@
+/* exported
+debugSnowDateCleaner
+*/
+
+/* global
+ServiceMasterBacklog
+SpreadsheetApp
+getBacklogArray
+getDimensions
+getMeThatColumn
+timeAddHours
+validateHeader
+*/
+
 /**
 * For debugging dateOperations().
 * 
 * @returns void
 */
 function debugSnowDateCleaner() {
-  var masterBacklogs = new serviceMasterBacklog();
+  var masterBacklogs = new ServiceMasterBacklog();
   snow_DateCleaner(masterBacklogs.Collection);
   return;
 }
@@ -21,10 +35,9 @@ function snow_DateCleaner(propBacklog) {
   propBacklog = propBacklog[2];
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
-  var assignmentDate, stateOffice;
+  var assignmentDate;
   if (validateHeader('Assignment Finish', backlogArray, dim)) {
     assignmentDate = getMeThatColumn('Assignment Finish', backlogArray, dim);
-    stateOffice = getMeThatColumn('Opportunity: Office', backlogArray, dim);
   } else if (validateHeader('Assignment Finish', backlogArray, dim) === false) {
     throw 'Unable to find column: Assignment Finish';
   }

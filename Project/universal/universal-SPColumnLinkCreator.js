@@ -1,10 +1,22 @@
+/* exported
+debugUniSolProj
+*/
+
+/* global
+ServiceMasterBacklog
+SpreadsheetApp
+getBacklogArray
+getDimensions
+getMeThatColumn
+*/
+
 /**
 * For debugging solProjCreator().
-* 
+*
 * @returns void
 */
 function debugUniSolProj() {
-  var masterBacklogs = new serviceMasterBacklog();
+  var masterBacklogs = new ServiceMasterBacklog();
   uni_SolProjLinkCreator(masterBacklogs.Collection);
   return;
 }

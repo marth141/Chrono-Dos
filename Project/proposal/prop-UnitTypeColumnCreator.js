@@ -1,10 +1,22 @@
+/* exported
+debugPropUnitType
+*/
+
+/* global
+ServiceMasterBacklog
+SpreadsheetApp
+getBacklogArray
+getDimensions
+getMeThatColumn
+*/
+
 /**
 * For debugging unitTypeMarker().
-* 
+*
 * @returns void
 */
 function debugPropUnitType() {
-  var masterBacklogs = new serviceMasterBacklog();
+  var masterBacklogs = new ServiceMasterBacklog();
   prop_UnitTypeMarker(masterBacklogs.Collection);
   return;
 }
@@ -52,7 +64,7 @@ function prop_MarkUnits(backlogArray, designPathCol, opporTypeCol, dim) {
       designPathString = 'GSR';
       adjustedArray = prop_OtsMarker(backlogArray, opporTypeCol, sNumberRow, dim, designPathString);
     } else if (backlogArray[sNumberRow][designPathCol].match(/AURORA/i) ||
-               backlogArray[sNumberRow][designPathCol].match(/ADDRESS NOT FOUND/i)) {
+      backlogArray[sNumberRow][designPathCol].match(/ADDRESS NOT FOUND/i)) {
       designPathString = 'AURORA';
       adjustedArray = prop_OtsMarker(backlogArray, opporTypeCol, sNumberRow, dim, designPathString);
     }
@@ -77,15 +89,15 @@ function prop_OtsMarker(backlogArray, opporTypeCol, sNumberRow, dim, designPathS
   var utilityCol = getMeThatColumn('Project: Utility', backlogArray, dim);
   var regionCol = getMeThatColumn('Region', backlogArray, dim);
   var serviceNumber = backlogArray[sNumberRow];
-  
+
   if (serviceNumber[contractCol].match(/lease/i) &&
-      serviceNumber[utilityCol].match(/smud/i) &&
+    serviceNumber[utilityCol].match(/smud/i) &&
     serviceNumber[opporTypeCol].match(/add-on/i) &&
-      serviceNumber[regionCol].match(/southwest/i) !== null) {
-        backlogArray[sNumberRow][dim[1]] = 'OTS ' + designPathString;
-        return backlogArray;
-      } else {
-        backlogArray[sNumberRow][dim[1]] = designPathString;
-        return backlogArray;
-      }
+    serviceNumber[regionCol].match(/southwest/i) !== null) {
+    backlogArray[sNumberRow][dim[1]] = 'OTS ' + designPathString;
+    return backlogArray;
+  } else {
+    backlogArray[sNumberRow][dim[1]] = designPathString;
+    return backlogArray;
+  }
 }

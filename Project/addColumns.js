@@ -1,6 +1,15 @@
-/* exported addLastColumns */
+/* exported
+addLastColumns
+debugAddLastColumns
+*/
+
+/* global
+ServiceMasterBacklog
+SpreadsheetApp
+getDimensions
+*/
 function debugAddLastColumns() {
-  var masterBacklogs = new serviceMasterBacklog();
+  var masterBacklogs = new ServiceMasterBacklog();
   var overRide = 1;
   addLastColumns(masterBacklogs.Collection[overRide]);
   return;

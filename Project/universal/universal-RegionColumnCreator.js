@@ -1,10 +1,23 @@
+/* exported
+debugUniRegMar
+*/
+
+/* global
+ServiceMasterBacklog
+ServiceOfficeCollection
+SpreadsheetApp
+getBacklogArray
+getDimensions
+getMeThatColumn
+*/
+
 /**
 * For debugging regionMarker().
-* 
+*
 * @returns void
 */
 function debugUniRegMar() {
-  var masterBacklogs = new serviceMasterBacklog();
+  var masterBacklogs = new ServiceMasterBacklog();
   uni_RegionMarker(masterBacklogs.Collection);
   return;
 }
@@ -43,7 +56,7 @@ function uni_RegionMarker(backlog) {
 * @returns The backlog array after marking regions.
 */
 function markRegion(backlogSheet, backlogArray, regOpCenterCol, dim) {
-  var offices = new serviceOfficeCollection();
+  var offices = new ServiceOfficeCollection();
   var region;
   backlogArray[0][dim[1]] = 'Region';
   for (var row = 1; row <= dim[0] - 1; row++) {

@@ -1,10 +1,22 @@
+/* exported
+debugUniCadName
+*/
+
+/* global
+ServiceMasterBacklog
+SpreadsheetApp
+getBacklogArray
+getDimensions
+getMeThatColumn
+*/
+
 /**
 * For debugging dateOperations().
-* 
+*
 * @returns void
 */
 function debugUniCadName() {
-  var masterBacklogs = new serviceMasterBacklog();
+  var masterBacklogs = new ServiceMasterBacklog();
   uni_CadNameColCreator(masterBacklogs.Collection);
   return;
 }

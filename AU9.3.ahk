@@ -199,6 +199,15 @@ AutoUpdate:
    eB1 = https://vivintsolar.my.salesforce.com/00O41000008GHth
    eB2 = https://vivintsolar.my.salesforce.com/00O41000008GHtr
    
+   ;******************************************************************************************************
+   
+   structrualEscalations = https://vivintsolar.my.salesforce.com/00O41000008pQux
+   structrualEscalationsNonFullProcess = https://vivintsolar.my.salesforce.com/00O41000008pQui
+   ;******************************************************************************************************
+   
+   electricalEscalations = https://vivintsolar.my.salesforce.com/00O41000008pj5I
+   ;******************************************************************************************************
+   
    /*
    Now that the variables have been put in place, we'll run chronoInput.
    Will try seeing if keeping only one chrono input page open would help.
@@ -226,6 +235,8 @@ AutoUpdate:
    runUpdate([legionB1, legionB2, legionB3, legionB4, legionB5])
    runUpdate([nisB1, nisB2, nisB3, nisB4, nisB5])
    runUpdate([dB1, dB2, dB3, dB4, dB5])
+   runUpdate([electricalEscalations])
+   runUpdate([structrualEscalations, structrualEscalationsNonFullProcess])
    runUpdate([qcPass])
    runUpdate([cpQC, cpQCCompleted, cpQCChecked])
    runUpdate([ppQCPool, ppQCSREEPool, ppQCCadObjWChecks, ppQCCadCompleted, ppQCSREEWChecks, ppQCSREECompleted])

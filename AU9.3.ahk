@@ -59,20 +59,20 @@ AutoUpdate:
    chronoOpened:=0
    
    ; Sets up a variable for a script that accesses a SQL database.
-   ;sqlBat = C:\Users\%A_UserName%\Documents\sqldeveloper\sqldeveloper\bin\Employees.bat
-   ;run % sqlBat
+   sqlBat = C:\Users\%A_UserName%\Documents\sqldeveloper\sqldeveloper\bin\Employees.bat
+   run % sqlBat
    
    ; Waits until the SQL script is done before continuing.
-   ;Sleep, 800
-   ;Loop ;wait till cmd prompt is closed
-   ;{
-   ;   IfWinNotActive, cmd
-   ;      break
-   ;}
+   Sleep, 800
+   Loop ;wait till cmd prompt is closed
+   {
+      IfWinNotActive, cmd
+         break
+   }
    
    ; Only runs between 5am-12pm Monday-Friday
-   if(A_hour < 5)
-      Return
+   ;if(A_hour < 5)
+   ;   Return
    ;run the report numbers at 1
    ;~ if(A_hour = 1 and A_Min < 32) and (A_WDay != 1 and A_WDay != 7)
    ;~ {
@@ -218,14 +218,14 @@ AutoUpdate:
    ;runUpdate([westB1, westB2])
    ;runUpdate([centralB1, centralB2])
    ;runUpdate([atlanticB1, atlanticB2])
-   runUpdate([noB1, noB2, noB3, noB4])
-   runUpdate([soB1, soB2, soB3, soB4])
-   runUpdate([swB1, swB2, swB3, swB4])
-   runUpdate([gritB1, gritB2, gritB3, gritB4])
-   runUpdate([newEngB1, newEngB2, newEngB3, newEngB4])
-   runUpdate([legionB1, legionB2, legionB3, legionB4])
-   runUpdate([nisB1, nisB2, nisB3, nisB4])
-   runUpdate([dB1, dB2, dB3, dB4])
+   runUpdate([noB1, noB2, noB3, noB4, noB5])
+   runUpdate([soB1, soB2, soB3, soB4, soB5])
+   runUpdate([swB1, swB2, swB3, swB4, swB5])
+   runUpdate([gritB1, gritB2, gritB3, gritB4, gritB5])
+   runUpdate([newEngB1, newEngB2, newEngB3, newEngB4, newEngB5])
+   runUpdate([legionB1, legionB2, legionB3, legionB4, legionB5])
+   runUpdate([nisB1, nisB2, nisB3, nisB4, nisB5])
+   runUpdate([dB1, dB2, dB3, dB4, dB5])
    runUpdate([qcPass])
    runUpdate([cpQC, cpQCCompleted, cpQCChecked])
    runUpdate([ppQCPool, ppQCSREEPool, ppQCCadObjWChecks, ppQCCadCompleted, ppQCSREEWChecks, ppQCSREECompleted])

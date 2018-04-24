@@ -10,15 +10,22 @@ getUpdateSheet
 */
 function debugCompare() {
   var masterBacklogs = new ServiceMasterBacklog();
-  var overRide = 1;
+  var overRide = 4;
   compareBacklogs(masterBacklogs.Collection[overRide]);
   return;
 }
 
 function compareBacklogs(stagingBacklog) {
+  var stagingSheet = stagingBacklog;
   var updateSheet = getUpdateSheet(stagingBacklog);
-  var updateArray = getUpdateArray(stagingBacklog);
   var stagingArray = getStagingArray(stagingBacklog);
+  var updateArray = getUpdateArray(stagingBacklog);
+  compareUnitTypes(stagingArray, updateArray);
+}
+
+function compareUnitTypes(stagingArray, updateArray) {
+  console.log('staging: ' + stagingArray);
+  console.log('update: ' + updateArray);
 }
 
 function findOldandNew(masterBacklogs, overRide) {

@@ -18,18 +18,14 @@ uni_SolProjLinkCreator
 */
 function debugJunction() {
   var masterBacklogs = new ServiceMasterBacklog();
-  var override = undefined;
+  var override = 4;
   backlogProcessJunction(masterBacklogs.Collection, override);
   return;
 }
 
 function overrideIfDebugging(override) {
-  if (override === undefined) {
-    var backlog = override;
-    return backlog;
-  } else {
-    console.log('No override in junction.');
-  }
+  var backlog = override;
+  return backlog;
 }
 
 function backlogProcessJunction(backlogSheetArray, override) {
@@ -46,7 +42,7 @@ function backlogProcessJunction(backlogSheetArray, override) {
       uni_CadNameColCreator(workThisBacklog);
       uni_SolProjLinkCreator(workThisBacklog);
       addLastColumns(workThisBacklog);
-      continue;
+      break;
     } else if (backlogSheetArray[backlog].getName() === 'staging_DEPT SNOW PROPOSAL BACKLOG') {
       workThisBacklog = backlogSheetArray[backlog];
       uni_RegionMarker(workThisBacklog);
@@ -54,7 +50,7 @@ function backlogProcessJunction(backlogSheetArray, override) {
       uni_CadNameColCreator(workThisBacklog);
       uni_SolProjLinkCreator(workThisBacklog);
       addLastColumns(workThisBacklog);
-      continue;
+      break;
     } else if (backlogSheetArray[backlog].getName() === 'staging_DEPT CP RD BACKLOG') {
       workThisBacklog = backlogSheetArray[backlog];
       uni_RegionMarker(workThisBacklog);
@@ -62,7 +58,7 @@ function backlogProcessJunction(backlogSheetArray, override) {
       cprd_DateCleaner(workThisBacklog);
       cprd_LinkCreator(workThisBacklog);
       addLastColumns(workThisBacklog);
-      continue;
+      break;
     } else if (backlogSheetArray[backlog].getName() === 'staging_DEPT PART 1 BACKLOG') {
       workThisBacklog = backlogSheetArray[backlog];
       uni_RegionMarker(workThisBacklog);
@@ -71,7 +67,7 @@ function backlogProcessJunction(backlogSheetArray, override) {
       uni_CadNameColCreator(workThisBacklog);
       uni_SolProjLinkCreator(workThisBacklog);
       addLastColumns(workThisBacklog);
-      continue;
+      break;
     } else if (backlogSheetArray[backlog] === null) {
       throw 'The backlog was null in dateOperations()';
     } else {

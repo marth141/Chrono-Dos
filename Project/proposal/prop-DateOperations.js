@@ -15,7 +15,7 @@ validateHeader
 
 /**
 * For debugging dateOperations().
-* 
+*
 * @returns void
 */
 function debugPropDateCleaner() {
@@ -36,8 +36,7 @@ function prop_DateCleaner(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
   var propReqDate, propStatDate, stateOffice;
-  if (validateHeader('Opportunity: Proposal Requested', backlogArray, dim) &&
-    validateHeader('Opportunity: Proposal Status Date', backlogArray, dim)) {
+  if (validatePropHeaders(backlogArray, dim) === true) {
     propReqDate = getMeThatColumn('Opportunity: Proposal Requested', backlogArray, dim);
     propStatDate = getMeThatColumn('Opportunity: Proposal Status Date', backlogArray, dim);
     stateOffice = getMeThatColumn('Service: Regional Operating Center', backlogArray, dim);
@@ -48,6 +47,15 @@ function prop_DateCleaner(propBacklog) {
   }
   var dateAdjLog = prop_RemoveLateDates(backlogArray, dim, propReqDate, propStatDate, stateOffice);
   prop_SortAndCleanDates(propBacklog, dateAdjLog, dim, propReqDate, propStatDate);
+  SpreadsheetApp.flush();
+  return;
+}
+
+function validatePropHeaders(backlogArray, dim) {
+  if (validateHeader('Opportunity: Proposal Requested', backlogArray, dim)
+    && validateHeader('Opportunity: Proposal Status Date', backlogArray, dim) === true) {
+    return true;
+  }
 }
 
 /**
@@ -127,7 +135,6 @@ function prop_SortAndCleanDates(backlogSheet, dateAdjLog, dim, propReqDate, prop
     { column: propReqDate + 1, ascending: true }
   ]);
   backlogSheet.getRange(1, propReqDate + 1).setValue('Proposal Date');
-  SpreadsheetApp.flush();
   prop_RemoveDoubleDate(backlogSheet, propStatDate);
   return;
 }
@@ -144,6 +151,5 @@ function prop_SortAndCleanDates(backlogSheet, dateAdjLog, dim, propReqDate, prop
 */
 function prop_RemoveDoubleDate(backlogSheet, propStatDate) {
   backlogSheet.deleteColumn(propStatDate + 1);
-  SpreadsheetApp.flush();
   return;
 }

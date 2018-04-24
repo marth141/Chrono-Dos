@@ -13,11 +13,6 @@ timeStateOffset
 validateHeader
 */
 
-/**
-* For debugging dateOperations().
-* 
-* @returns void
-*/
 function debugPartOneDateCleaner() {
   var masterBacklogs = new ServiceMasterBacklog();
   masterBacklogs = masterBacklogs.Collection;
@@ -25,14 +20,6 @@ function debugPartOneDateCleaner() {
   return;
 }
 
-/**
-* For the proposal backlog, checks for date
-* columns, verifies they are dates, removes
-* the late dates and will sort and clean the
-* backlog.
-* 
-* @param {Sheet} propBacklog The backlog to be edited.
-*/
 function partone_DateCleaner(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
@@ -49,19 +36,6 @@ function partone_DateCleaner(propBacklog) {
   return;
 }
 
-/**
-* Sets up variables for comparing dates by
-* locating the columns and state abreviations
-* for the rest of the dateOperations().
-* 
-* @param {Array} backlogArray 
-* @param {Array} dim 
-* @param {Number} phaseSSCompCol 
-* @param {Number} OpPropStatDateCol 
-* @param {String} ssExtCompCol
-* @returns If dateCol2 is not null, corrected dates backlog is returned.
-* @returns If dateCol2 is null, the backlog is returned unchanged.
-*/
 function partone_RemoveLateDates(backlogArray, dim, phaseSSCompCol, ssExtCompCol, stateOfficeCol) {
   if (phaseSSCompCol !== null) {
     for (var row = 1; row <= dim[0] - 1; row++) {
@@ -107,17 +81,6 @@ function partone_CompareDates(backlogArray, dateValue1, dateValue2, row, phaseSS
   }
 }
 
-/**
-* Will sort the date column within the google
-* sheet then Removes the redundant date column.
-* 
-* @param {Sheet} backlogSheet The backlog Google Sheet
-* @param {Array} dateAdjLog The Date Adjusted Backlog Array
-* @param {Array} dim The dimensions of the backlog Google Sheet
-* @param {Number} OpPropStatDateCol
-* @param {Number} propStatDate 
-* @returns void
-*/
 function partone_SortAndCleanDates(backlogSheet, dateAdjLog, dim, phaseSSCompCol, ssExtCompCol) {
   backlogSheet.getRange(1, 1, dim[0], dim[1]).setValues(dateAdjLog);
   backlogSheet.getRange(2, 1, dim[0], dim[1]).sort([
@@ -130,16 +93,6 @@ function partone_SortAndCleanDates(backlogSheet, dateAdjLog, dim, phaseSSCompCol
   return;
 }
 
-/**
-* Removes the column that is a copy of the
-* date column to keep. This redundancy is
-* due to the dates overwriting each other in
-* compareDates().
-* 
-* @param {Sheet} backlogSheet 
-* @param {Number} propStatDate 
-* @returns void
-*/
 function partone_RemoveDoubleDate(backlogSheet, propStatDate) {
   backlogSheet.deleteColumn(propStatDate + 1);
   SpreadsheetApp.flush();

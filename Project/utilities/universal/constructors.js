@@ -2,6 +2,7 @@
 ServiceLock
 ServiceMasterBacklog
 ServiceOfficeCollection
+constructLink
 */
 
 /* global
@@ -25,4 +26,22 @@ var ServiceLock = LockService.getScriptLock();
 
 function stagingBacklogs() {
   this.Collection = SpreadsheetApp.getActiveSpreadsheet().getSheets();
+}
+
+/**
+* This will construct the link and put in the backlog
+* array. This array will be pasted back over the
+* report page.
+*
+* @param {number} linkColumn The ID of the CAD Object for link.
+* @param {number} linkTextColumn The SP- Name of the Solar Project.
+* @param {array} backlogArray The backlog array.
+* @param {array} dim The dimensions of the backlog sheet.
+* @returns The backlog array with new SolProj link.
+*/
+function constructLink(linkColumn, linkTextColumn, backlogArray, dim) {
+  for (var row = 1; row <= dim[0] - 1; row++) {
+    backlogArray[row][linkTextColumn] = '=HYPERLINK("https://vivintsolar.my.salesforce.com/' + backlogArray[row][linkColumn] + '", "' + backlogArray[row][linkTextColumn] + '")';
+  }
+  return backlogArray;
 }

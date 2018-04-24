@@ -13,7 +13,7 @@ timeStateOffset
 validateHeader
 */
 
-var SpreadsheetApp;
+var SpreadsheetApp = SpreadsheetApp;
 
 /**
  *
@@ -70,21 +70,21 @@ function validatePropHeaders(backlogArray, dim) {
  * 
  * @param {array} backlogArray
  * @param {array} dim
- * @param {number} propReqDate
- * @param {number} propStatDate
- * @param {number} stateOffice
+ * @param {number} propReqDateCol
+ * @param {number} propStatDateCol
+ * @param {number} stateOfficeCol
  * @returns 
  */
-function prop_RemoveLateDates(backlogArray, dim, propReqDate, propStatDate, stateOffice) {
-  if (propStatDate !== null) {
+function prop_RemoveLateDates(backlogArray, dim, propReqDateCol, propStatDateCol, stateOfficeCol) {
+  if (propStatDateCol !== null) {
     for (var row = 1; row <= dim[0] - 1; row++) {
-      var dateValue1 = new Date(backlogArray[row][propReqDate]);
-      var dateValue2 = new Date(backlogArray[row][propStatDate]);
-      var stateAbrv = backlogArray[row][stateOffice].substr(0, 2);
-      backlogArray = prop_CompareDates(backlogArray, dateValue1, dateValue2, row, propReqDate, propStatDate, stateAbrv);
+      var dateValue1 = new Date(backlogArray[row][propReqDateCol]);
+      var dateValue2 = new Date(backlogArray[row][propStatDateCol]);
+      var stateAbrv = backlogArray[row][stateOfficeCol].substr(0, 2);
+      backlogArray = prop_CompareDates(backlogArray, dateValue1, dateValue2, row, propReqDateCol, propStatDateCol, stateAbrv);
     }
     return backlogArray;
-  } else if (propStatDate === null) {
+  } else if (propStatDateCol === null) {
     return backlogArray;
   }
 }
@@ -96,27 +96,27 @@ function prop_RemoveLateDates(backlogArray, dim, propReqDate, propStatDate, stat
  * @param {Date} dateValue1
  * @param {Date} dateValue2
  * @param {number} row
- * @param {number} propReqDate
- * @param {number} propStatDate
+ * @param {number} propReqDateCol
+ * @param {number} propStatDateCol
  * @param {string} stateAbrv
  * @returns 
  */
-function prop_CompareDates(backlogArray, dateValue1, dateValue2, row, propReqDate, propStatDate, stateAbrv) {
+function prop_CompareDates(backlogArray, dateValue1, dateValue2, row, propReqDateCol, propStatDateCol, stateAbrv) {
   var fivePM = 17;
   if (dateValue1 > dateValue2) {
     fivePM += timeStateOffset(stateAbrv);
     dateValue1.setHours(fivePM, 0, 0);
-    backlogArray[row][propStatDate] = timeAddHours(dateValue1, 24);
+    backlogArray[row][propStatDateCol] = timeAddHours(dateValue1, 24);
     return backlogArray;
   } else if (dateValue1 < dateValue2) {
     fivePM += timeStateOffset(stateAbrv);
     dateValue2.setHours(fivePM, 0, 0);
-    backlogArray[row][propReqDate] = timeAddHours(dateValue2, 24);
+    backlogArray[row][propReqDateCol] = timeAddHours(dateValue2, 24);
     return backlogArray;
   } else {
     fivePM += timeStateOffset(stateAbrv);
     dateValue1.setHours(fivePM, 0, 0);
-    backlogArray[row][propReqDate] = timeAddHours(dateValue1, 24);
+    backlogArray[row][propReqDateCol] = timeAddHours(dateValue1, 24);
     return backlogArray;
   }
 }
@@ -124,31 +124,31 @@ function prop_CompareDates(backlogArray, dateValue1, dateValue2, row, propReqDat
 /**
  *
  * 
- * @param {any} backlogSheet 
+ * @param {any} backlogSheet
  * @param {array} dateAdjLog
  * @param {array} dim
- * @param {number} propReqDate
- * @param {number} propStatDate
+ * @param {number} propReqDateCol
+ * @param {number} propStatDateCol
  * @returns
  */
-function prop_SortAndCleanDates(backlogSheet, dateAdjLog, dim, propReqDate, propStatDate) {
+function prop_SortAndCleanDates(backlogSheet, dateAdjLog, dim, propReqDateCol, propStatDateCol) {
   backlogSheet.getRange(1, 1, dim[0], dim[1]).setValues(dateAdjLog);
   backlogSheet.getRange(2, 1, dim[0], dim[1]).sort([
-    { column: propReqDate + 1, ascending: true }
+    { column: propReqDateCol + 1, ascending: true }
   ]);
-  backlogSheet.getRange(1, propReqDate + 1).setValue('Proposal Date');
-  prop_RemoveDoubleDate(backlogSheet, propStatDate);
+  backlogSheet.getRange(1, propReqDateCol + 1).setValue('Proposal Date');
+  prop_RemoveDoubleDate(backlogSheet, propStatDateCol);
   return;
 }
 
 /**
  *
  * 
- * @param {any} backlogSheet 
- * @param {number} propStatDate
- * @returns 
+ * @param {any} backlogSheet
+ * @param {number} propStatDateCol
+ * @returns
  */
-function prop_RemoveDoubleDate(backlogSheet, propStatDate) {
-  backlogSheet.deleteColumn(propStatDate + 1);
+function prop_RemoveDoubleDate(backlogSheet, propStatDateCol) {
+  backlogSheet.deleteColumn(propStatDateCol + 1);
   return;
 }

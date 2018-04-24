@@ -10,25 +10,12 @@ getDimensions
 getMeThatColumn
 */
 
-/**
-* For debugging solProjCreator().
-*
-* @returns void
-*/
 function debugUniSolProj() {
   var masterBacklogs = new ServiceMasterBacklog();
   uni_SolProjLinkCreator(masterBacklogs.Collection);
   return;
 }
 
-/**
-* This one will get the variables for the Solar
-* project link creator. This allows the Solar Project
-* entries to be vivintsolar links.
-* 
-* @param {Sheet} propBacklog 
-* @returns 
-*/
 function uni_SolProjLinkCreator(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
@@ -44,22 +31,4 @@ function uni_SolProjLinkCreator(propBacklog) {
   propBacklog.deleteColumn(solProjLink + 1);
   SpreadsheetApp.flush();
   return;
-}
-
-/**
-* This will construct the link and put in the backlog
-* array. This array will be pasted back over the
-* report page.
-* 
-* @param {String} solProjLink The ID of the CAD Object for link.
-* @param {String} solProjName The SP- Name of the Solar Project.
-* @param {Array} backlogArray The backlog array.
-* @param {Array} dim The dimensions of the backlog sheet.
-* @returns The backlog array with new SolProj link.
-*/
-function constructLink(solProjLink, solProjName, backlogArray, dim) {
-  for (var row = 1; row <= dim[0] - 1; row++) {
-    backlogArray[row][solProjName] = '=HYPERLINK("https://vivintsolar.my.salesforce.com/' + backlogArray[row][solProjLink] + '", "' + backlogArray[row][solProjName] + '")';
-  }
-  return backlogArray;
 }

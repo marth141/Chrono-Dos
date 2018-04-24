@@ -20,7 +20,7 @@ validateHeader
  */
 function debugPropDateCleaner() {
   var masterBacklogs = new ServiceMasterBacklog();
-  prop_DateCleaner(masterBacklogs.Collection[1]);
+  prop_DateCleaner(masterBacklogs.Collection[4]);
   return;
 }
 
@@ -31,7 +31,6 @@ function debugPropDateCleaner() {
  * @returns 
  */
 function prop_DateCleaner(propBacklog) {
-  /** @type {array} */
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
   var propReqDateCol, propStatDateCol, stateOfficeCol;
@@ -74,7 +73,7 @@ function validatePropHeaders(backlogArray) {
  */
 function prop_RemoveLateDates(backlogArray, propReqDateCol, propStatDateCol, stateOfficeCol) {
   if (propStatDateCol !== null) {
-    for (var row = 1; row <= backlogArray.length; row++) {
+    for (var row = 1; row < backlogArray.length; row++) {
       var dateValue1 = new Date(backlogArray[row][propReqDateCol]);
       var dateValue2 = new Date(backlogArray[row][propStatDateCol]);
       var stateAbrv = backlogArray[row][stateOfficeCol].substr(0, 2);

@@ -50,7 +50,7 @@ function prop_MarkUnits(backlogArray, designPathCol, opporTypeCol, dim) {
   backlogArray[0][dim[1]] = 'Unit Type';
   var adjustedArray;
   var designPathString;
-  for (var sNumberRow = 1; sNumberRow <= backlogArray.length; sNumberRow++) {
+  for (var sNumberRow = 1; sNumberRow < backlogArray.length; sNumberRow++) {
     if (backlogArray[sNumberRow][designPathCol].match(/GSR/i)) {
       designPathString = 'GSR';
       adjustedArray = prop_OtsMarker(backlogArray, opporTypeCol, sNumberRow, dim, designPathString);

@@ -17,6 +17,12 @@ function debugUniSolProj() {
   return;
 }
 
+/**
+ *
+ * 
+ * @param {any} propBacklog 
+ * @returns 
+ */
 function uni_SolProjLinkCreator(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);

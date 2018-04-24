@@ -16,6 +16,12 @@ function debugPropUnitType() {
   return;
 }
 
+/**
+ *
+ *
+ * @param {any} propBacklog
+ * @returns 
+ */
 function prop_UnitTypeMarker(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
@@ -31,11 +37,20 @@ function prop_UnitTypeMarker(propBacklog) {
   return;
 }
 
+/**
+ *
+ *
+ * @param {array} backlogArray
+ * @param {number} designPathCol
+ * @param {number} opporTypeCol
+ * @param {array} dim
+ * @returns
+ */
 function prop_MarkUnits(backlogArray, designPathCol, opporTypeCol, dim) {
   backlogArray[0][dim[1]] = 'Unit Type';
   var adjustedArray;
   var designPathString;
-  for (var sNumberRow = 1; sNumberRow <= dim[0] - 1; sNumberRow++) {
+  for (var sNumberRow = 1; sNumberRow <= backlogArray.length; sNumberRow++) {
     if (backlogArray[sNumberRow][designPathCol].match(/GSR/i)) {
       designPathString = 'GSR';
       adjustedArray = prop_OtsMarker(backlogArray, opporTypeCol, sNumberRow, dim, designPathString);
@@ -48,6 +63,16 @@ function prop_MarkUnits(backlogArray, designPathCol, opporTypeCol, dim) {
   return adjustedArray;
 }
 
+/**
+ *
+ *
+ * @param {array} backlogArray
+ * @param {number} opporTypeCol
+ * @param {number} sNumberRow
+ * @param {array} dim
+ * @param {string} designPathString
+ * @returns
+ */
 function prop_OtsMarker(backlogArray, opporTypeCol, sNumberRow, dim, designPathString) {
   var contractCol = getMeThatColumn('Project: Contract Type', backlogArray);
   var utilityCol = getMeThatColumn('Project: Utility', backlogArray);

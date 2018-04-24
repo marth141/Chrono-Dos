@@ -6,6 +6,13 @@ getMeThatColumn
 
 /* global
 */
+
+/**
+ *
+ *
+ * @param {any} sheet 
+ * @returns 
+ */
 function getDimensions(sheet) {
   if (sheet !== null) {
     var dimensions = [];
@@ -19,6 +26,13 @@ function getDimensions(sheet) {
   }
 }
 
+/**
+ *
+ *
+ * @param {any} sheet
+ * @param {array} dimensions
+ * @returns 
+ */
 function getBacklogArray(sheet, dimensions) {
   if (sheet !== null) {
     var backlogData = sheet.getRange(1, 1, dimensions[0], dimensions[1]).getValues();
@@ -29,13 +43,12 @@ function getBacklogArray(sheet, dimensions) {
 }
 
 /**
-* Get's a column header in a 2D array from the
-* 0th row of the Array. Returns its index.
-*
-* @param {String} columnName to look for in the array.
-* @param {Array} backlogArray to search for the columnName.
-* @returns searched header's column number.
-*/
+ *
+ *
+ * @param {string} columnName
+ * @param {array} backlogArray
+ * @returns 
+ */
 function getMeThatColumn(columnName, backlogArray) {
   for (var col = 1; col <= backlogArray[0].length; col++) {
     if (backlogArray[0][col].match(columnName)) {

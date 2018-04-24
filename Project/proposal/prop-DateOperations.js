@@ -35,16 +35,16 @@ function prop_DateCleaner(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
   var propReqDateCol, propStatDateCol, stateOfficeCol;
-  if (validatePropHeaders(backlogArray, dim) === true) {
+  if (validatePropHeaders(backlogArray) === true) {
     propReqDateCol = getMeThatColumn('Opportunity: Proposal Requested', backlogArray);
     propStatDateCol = getMeThatColumn('Opportunity: Proposal Status Date', backlogArray);
     stateOfficeCol = getMeThatColumn('Service: Regional Operating Center', backlogArray);
-  } else if (validateHeader('Opportunity: Proposal Requested', backlogArray, dim) === false) {
+  } else if (validateHeader('Opportunity: Proposal Requested', backlogArray) === false) {
     throw 'Unable to find column: Opportunity: Proposal Requested';
-  } else if (validateHeader('Opportunity: Proposal Status Date', backlogArray, dim) === false) {
+  } else if (validateHeader('Opportunity: Proposal Status Date', backlogArray) === false) {
     throw 'Unable to find column: Opportunity: Proposal Status Date';
   }
-  var dateAdjLog = prop_RemoveLateDates(backlogArray, dim, propReqDateCol, propStatDateCol, stateOfficeCol);
+  var dateAdjLog = prop_RemoveLateDates(backlogArray, propReqDateCol, propStatDateCol, stateOfficeCol);
   prop_SortAndCleanDates(propBacklog, dateAdjLog, dim, propReqDateCol, propStatDateCol);
   SpreadsheetApp.flush();
   return;
@@ -54,12 +54,11 @@ function prop_DateCleaner(propBacklog) {
  *
  * 
  * @param {array} backlogArray
- * @param {array} dim
  * @returns
  */
-function validatePropHeaders(backlogArray, dim) {
-  if (validateHeader('Opportunity: Proposal Requested', backlogArray, dim)
-    && validateHeader('Opportunity: Proposal Status Date', backlogArray, dim) === true) {
+function validatePropHeaders(backlogArray) {
+  if (validateHeader('Opportunity: Proposal Requested', backlogArray)
+    && validateHeader('Opportunity: Proposal Status Date', backlogArray) === true) {
     return true;
   }
 }
@@ -68,15 +67,14 @@ function validatePropHeaders(backlogArray, dim) {
  *
  * 
  * @param {array} backlogArray
- * @param {array} dim
  * @param {number} propReqDateCol
  * @param {number} propStatDateCol
  * @param {number} stateOfficeCol
- * @returns 
+ * @returns
  */
-function prop_RemoveLateDates(backlogArray, dim, propReqDateCol, propStatDateCol, stateOfficeCol) {
+function prop_RemoveLateDates(backlogArray, propReqDateCol, propStatDateCol, stateOfficeCol) {
   if (propStatDateCol !== null) {
-    for (var row = 1; row <= dim[0] - 1; row++) {
+    for (var row = 1; row <= backlogArray.length; row++) {
       var dateValue1 = new Date(backlogArray[row][propReqDateCol]);
       var dateValue2 = new Date(backlogArray[row][propStatDateCol]);
       var stateAbrv = backlogArray[row][stateOfficeCol].substr(0, 2);

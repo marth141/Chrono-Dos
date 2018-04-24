@@ -15,6 +15,11 @@ function debugAddLastColumns() {
   return;
 }
 
+/**
+ *
+ * 
+ * @param {any} stagingBacklog 
+ */
 function uni_addLastColumns(stagingBacklog) {
   var dim = getDimensions(stagingBacklog);
   var addColumnOrigin = dim[1] + 1;

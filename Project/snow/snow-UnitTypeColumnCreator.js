@@ -15,6 +15,12 @@ function debugSnowUnitType() {
   return;
 }
 
+/**
+ *
+ *
+ * @param {any} propBacklog
+ * @returns 
+ */
 function snow_UnitTypeMarker(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
@@ -25,9 +31,16 @@ function snow_UnitTypeMarker(propBacklog) {
   return;
 }
 
+/**
+ *
+ *
+ * @param {array} backlogArray
+ * @param {array} dim
+ * @returns 
+ */
 function snow_MarkUnits(backlogArray, dim) {
   backlogArray[0][dim[1]] = 'Unit Type';
-  for (var sNumberRow = 1; sNumberRow <= dim[0] - 1; sNumberRow++) {
+  for (var sNumberRow = 1; sNumberRow <= backlogArray.length; sNumberRow++) {
     backlogArray[sNumberRow][dim[1]] = 'SNOW PROP';
   }
   return backlogArray;

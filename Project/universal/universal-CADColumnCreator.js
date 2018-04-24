@@ -16,6 +16,12 @@ function debugUniCadName() {
   return;
 }
 
+/**
+ *
+ * 
+ * @param {any} propBacklog 
+ * @returns 
+ */
 function uni_CadNameColCreator(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
@@ -31,6 +37,14 @@ function uni_CadNameColCreator(propBacklog) {
   return;
 }
 
+/**
+ *
+ * 
+ * @param {array} backlogArray
+ * @param {array} dim
+ * @param {number} cadNameCol 
+ * @returns 
+ */
 function uni_FillCadNameCol(backlogArray, dim, cadNameCol) {
   backlogArray[0][cadNameCol] = 'CAD Name';
   for (var row = 1; row <= dim[0] - 1; row++) {

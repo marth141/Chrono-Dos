@@ -25,10 +25,22 @@ function compareBacklogs(stagingBacklog) {
 }
 
 function compareUnitTypes(stagingArray, updateArray) {
-  var unitTypeCol = getMeThatColumn('Unit Type', stagingArray);
+  var stagingUnitTypeCol = getMeThatColumn('Unit Type', stagingArray);
+  var updateUnitTypeCol = getMeThatColumn('Unit Type', updateArray);
+  actuallyCompare(stagingArray, updateArray, stagingUnitTypeCol, updateUnitTypeCol);
   console.log(stagingArray);
   console.log(updateArray);
   return;
+}
+
+function actuallyCompare(stagingArray, updateArray, stagingUnitTypeCol, updateUnitTypeCol) {
+  for (var updateRow = 0; updateRow < updateArray.length; updateRow++) {
+    for (var stagingRow = 0; stagingRow < stagingArray.length; stagingRow++) {
+      if (updateArray[updateRow][0] === stagingArray[stagingRow][0]) {
+        console.log('Found a maching service number ' + updateRow);
+      }
+    }
+  }
 }
 
 function findOldandNew(masterBacklogs, overRide) {

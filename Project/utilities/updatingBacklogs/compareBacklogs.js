@@ -37,7 +37,9 @@ function actuallyCompare(stagingArray, updateArray, stagingUnitTypeCol, updateUn
   for (var updateRow = 0; updateRow < updateArray.length; updateRow++) {
     for (var stagingRow = 0; stagingRow < stagingArray.length; stagingRow++) {
       if (updateArray[updateRow][0] === stagingArray[stagingRow][0]) {
-        console.log('Found a maching service number ' + updateRow);
+        if (updateArray[updateRow][updateUnitTypeCol] === stagingArray[stagingRow][stagingUnitTypeCol]){
+          console.log('Found matching Unit Type ' + updateRow);
+        }
       }
     }
   }

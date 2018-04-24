@@ -38,7 +38,9 @@ function actuallyCompare(stagingArray, updateArray, stagingUnitTypeCol, updateUn
     for (var stagingRow = 0; stagingRow < stagingArray.length; stagingRow++) {
       if (updateArray[updateRow][0] === stagingArray[stagingRow][0]) {
         if (updateArray[updateRow][updateUnitTypeCol] === stagingArray[stagingRow][stagingUnitTypeCol]){
-          console.log('Found matching Unit Type ' + updateRow);
+          updateArray[updateRow][updateUnitTypeCol] = stagingArray[stagingRow][stagingUnitTypeCol];
+        } else if (updateArray[updateRow][updateUnitTypeCol] !== stagingArray[stagingRow][stagingUnitTypeCol]) {
+          stagingArray[stagingRow][stagingUnitTypeCol] = updateArray[updateRow][updateUnitTypeCol];
         }
       }
     }

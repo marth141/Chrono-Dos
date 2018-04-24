@@ -10,7 +10,7 @@ getMeThatColumn
 /**
  *
  *
- * @param {any} sheet 
+ * @param {any} sheet
  * @returns 
  */
 function getDimensions(sheet) {

@@ -87,21 +87,7 @@ function invalidFix(dateValue) {
   }
 }
 
-/**
-* 
-* 
-* @param {Array} backlogArray The backlog array to be edited.
-* @param {Date} dateValue1 Phase: Site Survey Completed
-* @param {Date} dateValue2 Opportunity: Proposal Status Date
-* @param {Date} dateValue3 Phase: Site Survey Exterior Completed
-* @param {Number} row The service number to be edited
-* @param {Number} phaseSSCompCol The column for phaseSSComp
-* @param {Number} OpPropStatDateCol The Column for OpPropStatDate
-* @param {Number} ssExtCompCol The Column for ssExtComp
-* @param {String} stateAbrv The stateAbrv
-* @returns 
-*/
-function partone_CompareDates(backlogArray, dateValue1, dateValue2, row, phaseSSCompCol, ssExtCompCol, stateAbrv) {
+function partone_CompareDates(backlogArray, dateValue1, dateValue2, row, phaseSSCompCol, stateAbrv) {
   var fivePM = 17;
   if (dateValue1 > dateValue2) {
     fivePM += timeStateOffset(stateAbrv);

@@ -12,6 +12,7 @@ timeAddHours
 timeStateOffset
 validateHeader
 */
+
 function debugCPRDDateCleaner() {
   var masterBacklogs = new ServiceMasterBacklog();
   masterBacklogs = masterBacklogs.Collection;
@@ -19,23 +20,15 @@ function debugCPRDDateCleaner() {
   return;
 }
 
-/**
-* For the proposal backlog, checks for date
-* columns, verifies they are dates, removes
-* the late dates and will sort and clean the
-* backlog.
-* 
-* @param {Sheet} propBacklog The backlog to be edited.
-*/
 function cprd_DateCleaner(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
   var opPropCompCol, initPropCompCol, redesReqCol, stateOfficeCol;
   if (validateHeader('Opportunity: Proposal Requested', backlogArray, dim)) {
-    opPropCompCol = getMeThatColumn('Opportunity: Proposal Requested', backlogArray, dim);
-    initPropCompCol = getMeThatColumn('Initial Proposal Completed', backlogArray, dim);
-    redesReqCol = getMeThatColumn('Redesign Requested', backlogArray, dim);
-    stateOfficeCol = getMeThatColumn('Opportunity: Office', backlogArray, dim);
+    opPropCompCol = getMeThatColumn('Opportunity: Proposal Requested', backlogArray);
+    initPropCompCol = getMeThatColumn('Initial Proposal Completed', backlogArray);
+    redesReqCol = getMeThatColumn('Redesign Requested', backlogArray);
+    stateOfficeCol = getMeThatColumn('Opportunity: Office', backlogArray);
   } else if (validateHeader('Opportunity: Proposal Requested', backlogArray, dim) === false) {
     throw 'Unable to find column: Opportunity: Proposal Requested';
   }
@@ -98,7 +91,7 @@ function invalidFix(dateValue) {
 * @param {String} stateAbrv The stateAbrv
 * @returns 
 */
-function cprd_CompareDates(backlogArray, dateValue1, dateValue2, dateValue3, row, phaseSSCompCol, OpPropStatDateCol, ssExtCompCol, stateAbrv) {
+function cprd_CompareDates(backlogArray, dateValue1, dateValue2, dateValue3, row, OpPropStatDateCol, stateAbrv) {
   var fivePM = 17;
   if (dateValue2 <= dateValue1 && dateValue1 >= dateValue3) {
     fivePM += timeStateOffset(stateAbrv);

@@ -13,7 +13,9 @@
         "indent": [
             "error",
             2,
-            {"SwitchCase": 1}
+            {
+                "SwitchCase": 1
+            }
         ],
         "linebreak-style": [
             "off",
@@ -27,7 +29,11 @@
             "error",
             "always"
         ],
-        "no-console":"off",
-        "no-undef":"warn"
+        "no-unused-vars": [
+            "error",
+            {"args": "after-used"}
+        ],
+        "no-console": "off",
+        "no-undef": "warn"
     }
 }

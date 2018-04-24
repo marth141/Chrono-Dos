@@ -13,11 +13,13 @@ timeStateOffset
 validateHeader
 */
 
+var SpreadsheetApp;
+
 /**
-* For debugging dateOperations().
-*
-* @returns void
-*/
+ *
+ * 
+ * @returns 
+ */
 function debugPropDateCleaner() {
   var masterBacklogs = new ServiceMasterBacklog();
   prop_DateCleaner(masterBacklogs.Collection[1]);
@@ -25,32 +27,37 @@ function debugPropDateCleaner() {
 }
 
 /**
-* For the proposal backlog, checks for date
-* columns, verifies they are dates, removes
-* the late dates and will sort and clean the
-* backlog.
-* 
-* @param {Sheet} propBacklog The backlog to be edited.
-*/
+ *
+ *
+ * @param {any} propBacklog
+ * @returns 
+ */
 function prop_DateCleaner(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
-  var propReqDate, propStatDate, stateOffice;
+  var propReqDateCol, propStatDateCol, stateOfficeCol;
   if (validatePropHeaders(backlogArray, dim) === true) {
-    propReqDate = getMeThatColumn('Opportunity: Proposal Requested', backlogArray, dim);
-    propStatDate = getMeThatColumn('Opportunity: Proposal Status Date', backlogArray, dim);
-    stateOffice = getMeThatColumn('Service: Regional Operating Center', backlogArray, dim);
+    propReqDateCol = getMeThatColumn('Opportunity: Proposal Requested', backlogArray);
+    propStatDateCol = getMeThatColumn('Opportunity: Proposal Status Date', backlogArray);
+    stateOfficeCol = getMeThatColumn('Service: Regional Operating Center', backlogArray);
   } else if (validateHeader('Opportunity: Proposal Requested', backlogArray, dim) === false) {
     throw 'Unable to find column: Opportunity: Proposal Requested';
   } else if (validateHeader('Opportunity: Proposal Status Date', backlogArray, dim) === false) {
     throw 'Unable to find column: Opportunity: Proposal Status Date';
   }
-  var dateAdjLog = prop_RemoveLateDates(backlogArray, dim, propReqDate, propStatDate, stateOffice);
-  prop_SortAndCleanDates(propBacklog, dateAdjLog, dim, propReqDate, propStatDate);
+  var dateAdjLog = prop_RemoveLateDates(backlogArray, dim, propReqDateCol, propStatDateCol, stateOfficeCol);
+  prop_SortAndCleanDates(propBacklog, dateAdjLog, dim, propReqDateCol, propStatDateCol);
   SpreadsheetApp.flush();
   return;
 }
 
+/**
+ *
+ * 
+ * @param {array} backlogArray
+ * @param {array} dim
+ * @returns
+ */
 function validatePropHeaders(backlogArray, dim) {
   if (validateHeader('Opportunity: Proposal Requested', backlogArray, dim)
     && validateHeader('Opportunity: Proposal Status Date', backlogArray, dim) === true) {
@@ -59,18 +66,15 @@ function validatePropHeaders(backlogArray, dim) {
 }
 
 /**
-* Sets up variables for comparing dates by
-* locating the columns and state abreviations
-* for the rest of the dateOperations().
-* 
-* @param {Array} backlogArray 
-* @param {Array} dim 
-* @param {Number} propReqDate 
-* @param {Number} propStatDate 
-* @param {String} stateOffice
-* @returns If dateCol2 is not null, corrected dates backlog is returned.
-* @returns If dateCol2 is null, the backlog is returned unchanged.
-*/
+ *
+ * 
+ * @param {array} backlogArray
+ * @param {array} dim
+ * @param {number} propReqDate
+ * @param {number} propStatDate
+ * @param {number} stateOffice
+ * @returns 
+ */
 function prop_RemoveLateDates(backlogArray, dim, propReqDate, propStatDate, stateOffice) {
   if (propStatDate !== null) {
     for (var row = 1; row <= dim[0] - 1; row++) {
@@ -86,18 +90,17 @@ function prop_RemoveLateDates(backlogArray, dim, propReqDate, propStatDate, stat
 }
 
 /**
-* Compares two dates and will overwrite the
-* oldest date with the earliest.
-* 
-* @param {Array} backlogArray 
-* @param {Date} dateValue1 
-* @param {Date} dateValue2 
-* @param {Number} row 
-* @param {Number} propReqDate 
-* @param {Number} propStatDate 
-* @param {String} stateAbrv 
-* @returns a new backlogArray with the dates "Normalized".
-*/
+ *
+ * 
+ * @param {array} backlogArray
+ * @param {Date} dateValue1
+ * @param {Date} dateValue2
+ * @param {number} row
+ * @param {number} propReqDate
+ * @param {number} propStatDate
+ * @param {string} stateAbrv
+ * @returns 
+ */
 function prop_CompareDates(backlogArray, dateValue1, dateValue2, row, propReqDate, propStatDate, stateAbrv) {
   var fivePM = 17;
   if (dateValue1 > dateValue2) {
@@ -119,16 +122,15 @@ function prop_CompareDates(backlogArray, dateValue1, dateValue2, row, propReqDat
 }
 
 /**
-* Will sort the date column within the google
-* sheet then Removes the redundant date column.
-* 
-* @param {Sheet} backlogSheet 
-* @param {Array} dateAdjLog 
-* @param {Array} dim 
-* @param {Number} dateCol 
-* @param {Number} propStatDate 
-* @returns void
-*/
+ *
+ * 
+ * @param {any} backlogSheet 
+ * @param {array} dateAdjLog
+ * @param {array} dim
+ * @param {number} propReqDate
+ * @param {number} propStatDate
+ * @returns
+ */
 function prop_SortAndCleanDates(backlogSheet, dateAdjLog, dim, propReqDate, propStatDate) {
   backlogSheet.getRange(1, 1, dim[0], dim[1]).setValues(dateAdjLog);
   backlogSheet.getRange(2, 1, dim[0], dim[1]).sort([
@@ -140,15 +142,12 @@ function prop_SortAndCleanDates(backlogSheet, dateAdjLog, dim, propReqDate, prop
 }
 
 /**
-* Removes the column that is a copy of the
-* date column to keep. This redundancy is
-* due to the dates overwriting each other in
-* compareDates().
-* 
-* @param {Sheet} backlogSheet 
-* @param {Number} propStatDate 
-* @returns void
-*/
+ *
+ * 
+ * @param {any} backlogSheet 
+ * @param {number} propStatDate
+ * @returns 
+ */
 function prop_RemoveDoubleDate(backlogSheet, propStatDate) {
   backlogSheet.deleteColumn(propStatDate + 1);
   return;

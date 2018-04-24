@@ -34,14 +34,13 @@ function getBacklogArray(sheet, dimensions) {
 *
 * @param {String} columnName to look for in the array.
 * @param {Array} backlogArray to search for the columnName.
-* @param {Array} dimensions of the Google Sheet. Will -1 to for array searching.
 * @returns searched header's column number.
 */
-function getMeThatColumn(columnName, backlogArray, dimensions) {
-  for (var col = 1; col <= dimensions[1] - 1; col++) {
+function getMeThatColumn(columnName, backlogArray) {
+  for (var col = 1; col <= backlogArray[0].length; col++) {
     if (backlogArray[0][col].match(columnName)) {
       return col;
-    } else if (col === dimensions[1] - 1) {
+    } else if (col === backlogArray[0].length) {
       throw 'getMeThatColumn() could not find: ' + columnName;
     }
   }

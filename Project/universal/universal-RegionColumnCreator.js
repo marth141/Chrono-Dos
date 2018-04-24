@@ -44,18 +44,7 @@ function uni_RegionMarker(backlog) {
   return;
 }
 
-/**
-* Used for filling in regions for non-california
-* states. The california states will need to go
-* through their own checking process.
-* 
-* @param {Sheet} backlogSheet The backlog sheet to be worked on.
-* @param {Array} backlogArray The backlog sheet as an array.
-* @param {Number} regOpCenterCol The column for regional ops centers.
-* @param {Array} dim The dimensions of the backlog sheet.
-* @returns The backlog array after marking regions.
-*/
-function markRegion(backlogSheet, backlogArray, regOpCenterCol, dim) {
+function markRegion(backlogArray, regOpCenterCol, dim) {
   var offices = new ServiceOfficeCollection();
   var region;
   backlogArray[0][dim[1]] = 'Region';
@@ -104,16 +93,7 @@ function markCaliRegion(offices, region, backlogArray, sNumberRow, regOpCenterCo
   }
 }
 
-/**
-* Marks National Regions, this would be NIS, Dealer,
-* and Retail accounts.
-* 
-* @param {Sheet} backlogSheet The sheet to be examined.
-* @param {Array} markedRegions The regions that were already marked.
-* @param {Array} dim The dimensions of the sheet. Should be 1 bigger.
-* @returns A completed backlog with Retail, Dealer, and NIS marked.
-*/
-function markNatlRegion(backlogSheet, markedRegions, dim) {
+function markNatlRegion(markedRegions, dim) {
   var OpproOfficeCol = getMeThatColumn('Opportunity: Office:*', markedRegions, dim);
   var markedNatOffices = markNatlOffice(markedRegions, OpproOfficeCol, dim);
   return markedNatOffices;

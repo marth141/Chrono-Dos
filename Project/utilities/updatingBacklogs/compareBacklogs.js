@@ -4,6 +4,7 @@ debugCompare
 
 /* global
 ServiceMasterBacklog
+getMeThatColumn
 getStagingArray
 getUpdateArray
 getUpdateSheet
@@ -24,8 +25,10 @@ function compareBacklogs(stagingBacklog) {
 }
 
 function compareUnitTypes(stagingArray, updateArray) {
-  console.log('staging: ' + stagingArray);
-  console.log('update: ' + updateArray);
+  var unitTypeCol = getMeThatColumn('Unit Type', stagingArray);
+  console.log(stagingArray);
+  console.log(updateArray);
+  return;
 }
 
 function findOldandNew(masterBacklogs, overRide) {

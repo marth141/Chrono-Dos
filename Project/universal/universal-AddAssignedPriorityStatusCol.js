@@ -11,11 +11,11 @@ getDimensions
 function debugAddLastColumns() {
   var masterBacklogs = new ServiceMasterBacklog();
   var overRide = 1;
-  addLastColumns(masterBacklogs.Collection[overRide]);
+  uni_addLastColumns(masterBacklogs.Collection[overRide]);
   return;
 }
 
-function addLastColumns(stagingBacklog) {
+function uni_addLastColumns(stagingBacklog) {
   var dim = getDimensions(stagingBacklog);
   var addColumnOrigin = dim[1] + 1;
   var lastColToAdd = dim[1] + 3;

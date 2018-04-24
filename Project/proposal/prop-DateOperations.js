@@ -13,8 +13,6 @@ timeStateOffset
 validateHeader
 */
 
-var SpreadsheetApp = SpreadsheetApp;
-
 /**
  *
  * 
@@ -33,6 +31,7 @@ function debugPropDateCleaner() {
  * @returns 
  */
 function prop_DateCleaner(propBacklog) {
+  /** @type {array} */
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
   var propReqDateCol, propStatDateCol, stateOfficeCol;

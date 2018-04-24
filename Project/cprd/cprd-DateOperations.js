@@ -24,18 +24,18 @@ function debugCPRDDateCleaner() {
  *
  * 
  * @param {any} propBacklog 
- * @returns 
+ * @returns
  */
 function cprd_DateCleaner(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
   var opPropCompCol, initPropCompCol, redesReqCol, stateOfficeCol;
-  if (validateHeader('Opportunity: Proposal Requested', backlogArray, dim)) {
+  if (validateHeader('Opportunity: Proposal Requested', backlogArray)) {
     opPropCompCol = getMeThatColumn('Opportunity: Proposal Requested', backlogArray);
     initPropCompCol = getMeThatColumn('Initial Proposal Completed', backlogArray);
     redesReqCol = getMeThatColumn('Redesign Requested', backlogArray);
     stateOfficeCol = getMeThatColumn('Opportunity: Office', backlogArray);
-  } else if (validateHeader('Opportunity: Proposal Requested', backlogArray, dim) === false) {
+  } else if (validateHeader('Opportunity: Proposal Requested', backlogArray) === false) {
     throw 'Unable to find column: Opportunity: Proposal Requested';
   }
   var dateAdjLog = cprd_RemoveLateDates(backlogArray, dim, opPropCompCol, initPropCompCol, redesReqCol, stateOfficeCol);

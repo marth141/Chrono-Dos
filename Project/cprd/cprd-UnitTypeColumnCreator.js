@@ -19,7 +19,7 @@ function debugCPRDUnitType() {
  *
  *
  * @param {any} propBacklog
- * @returns 
+ * @returns
  */
 function cprd_UnitTypeMarker(propBacklog) {
   var dim = getDimensions(propBacklog);
@@ -34,13 +34,13 @@ function cprd_UnitTypeMarker(propBacklog) {
 /**
  *
  * 
- * @param {any} backlogArray 
- * @param {any} dim 
- * @returns 
+ * @param {array} backlogArray
+ * @param {array} dim
+ * @returns
  */
 function cprd_MarkUnits(backlogArray, dim) {
   backlogArray[0][dim[1]] = 'Unit Type';
-  for (var sNumberRow = 1; sNumberRow <= dim[0] - 1; sNumberRow++) {
+  for (var sNumberRow = 1; sNumberRow <= backlogArray.length; sNumberRow++) {
     backlogArray[sNumberRow][dim[1]] = 'CP RD';
   }
   return backlogArray;

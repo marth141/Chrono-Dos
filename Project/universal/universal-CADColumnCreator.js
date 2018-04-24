@@ -19,7 +19,7 @@ function debugUniCadName() {
 function uni_CadNameColCreator(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
-  var solarProjCol = getMeThatColumn('Project Name', backlogArray, dim);
+  var solarProjCol = getMeThatColumn('Project Name', backlogArray);
   propBacklog.insertColumnAfter(solarProjCol + 1);
   dim = getDimensions(propBacklog);
   backlogArray = getBacklogArray(propBacklog, dim);

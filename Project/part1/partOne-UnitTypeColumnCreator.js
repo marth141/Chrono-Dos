@@ -15,6 +15,12 @@ function debugPartOneUnitType() {
   return;
 }
 
+/**
+ *
+ * 
+ * @param {any} propBacklog 
+ * @returns 
+ */
 function partOne_UnitTypeMarker(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
@@ -25,6 +31,13 @@ function partOne_UnitTypeMarker(propBacklog) {
   return;
 }
 
+/**
+ *
+ * 
+ * @param {array} backlogArray
+ * @param {array} dim
+ * @returns 
+ */
 function lite_MarkUnits(backlogArray, dim) {
   backlogArray[0][dim[1]] = 'Unit Type';
   for (var sNumberRow = 1; sNumberRow <= dim[0] - 1; sNumberRow++) {

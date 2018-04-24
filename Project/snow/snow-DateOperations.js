@@ -24,7 +24,7 @@ function snow_DateCleaner(propBacklog) {
   var backlogArray = getBacklogArray(propBacklog, dim);
   var assignmentDate;
   if (validateHeader('Assignment Finish', backlogArray, dim)) {
-    assignmentDate = getMeThatColumn('Assignment Finish', backlogArray, dim);
+    assignmentDate = getMeThatColumn('Assignment Finish', backlogArray);
   } else if (validateHeader('Assignment Finish', backlogArray, dim) === false) {
     throw 'Unable to find column: Assignment Finish';
   }

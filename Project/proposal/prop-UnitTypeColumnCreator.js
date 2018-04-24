@@ -49,9 +49,9 @@ function prop_MarkUnits(backlogArray, designPathCol, opporTypeCol, dim) {
 }
 
 function prop_OtsMarker(backlogArray, opporTypeCol, sNumberRow, dim, designPathString) {
-  var contractCol = getMeThatColumn('Project: Contract Type', backlogArray, dim);
-  var utilityCol = getMeThatColumn('Project: Utility', backlogArray, dim);
-  var regionCol = getMeThatColumn('Region', backlogArray, dim);
+  var contractCol = getMeThatColumn('Project: Contract Type', backlogArray);
+  var utilityCol = getMeThatColumn('Project: Utility', backlogArray);
+  var regionCol = getMeThatColumn('Region', backlogArray);
   var serviceNumber = backlogArray[sNumberRow];
 
   if (serviceNumber[contractCol].match(/lease/i) &&

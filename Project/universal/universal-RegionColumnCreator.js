@@ -49,7 +49,7 @@ function markRegion(backlogArray, regOpCenterCol, sheetDim) {
   var offices = new ServiceOfficeCollection();
   var region;
   backlogArray[0][sheetDim[1]] = 'Region';
-  for (var row = 1; row <= backlogArray[0].length; row++) {
+  for (var row = 1; row < backlogArray.length; row++) {
     var stateAbrv = backlogArray[row][regOpCenterCol].substr(0, 2);
     if (offices.SouthWest.indexOf(stateAbrv) > -1) {
       region = 'Southwest';
@@ -117,7 +117,7 @@ function markNatlRegion(markedRegionsArray, sheetDim) {
  */
 function markNatlOffice(markedRegionsArray, opproOfficeCol, sheetDim) {
   var region;
-  for (var row = 1; row <= markedRegionsArray.length; row++) {
+  for (var row = 1; row < markedRegionsArray.length; row++) {
     if (markedRegionsArray[row][opproOfficeCol].match(/NIS/i)) {
       region = 'NIS';
       markedRegionsArray = writeRegion(markedRegionsArray, row, sheetDim, region);

@@ -40,7 +40,7 @@ function snow_UnitTypeMarker(propBacklog) {
  */
 function snow_MarkUnits(backlogArray, dim) {
   backlogArray[0][dim[1]] = 'Unit Type';
-  for (var sNumberRow = 1; sNumberRow <= backlogArray.length; sNumberRow++) {
+  for (var sNumberRow = 1; sNumberRow < backlogArray.length; sNumberRow++) {
     backlogArray[sNumberRow][dim[1]] = 'SNOW PROP';
   }
   return backlogArray;

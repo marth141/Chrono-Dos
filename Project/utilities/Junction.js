@@ -19,7 +19,7 @@ uni_addLastColumns
 */
 function debugJunction() {
   var masterBacklogs = new ServiceMasterBacklog();
-  var override = 4;
+  var override = 5;
   backlogProcessJunction(masterBacklogs.Collection, override);
   return;
 }
@@ -43,7 +43,7 @@ function backlogProcessJunction(backlogSheetArray, override) {
       uni_CadNameColCreator(workThisBacklog);
       uni_SolProjLinkCreator(workThisBacklog);
       uni_addLastColumns(workThisBacklog);
-      continue;
+      break;
     } else if (backlogSheetArray[backlog].getName() === 'staging_DEPT SNOW PROPOSAL BACKLOG') {
       workThisBacklog = backlogSheetArray[backlog];
       uni_RegionMarker(workThisBacklog);
@@ -51,7 +51,7 @@ function backlogProcessJunction(backlogSheetArray, override) {
       uni_CadNameColCreator(workThisBacklog);
       uni_SolProjLinkCreator(workThisBacklog);
       uni_addLastColumns(workThisBacklog);
-      continue;
+      break;
     } else if (backlogSheetArray[backlog].getName() === 'staging_DEPT CP RD BACKLOG') {
       workThisBacklog = backlogSheetArray[backlog];
       uni_RegionMarker(workThisBacklog);
@@ -59,7 +59,7 @@ function backlogProcessJunction(backlogSheetArray, override) {
       cprd_DateCleaner(workThisBacklog);
       cprd_LinkCreator(workThisBacklog);
       uni_addLastColumns(workThisBacklog);
-      continue;
+      break;
     } else if (backlogSheetArray[backlog].getName() === 'staging_DEPT PART 1 BACKLOG') {
       workThisBacklog = backlogSheetArray[backlog];
       uni_RegionMarker(workThisBacklog);
@@ -68,7 +68,7 @@ function backlogProcessJunction(backlogSheetArray, override) {
       uni_CadNameColCreator(workThisBacklog);
       uni_SolProjLinkCreator(workThisBacklog);
       uni_addLastColumns(workThisBacklog);
-      continue;
+      break;
     } else if (backlogSheetArray[backlog] === null) {
       throw 'The backlog was null in dateOperations()';
     } else {

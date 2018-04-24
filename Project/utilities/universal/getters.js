@@ -50,7 +50,7 @@ function getBacklogArray(sheet, dimensions) {
  * @returns 
  */
 function getMeThatColumn(columnName, backlogArray) {
-  for (var col = 1; col <= backlogArray[0].length; col++) {
+  for (var col = 1; col < backlogArray[0].length; col++) {
     if (backlogArray[0][col].match(columnName)) {
       return col;
     } else if (col === backlogArray[0].length) {

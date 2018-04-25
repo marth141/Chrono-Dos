@@ -1,5 +1,5 @@
 #Persistent
-#Include %A_ScriptDir%\SimplifiedIntentions\runSQLUpdate.ahk
+;#Include %A_ScriptDir%\SimplifiedIntentions\runSQLUpdate.ahk
 #Include %A_ScriptDir%\globals.ahk
 #Include %A_ScriptDir%\SimplifiedIntentions\runUpdate.ahk
 

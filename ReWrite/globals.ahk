@@ -1,7 +1,4 @@
-﻿chronoOpened = 0
-maxmizeCount = 0
-
-chronoInput = "https://docs.google.com/spreadsheets/d/1-bML_DrE8eNiJ2kUw4ppZRXvb5vrexITu0356WEcRoE/edit#"
+﻿chronoInput := "https://docs.google.com/spreadsheets/d/1-bML_DrE8eNiJ2kUw4ppZRXvb5vrexITu0356WEcRoE/edit#"
 
 /*
 	Proposal Backlogs
@@ -14,42 +11,42 @@ newEngBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nqeM", "htt
 
 gritBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nqfA", "https://vivintsolar.my.salesforce.com/00O41000007nqfF", "https://vivintsolar.my.salesforce.com/00O41000007nqfK", "https://vivintsolar.my.salesforce.com/00O41000007nqfU", "https://vivintsolar.my.salesforce.com/00O41000007nanU"]
 
-northCaliBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nqfZ", https://vivintsolar.my.salesforce.com/00O41000007nqfe, https://vivintsolar.my.salesforce.com/00O41000007nqfj, https://vivintsolar.my.salesforce.com/00O41000007nqfo, https://vivintsolar.my.salesforce.com/00O41000007naoD]
+northCaliBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nqfZ", "https://vivintsolar.my.salesforce.com/00O41000007nqfe", "https://vivintsolar.my.salesforce.com/00O41000007nqfj", "https://vivintsolar.my.salesforce.com/00O41000007nqfo", "https://vivintsolar.my.salesforce.com/00O41000007naoD"]
 
-southCaliBacklogs = [https://vivintsolar.my.salesforce.com/00O41000007nqg8, https://vivintsolar.my.salesforce.com/00O41000007nqgD, https://vivintsolar.my.salesforce.com/00O41000007nqgI, https://vivintsolar.my.salesforce.com/00O41000007nqgN, https://vivintsolar.my.salesforce.com/00O41000007naow]
+southCaliBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nqg8", "https://vivintsolar.my.salesforce.com/00O41000007nqgD", "https://vivintsolar.my.salesforce.com/00O41000007nqgI", "https://vivintsolar.my.salesforce.com/00O41000007nqgN", "https://vivintsolar.my.salesforce.com/00O41000007naow"]
 	
-nisBacklogs = [https://vivintsolar.my.salesforce.com/00O41000007ns2U, https://vivintsolar.my.salesforce.com/00O41000007ns3I, https://vivintsolar.my.salesforce.com/00O41000007ns2o, https://vivintsolar.my.salesforce.com/00O41000007ns33, https://vivintsolar.my.salesforce.com/00O41000007nakk]
+nisBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007ns2U", "https://vivintsolar.my.salesforce.com/00O41000007ns3I", "https://vivintsolar.my.salesforce.com/00O41000007ns2o", "https://vivintsolar.my.salesforce.com/00O41000007ns33", "https://vivintsolar.my.salesforce.com/00O41000007nakk"]
 
-dealerBacklogs = [https://vivintsolar.my.salesforce.com/00O41000008G94E, https://vivintsolar.my.salesforce.com/00O41000008G95R, https://vivintsolar.my.salesforce.com/00O41000008G96A, https://vivintsolar.my.salesforce.com/00O41000008G96F, https://vivintsolar.my.salesforce.com/00O41000008G96K]
+dealerBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000008G94E", "https://vivintsolar.my.salesforce.com/00O41000008G95R", "https://vivintsolar.my.salesforce.com/00O41000008G96A", "https://vivintsolar.my.salesforce.com/00O41000008G96F", "https://vivintsolar.my.salesforce.com/00O41000008G96K"]
 
 /*
 	Permit Backlogs
 */
-westCoastPermitBacklogs = [https://vivintsolar.my.salesforce.com/00O41000008GHt8, https://vivintsolar.my.salesforce.com/00O41000008GHtI]
+westCoastPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000008GHt8", "https://vivintsolar.my.salesforce.com/00O41000008GHtI"]
 
-eastCoastPermitBacklogs = [https://vivintsolar.my.salesforce.com/00O41000008GHth, https://vivintsolar.my.salesforce.com/00O41000008GHtr]
+eastCoastPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000008GHth", "https://vivintsolar.my.salesforce.com/00O41000008GHtr"]
 
 
 /*
 	QCD Backlogs
 */
-cpQualityConBacklogs = [https://vivintsolar.my.salesforce.com/00O41000008DmPD, https://vivintsolar.my.salesforce.com/00O41000008Dn1X, https://vivintsolar.my.salesforce.com/00O41000008Dq1z]
+cpQualityConBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000008DmPD", "https://vivintsolar.my.salesforce.com/00O41000008Dn1X", "https://vivintsolar.my.salesforce.com/00O41000008Dq1z"]
 
-permitQualityConBacklogs = [https://vivintsolar.my.salesforce.com/00O41000008Efa8, https://vivintsolar.my.salesforce.com/00O41000008ECAe, https://vivintsolar.my.salesforce.com/00O41000008E7Nn, https://vivintsolar.my.salesforce.com/00O41000008E7Ni, https://vivintsolar.my.salesforce.com/00O41000008EDJr, https://vivintsolar.my.salesforce.com/00O41000008EDLd]
+permitQualityConBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000008Efa8", "https://vivintsolar.my.salesforce.com/00O41000008ECAe", "https://vivintsolar.my.salesforce.com/00O41000008E7Nn", "https://vivintsolar.my.salesforce.com/00O41000008E7Ni", "https://vivintsolar.my.salesforce.com/00O41000008EDJr", "https://vivintsolar.my.salesforce.com/00O41000008EDLd"]
 
-qualityConPass = [https://vivintsolar.my.salesforce.com/00O41000008E3nf]
+qualityConPass := ["https://vivintsolar.my.salesforce.com/00O41000008E3nf"]
 
 /*
 	Escalation Backlogs
 */
-structrualEscalations = https://vivintsolar.my.salesforce.com/00O41000008pQux
-structrualEscalationsNonFullProcess = https://vivintsolar.my.salesforce.com/00O41000008pQui
-electricalEscalations = https://vivintsolar.my.salesforce.com/00O41000008pj5I
+structrualEscalations := ["https://vivintsolar.my.salesforce.com/00O41000008pQux"]
+structrualEscalationsNonFullProcess := ["https://vivintsolar.my.salesforce.com/00O41000008pQui"]
+electricalEscalations := ["https://vivintsolar.my.salesforce.com/00O41000008pj5I"]
 
 /*
 	A bunch of old backlogs.
 */
-vrAudit = [https://vivintsolar.my.salesforce.com/00O41000008DpjH]
-westOldPermitBacklogs = [https://vivintsolar.my.salesforce.com/00O41000007nyBp, https://vivintsolar.my.salesforce.com/00O41000008Ev95]
-centralOldPermitBacklogs = [https://vivintsolar.my.salesforce.com/00O41000007nyBu, https://vivintsolar.my.salesforce.com/00O41000008Ev8l]
-atlanticOldPermitBacklogs = [https://vivintsolar.my.salesforce.com/00O41000007nyBz, https://vivintsolar.my.salesforce.com/00O41000008Ev8W]
+vrAudit = ["https://vivintsolar.my.salesforce.com/00O41000008DpjH"]
+westOldPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nyBp", "https://vivintsolar.my.salesforce.com/00O41000008Ev95"]
+centralOldPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nyBu", "https://vivintsolar.my.salesforce.com/00O41000008Ev8l"]
+atlanticOldPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nyBz", "https://vivintsolar.my.salesforce.com/00O41000008Ev8W"]

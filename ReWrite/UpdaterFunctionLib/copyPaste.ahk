@@ -18,3 +18,11 @@ copy()
    Send, {F5}
    Sleep, 4250
 }
+
+paste()
+{
+   Send, ^v
+   Sleep, 500
+   clipboard = ; Empty the clipboard   
+   return
+}

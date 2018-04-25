@@ -1,7 +1,7 @@
-#Include %A_ScriptDir%\SimplifiedIntentions\copy.ahk
-#Include %A_ScriptDir%\SimplifiedIntentions\paste.ahk
-#Include %A_ScriptDir%\SimplifiedIntentions\clickPlayButton.ahk
-#Include %A_ScriptDir%\SimplifiedIntentions\imageSearcher.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\copyPaste.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\clickPlayButton.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\imageSearcher.ahk
+
 runUpdate(urlArray)
 {
 	reportComplete = %A_ScriptDir%\Images\reportComplete.bmp

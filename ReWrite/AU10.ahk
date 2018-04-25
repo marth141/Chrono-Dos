@@ -1,7 +1,7 @@
 #Persistent
-;#Include %A_ScriptDir%\SimplifiedIntentions\runSQLUpdate.ahk
-#Include %A_ScriptDir%\globals.ahk
-#Include %A_ScriptDir%\SimplifiedIntentions\runUpdate.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\globals.ahk
+;#Include %A_ScriptDir%\UpdaterFunctionLib\runSQLUpdate.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\runUpdate.ahk
 
 AutoUpdate:
 {

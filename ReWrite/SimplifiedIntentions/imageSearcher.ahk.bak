@@ -3,8 +3,18 @@ errorImageSearch(image, clickNeeded:=false)
 	found := false
 	while (found = false)
 	{
-		CoordMode, Pixel, Screen
-		ImageSearch, FoundX, FoundY, 0, 0, A_ScreenWidth, A_ScreenHeight, %image%
+		CoordMode, Pixel, Screen		
+		scale = 0
+		max_scale := A_ScreenWidth / 2
+		loop, %max_scale%
+		{
+			ImageSearch, FoundX, FoundY, 0, 0, A_ScreenWidth, A_ScreenHeight, *w%scale% *h-1 %image%
+			if (ErrorLevel = 0)
+			{
+				break
+			}
+			scale += 1
+		}
 		CenterImgSrchCoords(image, FoundX, FoundY)
 		If (ErrorLevel = 0 && clickNeeded = true) ;If found and click needed, click it.
 		{
@@ -14,6 +24,7 @@ errorImageSearch(image, clickNeeded:=false)
 		else If (ErrorLevel = 0 && clickNeeded = false) ;If not found and click not needed.
 		{
 			SoundPlay, -1, Wait
+			found = true
 		}
 		else if (ErrorLevel = 1)
 		{
@@ -28,12 +39,12 @@ errorImageSearch(image, clickNeeded:=false)
 
 CenterImgSrchCoords(File, ByRef CoordX, ByRef CoordY)
 {
-   static LoadedPic
-   LastEL := ErrorLevel
-   Gui, Pict:Add, Pic, vLoadedPic, %File%
-   GuiControlGet, LoadedPic, Pict:Pos
-   Gui, Pict:Destroy
-   CoordX += LoadedPicW // 2
-   CoordY += LoadedPicH // 2
-   ErrorLevel := LastEL
+	static LoadedPic
+	LastEL := ErrorLevel
+	Gui, Pict:Add, Pic, vLoadedPic, %File%
+	GuiControlGet, LoadedPic, Pict:Pos
+	Gui, Pict:Destroy
+	CoordX += LoadedPicW // 2
+	CoordY += LoadedPicH // 2
+	ErrorLevel := LastEL
 }

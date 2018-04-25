@@ -6,8 +6,8 @@
 AutoUpdate:
 {
 	SetTitleMatchMode, 2
-	chronoOpened:= 0
-	runSQLUpdate()
+	;runSQLUpdate()
+	run, %chronoInput%
 	
 	runUpdate(southWestBacklogs)
 	runUpdate(legionBacklogs)

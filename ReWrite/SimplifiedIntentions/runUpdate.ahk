@@ -4,8 +4,8 @@
 #Include %A_ScriptDir%\SimplifiedIntentions\imageSearcher.ahk
 runUpdate(urlArray)
 {
-	reportComplete = %A_WorkingDir%\Images\reportComplete.bmp
-	reportNoResults = %A_WorkingDir%\Images\reportNoResults.bmp
+	reportComplete = %A_ScriptDir%\Images\reportComplete.bmp
+	reportNoResults = %A_ScriptDir%\Images\reportNoResults.bmp
 
 	for i, salesforceLink in urlArray
 	{

@@ -1,6 +1,6 @@
 copy()
 {
-   found = false
+   found := false
    While(found = false)
    {
       Send, ^a

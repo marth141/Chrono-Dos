@@ -1,0 +1,5 @@
+^p::
+{
+   MsgBox, PAUSE
+   return
+}

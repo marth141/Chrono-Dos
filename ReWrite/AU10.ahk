@@ -9,25 +9,28 @@ AutoUpdate:
 	;runSQLUpdate()
 	run, %chronoInput%
 	
-	runUpdate(southWestBacklogs)
-	runUpdate(legionBacklogs)
-	runUpdate(newEngBacklogs)
-	runUpdate(gritBacklogs)
-	runUpdate(northCaliBacklogs)
-	runUpdate(southCaliBacklogs)
-	runUpdate(nisBacklogs)
-	runUpdate(dealerBacklogs)
-	runUpdate(westOldPermitBacklogs)
-	runUpdate(centralOldPermitBacklogs)
-	runUpdate(atlanticOldPermitBacklogs)
-	runUpdate(vrAudit)
-	runUpdate(cpQualityConBacklogs)
-	runUpdate(permitQualityConBacklogs)
-	runUpdate(qualityConPass)
-	runUpdate(westCoastPermitBacklogs)
-	runUpdate(eastCoastPermitBacklogs)
-	
-	return
+	Loop
+	{
+		runUpdate(southWestBacklogs)
+		runUpdate(legionBacklogs)
+		runUpdate(newEngBacklogs)
+		runUpdate(gritBacklogs)
+		runUpdate(northCaliBacklogs)
+		runUpdate(southCaliBacklogs)
+		runUpdate(nisBacklogs)
+		runUpdate(dealerBacklogs)
+		;runUpdate(westOldPermitBacklogs)
+		;runUpdate(centralOldPermitBacklogs)
+		;runUpdate(atlanticOldPermitBacklogs)
+		runUpdate(vrAudit)
+		runUpdate(cpQualityConBacklogs)
+		runUpdate(permitQualityConBacklogs)
+		runUpdate(qualityConPass)
+		runUpdate(westCoastPermitBacklogs)
+		runUpdate(eastCoastPermitBacklogs)
+		runUpdate(electricalEscalations)
+		runUpdate([structrualEscalations, structrualEscalationsNonFullProcess])
+	}
 }
 
 ^p::

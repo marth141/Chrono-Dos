@@ -26,6 +26,7 @@ runUpdate(urlArray)
 				Sleep, 10
 			}
 			clickPlayButton()
+			break
 		}
 	}
 }

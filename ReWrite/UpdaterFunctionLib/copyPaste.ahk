@@ -3,20 +3,36 @@ copy()
    found := false
    While(found = false)
    {
-      Send, ^a
-      Sleep, 800
-      Send, ^c
-      ClipWait, 2
-      IfInString, Clipboard, Grand Totals
+      IfWinActive, Untitled - Google Chrome
       {
-         found := true
+         SetTimer, closePage, 30000
       }
-      else IfInString, Clipboard, Data Not Available
+      else
       {
-         clipboard = ; Empty the clipboard   
-         break
+         SetTimer, closePage, Delete
+         Send, ^a
+         Sleep, 800
+         Send, ^c
+         ClipWait, 2
+         grandTotals = Grand Totals
+         unavailable = Data Not Available
+         IfInString, Clipboard, %grandTotals%
+         {
+            found := true
+         }
+         else IfInString, Clipboard, %unavailable%
+         {
+            clipboard = ; Empty the clipboard   
+            break
+         }
       }
    }
+   Sleep, 500
+   Send, ^w   
+}
+
+closePage:
+{
    Sleep, 500
    Send, ^w   
 }

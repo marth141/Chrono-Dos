@@ -11,18 +11,24 @@ copy()
       {
          found := true
       }
+      else IfInString, Clipboard, Data Not Available
+      {
+         clipboard = ; Empty the clipboard   
+         break
+      }
    }
    Sleep, 500
-   Send, ^w
-   Sleep, 500
-   Send, {F5}
-   Sleep, 4250
+   Send, ^w   
 }
 
 paste()
 {
+   Sleep, 1000
+   MouseClick, Left, 93, 257, 1
+   Sleep, 1000
    Send, ^v
-   Sleep, 500
+   Sleep, 1000
+   MouseClick, Left, 93, 257, 1
    clipboard = ; Empty the clipboard   
    return
 }

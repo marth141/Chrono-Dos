@@ -1,5 +1,7 @@
 clickPlayButton()
 {
+	CoordMode, Mouse, Screen
 	MouseMove, 960, 540
-	MouseClick, left, 1506, 324  ;Click play button
+	MouseClick, Left, 1506, 324, 1  ;Click play button
+	;MouseClick, left, 1506, 324  ;Click play button
 }

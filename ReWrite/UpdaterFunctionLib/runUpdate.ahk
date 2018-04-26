@@ -1,4 +1,6 @@
-#Include %A_ScriptDir%\UpdaterFunctionLib\checkSalesforceReport.ahk
+;#Include %A_ScriptDir%\UpdaterFunctionLib\checkSalesforceReport.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\checkChromeSheets.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\waitPaste.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\copyPaste.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\clickPlayButton.ahk
 
@@ -7,10 +9,24 @@ runUpdate(urlArray)
 	for i, salesforceLink in urlArray
 	{
 		openURL(urlArray[A_Index])
-		checkSalesforceReport()
+		Sleep, 10000
 		copy()
-		paste()
-		clickPlayButton()
+		chromeSheetCheck()
+		Sleep, 2000
+		if (isThereGreen() = true)
+		{
+			MouseClick, Left, 1226, 314, 1
+		}
+		if (Clipboard != "")
+		{
+			paste()
+			Sleep, 5000
+			while (isThereGreen() = false)
+			{
+				Sleep, 10
+			}
+			clickPlayButton()
+		}
 	}
 }
 

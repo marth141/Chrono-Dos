@@ -3,11 +3,11 @@ waitPaste(checkColor, x, y)
    Loop 400
    {
       send, {Home}
-      PixelGetColor, color, x, y
+      PixelGetColor, color, 1612, 343
       ;~ MsgBox,,, %color% %x% %y%`, %checkColor%
-      if(Color = checkColor)
-         return true
-      Sleep, 50
+      if(Color = #38761D)
+         break
+      
    }
-   return false
+   Sleep, 50
 }

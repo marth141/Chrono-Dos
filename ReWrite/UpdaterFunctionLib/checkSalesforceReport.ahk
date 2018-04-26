@@ -4,6 +4,14 @@ checkSalesforceReport()
 {
 	reportComplete = %A_ScriptDir%\Images\reportComplete.bmp
 	reportNoResults = %A_ScriptDir%\Images\reportNoResults.bmp
-	errorImageSearch(reportComplete, false)
-	errorImageSearch(reportNoResults, false)
+	checkReportComplete := errorImageSearch(reportComplete, false)
+	checkReportNoResults := errorImageSearch(reportNoResults, false)
+	if (checkReportComplete = true)
+	{
+		return
+	}
+	else if (checkReportNoResults = true)
+	{
+		return
+	}
 }

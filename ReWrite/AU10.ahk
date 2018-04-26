@@ -8,6 +8,7 @@ AutoUpdate:
 	SetTitleMatchMode, 2
 	;runSQLUpdate()
 	run, %chronoInput%
+	Sleep, 10000
 	
 	Loop
 	{
@@ -23,7 +24,7 @@ AutoUpdate:
 		;runUpdate(centralOldPermitBacklogs)
 		;runUpdate(atlanticOldPermitBacklogs)
 		runUpdate(vrAudit)
-		runUpdate(cpQualityConBacklogs)
+		;runUpdate(cpQualityConBacklogs)
 		runUpdate(permitQualityConBacklogs)
 		runUpdate(qualityConPass)
 		runUpdate(westCoastPermitBacklogs)

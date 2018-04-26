@@ -39,8 +39,9 @@ AutoUpdate:
 			runUpdate(qualityConPass)
 			runUpdate(westCoastPermitBacklogs)
 			runUpdate(eastCoastPermitBacklogs)
-			runUpdate(electricalEscalations)
-			runUpdate([structrualEscalations, structrualEscalationsNonFullProcess])
+			runUpdate(structrualEscalations)
+			runUpdate(structrualEscalationsNonFullProcess)
+			runUpdate(electricalEscalations)						
 		}
 	}
 }

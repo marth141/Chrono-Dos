@@ -27,7 +27,7 @@ chromeSheetCheck()
 	}
 }
 
-chromeTabLoading(backlogLink)
+chromeTabLoading()
 {
 	IfWinActive, Untitled - Google Chrome
 	{
@@ -38,12 +38,12 @@ chromeTabLoading(backlogLink)
 			ToolTip % "Salesforce never loaded, skipping.", 0, 0
 			Send, ^w   
 			clipboard = ; Empty the clipboard 
-			return false
+			return
 		}
-		else IfWinActive, Salesforce - Unlimited Edition - %backlogLink%
+		else IfWinActive, Salesforce - Unlimited Edition - 
 		{
 			ToolTip % "Salesforce loaded!.", 0, 0
-			return true
+			return
 		}
 	}
 }

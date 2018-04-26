@@ -38,12 +38,12 @@ chromeTabLoading(backlogLink)
 			ToolTip % "Salesforce never loaded, skipping.", 0, 0
 			Send, ^w   
 			clipboard = ; Empty the clipboard 
-			return false
+			return
 		}
 		else IfWinActive, Salesforce - Unlimited Edition - %backlogLink%
 		{
 			ToolTip % "Salesforce loaded!.", 0, 0
-			return true
+			return
 		}
 	}
 }

@@ -13,11 +13,7 @@ runUpdate(urlArray)
 		Sleep, 10000
 		
 		ToolTip % "Checking Salesforce Tab Status", 0, 0
-		if((chromeTabLoading(urlArray[A_Index])) = false)
-		{
-			ToolTip % urlArray[A_Index] . " took too long to load", 0, 0
-			Continue
-		}
+		chromeTabLoading(urlArray[A_Index])
 		
 		ToolTip % "Copying Salesforce Report " . urlArray[A_Index], 0, 0
 		copy()

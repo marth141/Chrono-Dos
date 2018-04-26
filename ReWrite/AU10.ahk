@@ -11,7 +11,8 @@ AutoUpdate:
 	;ToolTip % "Running SQL", 0, 0
 	;runSQLUpdate()
 	ToolTip % "Checking if in Chrono Inputter", 0, 0
-	IfWinNotActive, Chrono Inputs
+	WinActivate, Chrono Inputs - Google Sheets - Google Chrome
+	IfWinNotActive, Chrono Inputs - Google Sheets - Google Chrome
 	{
 		ToolTip % "Opening Chrono Inputter", 0, 0
 		run, %chronoInput%

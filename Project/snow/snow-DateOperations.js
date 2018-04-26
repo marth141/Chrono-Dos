@@ -28,12 +28,12 @@ function snow_DateCleaner(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
   var assignmentDate;
-  if (validateHeader('Assignment Finish', backlogArray, dim)) {
+  if (validateHeader('Assignment Finish', backlogArray)) {
     assignmentDate = getMeThatColumn('Assignment Finish', backlogArray);
-  } else if (validateHeader('Assignment Finish', backlogArray, dim) === false) {
+  } else if (validateHeader('Assignment Finish', backlogArray) === false) {
     throw 'Unable to find column: Assignment Finish';
   }
-  var dateAdjLog = snow_RemoveLateDates(backlogArray, dim, assignmentDate);
+  var dateAdjLog = snow_RemoveLateDates(backlogArray, assignmentDate);
   snow_SortAndCleanDates(propBacklog, dateAdjLog, dim, assignmentDate);
 }
 

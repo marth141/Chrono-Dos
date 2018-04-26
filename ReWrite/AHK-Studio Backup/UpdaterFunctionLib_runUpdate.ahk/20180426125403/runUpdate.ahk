@@ -4,7 +4,7 @@
 #Include %A_ScriptDir%\UpdaterFunctionLib\copyPaste.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\clickPlayButton.ahk
 
-runUpdate(urlArray, successfulRuns)
+runUpdate(urlArray)
 {
 	for i, salesforceLink in urlArray
 	{
@@ -46,7 +46,6 @@ runUpdate(urlArray, successfulRuns)
 			}
 			ToolTip % "Sending backlog!", 0, 0
 			clickPlayButton()
-			showSuccessfulCount(successfulRuns)
 			Continue
 		}
 	}
@@ -56,12 +55,5 @@ runUpdate(urlArray, successfulRuns)
 openURL(urlToOpen)
 {
 	run, %urlToOpen%
-	return
-}
-
-showSuccessfulCount(successfulRuns)
-{
-	successfulRuns += 1
-	ToolTip % successfulRuns, 0, 50, 2	
 	return
 }

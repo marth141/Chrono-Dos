@@ -9,7 +9,8 @@ AutoUpdate:
 	CoordMode, Pixel, Screen
 	CoordMode, ToolTip, Screen
 	;ToolTip % "Running SQL", 0, 0
-	;runSQLUpdate()
+	;runSQLUpdate()	
+	successfulRuns = 0
 	ToolTip % "Checking if in Chrono Inputter", 0, 0
 	WinActivate, Chrono Inputs
 	IfWinNotActive, Chrono Inputs
@@ -22,27 +23,27 @@ AutoUpdate:
 	{		
 		Loop
 		{
-			ToolTip % "Running Updates", 0, 0
-			runUpdate(southWestBacklogs)
-			runUpdate(legionBacklogs)
-			runUpdate(newEngBacklogs)
-			runUpdate(gritBacklogs)
-			runUpdate(northCaliBacklogs)
-			runUpdate(southCaliBacklogs)
-			runUpdate(nisBacklogs)
-			runUpdate(dealerBacklogs)
+			ToolTip % "Running Updates", 0, 0			
+			runUpdate(southWestBacklogs, successfulRuns)
+			runUpdate(legionBacklogs, successfulRuns)
+			runUpdate(newEngBacklogs, successfulRuns)
+			runUpdate(gritBacklogs, successfulRuns)
+			runUpdate(northCaliBacklogs, successfulRuns)
+			runUpdate(southCaliBacklogs, successfulRuns)
+			runUpdate(nisBacklogs, successfulRuns)
+			runUpdate(dealerBacklogs, successfulRuns)
 			;runUpdate(westOldPermitBacklogs)
 			;runUpdate(centralOldPermitBacklogs)
 			;runUpdate(atlanticOldPermitBacklogs)
-			runUpdate(vrAudit)
-			runUpdate(cpQualityConBacklogs)
-			runUpdate(permitQualityConBacklogs)
-			runUpdate(qualityConPass)
-			runUpdate(westCoastPermitBacklogs)
-			runUpdate(eastCoastPermitBacklogs)
-			runUpdate(structrualEscalations)
-			runUpdate(structrualEscalationsNonFullProcess)
-			runUpdate(electricalEscalations)						
+			runUpdate(vrAudit, successfulRuns)
+			runUpdate(cpQualityConBacklogs, successfulRuns)
+			runUpdate(permitQualityConBacklogs, successfulRuns)
+			runUpdate(qualityConPass, successfulRuns)
+			runUpdate(westCoastPermitBacklogs, successfulRuns)
+			runUpdate(eastCoastPermitBacklogs, successfulRuns)
+			runUpdate(structrualEscalations, successfulRuns)
+			runUpdate(structrualEscalationsNonFullProcess, successfulRuns)
+			runUpdate(electricalEscalations, successfulRuns)						
 		}
 	}
 }

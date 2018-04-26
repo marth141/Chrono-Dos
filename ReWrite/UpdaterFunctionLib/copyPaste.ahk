@@ -6,9 +6,9 @@ copy()
 		grandTotals := "Grand Totals"
 		unavailable := "Data Not Available"
 		Sleep, 2000
-		Send, ^a
+		SendPlay, {Ctrl}{a}
 		Sleep, 1000
-		Send, ^c
+		Send, {Ctrl}{c}
 		ClipWait, 2		
 		IfInString, Clipboard, %grandTotals%
 		{
@@ -24,7 +24,7 @@ copy()
 	}
 	ToolTip % "Closing Salesforce", 0, 0
 	Sleep, 500
-	Send, ^w   
+	SendPlay, {Ctrl}{w}
 	return
 }
 
@@ -33,7 +33,7 @@ paste()
 	Sleep, 1000
 	MouseClick, Left, 93, 257, 1
 	Sleep, 2000
-	Send, ^v
+	Send, {Ctrl}{v}
 	Sleep, 4000
 	MouseClick, Left, 93, 257, 1
 	clipboard = ; Empty the clipboard   

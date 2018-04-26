@@ -22,9 +22,9 @@ function debugAddLastColumns() {
  */
 function uni_addLastColumns(stagingBacklog) {
   var dim = getDimensions(stagingBacklog);
+  var columnsToAdd = ['Assigned', 'Priority', 'Status', 'Notes', 'Last Update'];
   var addColumnOrigin = dim[1] + 1;
-  var lastColToAdd = dim[1] + 3;
-  var columnsToAdd = ['Assigned', 'Priority', 'Status'];
+  var lastColToAdd = dim[1] + columnsToAdd.length + 1;
   var toAddIndex = 0;
   for (var addHere = addColumnOrigin; addHere <= lastColToAdd; addHere++) {
     stagingBacklog.getRange(1, addHere).setValue(columnsToAdd[toAddIndex]);

@@ -4,7 +4,7 @@
 #Include %A_ScriptDir%\UpdaterFunctionLib\copyPaste.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\clickPlayButton.ahk
 
-runUpdate(urlArray, successfulRuns)
+runUpdate(urlArray)
 {
 	for i, salesforceLink in urlArray
 	{
@@ -30,8 +30,8 @@ runUpdate(urlArray, successfulRuns)
 		if (isThereGreen() = true)
 		{
 			ToolTip % "Clearing Updater, old data got stuck.", 0, 0
-			MouseClick, Left, 1226, 314, 1
-			;MouseMove, 1226, 314
+			;MouseClick, Left, 1226, 314, 1
+			MouseMove, 1226, 314
 		}
 		Sleep, 2000
 		if (Clipboard != "")
@@ -50,7 +50,7 @@ runUpdate(urlArray, successfulRuns)
 			Continue
 		}
 	}
-	return successfulRuns
+	return
 }
 
 openURL(urlToOpen)

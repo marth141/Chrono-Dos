@@ -6,6 +6,7 @@
 
 runUpdate(urlArray, successfulRuns)
 {
+	successfulRuns = 0
 	for i, salesforceLink in urlArray
 	{
 		ToolTip % "Opening " . urlArray[A_Index], 0, 0
@@ -30,8 +31,8 @@ runUpdate(urlArray, successfulRuns)
 		if (isThereGreen() = true)
 		{
 			ToolTip % "Clearing Updater, old data got stuck.", 0, 0
-			MouseClick, Left, 1226, 314, 1
-			;MouseMove, 1226, 314
+			;MouseClick, Left, 1226, 314, 1
+			MouseMove, 1226, 314
 		}
 		Sleep, 2000
 		if (Clipboard != "")
@@ -46,11 +47,11 @@ runUpdate(urlArray, successfulRuns)
 			}
 			ToolTip % "Sending backlog!", 0, 0
 			clickPlayButton()		
-			successfulRuns := showSuccessfulCount(successfulRuns)
+			showSuccessfulCount()
 			Continue
 		}
 	}
-	return successfulRuns
+	return
 }
 
 openURL(urlToOpen)
@@ -59,9 +60,10 @@ openURL(urlToOpen)
 	return
 }
 
-showSuccessfulCount(successfulRuns)
+showSuccessfulCount()
 {
+	successfulRuns = 0
 	successfulRuns += 1
-	ToolTip % "Successful Updates: " . successfulRuns, 0, 50, 2	
+	ToolTip % successfulRuns, 0, 50, 2	
 	return successfulRuns
 }

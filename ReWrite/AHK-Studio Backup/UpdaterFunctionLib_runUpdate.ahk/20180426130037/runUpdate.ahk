@@ -30,8 +30,8 @@ runUpdate(urlArray, successfulRuns)
 		if (isThereGreen() = true)
 		{
 			ToolTip % "Clearing Updater, old data got stuck.", 0, 0
-			MouseClick, Left, 1226, 314, 1
-			;MouseMove, 1226, 314
+			;MouseClick, Left, 1226, 314, 1
+			MouseMove, 1226, 314
 		}
 		Sleep, 2000
 		if (Clipboard != "")
@@ -45,12 +45,12 @@ runUpdate(urlArray, successfulRuns)
 				Sleep, 10
 			}
 			ToolTip % "Sending backlog!", 0, 0
-			clickPlayButton()		
-			successfulRuns := showSuccessfulCount(successfulRuns)
+			clickPlayButton()
+			showSuccessfulCount(successfulRuns)
 			Continue
 		}
 	}
-	return successfulRuns
+	return
 }
 
 openURL(urlToOpen)
@@ -62,6 +62,6 @@ openURL(urlToOpen)
 showSuccessfulCount(successfulRuns)
 {
 	successfulRuns += 1
-	ToolTip % "Successful Updates: " . successfulRuns, 0, 50, 2	
-	return successfulRuns
+	ToolTip % successfulRuns, 0, 50, 2	
+	return
 }

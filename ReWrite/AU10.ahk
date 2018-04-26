@@ -9,7 +9,7 @@ AutoUpdate:
 	CoordMode, Pixel, Screen
 	CoordMode, ToolTip, Screen
 	;ToolTip % "Running SQL", 0, 0
-	;runSQLUpdate()	
+	;runSQLUpdate()		
 	successfulRuns = 0
 	ToolTip % "Checking if in Chrono Inputter", 0, 0
 	WinActivate, Chrono Inputs
@@ -24,26 +24,26 @@ AutoUpdate:
 		Loop
 		{
 			ToolTip % "Running Updates", 0, 0			
-			runUpdate(southWestBacklogs, successfulRuns)
-			runUpdate(legionBacklogs, successfulRuns)
-			runUpdate(newEngBacklogs, successfulRuns)
-			runUpdate(gritBacklogs, successfulRuns)
-			runUpdate(northCaliBacklogs, successfulRuns)
-			runUpdate(southCaliBacklogs, successfulRuns)
-			runUpdate(nisBacklogs, successfulRuns)
-			runUpdate(dealerBacklogs, successfulRuns)
+			successfulRuns := runUpdate(southWestBacklogs, successfulRuns)
+			successfulRuns := runUpdate(legionBacklogs, successfulRuns)
+			successfulRuns := runUpdate(newEngBacklogs, successfulRuns)
+			successfulRuns := runUpdate(gritBacklogs, successfulRuns)
+			successfulRuns := runUpdate(northCaliBacklogs, successfulRuns)
+			successfulRuns := runUpdate(southCaliBacklogs, successfulRuns)
+			successfulRuns := runUpdate(nisBacklogs, successfulRuns)
+			successfulRuns := runUpdate(dealerBacklogs, successfulRuns)
 			;runUpdate(westOldPermitBacklogs)
 			;runUpdate(centralOldPermitBacklogs)
 			;runUpdate(atlanticOldPermitBacklogs)
-			runUpdate(vrAudit, successfulRuns)
-			runUpdate(cpQualityConBacklogs, successfulRuns)
-			runUpdate(permitQualityConBacklogs, successfulRuns)
-			runUpdate(qualityConPass, successfulRuns)
-			runUpdate(westCoastPermitBacklogs, successfulRuns)
-			runUpdate(eastCoastPermitBacklogs, successfulRuns)
-			runUpdate(structrualEscalations, successfulRuns)
-			runUpdate(structrualEscalationsNonFullProcess, successfulRuns)
-			runUpdate(electricalEscalations, successfulRuns)						
+			successfulRuns := runUpdate(vrAudit, successfulRuns)
+			successfulRuns := runUpdate(cpQualityConBacklogs, successfulRuns)
+			successfulRuns := runUpdate(permitQualityConBacklogs, successfulRuns)
+			successfulRuns := runUpdate(qualityConPass, successfulRuns)
+			successfulRuns := runUpdate(westCoastPermitBacklogs, successfulRuns)
+			successfulRuns := runUpdate(eastCoastPermitBacklogs, successfulRuns)
+			successfulRuns := runUpdate(structrualEscalations, successfulRuns)
+			successfulRuns := runUpdate(structrualEscalationsNonFullProcess, successfulRuns)
+			successfulRuns := runUpdate(electricalEscalations, successfulRuns)						
 		}
 	}
 }

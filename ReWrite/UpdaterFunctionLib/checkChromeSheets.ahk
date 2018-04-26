@@ -1,19 +1,19 @@
 chromeSheetCheck()
 {
-	IfWinActive, Chrono Inputs - Google Sheets - Google Chrome
+	IfWinActive, Chrono Inputs
 	{
 		ToolTip % "In Chrono Inputs.", 0, 0
 		return
 	}
 	else
 	{		
-		while((IfWinNotActive, Chrono Inputs - Google Sheets - Google Chrome) = true)
+		while((IfWinNotActive, Chrono Inputs) = true)
 		{					
 			ToolTip % "Going to try activating Chrono Input", 0, 0
 			try
 			{
 				ToolTip % "Activating CHrono Inputs", 0, 0
-				WinActivate, Chrono Inputs - Google Sheets - Google Chrome
+				WinActivate, Chrono Inputs
 				Break
 			}
 			catch e

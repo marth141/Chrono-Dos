@@ -15,7 +15,7 @@ runUpdate(urlArray)
 		ToolTip % "Checking Salesforce Tab Status", 0, 0
 		chromeTabLoading()
 		
-		ToolTip % "Copying Salesforce Report " . urlArray[A_Index], 0, 0
+		ToolTip % "Copying Salesforce Report", 0, 0
 		copy()
 		
 		ToolTip % "Checking if in Google Sheet", 0, 0

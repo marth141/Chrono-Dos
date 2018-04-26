@@ -25,7 +25,6 @@ copy()
 	ToolTip % "Closing Salesforce", 0, 0
 	Sleep, 500
 	Send, ^w   
-	return
 }
 
 paste()

@@ -1,29 +1,27 @@
 chromeSheetCheck()
 {
-	IfWinActive, Chrono Inputs - Google Sheets - Google Chrome
+	Loop
 	{
-		ToolTip % "In Chrono Inputs.", 0, 0
-		return
-	}
-	else
-	{		
-		while((IfWinNotActive, Chrono Inputs - Google Sheets - Google Chrome) = true)
-		{					
+		IfWinActive, Chrono Inputs - Google Sheets - Google Chrome
+		{
+			ToolTip % "In Chrono Inputs.", 0, 0
+			break
+		}
+		else IfWinNotActive, Chrono Inputs - Google Sheets - Google Chrome
+		{
 			ToolTip % "Going to try activating Chrono Input", 0, 0
 			try
 			{
-				ToolTip % "Activating CHrono Inputs", 0, 0
 				WinActivate, Chrono Inputs - Google Sheets - Google Chrome
-				Break
+				break
 			}
 			catch e
 			{
-				ToolTip % "Reopening Chrono Inputs", 0, 0
+				
 				run, %chronoInput%
-				Break
-			}			
+				Continue
+			}
 		}
-		return
 	}
 }
 
@@ -38,11 +36,6 @@ chromeTabLoading()
 			ToolTip % "Salesforce never loaded, skipping.", 0, 0
 			Send, ^w   
 			clipboard = ; Empty the clipboard 
-			return
-		}
-		else
-		{
-			ToolTip % "Salesforce loaded!.", 0, 0
 			return
 		}
 	}

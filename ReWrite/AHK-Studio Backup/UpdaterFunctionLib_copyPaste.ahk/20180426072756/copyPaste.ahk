@@ -3,8 +3,8 @@ copy()
 	found := false
 	While(found = false)
 	{
-		grandTotals := "Grand Totals"
-		unavailable := "Data Not Available"
+		grandTotals = Grand Totals
+		unavailable = Data Not Available
 		Sleep, 2000
 		Send, ^a
 		Sleep, 1000
@@ -22,19 +22,18 @@ copy()
 			break
 		}
 	}
-	ToolTip % "Closing Salesforce", 0, 0
 	Sleep, 500
 	Send, ^w   
-	return
 }
 
 paste()
 {
 	Sleep, 1000
 	MouseClick, Left, 93, 257, 1
-	Sleep, 2000
+	Sleep, 1000
 	Send, ^v
-	Sleep, 4000
+	Sleep, 1000
 	MouseClick, Left, 93, 257, 1
 	clipboard = ; Empty the clipboard   
+	return
 }

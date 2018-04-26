@@ -4,11 +4,8 @@
 
 AutoUpdate:
 {
-	SetTitleMatchMode, 3
-	CoordMode, Mouse, Screen
-	CoordMode, Pixel, Screen
-	CoordMode, ToolTip, Screen
-	;ToolTip % "Running SQL", 0, 0
+	SetTitleMatchMode, 2
+	ToolTip, Running SQL, 0, 0
 	;runSQLUpdate()
 	ToolTip % "Checking if in Chrono Inputter", 0, 0
 	IfWinNotActive, Chrono Inputs - Google Sheets - Google Chrome
@@ -43,7 +40,6 @@ AutoUpdate:
 			runUpdate([structrualEscalations, structrualEscalationsNonFullProcess])
 		}
 	}
-	return
 }
 
 ^p::

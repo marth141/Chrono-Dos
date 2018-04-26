@@ -1,19 +1,12 @@
 #Persistent
-#Include %A_ScriptDir%\UpdaterFunctionLib\globals.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\runUpdate.ahk
 
 AutoUpdate:
 {
-	SetTitleMatchMode, 3
-	CoordMode, Mouse, Screen
-	CoordMode, Pixel, Screen
-	CoordMode, ToolTip, Screen
-	;ToolTip % "Running SQL", 0, 0
+	SetTitleMatchMode, 2
 	;runSQLUpdate()
-	ToolTip % "Checking if in Chrono Inputter", 0, 0
 	IfWinNotActive, Chrono Inputs - Google Sheets - Google Chrome
 	{
-		ToolTip % "Opening Chrono Inputter", 0, 0
 		run, %chronoInput%
 	}
 	else
@@ -21,7 +14,6 @@ AutoUpdate:
 		Sleep, 10000		
 		Loop
 		{
-			ToolTip % "Running Updates", 0, 0
 			runUpdate(southWestBacklogs)
 			runUpdate(legionBacklogs)
 			runUpdate(newEngBacklogs)
@@ -43,7 +35,6 @@ AutoUpdate:
 			runUpdate([structrualEscalations, structrualEscalationsNonFullProcess])
 		}
 	}
-	return
 }
 
 ^p::

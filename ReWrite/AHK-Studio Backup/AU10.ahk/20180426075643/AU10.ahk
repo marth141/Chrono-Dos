@@ -7,7 +7,6 @@ AutoUpdate:
 	SetTitleMatchMode, 3
 	CoordMode, Mouse, Screen
 	CoordMode, Pixel, Screen
-	CoordMode, ToolTip, Screen
 	;ToolTip % "Running SQL", 0, 0
 	;runSQLUpdate()
 	ToolTip % "Checking if in Chrono Inputter", 0, 0

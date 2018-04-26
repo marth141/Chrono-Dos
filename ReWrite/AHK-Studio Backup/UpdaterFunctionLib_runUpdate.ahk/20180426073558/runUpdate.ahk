@@ -22,33 +22,29 @@ runUpdate(urlArray)
 		chromeSheetCheck()		
 		Sleep, 2000
 		
-		ToolTip % "Checking if updater needs to be cleared", 0, 0
 		if (isThereGreen() = true)
 		{
-			ToolTip % "Clearing Updater, old data got stuck.", 0, 0
+			ToolTip % "Clearing Updater", 0, 0
 			MouseClick, Left, 1226, 314, 1
 		}
-		Sleep, 2000
 		if (Clipboard != "")
 		{
 			ToolTip % "Pasting data", 0, 0
 			paste()
 			Sleep, 5000
-			while (isThereRed() = true)
+			while (isThereGreen() = false)
 			{
 				ToolTip % "Waiting for red to go away on playbutton", 0, 0
 				Sleep, 10
 			}
 			ToolTip % "Sending backlog!", 0, 0
 			clickPlayButton()
-			Continue
+			break
 		}
 	}
-	return
 }
 
 openURL(urlToOpen)
 {
 	run, %urlToOpen%
-	return
 }

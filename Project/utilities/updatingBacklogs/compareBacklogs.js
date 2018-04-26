@@ -12,35 +12,66 @@ getUpdateSheet
 function debugCompare() {
   var masterBacklogs = new ServiceMasterBacklog();
   var overRide = 4;
-  compareBacklogs(masterBacklogs.Collection[overRide]);
+  updateBacklog(masterBacklogs.Collection[overRide]);
   return;
 }
 
-function compareBacklogs(stagingBacklog) {
+function updateBacklog(stagingBacklog) {
   var stagingSheet = stagingBacklog;
   var updateSheet = getUpdateSheet(stagingBacklog);
   var stagingArray = getStagingArray(stagingBacklog);
   var updateArray = getUpdateArray(stagingBacklog);
-  compareUnitTypes(stagingArray, updateArray);
+  compareBacklogs(stagingArray, updateArray);
 }
 
-function compareUnitTypes(stagingArray, updateArray) {
+function compareBacklogs(stagingArray, updateArray) {
   var stagingUnitTypeCol = getMeThatColumn('Unit Type', stagingArray);
   var updateUnitTypeCol = getMeThatColumn('Unit Type', updateArray);
-  actuallyCompare(stagingArray, updateArray, stagingUnitTypeCol, updateUnitTypeCol);
+  compareUnitTypes(stagingArray, updateArray, stagingUnitTypeCol, updateUnitTypeCol);
   console.log(stagingArray);
   console.log(updateArray);
   return;
 }
 
-function actuallyCompare(stagingArray, updateArray, stagingUnitTypeCol, updateUnitTypeCol) {
+var UnitTypeCompareClass = function () {
+  this.serviceNumberMatch = function (updateServiceNumber, stagingServiceNumber) {
+    if (updateServiceNumber === stagingServiceNumber) {
+      return true;
+    }
+  };
+  this.unitColMatch = function (updateUnitType, stagingUnitType) {
+    if (updateUnitType === stagingUnitType) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+};
+
+var UnitTypeReplaceClass = function () {
+  this.replaceUpdateWithStaging = function (updateUnitType, stagingUnitType) {
+    updateUnitType = stagingUnitType;
+  };
+  this.replaceStagingWithUpdate = function (stagingUnitType, updateUnitType) {
+    stagingUnitType = updateUnitType;
+  };
+};
+
+function compareUnitTypes(stagingArray, updateArray, stagingUnitTypeCol, updateUnitTypeCol) {
+  var CheckThat = new UnitTypeCompareClass();
+  var DoThis = new UnitTypeReplaceClass();
   for (var updateRow = 0; updateRow < updateArray.length; updateRow++) {
     for (var stagingRow = 0; stagingRow < stagingArray.length; stagingRow++) {
-      if (updateArray[updateRow][0] === stagingArray[stagingRow][0]) {
-        if (updateArray[updateRow][updateUnitTypeCol] === stagingArray[stagingRow][stagingUnitTypeCol]){
-          updateArray[updateRow][updateUnitTypeCol] = stagingArray[stagingRow][stagingUnitTypeCol];
-        } else if (updateArray[updateRow][updateUnitTypeCol] !== stagingArray[stagingRow][stagingUnitTypeCol]) {
-          stagingArray[stagingRow][stagingUnitTypeCol] = updateArray[updateRow][updateUnitTypeCol];
+      var updateServiceNumber = updateArray[updateRow][0];
+      var stagingServiceNumber = stagingArray[stagingRow][0];
+      var updateUnitType = updateArray[updateRow][updateUnitTypeCol];
+      var stagingUnitType = stagingArray[stagingRow][stagingUnitTypeCol];
+
+      if (CheckThat.serviceNumberMatch(updateServiceNumber, stagingServiceNumber) === true) {
+        if (CheckThat.unitColMatch(updateUnitType, stagingUnitType) === true) {
+          DoThis.replaceUpdateWithStaging(updateUnitType, stagingUnitType);
+        } else if (CheckThat.unitColMatch(updateUnitType, stagingUnitType) !== true) {
+          DoThis.replaceStagingWithUpdate(stagingUnitType, updateUnitType);
         }
       }
     }

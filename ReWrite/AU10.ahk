@@ -8,7 +8,6 @@ AutoUpdate:
 	CoordMode, Mouse, Screen
 	CoordMode, Pixel, Screen
 	CoordMode, ToolTip, Screen
-	SendMode, Play
 	;ToolTip % "Running SQL", 0, 0
 	;runSQLUpdate()
 	ToolTip % "Checking if in Chrono Inputter", 0, 0

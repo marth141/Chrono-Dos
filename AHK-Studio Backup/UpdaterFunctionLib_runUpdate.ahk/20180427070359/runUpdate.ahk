@@ -45,7 +45,6 @@ runUpdate(urlArray, successfulRuns)
 				Sleep, 10
 			}
 			ToolTip % "Sending backlog!", 0, 0
-			Sleep, 500
 			clickPlayButton()		
 			successfulRuns := showSuccessfulCount(successfulRuns)
 			Continue

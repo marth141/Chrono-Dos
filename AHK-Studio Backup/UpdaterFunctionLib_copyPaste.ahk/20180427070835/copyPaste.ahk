@@ -18,7 +18,6 @@ copy()
 		else IfInString, Clipboard, %unavailable%
 		{
 			ToolTip % "You don't have permission for this report. Skipping.", 0, 0
-			Sleep, 1000
 			clipboard = ; Empty the clipboard   
 			break
 		}

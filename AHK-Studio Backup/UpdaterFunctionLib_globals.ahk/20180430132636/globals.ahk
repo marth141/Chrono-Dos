@@ -40,8 +40,3 @@ vrAudit = ["https://vivintsolar.my.salesforce.com/00O41000008DpjH"]
 westOldPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nyBp", "https://vivintsolar.my.salesforce.com/00O41000008Ev95"]
 centralOldPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nyBu", "https://vivintsolar.my.salesforce.com/00O41000008Ev8l"]
 atlanticOldPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nyBz", "https://vivintsolar.my.salesforce.com/00O41000008Ev8W"]
-
-/*
-	DIN Backlogs
-*/
-DINCPnPPProd = ["https://vivintsolar.my.salesforce.com/00O41000008ppaB", "https://vivintsolar.my.salesforce.com/00O41000008ppaG"]

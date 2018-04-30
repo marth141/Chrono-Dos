@@ -43,8 +43,7 @@ AutoUpdate:
 			successfulRuns := runUpdate(eastCoastPermitBacklogs, successfulRuns)
 			successfulRuns := runUpdate(structrualEscalations, successfulRuns)
 			successfulRuns := runUpdate(structrualEscalationsNonFullProcess, successfulRuns)
-			successfulRuns := runUpdate(electricalEscalations, successfulRuns)	
-			successfulRuns := runUpdate(DINCPnPPProd , successfulRuns)				
+			successfulRuns := runUpdate(electricalEscalations, successfulRuns)						
 		}
 	}
 }

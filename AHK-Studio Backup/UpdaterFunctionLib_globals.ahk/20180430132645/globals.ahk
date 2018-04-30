@@ -44,4 +44,4 @@ atlanticOldPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007
 /*
 	DIN Backlogs
 */
-DINCPnPPProd = ["https://vivintsolar.my.salesforce.com/00O41000008ppaB", "https://vivintsolar.my.salesforce.com/00O41000008ppaG"]
+DINPPProd = ["https://vivintsolar.my.salesforce.com/00O41000008ppaB", "https://vivintsolar.my.salesforce.com/00O41000008ppaG"]

@@ -4,7 +4,8 @@
 	Proposal Backlogs
 */
 southWestBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nqcL", "https://vivintsolar.my.salesforce.com/00O41000007nqca", "https://vivintsolar.my.salesforce.com/00O41000007nqck", "https://vivintsolar.my.salesforce.com/00O41000007nqd4"]
-legionBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nqdY", "https://vivintsolar.my.salesforce.com/00O41000007nqdi",  "https://vivintsolar.my.salesforce.com/00O41000007nqe2", "https://vivintsolar.my.salesforce.com/00O41000007nqdx"]
+legionBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nqdY", "https://vivintsolar.my.salesforce.com/00O41000007nqdi",  "https://vivintsolar.my.salesforce.com/00O41000007nqe2",
+	"https://vivintsolar.my.salesforce.com/00O41000007nqdx"]
 newEngBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nqeM", "https://vivintsolar.my.salesforce.com/00O41000007nqeW", "https://vivintsolar.my.salesforce.com/00O41000007nqeg", "https://vivintsolar.my.salesforce.com/00O41000007nqeq"]
 gritBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nqfA", "https://vivintsolar.my.salesforce.com/00O41000007nqfF", "https://vivintsolar.my.salesforce.com/00O41000007nqfK", "https://vivintsolar.my.salesforce.com/00O41000007nqfU"]
 northCaliBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nqfZ", "https://vivintsolar.my.salesforce.com/00O41000007nqfe", "https://vivintsolar.my.salesforce.com/00O41000007nqfj", "https://vivintsolar.my.salesforce.com/00O41000007nqfo"]

@@ -1,5 +1,5 @@
 /* exported
-debugLastUpdate
+debugNotes
 */
 
 /* global

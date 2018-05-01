@@ -7,12 +7,12 @@ ServiceMasterBacklog
 getMeThatColumn
 getStagingArray
 getUpdateArray
-getUpdateSheet
+matchClass
 */
-function debugCompare() {
+function debugLastUpdate() {
   var masterBacklogs = new ServiceMasterBacklog();
   var overRide = 4;
-  updateBacklog(masterBacklogs.Collection[overRide]);
+  setupLastUpdateArrays(masterBacklogs.Collection[overRide]);
   return;
 }
 /**
@@ -20,12 +20,10 @@ function debugCompare() {
  *
  * @param {any} newBacklog
  */
-function updateBacklog(newBacklog) {
-  var newSheet = newBacklog;
-  var oldSheet = getUpdateSheet(newBacklog);
+function setupLastUpdateArrays(newBacklog) {
   var newBacklogArray = getStagingArray(newBacklog);
   var oldBacklogArray = getUpdateArray(newBacklog);
-  workOnUnitType(newBacklogArray, oldBacklogArray);
+  workOnLastUpdate(newBacklogArray, oldBacklogArray);
 }
 
 /**
@@ -35,11 +33,11 @@ function updateBacklog(newBacklog) {
  * @param {array} oldBacklogArray
  * @returns
  */
-function workOnUnitType(newBacklogArray, oldBacklogArray) {
-  var newUnitTypeCol = getMeThatColumn('Unit Type', newBacklogArray);
-  var oldUnitTypeCol = getMeThatColumn('Unit Type', oldBacklogArray);
+function workOnLastUpdate(newBacklogArray, oldBacklogArray) {
+  var newLastUpdateCol = getMeThatColumn('Last Update', newBacklogArray);
+  var oldLastUpdateCol = getMeThatColumn('Last Update', oldBacklogArray);
 
-  var newArrayPostUnit = compareUnitTypes(newBacklogArray, oldBacklogArray, newUnitTypeCol, oldUnitTypeCol);
+  var newArrayPostUnit = setLastUpdate(newBacklogArray, oldBacklogArray, newLastUpdateCol, oldLastUpdateCol);
 
   console.log(newArrayPostUnit);
   console.log(newBacklogArray);
@@ -51,45 +49,21 @@ function workOnUnitType(newBacklogArray, oldBacklogArray) {
  *
  * @param {array} newBacklogArray
  * @param {array} oldBacklogArray
- * @param {number} newUnitTypeCol
- * @param {number} oldUnitTypeCol
+ * @param {number} newLastUpdateCol
+ * @param {number} oldLastUpdateCol
  */
-function compareUnitTypes(newBacklogArray, oldBacklogArray, newUnitTypeCol, oldUnitTypeCol) {
-  var CheckThat = new UnitTypeCompareClass();
-  for (var updateRow = 1; updateRow < oldBacklogArray.length; updateRow++) {
-    for (var stagingRow = 1; stagingRow < newBacklogArray.length; stagingRow++) {
-      var updateServiceNumber = oldBacklogArray[updateRow][0];
-      var stagingServiceNumber = newBacklogArray[stagingRow][0];
-      var oldUnitType = oldBacklogArray[updateRow][oldUnitTypeCol];
-      var newUnitType = newBacklogArray[stagingRow][newUnitTypeCol];
+function setLastUpdate(newBacklogArray, oldBacklogArray, newLastUpdateCol, oldLastUpdateCol) {
+  var CheckThat = new matchClass();
+  for (var oldServiceNumber = 1; oldServiceNumber < oldBacklogArray.length; oldServiceNumber++) {
+    for (var newServiceNumber = 1; newServiceNumber < newBacklogArray.length; newServiceNumber++) {
+      var updateServiceNumber = oldBacklogArray[oldServiceNumber][0];
+      var stagingServiceNumber = newBacklogArray[newServiceNumber][0];
+      var oldLastUpdate = oldBacklogArray[oldServiceNumber][oldLastUpdateCol];
 
       if (CheckThat.serviceNumberMatch(updateServiceNumber, stagingServiceNumber) === true) {
-        if (CheckThat.unitColMatch(oldUnitType, newUnitType) !== true) {
-          if (oldUnitType !== 'GSR' || 'AURORA') {
-            newBacklogArray[stagingRow][newUnitTypeCol] = oldUnitType;
-          }
-        } else if (CheckThat.unitColMatch(oldUnitType, newUnitType) !== true) {
-          continue;
-        }
+        newBacklogArray[newServiceNumber][newLastUpdateCol] = oldLastUpdate;
       }
     }
   }
   return newBacklogArray;
 }
-
-var UnitTypeCompareClass = function () {
-  this.serviceNumberMatch = function (updateServiceNumber, stagingServiceNumber) {
-    if (updateServiceNumber === stagingServiceNumber) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-  this.unitColMatch = function (oldUnitType, newUnitType) {
-    if (oldUnitType === newUnitType) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-};

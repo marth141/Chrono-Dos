@@ -7,12 +7,12 @@ ServiceMasterBacklog
 getMeThatColumn
 getStagingArray
 getUpdateArray
-getUpdateSheet
+matchClass
 */
 function debugCompare() {
   var masterBacklogs = new ServiceMasterBacklog();
   var overRide = 4;
-  updateBacklog(masterBacklogs.Collection[overRide]);
+  setupUnitTypeArrays(masterBacklogs.Collection[overRide]);
   return;
 }
 /**
@@ -20,9 +20,7 @@ function debugCompare() {
  *
  * @param {any} newBacklog
  */
-function updateBacklog(newBacklog) {
-  var newSheet = newBacklog;
-  var oldSheet = getUpdateSheet(newBacklog);
+function setupUnitTypeArrays(newBacklog) {
   var newBacklogArray = getStagingArray(newBacklog);
   var oldBacklogArray = getUpdateArray(newBacklog);
   workOnUnitType(newBacklogArray, oldBacklogArray);
@@ -55,18 +53,18 @@ function workOnUnitType(newBacklogArray, oldBacklogArray) {
  * @param {number} oldUnitTypeCol
  */
 function compareUnitTypes(newBacklogArray, oldBacklogArray, newUnitTypeCol, oldUnitTypeCol) {
-  var CheckThat = new UnitTypeCompareClass();
-  for (var updateRow = 1; updateRow < oldBacklogArray.length; updateRow++) {
-    for (var stagingRow = 1; stagingRow < newBacklogArray.length; stagingRow++) {
-      var updateServiceNumber = oldBacklogArray[updateRow][0];
-      var stagingServiceNumber = newBacklogArray[stagingRow][0];
-      var oldUnitType = oldBacklogArray[updateRow][oldUnitTypeCol];
-      var newUnitType = newBacklogArray[stagingRow][newUnitTypeCol];
+  var CheckThat = new matchClass();
+  for (var oldServiceNumber = 1; oldServiceNumber < oldBacklogArray.length; oldServiceNumber++) {
+    for (var newServiceNumber = 1; newServiceNumber < newBacklogArray.length; newServiceNumber++) {
+      var updateServiceNumber = oldBacklogArray[oldServiceNumber][0];
+      var stagingServiceNumber = newBacklogArray[newServiceNumber][0];
+      var oldUnitType = oldBacklogArray[oldServiceNumber][oldUnitTypeCol];
+      var newUnitType = newBacklogArray[newServiceNumber][newUnitTypeCol];
 
       if (CheckThat.serviceNumberMatch(updateServiceNumber, stagingServiceNumber) === true) {
         if (CheckThat.unitColMatch(oldUnitType, newUnitType) !== true) {
           if (oldUnitType !== 'GSR' || 'AURORA') {
-            newBacklogArray[stagingRow][newUnitTypeCol] = oldUnitType;
+            newBacklogArray[newServiceNumber][newUnitTypeCol] = oldUnitType;
           }
         } else if (CheckThat.unitColMatch(oldUnitType, newUnitType) !== true) {
           continue;
@@ -76,20 +74,3 @@ function compareUnitTypes(newBacklogArray, oldBacklogArray, newUnitTypeCol, oldU
   }
   return newBacklogArray;
 }
-
-var UnitTypeCompareClass = function () {
-  this.serviceNumberMatch = function (updateServiceNumber, stagingServiceNumber) {
-    if (updateServiceNumber === stagingServiceNumber) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-  this.unitColMatch = function (oldUnitType, newUnitType) {
-    if (oldUnitType === newUnitType) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-};

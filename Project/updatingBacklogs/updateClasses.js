@@ -1,3 +1,7 @@
+/* exported
+matchClass
+*/
+
 var matchClass = function () {
   this.serviceNumberMatch = function (updateServiceNumber, stagingServiceNumber) {
     if (updateServiceNumber === stagingServiceNumber) {

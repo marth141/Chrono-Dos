@@ -4,7 +4,7 @@ debugStatus
 
 /* global
 ServiceMasterBacklog
-getMeThatColumn
+getMeThatIndexOf
 getStagingArray
 getUpdateArray
 matchClass
@@ -34,8 +34,8 @@ function setupStatus(newBacklog) {
  * @returns
  */
 function workOnStatus(newBacklogArray, oldBacklogArray) {
-  var newStatusCol = getMeThatColumn('Status', newBacklogArray);
-  var oldStatusCol = getMeThatColumn('Status', oldBacklogArray);
+  var newStatusCol = getMeThatIndexOf('Status', newBacklogArray);
+  var oldStatusCol = getMeThatIndexOf('Status', oldBacklogArray);
 
   var newArrayPostUnit = setStatus(newBacklogArray, oldBacklogArray, newStatusCol, oldStatusCol);
 

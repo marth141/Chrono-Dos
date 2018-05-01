@@ -2,6 +2,7 @@
 getBacklogArray
 getDimensions
 getMeThatColumn
+getMeThatIndexOf
 */
 
 /* global
@@ -45,9 +46,9 @@ function getBacklogArray(sheet, dimensions) {
 /**
  *
  *
- * @param {string} columnName
+ * @param {RegExp|String} columnName
  * @param {array} backlogArray
- * @returns 
+ * @returns
  */
 function getMeThatColumn(columnName, backlogArray) {
   for (var col = 1; col < backlogArray[0].length; col++) {
@@ -57,4 +58,21 @@ function getMeThatColumn(columnName, backlogArray) {
       throw 'getMeThatColumn() could not find: ' + columnName;
     }
   }
+}
+
+/**
+ *
+ *
+ * @param {String} columnName
+ * @param {array} backlogArray
+ * @returns
+ */
+function getMeThatIndexOf(columnName, backlogArray) {
+  var col;
+  if (backlogArray[0].indexOf(columnName)) {
+    col = backlogArray[0].indexOf(columnName);
+    return col;
+  } else if (col === backlogArray[0].length) {
+    throw 'getMeThatColumn() could not find: ' + columnName;
+  }  
 }

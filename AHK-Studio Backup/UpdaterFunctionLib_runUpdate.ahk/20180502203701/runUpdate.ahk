@@ -49,11 +49,9 @@ runUpdate(urlArray, successfulRuns)
 				}
 				redChecks++
 			}
-			if(redChecks = 100)
+			if(redChecks = 5)
 			{
 				ToolTip % "AutoUpdater got stuck. Ejecting this check.", 0, 0
-				Sleep, 1000
-				Continue
 			}
 			ToolTip % "Sending backlog!", 0, 0
 			Sleep, 500

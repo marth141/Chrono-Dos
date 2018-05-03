@@ -48,7 +48,7 @@ runUpdate(urlArray, successfulRuns)
 			} until (redChecks = 100)
 			if(redChecks = 100)
 			{
-				ToolTip % "AutoUpdater got stuck. Ejecting this check.", 0, 0
+				ToolTip % "AutoUpdater got stuck. Ejecting this check."
 			}
 			ToolTip % "Sending backlog!", 0, 0
 			Sleep, 500

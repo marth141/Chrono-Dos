@@ -39,16 +39,10 @@ runUpdate(urlArray, successfulRuns)
 			ToolTip % "Pasting data", 0, 0
 			paste()
 			Sleep, 5000
-			redChecks = 0
 			while (isThereRed() = true)
 			{
 				ToolTip % "Waiting for red to go away on playbutton", 0, 0
 				Sleep, 10
-				redChecks++
-			} until (redChecks = 100)
-			if(redChecks = 100)
-			{
-				ToolTip % "AutoUpdater got stuck. Ejecting this check.", 0, 0
 			}
 			ToolTip % "Sending backlog!", 0, 0
 			Sleep, 500

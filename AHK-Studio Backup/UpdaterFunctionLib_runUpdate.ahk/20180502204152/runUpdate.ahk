@@ -47,10 +47,6 @@ runUpdate(urlArray, successfulRuns)
 				{
 					Sleep, 10
 				}
-				else if (isThereRed() = false)
-				{
-					Break
-				}
 				redChecks++
 			}
 			if(redChecks = 100)

@@ -44,7 +44,6 @@ AutoUpdate:
 			successfulRuns := runUpdate(electricalEscalations, successfulRuns)	
 			successfulRuns := runUpdate(DINCPnPPProd, successfulRuns)
 			successfulRuns := runUpdate(PPSubmitted, successfulRuns)
-			refreshGoogleSheets()
 		}
 	}
 }

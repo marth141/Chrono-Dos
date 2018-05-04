@@ -44,9 +44,9 @@ atlanticOldPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007
 /*
 	DIN Backlogs
 */
-DINCPnPPProd = ["https://vivintsolar.my.salesforce.com/00O41000008ppaB", "https://vivintsolar.my.salesforce.com/00O41000008ppaG"]
+DINCPnPPProd := ["https://vivintsolar.my.salesforce.com/00O41000008ppaB", "https://vivintsolar.my.salesforce.com/00O41000008ppaG"]
 
 /*
 	Permits Submitted Last 2 Weeks
 */
-PPSubmitted = ["https://vivintsolar.my.salesforce.com/00O41000008qJYO"]
+PPSubmitted := ["https://vivintsolar.my.salesforce.com/00O41000008qJYO"]

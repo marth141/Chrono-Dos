@@ -3,6 +3,8 @@
 #Include %A_ScriptDir%\UpdaterFunctionLib\checkColors.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\copyPaste.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\clickPlayButton.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\checkForClear.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\postPasteColorCheck.ahk
 
 runUpdate(urlArray, successfulRuns)
 {
@@ -13,9 +15,11 @@ runUpdate(urlArray, successfulRuns)
 		Sleep, 10000
 		
 		ToolTip % "Checking Salesforce Tab Status", 0, 0
+		Sleep, 500
 		if((chromeTabLoading(urlArray[A_Index])) = false)
 		{
 			ToolTip % urlArray[A_Index] . " took too long to load", 0, 0
+			Sleep, 1000
 			Continue
 		}
 		
@@ -23,42 +27,23 @@ runUpdate(urlArray, successfulRuns)
 		copy()
 		
 		ToolTip % "Checking if in Google Sheet", 0, 0
+		Sleep, 500
 		chromeSheetCheck()		
 		Sleep, 2000
 		
 		ToolTip % "Checking if updater needs to be cleared", 0, 0
-		if (isThereGreen() = true)
-		{
-			ToolTip % "Clearing Updater, old data got stuck.", 0, 0
-			MouseClick, Left, 1226, 314, 1
-			;MouseMove, 1226, 314
-		}
+		Sleep, 500
+		checkForClear()
 		Sleep, 2000
+		
 		if (Clipboard != "")
 		{
 			ToolTip % "Pasting data", 0, 0
 			paste()
 			Sleep, 5000
-			redChecks = 0
-			while (redChecks != 100)
-			{
-				ToolTip % "Waiting for red to go away on playbutton", 0, 0
-				if (isThereRed() = true)
-				{
-					Sleep, 10
-				}
-				else if (isThereRed() = false)
-				{
-					Break
-				}
-				redChecks++
-			}
-			if(redChecks = 100)
-			{
-				ToolTip % "AutoUpdater got stuck. Ejecting this check.", 0, 0
-				Sleep, 1000
-				Continue
-			}
+			
+			postPasteColorCheck()
+			
 			ToolTip % "Sending backlog!", 0, 0
 			Sleep, 500
 			clickPlayButton()		

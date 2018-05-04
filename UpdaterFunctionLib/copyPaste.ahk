@@ -5,6 +5,7 @@ copy()
 	{
 		grandTotals := "Grand Totals"
 		unavailable := "Data Not Available"
+		salesforceError := "Unable to Process"
 		Sleep, 2000
 		SendInput, ^a
 		Sleep, 1000
@@ -18,6 +19,13 @@ copy()
 		else IfInString, Clipboard, %unavailable%
 		{
 			ToolTip % "You don't have permission for this report. Skipping.", 0, 0
+			Sleep, 1000
+			clipboard = ; Empty the clipboard   
+			break
+		}
+		else IfInString, Clipboard, %salesforceError%
+		{
+			ToolTip % "Something went wrong. Skipping.", 0, 0
 			Sleep, 1000
 			clipboard = ; Empty the clipboard   
 			break

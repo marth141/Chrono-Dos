@@ -18,5 +18,6 @@
 	{
 		ToolTip % "AutoUpdater got stuck. Ejecting this check.", 0, 0
 		Sleep, 1000
+		Continue
 	}
 }

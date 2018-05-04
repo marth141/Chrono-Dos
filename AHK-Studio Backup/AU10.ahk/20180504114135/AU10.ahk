@@ -1,6 +1,7 @@
 #Persistent
 #Include %A_ScriptDir%\UpdaterFunctionLib\globals.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\runUpdate.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\refreshGoogleSheets.ahk
 
 AutoUpdate:
 {

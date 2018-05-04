@@ -1,6 +1,7 @@
 #Persistent
 #Include %A_ScriptDir%\UpdaterFunctionLib\globals.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\runUpdate.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\refreshGoogleSheets.ahk
 
 AutoUpdate:
 {
@@ -43,10 +44,7 @@ AutoUpdate:
 			successfulRuns := runUpdate(electricalEscalations, successfulRuns)	
 			successfulRuns := runUpdate(DINCPnPPProd, successfulRuns)
 			successfulRuns := runUpdate(PPSubmitted, successfulRuns)
-			Send, ^{F5}
-			Sleep, 6000
-			Send, +{F5}
-			Sleep, 6000
+			refreshGoogleSheets()
 		}
 	}
 }

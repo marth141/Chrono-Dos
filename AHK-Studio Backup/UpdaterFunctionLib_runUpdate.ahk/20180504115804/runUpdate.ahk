@@ -38,7 +38,7 @@ runUpdate(urlArray, successfulRuns)
 		
 		if (Clipboard != "")
 		{
-			ToolTip % "Pasting data", 0, 30
+			ToolTip % "Pasting data", 0, 0
 			paste()
 			Sleep, 5000
 			
@@ -51,7 +51,7 @@ runUpdate(urlArray, successfulRuns)
 				Continue
 			}
 			
-			ToolTip % "Sending backlog!", 0, 30
+			ToolTip % "Sending backlog!", 0, 0
 			Sleep, 500
 			clickPlayButton()		
 			successfulRuns := showSuccessfulCount(successfulRuns)

@@ -15,7 +15,7 @@ AutoUpdate:
 	WinActivate, Chrono Inputs
 	IfWinNotActive, Chrono Inputs
 	{
-		ToolTip % "Opening Chrono Inputter", 0, 30
+		ToolTip % "Opening Chrono Inputter", 0, 0
 		run, %chronoInput%
 		Sleep, 10000
 	}

@@ -1,3 +1,5 @@
+// Will need edit to check states.
+
 /* exported
 debugPropUnitType
 */
@@ -28,7 +30,7 @@ function prop_UnitTypeMarker(propBacklog) {
   // Above is a set up, below is an action.
   var designPathCol = getMeThatColumn('Opportunity: Design Path', backlogArray);
   var opporTypeCol = getMeThatColumn('Opportunity: Type', backlogArray);
-  var markedUnits = prop_MarkUnits(backlogArray, designPathCol, opporTypeCol, dim);
+  var markedUnits = prop_MarkUnits(backlogArray, designPathCol, opporTypeCol, dim); // Thins get started
   // Above is a set up, below is an action.
   propBacklog.getRange(1, 1, dim[0], dim[1] + 1).setValues(markedUnits);
   propBacklog.deleteColumn(designPathCol + 1);
@@ -47,7 +49,7 @@ function prop_UnitTypeMarker(propBacklog) {
  * @returns
  */
 function prop_MarkUnits(backlogArray, designPathCol, opporTypeCol, dim) {
-  backlogArray[0][dim[1]] = 'Unit Type';
+  backlogArray[0][dim[1]] = 'Unit Type'; // Adds unit type column to end of array.
   var adjustedArray;
   var designPathString;
   for (var sNumberRow = 1; sNumberRow < backlogArray.length; sNumberRow++) {
@@ -79,9 +81,9 @@ function prop_OtsMarker(backlogArray, opporTypeCol, sNumberRow, dim, designPathS
   var regionCol = getMeThatColumn('Region', backlogArray);
   var serviceNumber = backlogArray[sNumberRow];
 
-  if (serviceNumber[contractCol].match(/lease/i) &&
-    serviceNumber[utilityCol].match(/smud/i) &&
-    serviceNumber[opporTypeCol].match(/add-on/i) &&
+  if (serviceNumber[contractCol].match(/lease/i) ||
+    serviceNumber[utilityCol].match(/smud/i) ||
+    serviceNumber[opporTypeCol].match(/add-on/i) ||
     serviceNumber[regionCol].match(/southwest/i) !== null) {
     backlogArray[sNumberRow][dim[1]] = 'OTS ' + designPathString;
     return backlogArray;

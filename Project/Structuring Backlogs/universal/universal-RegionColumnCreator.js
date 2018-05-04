@@ -1,3 +1,4 @@
+// Staged for removal, possibly.
 /* exported
 debugUniRegMar
 */
@@ -19,7 +20,7 @@ function debugUniRegMar() {
 
 /**
  *
- * 
+ *
  * @param {any} backlog
  * @returns 
  */
@@ -31,8 +32,8 @@ function uni_RegionMarker(backlog) {
   var markedRegions = markRegion(backlogArray, regOpCenterCol, sheetDim);
   var markedNatOffices = markNatlRegion(markedRegions, sheetDim);
   // Above is a set up, below is an action.
-  backlog.getRange(1, 1, sheetDim[0], sheetDim[1] + 1).setValues(markedNatOffices);
-  backlog.deleteColumn(regOpCenterCol + 1);
+  backlog.getRange(1, 1, sheetDim[0], sheetDim[1] + 1).setValues(markedNatOffices); // pastes updated regions array
+  backlog.deleteColumn(regOpCenterCol + 1); // deletes unnecessary columns
   SpreadsheetApp.flush();
   return;
 }

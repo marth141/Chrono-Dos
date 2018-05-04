@@ -17,9 +17,9 @@ function main() {
     console.log(e);
     throw 'Could not obtain lock after 30 seconds.';
   }
-  
+
   var masterBacklogs = new ServiceMasterBacklog();
-  
+
   backlogProcessJunction(masterBacklogs.Collection, undefined);
   
   //End my turn.

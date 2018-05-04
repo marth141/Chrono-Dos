@@ -101,8 +101,8 @@ function prop_CompareDates(backlogArray, dateValue1, dateValue2, row, propReqDat
   var fivePM = 17;
   if (dateValue1 > dateValue2) {
     fivePM += timeStateOffset(stateAbrv);
-    dateValue1.setHours(fivePM, 0, 0);
-    backlogArray[row][propStatDateCol] = timeAddHours(dateValue1, 24);
+    dateValue1.setHours(fivePM, 0, 0); // Changes date value to 5
+    backlogArray[row][propStatDateCol] = timeAddHours(dateValue1, 24); // sets the 5pm date value at service number due date.
     return backlogArray;
   } else if (dateValue1 < dateValue2) {
     fivePM += timeStateOffset(stateAbrv);
@@ -128,12 +128,12 @@ function prop_CompareDates(backlogArray, dateValue1, dateValue2, row, propReqDat
  * @returns
  */
 function prop_SortAndCleanDates(backlogSheet, dateAdjLog, dim, propReqDateCol, propStatDateCol) {
-  backlogSheet.getRange(1, 1, dim[0], dim[1]).setValues(dateAdjLog);
-  backlogSheet.getRange(2, 1, dim[0], dim[1]).sort([
+  backlogSheet.getRange(1, 1, dim[0], dim[1]).setValues(dateAdjLog); // Pastes new date array into sheet
+  backlogSheet.getRange(2, 1, dim[0], dim[1]).sort([ // sort the sheet by date
     { column: propReqDateCol + 1, ascending: true }
   ]);
-  backlogSheet.getRange(1, propReqDateCol + 1).setValue('Proposal Date');
-  prop_RemoveDoubleDate(backlogSheet, propStatDateCol);
+  backlogSheet.getRange(1, propReqDateCol + 1).setValue('Proposal Date'); // Sets due date column header
+  prop_RemoveDoubleDate(backlogSheet, propStatDateCol); // Deletes unneccessary date column
   return;
 }
 

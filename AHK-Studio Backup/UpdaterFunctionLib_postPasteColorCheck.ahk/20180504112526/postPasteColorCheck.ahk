@@ -16,7 +16,9 @@
 		redChecks++
 	}
 	if(redChecks = 100)
-	{		
+	{
+		ToolTip % "AutoUpdater got stuck. Ejecting this check.", 0, 0
+		Sleep, 1000
 		return true
 	}
 }

@@ -11,12 +11,12 @@
 		else if (isThereRed() = false)
 		{
 			Break
-			return false
 		}
 		redChecks++
 	}
 	if(redChecks = 100)
-	{		
-		return true
+	{
+		ToolTip % "AutoUpdater got stuck. Ejecting this check.", 0, 0
+		Sleep, 1000
 	}
 }

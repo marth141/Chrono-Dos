@@ -42,14 +42,7 @@ runUpdate(urlArray, successfulRuns)
 			paste()
 			Sleep, 5000
 			
-			stuckStatus := postPasteColorCheck()
-			
-			if(stuckStatus = true)
-			{
-				ToolTip % "AutoUpdater got stuck. Ejecting this check.", 0, 0
-				Sleep, 1000
-				Continue
-			}
+			postPasteColorCheck()
 			
 			ToolTip % "Sending backlog!", 0, 0
 			Sleep, 500

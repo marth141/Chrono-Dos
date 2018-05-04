@@ -43,7 +43,6 @@ runUpdate(urlArray, successfulRuns)
 			Sleep, 5000
 			
 			stuckStatus := postPasteColorCheck()
-			
 			if(stuckStatus = true)
 			{
 				ToolTip % "AutoUpdater got stuck. Ejecting this check.", 0, 0

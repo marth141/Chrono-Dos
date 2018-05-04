@@ -1,7 +1,7 @@
 ﻿refreshGoogleSheet()
 {
 	Send, ^{F5}
-	Sleep, 6000
+	Sleep, 5000
 	Send, +{F5}
-	Sleep, 6000
+	Sleep, 5000
 }

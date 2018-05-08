@@ -1,19 +1,19 @@
 chromeSheetCheck()
 {
-	IfWinActive, Chrono Inputs
+	IfWinActive, Chrono Lite
 	{
 		ToolTip % "In Chrono Inputs.", 0, 30
 		return
 	}
 	else
 	{		
-		while((IfWinNotActive, Chrono Inputs) = true)
+		while((IfWinNotActive, Chrono Lite) = true)
 		{					
 			ToolTip % "Going to try activating Chrono Input", 0, 30
 			try
 			{
 				ToolTip % "Activating CHrono Inputs", 0, 30
-				WinActivate, Chrono Inputs
+				WinActivate, Chrono Lite
 				Break
 			}
 			catch e

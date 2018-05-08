@@ -12,37 +12,23 @@ AutoUpdate:
 	;runSQLUpdate()		
 	successfulRuns = 0
 	ToolTip % "Checking if in Chrono Inputter", 0, 30
-	WinActivate, Chrono Inputs
-	IfWinNotActive, Chrono Inputs
+	WinActivate, Chrono Lite
+	IfWinNotActive, Chrono Lite
 	{
 		ToolTip % "Opening Chrono Inputter", 0, 30
 		run, %chronoInput%
 		Sleep, 10000
 	}
-	IfWinActive, Chrono Inputs
+	IfWinActive, Chrono Lite
 	{		
 		Loop
 		{
 			ToolTip % "Running Updates", 0, 0			
-			successfulRuns := runUpdate(westCoastPermitBacklogs, successfulRuns)
-			successfulRuns := runUpdate(eastCoastPermitBacklogs, successfulRuns)
-			successfulRuns := runUpdate(northCaliBacklogs, successfulRuns)
-			successfulRuns := runUpdate(southCaliBacklogs, successfulRuns)
-			successfulRuns := runUpdate(southWestBacklogs, successfulRuns)
-			successfulRuns := runUpdate(gritBacklogs, successfulRuns)
-			successfulRuns := runUpdate(newEngBacklogs, successfulRuns)
-			successfulRuns := runUpdate(legionBacklogs, successfulRuns)
-			successfulRuns := runUpdate(nisBacklogs, successfulRuns)
-			successfulRuns := runUpdate(dealerBacklogs, successfulRuns)
-			successfulRuns := runUpdate(vrAudit, successfulRuns)
-			successfulRuns := runUpdate(cpQualityConBacklogs, successfulRuns)
-			successfulRuns := runUpdate(permitQualityConBacklogs, successfulRuns)
-			successfulRuns := runUpdate(qualityConPass, successfulRuns)
-			successfulRuns := runUpdate(structrualEscalations, successfulRuns)
-			successfulRuns := runUpdate(structrualEscalationsNonFullProcess, successfulRuns)
-			successfulRuns := runUpdate(electricalEscalations, successfulRuns)	
-			successfulRuns := runUpdate(DINCPnPPProd, successfulRuns)
-			successfulRuns := runUpdate(PPSubmitted, successfulRuns)
+			successfulRuns := runUpdate(departmentProposalReport, successfulRuns)
+			successfulRuns := runUpdate(departmentSnowPropReport, successfulRuns)
+			successfulRuns := runUpdate(departmentPropReDeReport, successfulRuns)
+			successfulRuns := runUpdate(departmentPart1DesReport, successfulRuns)
+			Sleep, 6000
 			Send, ^{F5}
 			Sleep, 6000
 			Send, +{F5}

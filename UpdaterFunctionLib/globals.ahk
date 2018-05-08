@@ -1,4 +1,12 @@
-﻿chronoInput := "https://docs.google.com/spreadsheets/d/1-bML_DrE8eNiJ2kUw4ppZRXvb5vrexITu0356WEcRoE/edit#"
+﻿chronoInput := "https://docs.google.com/spreadsheets/d/1RkyFZhWmnArJ15fIXHRfEZxjiLhE24Rycolvy-DcsQU/edit#"
+
+/*
+	Chrono ONE Backlogs
+*/
+departmentProposalReport := ["https://vivintsolar.my.salesforce.com/00O41000008pehf"]
+departmentSnowPropReport := ["https://vivintsolar.my.salesforce.com/00O41000008qOjb"]
+departmentPropReDeReport := ["https://vivintsolar.my.salesforce.com/00O41000008qOjg"]
+departmentPart1DesReport := ["https://vivintsolar.my.salesforce.com/00O41000008qOjR"]
 
 /*
 	Proposal Backlogs

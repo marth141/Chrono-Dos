@@ -12,14 +12,14 @@ AutoUpdate:
 	;runSQLUpdate()		
 	successfulRuns = 0
 	ToolTip % "Checking if in Chrono Inputter", 0, 30
-	WinActivate, Chrono Lite
-	IfWinNotActive, Chrono Lite
+	WinActivate, Chrono ONE Updater
+	IfWinNotActive, Chrono ONE Updater
 	{
 		ToolTip % "Opening Chrono Inputter", 0, 30
 		run, %chronoInput%
 		Sleep, 10000
 	}
-	IfWinActive, Chrono Lite
+	IfWinActive, Chrono ONE Updater
 	{		
 		Loop
 		{
@@ -28,6 +28,16 @@ AutoUpdate:
 			successfulRuns := runUpdate(departmentSnowPropReport, successfulRuns)
 			successfulRuns := runUpdate(departmentPropReDeReport, successfulRuns)
 			successfulRuns := runUpdate(departmentPart1DesReport, successfulRuns)
+			
+			successfulRuns := runUpdate(nisProposalReport, successfulRuns)
+			successfulRuns := runUpdate(nisSnowPropReport, successfulRuns)
+			successfulRuns := runUpdate(nisPropReDeReport, successfulRuns)
+			successfulRuns := runUpdate(nisPart1DesReport, successfulRuns)
+			
+			successfulRuns := runUpdate(dealerProposalReport, successfulRuns)
+			successfulRuns := runUpdate(dealerSnowPropReport, successfulRuns)
+			successfulRuns := runUpdate(dealerPropReDeReport, successfulRuns)
+			successfulRuns := runUpdate(dealerPart1DesReport, successfulRuns)
 			Sleep, 6000
 			Send, ^{F5}
 			Sleep, 6000

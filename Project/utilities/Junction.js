@@ -47,7 +47,7 @@ function backlogProcessJunction(backlogSheetArray, override) {
       backlog = overrideIfDebugging(override);
     }
     var workThisBacklog, backlogArray = [];
-    if (backlogSheetArray[backlog].getName() === "PROPOSAL BACKLOG") {
+    if (backlogSheetArray[backlog].getName() === "DEPT PROPOSAL BACKLOG") {
       workThisBacklog = backlogSheetArray[backlog];
       backlogArray = uni_LinkCreator(workThisBacklog);
       backlogArray = uni_CadNameColCreator(backlogArray);
@@ -59,7 +59,7 @@ function backlogProcessJunction(backlogSheetArray, override) {
       completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
       continue;
     }
-    else if (backlogSheetArray[backlog].getName() === "SNOW PROP BACKLOG") {
+    else if (backlogSheetArray[backlog].getName() === "DEPT SNOW PROP BACKLOG") {
       workThisBacklog = backlogSheetArray[backlog];
       backlogArray = uni_LinkCreator(workThisBacklog);
       backlogArray = uni_CadNameColCreator(backlogArray);
@@ -71,7 +71,7 @@ function backlogProcessJunction(backlogSheetArray, override) {
       completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
       continue;
     }
-    else if (backlogSheetArray[backlog].getName() === "CP RD BACKLOG") {
+    else if (backlogSheetArray[backlog].getName() === "DEPT CP RD BACKLOG") {
       workThisBacklog = backlogSheetArray[backlog];
       backlogArray = uni_LinkCreator(workThisBacklog);
       backlogArray = cprd_UnitTypeMarker(backlogArray);
@@ -82,7 +82,7 @@ function backlogProcessJunction(backlogSheetArray, override) {
       completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
       continue;
     }
-    else if (backlogSheetArray[backlog].getName() === "PART 1 BACKLOG") {
+    else if (backlogSheetArray[backlog].getName() === "DEPT PART 1 BACKLOG") {
       workThisBacklog = backlogSheetArray[backlog];
       backlogArray = uni_LinkCreator(workThisBacklog);
       backlogArray = partOne_UnitTypeMarker(backlogArray);

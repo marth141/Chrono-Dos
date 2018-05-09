@@ -17,7 +17,7 @@ SpreadsheetApp
 function uni_GetOldData() {
 
   var Report = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Report");
-  var oldData = Report.getRange("G2:T").getValues().filter(function(value){ return value[0].indexOf("S-") > -1; });
+  var oldData = Report.getRange("G3:V").getValues().filter(function(value){ return value[0].indexOf("S-") > -1; });
   
   return oldData;
 }

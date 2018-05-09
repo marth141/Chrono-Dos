@@ -42,10 +42,11 @@ function backlogProcessJunction(backlogSheetArray, override) {
     completeBacklog = [];
 
   for (var backlog in backlogSheetArray) {
+    var backlogName = backlogSheetArray[backlog].getName();
     if (override !== undefined) {
       backlog = overrideIfDebugging(override);
     }
-    var workThisBacklog, backlogArray;
+    var workThisBacklog, backlogArray = [];
     if (backlogSheetArray[backlog].getName() === "PROPOSAL BACKLOG") {
       workThisBacklog = backlogSheetArray[backlog];
       backlogArray = uni_LinkCreator(workThisBacklog);
@@ -58,7 +59,7 @@ function backlogProcessJunction(backlogSheetArray, override) {
       completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
       continue;
     }
-    else if (backlogSheetArray[backlog].getName() === "SNOW PROPOSAL BACKLOG") {
+    else if (backlogSheetArray[backlog].getName() === "SNOW PROP BACKLOG") {
       workThisBacklog = backlogSheetArray[backlog];
       backlogArray = uni_LinkCreator(workThisBacklog);
       backlogArray = uni_CadNameColCreator(backlogArray);
@@ -101,5 +102,7 @@ function backlogProcessJunction(backlogSheetArray, override) {
       continue;
     }
   }
+  completeBacklog = sortCompleteBacklog(completeBacklog);
   setCompleteBacklog(completeBacklog);
+  updateLastRefresh();
 }

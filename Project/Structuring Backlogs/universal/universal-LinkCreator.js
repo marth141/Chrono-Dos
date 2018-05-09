@@ -46,7 +46,7 @@ function uni_LinkCreator(propBacklog) {
   // Now we get to the actual doing of the thing. ZHU LI, DO THE THING!
   backlogArray = constructLink(solProjLink, solProjName, backlogArray, dim);
   // Update backlog with links
-  propBacklog.getRange(1, 1, backlogArray.length, backlogArray[0].length).setValues(backlogArray);
-  SpreadsheetApp.flush();
+//  propBacklog.getRange(1, 1, backlogArray.length, backlogArray[0].length).setValues(backlogArray);
+//  SpreadsheetApp.flush();
   return backlogArray;
 }

@@ -90,7 +90,7 @@ function prop_RemoveLateDates(backlogArray, propReqDateCol, propStatDateCol, sta
  */
 function prop_CompareDates(backlogArray, dateValue1, dateValue2, row, propReqDateCol, propStatDateCol, stateAbrv) {
   var fivePM = 17;
-  if (dateValue1 > dateValue2) {
+  if (dateValue1 >= dateValue2) {
     fivePM += timeStateOffset(stateAbrv);
     dateValue1.setHours(fivePM, 0, 0); // Changes date value to 5
     backlogArray[row][propStatDateCol] = timeAddHours(dateValue1, 24); // sets the 5pm date value at service number due date.
@@ -98,12 +98,13 @@ function prop_CompareDates(backlogArray, dateValue1, dateValue2, row, propReqDat
   } else if (dateValue1 < dateValue2) {
     fivePM += timeStateOffset(stateAbrv);
     dateValue2.setHours(fivePM, 0, 0);
-    backlogArray[row][propReqDateCol] = timeAddHours(dateValue2, 24);
+    backlogArray[row][propReqDateCol] = backlogArray[row][propStatDateCol]
+    backlogArray[row][propStatDateCol] = timeAddHours(dateValue2, 24);
     return backlogArray;
   } else {
     fivePM += timeStateOffset(stateAbrv);
     dateValue1.setHours(fivePM, 0, 0);
-    backlogArray[row][propReqDateCol] = timeAddHours(dateValue1, 24);
+    backlogArray[row][propStatDateCol] = timeAddHours(dateValue1, 24);
     return backlogArray;
   }
 }

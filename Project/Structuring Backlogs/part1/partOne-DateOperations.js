@@ -45,7 +45,7 @@ function partOne_DateCleaner(backlogArray) {
  */
 function partOne_RemoveLateDates(backlogArray, phaseSSCompCol, ssExtCompCol) {
 
-  for (var row = 1; row < backlogArray.length - 1; row++) {
+  for (var row = 1; row < backlogArray.length; row++) {
     var dateValue1 = new Date(backlogArray[row][phaseSSCompCol]);
     var dateValue2 = new Date(backlogArray[row][ssExtCompCol]);
     dateValue1 = invalidFix(dateValue1);

@@ -79,11 +79,10 @@ function prop_OtsMarker(backlogArray, sNumberRow, opporTypeCol) {
   var serviceNumber = backlogArray[sNumberRow];
   var offices = new ServiceOfficeCollection();
 
-  if (serviceNumber[contractCol].match(/lease/i) ||
-    serviceNumber[utilityCol].match(/smud/i) ||
+  if (serviceNumber[utilityCol].match(/smud/i) ||
     serviceNumber[opporTypeCol].match(/add-on/i) ||
-    serviceNumber[regionCol].indexOf(offices.SouthWest) > -1) {
-    return false;
+    offices.Outsource.some(function(state) { return serviceNumber[regionCol].indexOf(state) > -1 })) {
+      return false;
   } else {
     return true;
   }

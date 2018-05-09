@@ -9,7 +9,7 @@ updateReport
 */
 
 function updateReport() {
-  var reportType;
+  var reportType, refreshQueue = false;
   var ActiveSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   var updateInputSheet = ActiveSpreadsheet.getSheetByName("Updater");
   var inputRawData = updateInputSheet.getRange("A:A").getValues();
@@ -31,13 +31,14 @@ function updateReport() {
     updateDestination = ActiveSpreadsheet.getSheetByName("PROPOSAL BACKLOG");
   }
   else if (reportType.match(/Snow Prop/i)) {
-    updateDestination = ActiveSpreadsheet.getSheetByName("SNOW PROPOSAL BACKLOG");
-  }
-  else if (reportType.match(/Part 1/i)) {
-    updateDestination = ActiveSpreadsheet.getSheetByName("PART 1 BACKLOG");
+    updateDestination = ActiveSpreadsheet.getSheetByName("SNOW PROP BACKLOG");
   }
   else if (reportType.match(/CP RD/i)) {
     updateDestination = ActiveSpreadsheet.getSheetByName("CP RD BACKLOG");
+  }
+  else if (reportType.match(/Part 1/i)) {
+    updateDestination = ActiveSpreadsheet.getSheetByName("PART 1 BACKLOG");
+    refreshQueue = true;
   }
 
   var updateDestinationDim = getDimensions(updateDestination);
@@ -57,5 +58,9 @@ function updateReport() {
   if (inputSheetDimensions[0] > 3) {
     updateInputSheet.deleteRows(3, inputSheetDimensions[0] - 3);
   }
+  
+  if(refreshQueue)
+    main();
+    
   return;
 }

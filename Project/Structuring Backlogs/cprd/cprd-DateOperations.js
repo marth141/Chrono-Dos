@@ -46,7 +46,8 @@ function cprd_DateCleaner(backlogArray) {
  * @returns 
  */
 function cprd_RemoveLateDates(backlogArray, opPropCompCol, initPropCompCol, redesReqCol) {
-
+  // Add Unit Type Column before Opportunity: Type Column
+  backlogArray[0].splice(redesReqCol, 1);
   for (var row = 1; row < backlogArray.length; row++) {
     var dateValue1 = new Date(backlogArray[row][opPropCompCol]);
     var dateValue2 = new Date(backlogArray[row][initPropCompCol]);

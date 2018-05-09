@@ -13,6 +13,13 @@ var ServiceMasterBacklog = function () {
   this.Collection = SpreadsheetApp.getActiveSpreadsheet().getSheets();
 };
 
+var BacklogSheets = function (sheet) {
+    this.Proposal = sheet.getSheetByName('PROPOSAL BACKLOG');
+	this.SnowProp = sheet.getSheetByName('SNOW PROP BACKLOG');
+    this.CPRD = sheet.getSheetByName('CP RD BACKLOG');
+    this.PartOne = sheet.getSheetByName('PART 1 BACKLOG');
+};
+
 var ServiceOfficeCollection = function () {
   this.GritMovem = ["NJ", "NY", "PA"];
   this.Legion = ["FL", "MD", "SC", "VA"];
@@ -20,6 +27,7 @@ var ServiceOfficeCollection = function () {
   this.NorthCali = ["01", "03", "04", "05", "07", "11", "16", "18", "19", "20", "22", "25", "26", "28", "30"];
   this.SouthCali = ["02", "06", "08", "09", "10", "12", "13", "14", "15", "17", "21", "29", "31", "32", "LA"];
   this.SouthWest = ["AZ", "CO", "HI", "NM", "NV", "TX", "UT"];
+  this.Outsource = ["NM", "NV"];
 };
 
 var ServiceLock = LockService.getScriptLock();
@@ -36,7 +44,7 @@ var ServiceLock = LockService.getScriptLock();
 */
 function constructLink(linkColumn, linkTextColumn, backlogArray) {
   for (var row = 1; row < backlogArray.length - 1; row++) {
-    backlogArray[row][linkTextColumn] = "=HYPERLINK(" + "https://vivintsolar.my.salesforce.com/" + backlogArray[row][linkColumn] + "\"", "\"" + backlogArray[row][linkTextColumn] + "\"" + ")";
+    backlogArray[row][linkTextColumn] = "=HYPERLINK(\"https://vivintsolar.my.salesforce.com/" + backlogArray[row][linkColumn] + "\",\"" + backlogArray[row][linkTextColumn] + "\")";
   }
   return backlogArray;
 }

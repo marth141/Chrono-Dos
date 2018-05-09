@@ -28,16 +28,16 @@ function updateReport() {
 
   var updateDestination;
   if (reportType.match(/Proposal/i)) {
-    updateDestination = ActiveSpreadsheet.getSheetByName("PROPOSAL BACKLOG");
+    updateDestination = ActiveSpreadsheet.getSheetByName("DEPT PROPOSAL BACKLOG");
   }
   else if (reportType.match(/Snow Prop/i)) {
-    updateDestination = ActiveSpreadsheet.getSheetByName("SNOW PROP BACKLOG");
+    updateDestination = ActiveSpreadsheet.getSheetByName("DEPT SNOW PROP BACKLOG");
   }
   else if (reportType.match(/CP RD/i)) {
-    updateDestination = ActiveSpreadsheet.getSheetByName("CP RD BACKLOG");
+    updateDestination = ActiveSpreadsheet.getSheetByName("DEPT CP RD BACKLOG");
   }
   else if (reportType.match(/Part 1/i)) {
-    updateDestination = ActiveSpreadsheet.getSheetByName("PART 1 BACKLOG");
+    updateDestination = ActiveSpreadsheet.getSheetByName("DEPT PART 1 BACKLOG");
     refreshQueue = true;
   }
 

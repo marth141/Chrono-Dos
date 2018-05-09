@@ -7,9 +7,8 @@ debugUniRegMar
 ServiceMasterBacklog
 ServiceOfficeCollection
 SpreadsheetApp
-getBacklogArray
-getDimensions
 getMeThatColumn
+validateHeader
 */
 
 function debugUniRegMar() {
@@ -24,11 +23,10 @@ function debugUniRegMar() {
  * @param {any} backlog
  * @returns 
  */
-function uni_RegionMarker(backlog) {
-  var sheetDim = getDimensions(backlog);
-  var backlogArray = getBacklogArray(backlog, sheetDim);
+function uni_RegionMarker(backlogArray, sheetDim) {
   // Above is a set up, below is an action.
-  var regOpCenterCol = getMeThatColumn('Service: Regional Operating Center', backlogArray);
+  validateHeader("Service: Regional Operating Center", backlogArray);
+  var regOpCenterCol = getMeThatColumn("Service: Regional Operating Center", backlogArray);
   var markedRegions = markRegion(backlogArray, regOpCenterCol, sheetDim);
   var markedNatOffices = markNatlRegion(markedRegions, sheetDim);
   // Above is a set up, below is an action.
@@ -49,27 +47,28 @@ function uni_RegionMarker(backlog) {
 function markRegion(backlogArray, regOpCenterCol, sheetDim) {
   var offices = new ServiceOfficeCollection();
   var region;
-  backlogArray[0][sheetDim[1]] = 'Region';
+  backlogArray[0][sheetDim[1]] = "Region";
   for (var row = 1; row < backlogArray.length; row++) {
     var stateAbrv = backlogArray[row][regOpCenterCol].substr(0, 2);
     if (offices.SouthWest.indexOf(stateAbrv) > -1) {
-      region = 'Southwest';
+      region = "Southwest";
       backlogArray = writeRegion(backlogArray, row, sheetDim, region);
-    } else if (stateAbrv === 'CA') {
+    } else if (stateAbrv === "CA") {
       backlogArray = markCaliRegion(offices, region, backlogArray, row, regOpCenterCol, sheetDim);
     } else if (offices.NewEnglan.indexOf(stateAbrv) > -1) {
-      region = 'New England';
+      region = "New England";
       backlogArray = writeRegion(backlogArray, row, sheetDim, region);
     } else if (offices.Legion.indexOf(stateAbrv) > -1) {
-      region = 'Legion';
+      region = "Legion";
       backlogArray = writeRegion(backlogArray, row, sheetDim, region);
     } else if (offices.GritMovem.indexOf(stateAbrv) > -1) {
-      region = 'Grit Movement';
+      region = "Grit Movement";
       backlogArray = writeRegion(backlogArray, row, sheetDim, region);
     }
   }
   return backlogArray;
 }
+
 
 /**
  *
@@ -85,11 +84,11 @@ function markRegion(backlogArray, regOpCenterCol, sheetDim) {
 function markCaliRegion(offices, region, backlogArray, sNumberRow, regOpCenterCol, sheetDim) {
   var stateAbrv = backlogArray[sNumberRow][regOpCenterCol].substr(3, 2);
   if (offices.SouthCali.indexOf(stateAbrv) > -1) {
-    region = 'SoCal';
+    region = "SoCal";
     backlogArray = writeRegion(backlogArray, sNumberRow, sheetDim, region);
     return backlogArray;
   } else if (offices.NorthCali.indexOf(stateAbrv) > -1) {
-    region = 'NorCal';
+    region = "NorCal";
     backlogArray = writeRegion(backlogArray, sNumberRow, sheetDim, region);
     return backlogArray;
   }
@@ -103,7 +102,7 @@ function markCaliRegion(offices, region, backlogArray, sNumberRow, regOpCenterCo
  * @returns
  */
 function markNatlRegion(markedRegionsArray, sheetDim) {
-  var OpproOfficeCol = getMeThatColumn('Opportunity: Office:*', markedRegionsArray);
+  var OpproOfficeCol = getMeThatColumn("Opportunity: Office:*", markedRegionsArray);
   var markedNatOffices = markNatlOffice(markedRegionsArray, OpproOfficeCol, sheetDim);
   return markedNatOffices;
 }
@@ -120,13 +119,13 @@ function markNatlOffice(markedRegionsArray, opproOfficeCol, sheetDim) {
   var region;
   for (var row = 1; row < markedRegionsArray.length; row++) {
     if (markedRegionsArray[row][opproOfficeCol].match(/NIS/i)) {
-      region = 'NIS';
+      region = "NIS";
       markedRegionsArray = writeRegion(markedRegionsArray, row, sheetDim, region);
     } else if (markedRegionsArray[row][opproOfficeCol].match(/Dealer/i)) {
-      region = 'Dealer';
+      region = "Dealer";
       markedRegionsArray = writeRegion(markedRegionsArray, row, sheetDim, region);
     } else if (markedRegionsArray[row][opproOfficeCol].match(/Retail/i)) {
-      region = 'Retail';
+      region = "Retail";
       markedRegionsArray = writeRegion(markedRegionsArray, row, sheetDim, region);
     }
   }

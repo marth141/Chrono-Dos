@@ -17,13 +17,13 @@ function getStagingArray(stagingBacklog) {
 }
 
 function getUpdateSheet(stagingBacklog) {
-  var updateName = stagingBacklog.getName().replace('staging_', '');
+  var updateName = stagingBacklog.getName().replace("staging_", "");
   var updateBacklog = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(updateName);
   return updateBacklog;
 }
 
 function getUpdateArray(stagingBacklog) {
-  var updateName = stagingBacklog.getName().replace('staging_', '');
+  var updateName = stagingBacklog.getName().replace("staging_", "");
   var updateBacklog = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(updateName);
   var updateDim = getDimensions(updateBacklog);
   var backlogArray = getBacklogArray(updateBacklog, updateDim);

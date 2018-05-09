@@ -34,8 +34,8 @@ function setupUnitTypeArrays(newBacklog) {
  * @returns
  */
 function workOnUnitType(newBacklogArray, oldBacklogArray) {
-  var newUnitTypeCol = getMeThatColumn('Unit Type', newBacklogArray);
-  var oldUnitTypeCol = getMeThatColumn('Unit Type', oldBacklogArray);
+  var newUnitTypeCol = getMeThatColumn("Unit Type", newBacklogArray);
+  var oldUnitTypeCol = getMeThatColumn("Unit Type", oldBacklogArray);
 
   var newArrayPostUnit = compareUnitTypes(newBacklogArray, oldBacklogArray, newUnitTypeCol, oldUnitTypeCol);
 
@@ -63,7 +63,7 @@ function compareUnitTypes(newBacklogArray, oldBacklogArray, newUnitTypeCol, oldU
 
       if (CheckThat.serviceNumberMatch(updateServiceNumber, stagingServiceNumber) === true) {
         if (CheckThat.unitColMatch(oldUnitType, newUnitType) !== true) {
-          if (oldUnitType !== 'GSR' || 'AURORA') {
+          if (oldUnitType !== "GSR" || "AURORA") {
             newBacklogArray[newServiceNumber][newUnitTypeCol] = oldUnitType;
           }
         } else if (CheckThat.unitColMatch(oldUnitType, newUnitType) !== true) {

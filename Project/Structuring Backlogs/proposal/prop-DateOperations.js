@@ -1,12 +1,11 @@
 /* exported
 debugPropDateCleaner
+validatePropHeaders
+prop_SortAndCleanDates
 */
 
 /* global
 ServiceMasterBacklog
-SpreadsheetApp
-getBacklogArray
-getDimensions
 getMeThatColumn
 timeAddHours
 timeStateOffset
@@ -30,23 +29,14 @@ function debugPropDateCleaner() {
  * @param {any} propBacklog
  * @returns 
  */
-function prop_DateCleaner(propBacklog) {
-  var dim = getDimensions(propBacklog);
-  var backlogArray = getBacklogArray(propBacklog, dim);
+function prop_DateCleaner(backlogArray) {
+
   var propReqDateCol, propStatDateCol, stateOfficeCol;
-  if (validatePropHeaders(backlogArray) === true) {
-    propReqDateCol = getMeThatColumn('Opportunity: Proposal Requested', backlogArray);
-    propStatDateCol = getMeThatColumn('Opportunity: Proposal Status Date', backlogArray);
-    stateOfficeCol = getMeThatColumn('Service: Regional Operating Center', backlogArray);
-  } else if (validateHeader('Opportunity: Proposal Requested', backlogArray) === false) {
-    throw 'Unable to find column: Opportunity: Proposal Requested';
-  } else if (validateHeader('Opportunity: Proposal Status Date', backlogArray) === false) {
-    throw 'Unable to find column: Opportunity: Proposal Status Date';
-  }
+  propReqDateCol = getMeThatColumn("Opportunity: Proposal Requested", backlogArray);
+  propStatDateCol = getMeThatColumn("Opportunity: Proposal Status Date", backlogArray);
+  stateOfficeCol = getMeThatColumn("Service: Regional Operating Center", backlogArray);
   var dateAdjLog = prop_RemoveLateDates(backlogArray, propReqDateCol, propStatDateCol, stateOfficeCol);
-  prop_SortAndCleanDates(propBacklog, dateAdjLog, dim, propReqDateCol, propStatDateCol);
-  SpreadsheetApp.flush();
-  return;
+  return dateAdjLog;
 }
 
 /**
@@ -56,8 +46,9 @@ function prop_DateCleaner(propBacklog) {
  * @returns
  */
 function validatePropHeaders(backlogArray) {
-  if (validateHeader('Opportunity: Proposal Requested', backlogArray)
-    && validateHeader('Opportunity: Proposal Status Date', backlogArray) === true) {
+  if (validateHeader("Opportunity: Proposal Requested", backlogArray)
+    && validateHeader("Opportunity: Proposal Status Date", backlogArray)
+    && validateHeader("Service: Regional Operating Center", backlogArray) === true) {
     return true;
   }
 }
@@ -132,7 +123,7 @@ function prop_SortAndCleanDates(backlogSheet, dateAdjLog, dim, propReqDateCol, p
   backlogSheet.getRange(2, 1, dim[0], dim[1]).sort([ // sort the sheet by date
     { column: propReqDateCol + 1, ascending: true }
   ]);
-  backlogSheet.getRange(1, propReqDateCol + 1).setValue('Proposal Date'); // Sets due date column header
+  backlogSheet.getRange(1, propReqDateCol + 1).setValue("Proposal Date"); // Sets due date column header
   prop_RemoveDoubleDate(backlogSheet, propStatDateCol); // Deletes unneccessary date column
   return;
 }

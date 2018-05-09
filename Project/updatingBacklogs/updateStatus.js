@@ -34,8 +34,8 @@ function setupStatus(newBacklog) {
  * @returns
  */
 function workOnStatus(newBacklogArray, oldBacklogArray) {
-  var newStatusCol = getMeThatIndexOf('Status', newBacklogArray);
-  var oldStatusCol = getMeThatIndexOf('Status', oldBacklogArray);
+  var newStatusCol = getMeThatIndexOf("Status", newBacklogArray);
+  var oldStatusCol = getMeThatIndexOf("Status", oldBacklogArray);
 
   var newArrayPostUnit = setStatus(newBacklogArray, oldBacklogArray, newStatusCol, oldStatusCol);
 

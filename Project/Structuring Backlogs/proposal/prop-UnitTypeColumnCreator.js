@@ -6,10 +6,8 @@ debugPropUnitType
 
 /* global
 ServiceMasterBacklog
-SpreadsheetApp
-getBacklogArray
-getDimensions
 getMeThatColumn
+ServiceOfficeCollection
 */
 
 function debugPropUnitType() {
@@ -24,19 +22,12 @@ function debugPropUnitType() {
  * @param {any} propBacklog
  * @returns 
  */
-function prop_UnitTypeMarker(propBacklog) {
-  var dim = getDimensions(propBacklog);
-  var backlogArray = getBacklogArray(propBacklog, dim);
-  // Above is a set up, below is an action.
-  var designPathCol = getMeThatColumn('Opportunity: Design Path', backlogArray);
-  var opporTypeCol = getMeThatColumn('Opportunity: Type', backlogArray);
-  var markedUnits = prop_MarkUnits(backlogArray, designPathCol, opporTypeCol, dim); // Thins get started
-  // Above is a set up, below is an action.
-  propBacklog.getRange(1, 1, dim[0], dim[1] + 1).setValues(markedUnits);
-  propBacklog.deleteColumn(designPathCol + 1);
-  propBacklog.deleteColumn(opporTypeCol + 1);
-  SpreadsheetApp.flush();
-  return;
+function prop_UnitTypeMarker(backlogArray) {
+
+  var designPathCol = getMeThatColumn("Opportunity: Design Path", backlogArray);
+  var opporTypeCol = getMeThatColumn("Opportunity: Type", backlogArray);
+  backlogArray = prop_MarkUnits(backlogArray, designPathCol, opporTypeCol); // Thins get started
+  return backlogArray;
 }
 
 /**
@@ -48,21 +39,26 @@ function prop_UnitTypeMarker(propBacklog) {
  * @param {array} dim
  * @returns
  */
-function prop_MarkUnits(backlogArray, designPathCol, opporTypeCol, dim) {
-  backlogArray[0][dim[1]] = 'Unit Type'; // Adds unit type column to end of array.
-  var adjustedArray;
+function prop_MarkUnits(backlogArray, designPathCol, opporTypeCol) {
+  // Add Unit Type Column before Opportunity: Type Column
+  backlogArray[0].splice(opporTypeCol, 0, "Unit Type");
   var designPathString;
   for (var sNumberRow = 1; sNumberRow < backlogArray.length; sNumberRow++) {
-    if (backlogArray[sNumberRow][designPathCol].match(/GSR/i)) {
-      designPathString = 'GSR';
-      adjustedArray = prop_OtsMarker(backlogArray, opporTypeCol, sNumberRow, dim, designPathString);
-    } else if (backlogArray[sNumberRow][designPathCol].match(/AURORA/i) ||
-      backlogArray[sNumberRow][designPathCol].match(/ADDRESS NOT FOUND/i)) {
-      designPathString = 'AURORA';
-      adjustedArray = prop_OtsMarker(backlogArray, opporTypeCol, sNumberRow, dim, designPathString);
+    if (backlogArray[sNumberRow][designPathCol].match(/AURORA/i)) {
+      designPathString = "AURORA";
+    } else {
+      designPathString = "GSR";
     }
+    if (prop_OtsMarker(backlogArray, sNumberRow, opporTypeCol, designPathString))
+      designPathString = "OTS " + designPathString;
+    // Place Unit Type before Opportunity: Type Column
+    backlogArray[sNumberRow].splice(opporTypeCol, 0, designPathString);
+    // Delete both "Opportunity: Type", and "Opportunity: Design Path" columns
+    //    backlogArray[sNumberRow].splice(opporTypeCol, 2); // * I"ll delete all column sin another function *
   }
-  return adjustedArray;
+  // Delete both "Opportunity: Type", and "Opportunity: Design Path" columns
+  //  backlogArray[0].splice(opporTypeCol, 2); // * I"ll delete all column sin another function *
+  return backlogArray;
 }
 
 /**
@@ -75,20 +71,20 @@ function prop_MarkUnits(backlogArray, designPathCol, opporTypeCol, dim) {
  * @param {string} designPathString
  * @returns
  */
-function prop_OtsMarker(backlogArray, opporTypeCol, sNumberRow, dim, designPathString) {
-  var contractCol = getMeThatColumn('Project: Contract Type', backlogArray);
-  var utilityCol = getMeThatColumn('Project: Utility', backlogArray);
-  var regionCol = getMeThatColumn('Region', backlogArray);
+function prop_OtsMarker(backlogArray, sNumberRow, opporTypeCol) {
+
+  var contractCol = getMeThatColumn("Project: Contract Type", backlogArray);
+  var utilityCol = getMeThatColumn("Project: Utility", backlogArray);
+  var regionCol = getMeThatColumn("Service: Regional Operating Center", backlogArray);
   var serviceNumber = backlogArray[sNumberRow];
+  var offices = new ServiceOfficeCollection();
 
   if (serviceNumber[contractCol].match(/lease/i) ||
     serviceNumber[utilityCol].match(/smud/i) ||
     serviceNumber[opporTypeCol].match(/add-on/i) ||
-    serviceNumber[regionCol].match(/southwest/i) !== null) {
-    backlogArray[sNumberRow][dim[1]] = 'OTS ' + designPathString;
-    return backlogArray;
+    serviceNumber[regionCol].indexOf(offices.SouthWest) > -1) {
+    return false;
   } else {
-    backlogArray[sNumberRow][dim[1]] = designPathString;
-    return backlogArray;
+    return true;
   }
 }

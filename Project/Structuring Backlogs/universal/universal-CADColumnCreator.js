@@ -4,10 +4,6 @@ debugUniCadName
 
 /* global
 ServiceMasterBacklog
-SpreadsheetApp
-getBacklogArray
-getDimensions
-getMeThatColumn
 */
 
 function debugUniCadName() {
@@ -22,19 +18,10 @@ function debugUniCadName() {
  * @param {any} propBacklog 
  * @returns 
  */
-function uni_CadNameColCreator(propBacklog) {
-  var dim = getDimensions(propBacklog);
-  var backlogArray = getBacklogArray(propBacklog, dim);
-  var solarProjCol = getMeThatColumn('Project Name', backlogArray);
-  propBacklog.insertColumnAfter(solarProjCol + 1);
-  dim = getDimensions(propBacklog);
-  backlogArray = getBacklogArray(propBacklog, dim);
-  var cadNameCol = solarProjCol + 1;
-  var cadNameArray = uni_FillCadNameCol(backlogArray, dim, cadNameCol);
-  propBacklog.getRange(1, 1, dim[0], dim[1]).setValues(cadNameArray);
-  SpreadsheetApp.flush();
-  console.log(cadNameArray);
-  return;
+function uni_CadNameColCreator(backlogArray) {
+  
+  var cadNameArray = uni_FillCadNameCol(backlogArray);
+  return cadNameArray;
 }
 
 /**
@@ -45,10 +32,11 @@ function uni_CadNameColCreator(propBacklog) {
  * @param {number} cadNameCol 
  * @returns 
  */
-function uni_FillCadNameCol(backlogArray, dim, cadNameCol) {
-  backlogArray[0][cadNameCol] = 'CAD Name';
-  for (var row = 1; row <= dim[0] - 1; row++) {
-    backlogArray[row][cadNameCol] = '-';
+function uni_FillCadNameCol(backlogArray) {
+  // Create Header for CAD OBJECT column. Always after SP Column
+  backlogArray[0].splice(3, 0, "CAD OBJECT");
+  for (var row = 1; row < backlogArray.length; row++) {
+    backlogArray[row].splice(3, 0, "-");
   }
   return backlogArray;
 }

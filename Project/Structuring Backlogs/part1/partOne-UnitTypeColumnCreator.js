@@ -4,9 +4,7 @@ debugPartOneUnitType
 
 /* global
 ServiceMasterBacklog
-SpreadsheetApp
-getBacklogArray
-getDimensions
+getMeThatColumn
 */
 
 function debugPartOneUnitType() {
@@ -21,14 +19,12 @@ function debugPartOneUnitType() {
  * @param {any} propBacklog 
  * @returns 
  */
-function partOne_UnitTypeMarker(propBacklog) {
-  var dim = getDimensions(propBacklog);
-  var backlogArray = getBacklogArray(propBacklog, dim);
-  backlogArray = lite_MarkUnits(backlogArray, dim);
-  // Above is a set up, below is an action.
-  propBacklog.getRange(1, 1, dim[0], dim[1] + 1).setValues(backlogArray);
-  SpreadsheetApp.flush();
-  return;
+function partOne_UnitTypeMarker(backlogArray) {
+
+  var assingCol = getMeThatColumn("Phase: CAD Design Completed By", backlogArray);
+  backlogArray = partOne_MarkUnits(backlogArray, assingCol);
+  
+  return backlogArray;
 }
 
 /**
@@ -38,10 +34,12 @@ function partOne_UnitTypeMarker(propBacklog) {
  * @param {array} dim
  * @returns 
  */
-function lite_MarkUnits(backlogArray, dim) {
-  backlogArray[0][dim[1]] = 'Unit Type';
-  for (var sNumberRow = 1; sNumberRow <= dim[0] - 1; sNumberRow++) {
-    backlogArray[sNumberRow][dim[1]] = 'PART 1';
+function partOne_MarkUnits(backlogArray, assingCol) {
+  // Add Unit Type Column before Opportunity: Type Column
+  backlogArray[0].splice(assingCol, 0, "Unit Type");
+  for (var row = 1; row < backlogArray.length; row++) {
+    // Place Unit Type
+    backlogArray[row].splice(assingCol, 0, "PART 1");
   }
   return backlogArray;
 }

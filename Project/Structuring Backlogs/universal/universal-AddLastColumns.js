@@ -1,14 +1,13 @@
 /* exported
 addLastColumns
 debugAddLastColumns
+debugUpdateOldData
 */
 
 /* global
 ServiceMasterBacklog
-SpreadsheetApp
-getDimensions
 */
-function debugAddLastColumns() {
+function debugUpdateOldData() {
   var masterBacklogs = new ServiceMasterBacklog();
   var overRide = 1;
   uni_addLastColumns(masterBacklogs.Collection[overRide]);
@@ -18,17 +17,17 @@ function debugAddLastColumns() {
 /**
  *
  * 
- * @param {any} stagingBacklog 
+ * @param {any} backlogArray 
  */
-function uni_addLastColumns(stagingBacklog) {
-  var dim = getDimensions(stagingBacklog);
-  var columnsToAdd = ['Assigned', 'Priority', 'Status', 'Notes', 'Last Update'];
-  var addColumnOrigin = dim[1] + 1;
-  var lastColToAdd = dim[1] + columnsToAdd.length;
-  var toAddIndex = 0;
-  for (var addHere = addColumnOrigin; addHere <= lastColToAdd; addHere++) {
-    stagingBacklog.getRange(1, addHere).setValue(columnsToAdd[toAddIndex]);
-    toAddIndex++;
+function uni_addLastColumns(backlogArray) {
+  var columnsToAdd = ["PRIORITY", "STATUS", "NOTES", "LAST UPDATE"];
+  for (var add in columnsToAdd) {
+    backlogArray[0].push(columnsToAdd[add]);
+    for (var row = 1; row < backlogArray.length; row++) {
+      for (add in columnsToAdd) {
+        backlogArray[row].push("");
+      }
+    }
+    return backlogArray;
   }
-  SpreadsheetApp.flush();
 }

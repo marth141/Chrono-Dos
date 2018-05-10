@@ -16,16 +16,10 @@ function getStagingArray(stagingBacklog) {
   return stagingArray;
 }
 
-function getUpdateSheet(stagingBacklog) {
-  var updateName = stagingBacklog.getName().replace("staging_", "");
-  var updateBacklog = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(updateName);
-  return updateBacklog;
-}
-
-function getUpdateArray(stagingBacklog) {
-  var updateName = stagingBacklog.getName().replace("staging_", "");
-  var updateBacklog = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(updateName);
-  var updateDim = getDimensions(updateBacklog);
-  var backlogArray = getBacklogArray(updateBacklog, updateDim);
-  return backlogArray;
-}
+//function getUpdateArray(stagingBacklog) {
+//  var updateName = stagingBacklog.getName().replace("staging_", "");
+//  var updateBacklog = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(updateName);
+//  var updateDim = getDimensions(updateBacklog);
+//  var backlogArray = getBacklogArray(updateBacklog, updateDim);
+//  return backlogArray;
+//}

@@ -13,9 +13,9 @@ sortCompleteBacklog
  * @param {any} sheet
  * @returns 
  */
-function sortCompleteBacklog(backlog) {
+function sortCompleteBacklog(backlog, Report) {
 
-  var header = getHeader();
+  var header = getHeader(Report);
   var priorityCol = getMeThatColumn("PRIORITY", header);
   var unitTypeCol = getMeThatColumn("UNIT TYPE", header);
   var dueDateCol = getMeThatColumn("DUE DATE", header);

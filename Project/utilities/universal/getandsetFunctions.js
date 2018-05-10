@@ -59,8 +59,7 @@ function getBacklogArray(sheet, dimensions) {
  *
  * @returns header
  */
-function getHeader() {
-  var Report = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Report");
+function getHeader(Report) {
   var header = Report.getRange("G2:2").getValues();
   return header;
 }
@@ -111,8 +110,7 @@ function getMeThatIndexOf(columnName, backlogArray) {
  * @param {any} completeBacklog
  * @returns 
  */
-function setCompleteBacklog(completeBacklog) {
-  var Report = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Report");
+function setCompleteBacklog(completeBacklog, Report) {
   Report.getRange("G3:T").clearContent();
   var rowNeeded = completeBacklog.length;
   if (rowNeeded > 0) {
@@ -128,8 +126,7 @@ function setCompleteBacklog(completeBacklog) {
  *
  * @returns
  */
-function updateLastRefresh() {
-  var Report = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Report");
+function updateLastRefresh(Report) {
   Report.getRange("B2").setValue(new Date());
   return;
 }

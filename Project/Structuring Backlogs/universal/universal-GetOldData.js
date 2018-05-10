@@ -14,11 +14,8 @@ SpreadsheetApp
  * @param {any} propBacklog 
  * @returns 
  */
-function uni_GetOldData() {
-
-  var Report = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Report");
+function uni_GetOldData(Report) {
   var oldData = Report.getRange("G3:V").getValues().filter(function(value){ return value[0].indexOf("S-") > -1; });
-  
   return oldData;
 }
 

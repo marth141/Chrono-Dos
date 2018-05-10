@@ -9,8 +9,12 @@ constructLink
 LockService
 SpreadsheetApp
 */
-var ServiceMasterBacklog = function () {
-  this.Collection = SpreadsheetApp.getActiveSpreadsheet().getSheets();
+var ServiceMasterBacklog = function (ss) {
+  this.Report = ss.getSheetByName("Report");
+  this.Proposal = ss.getSheetByName("DEPT PROPOSAL BACKLOG");
+  this.SnowProp = ss.getSheetByName("DEPT SNOW PROP BACKLOG");
+  this.CPRD = ss.getSheetByName("DEPT CP RD BACKLOG");
+  this.PartOne = ss.getSheetByName("DEPT PART 1 BACKLOG");
 };
 
 var ServiceOfficeCollection = function () {

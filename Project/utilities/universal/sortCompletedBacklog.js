@@ -1,3 +1,12 @@
+/* globals
+getHeader
+getMeThatColumn
+*/
+
+/* exported
+sortCompleteBacklog
+*/
+
 /**
  *
  *
@@ -11,10 +20,9 @@ function sortCompleteBacklog(backlog) {
   var unitTypeCol = getMeThatColumn("UNIT TYPE", header);
   var dueDateCol = getMeThatColumn("DUE DATE", header);
   var backlogDateCol = getMeThatColumn("BACKLOG DATE", header);
-  
+
+  // does it need to be in a variable?
   var sortedByName = sortByProperty(backlog, priorityCol, unitTypeCol, dueDateCol, backlogDateCol);
-  
-  
   return backlog;
 }
 
@@ -26,26 +34,21 @@ function sortCompleteBacklog(backlog) {
  * @returns 
  */
 function sortByProperty(backlog, priorityCol, unitTypeCol, dueDateCol, backlogDateCol) {
-  
   // sort to by priority first then oldest account
-  return backlog.sort(function(a, b) {
-    
-    if(checkPriority(a[priorityCol], b[priorityCol]))
-    {
-        var x = a[priorityCol].toLowerCase(), y = b[priorityCol].toLowerCase();
-        return x < y ? 1 : x > y ? -1 : 0;
+  return backlog.sort(function (a, b) {
+    if (checkPriority(a[priorityCol], b[priorityCol])) {
+      var x = a[priorityCol].toLowerCase(), y = b[priorityCol].toLowerCase();
+      return x < y ? 1 : x > y ? -1 : 0;
     }
-    if(checkRejected(a[unitTypeCol], b[unitTypeCol]))
-    {
-        if(a[unitTypeCol] === 'REJECTED' && b[unitTypeCol] === 'REJECTED')
-          return 0;
-        else if(a[unitTypeCol] === 'REJECTED')
-          return -1;
-        else
-          return 1;
+    if (checkRejected(a[unitTypeCol], b[unitTypeCol])) {
+      if (a[unitTypeCol] === "REJECTED" && b[unitTypeCol] === "REJECTED")
+        return 0;
+      else if (a[unitTypeCol] === "REJECTED")
+        return -1;
+      else
+        return 1;
     }
     return a[dueDateCol] - b[dueDateCol] || a[backlogDateCol] - b[backlogDateCol];
-    
   });
 }
 
@@ -57,7 +60,7 @@ function sortByProperty(backlog, priorityCol, unitTypeCol, dueDateCol, backlogDa
  * @returns 
  */
 function checkPriority(a, b) {
-  return (a !== '' || b !== '') && a !== b
+  return (a !== "" || b !== "") && a !== b;
 }
 
 /**
@@ -68,5 +71,5 @@ function checkPriority(a, b) {
  * @returns 
  */
 function checkRejected(a, b) {
-  return (a === 'REJECTED' || b === 'REJECTED') && a !== b
+  return (a === "REJECTED" || b === "REJECTED") && a !== b;
 }

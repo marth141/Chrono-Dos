@@ -81,8 +81,8 @@ function prop_OtsMarker(backlogArray, sNumberRow, opporTypeCol) {
 
   if (serviceNumber[utilityCol].match(/smud/i) ||
     serviceNumber[opporTypeCol].match(/add-on/i) ||
-    offices.Outsource.some(function(state) { return serviceNumber[regionCol].indexOf(state) > -1 })) {
-      return false;
+    offices.Outsource.some(function (state) { return serviceNumber[regionCol].indexOf(state) > -1; })) {
+    return false;
   } else {
     return true;
   }

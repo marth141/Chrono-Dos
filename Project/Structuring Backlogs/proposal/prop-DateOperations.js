@@ -98,7 +98,7 @@ function prop_CompareDates(backlogArray, dateValue1, dateValue2, row, propReqDat
   } else if (dateValue1 < dateValue2) {
     fivePM += timeStateOffset(stateAbrv);
     dateValue2.setHours(fivePM, 0, 0);
-    backlogArray[row][propReqDateCol] = backlogArray[row][propStatDateCol]
+    backlogArray[row][propReqDateCol] = backlogArray[row][propStatDateCol];
     backlogArray[row][propStatDateCol] = timeAddHours(dateValue2, 24);
     return backlogArray;
   } else {

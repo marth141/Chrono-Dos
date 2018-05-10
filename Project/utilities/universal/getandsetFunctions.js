@@ -1,10 +1,12 @@
 /* exported
 getBacklogArray
 getDimensions
+getHeader
 getMeThatColumn
 getMeThatColumnNoValidate
 getMeThatIndexOf
 setCompleteBacklog
+updateLastRefresh
 */
 
 /* global

@@ -24,7 +24,6 @@ function debugUpdateOldData() {
  * @returns backlogArray
  */
 function uni_UpdateOldData(backlogArray, oldData) {
-  
   var serviceCol = getMeThatColumnNoValidate("Opportunity: Service: Service Name", backlogArray);
   if(serviceCol === -1) {
     serviceCol = getMeThatColumnNoValidate("Service: Service Name", backlogArray);

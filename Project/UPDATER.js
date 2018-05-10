@@ -1,7 +1,8 @@
 /* globals
 SpreadsheetApp
-getDimensions
 getBacklogArray
+getDimensions
+main
 */
 
 /* exported
@@ -58,9 +59,10 @@ function updateReport() {
   if (inputSheetDimensions[0] > 3) {
     updateInputSheet.deleteRows(3, inputSheetDimensions[0] - 3);
   }
-  
-  if(refreshQueue)
+
+  if (refreshQueue) {
     main();
-    
+  }
+
   return;
 }

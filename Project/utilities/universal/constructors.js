@@ -13,13 +13,6 @@ var ServiceMasterBacklog = function () {
   this.Collection = SpreadsheetApp.getActiveSpreadsheet().getSheets();
 };
 
-var BacklogSheets = function (sheet) {
-    this.Proposal = sheet.getSheetByName('PROPOSAL BACKLOG');
-	this.SnowProp = sheet.getSheetByName('SNOW PROP BACKLOG');
-    this.CPRD = sheet.getSheetByName('CP RD BACKLOG');
-    this.PartOne = sheet.getSheetByName('PART 1 BACKLOG');
-};
-
 var ServiceOfficeCollection = function () {
   this.GritMovem = ["NJ", "NY", "PA"];
   this.Legion = ["FL", "MD", "SC", "VA"];

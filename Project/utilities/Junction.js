@@ -17,12 +17,14 @@ setCompleteBacklog
 snow_CleanUpColumns
 snow_DateCleaner
 snow_UnitTypeMarker
+sortCompleteBacklog
 uni_AddToCompleteBacklog
 uni_CadNameColCreator
 uni_GetOldData
 uni_LinkCreator
 uni_UpdateOldData
 uni_addLastColumns
+updateLastRefresh
 */
 
 function debugJunction() {
@@ -43,6 +45,7 @@ function backlogProcessJunction(backlogSheetArray, override) {
 
   for (var backlog in backlogSheetArray) {
     var backlogName = backlogSheetArray[backlog].getName();
+    console.log(backlogName);
     if (override !== undefined) {
       backlog = overrideIfDebugging(override);
     }

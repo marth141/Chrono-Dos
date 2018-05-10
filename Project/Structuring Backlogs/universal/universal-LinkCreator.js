@@ -27,7 +27,7 @@ function debugUniSolProj() {
 function uni_LinkCreator(propBacklog) {
   var dim = getDimensions(propBacklog);
   var backlogArray = getBacklogArray(propBacklog, dim);
-  if (propBacklog.getName() === "CP RD BACKLOG") {
+  if (propBacklog.getName().match(/CP RD/i)) {
     var cadName = getMeThatColumn("CAD Name", backlogArray);
     var cadLink = getMeThatColumn("Solar CAD ID", backlogArray);
     backlogArray = constructLink(cadLink, cadName, backlogArray, dim);

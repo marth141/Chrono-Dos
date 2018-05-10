@@ -5,5 +5,6 @@
     ],
     "eslint.workingDirectories": [
         "./Project"
-    ]
+    ],
+    "javascript.referencesCodeLens.enabled": true
 }

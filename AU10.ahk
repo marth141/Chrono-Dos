@@ -52,22 +52,6 @@ AutoUpdate:
 			Sleep, 6000
 			Send, +{F5}
 			Sleep, 6000
-			
-			run, %chronoInputs%
-			successfulRuns := runUpdateQCSREE(westCoastPermitBacklogs, successfulRuns)
-			successfulRuns := runUpdateQCSREE(eastCoastPermitBacklogs, successfulRuns)
-			
-			successfulRuns := runUpdateQCSREE(cpQualityConBacklogs, successfulRuns)
-			successfulRuns := runUpdateQCSREE(permitQualityConBacklogs, successfulRuns)
-			successfulRuns := runUpdateQCSREE(qualityConPass, successfulRuns)
-			
-			successfulRuns := runUpdateQCSREE(structrualEscalations, successfulRuns)
-			successfulRuns := runUpdateQCSREE(structrualEscalationsNonFullProcess, successfulRuns)
-			successfulRuns := runUpdateQCSREE(electricalEscalations, successfulRuns)
-			
-			successfulRuns := runUpdateQCSREE(DINCPnPPProd, successfulRuns)
-			successfulRuns := runUpdateQCSREE(PPSubmitted, successfulRuns)
-			Send, ^w
 		}
 	}
 }

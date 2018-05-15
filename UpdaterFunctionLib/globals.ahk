@@ -1,4 +1,5 @@
-﻿chronoInput := "https://docs.google.com/spreadsheets/d/1RkyFZhWmnArJ15fIXHRfEZxjiLhE24Rycolvy-DcsQU/edit#"
+﻿chronoONEUpdater := "https://docs.google.com/spreadsheets/d/1RkyFZhWmnArJ15fIXHRfEZxjiLhE24Rycolvy-DcsQU/edit"
+chronoInputs := "https://docs.google.com/spreadsheets/d/1-bML_DrE8eNiJ2kUw4ppZRXvb5vrexITu0356WEcRoE/edit"
 
 /*
 	Chrono ONE CP Dept Backlogs
@@ -58,14 +59,6 @@ structrualEscalationsNonFullProcess := ["https://vivintsolar.my.salesforce.com/0
 electricalEscalations := ["https://vivintsolar.my.salesforce.com/00O41000008pj5I"]
 
 /*
-	A bunch of old backlogs.
-*/
-vrAudit = ["https://vivintsolar.my.salesforce.com/00O41000008DpjH"]
-westOldPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nyBp", "https://vivintsolar.my.salesforce.com/00O41000008Ev95"]
-centralOldPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nyBu", "https://vivintsolar.my.salesforce.com/00O41000008Ev8l"]
-atlanticOldPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nyBz", "https://vivintsolar.my.salesforce.com/00O41000008Ev8W"]
-
-/*
 	DIN Backlogs
 */
 DINCPnPPProd := ["https://vivintsolar.my.salesforce.com/00O41000008ppaB", "https://vivintsolar.my.salesforce.com/00O41000008ppaG"]
@@ -73,4 +66,13 @@ DINCPnPPProd := ["https://vivintsolar.my.salesforce.com/00O41000008ppaB", "https
 /*
 	Permits Submitted Last 2 Weeks
 */
+
 PPSubmitted := ["https://vivintsolar.my.salesforce.com/00O41000008qJYO"]
+
+/*
+	A bunch of old backlogs.
+*/
+vrAudit = ["https://vivintsolar.my.salesforce.com/00O41000008DpjH"]
+westOldPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nyBp", "https://vivintsolar.my.salesforce.com/00O41000008Ev95"]
+centralOldPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nyBu", "https://vivintsolar.my.salesforce.com/00O41000008Ev8l"]
+atlanticOldPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000007nyBz", "https://vivintsolar.my.salesforce.com/00O41000008Ev8W"]

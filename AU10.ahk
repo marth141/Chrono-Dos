@@ -1,6 +1,15 @@
 #Persistent
 #Include %A_ScriptDir%\UpdaterFunctionLib\globals.ahk
-#Include %A_ScriptDir%\UpdaterFunctionLib\runUpdate.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\runUpdateONE.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\runUpdateQCSREE.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\checkColors.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\copyPaste.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\clickPlayButton.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\checkForClear.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\postPasteColorCheck.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\salesforceLoading.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\urlOpener.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\successfulRunCounter.ahk
 
 AutoUpdate:
 {
@@ -16,7 +25,7 @@ AutoUpdate:
 	IfWinNotActive, Chrono ONE Updater
 	{
 		ToolTip % "Opening Chrono Inputter", 0, 30
-		run, %chronoInput%
+		run, %chronoONEUpdater%
 		Sleep, 10000
 	}
 	IfWinActive, Chrono ONE Updater
@@ -24,25 +33,41 @@ AutoUpdate:
 		Loop
 		{
 			ToolTip % "Running Updates", 0, 0			
-			successfulRuns := runUpdate(departmentProposalReport, successfulRuns)
-			successfulRuns := runUpdate(departmentSnowPropReport, successfulRuns)
-			successfulRuns := runUpdate(departmentPropReDeReport, successfulRuns)
-			successfulRuns := runUpdate(departmentPart1DesReport, successfulRuns)
+			successfulRuns := runUpdateONE(departmentProposalReport, successfulRuns)
+			successfulRuns := runUpdateONE(departmentSnowPropReport, successfulRuns)
+			successfulRuns := runUpdateONE(departmentPropReDeReport, successfulRuns)
+			successfulRuns := runUpdateONE(departmentPart1DesReport, successfulRuns)
 			
-			successfulRuns := runUpdate(nisProposalReport, successfulRuns)
-			successfulRuns := runUpdate(nisSnowPropReport, successfulRuns)
-			successfulRuns := runUpdate(nisPropReDeReport, successfulRuns)
-			successfulRuns := runUpdate(nisPart1DesReport, successfulRuns)
+			successfulRuns := runUpdateONE(nisProposalReport, successfulRuns)
+			successfulRuns := runUpdateONE(nisSnowPropReport, successfulRuns)
+			successfulRuns := runUpdateONE(nisPropReDeReport, successfulRuns)
+			successfulRuns := runUpdateONE(nisPart1DesReport, successfulRuns)
 			
-			successfulRuns := runUpdate(dealerProposalReport, successfulRuns)
-			successfulRuns := runUpdate(dealerSnowPropReport, successfulRuns)
-			successfulRuns := runUpdate(dealerPropReDeReport, successfulRuns)
-			successfulRuns := runUpdate(dealerPart1DesReport, successfulRuns)
+			successfulRuns := runUpdateONE(dealerProposalReport, successfulRuns)
+			successfulRuns := runUpdateONE(dealerSnowPropReport, successfulRuns)
+			successfulRuns := runUpdateONE(dealerPropReDeReport, successfulRuns)
+			successfulRuns := runUpdateONE(dealerPart1DesReport, successfulRuns)
 			Sleep, 6000
 			Send, ^{F5}
 			Sleep, 6000
 			Send, +{F5}
 			Sleep, 6000
+			
+			run, %chronoInputs%
+			successfulRuns := runUpdateQCSREE(westCoastPermitBacklogs, successfulRuns)
+			successfulRuns := runUpdateQCSREE(eastCoastPermitBacklogs, successfulRuns)
+			
+			successfulRuns := runUpdateQCSREE(cpQualityConBacklogs, successfulRuns)
+			successfulRuns := runUpdateQCSREE(permitQualityConBacklogs, successfulRuns)
+			successfulRuns := runUpdateQCSREE(qualityConPass, successfulRuns)
+			
+			successfulRuns := runUpdateQCSREE(structrualEscalations, successfulRuns)
+			successfulRuns := runUpdateQCSREE(structrualEscalationsNonFullProcess, successfulRuns)
+			successfulRuns := runUpdateQCSREE(electricalEscalations, successfulRuns)
+			
+			successfulRuns := runUpdateQCSREE(DINCPnPPProd, successfulRuns)
+			successfulRuns := runUpdateQCSREE(PPSubmitted, successfulRuns)
+			Send, ^W
 		}
 	}
 }

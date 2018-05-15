@@ -1,12 +1,13 @@
 ;#Include %A_ScriptDir%\UpdaterFunctionLib\checkSalesforceReport.ahk
-#Include %A_ScriptDir%\UpdaterFunctionLib\checkChromeStatus.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\checkChronoONEStatus.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\checkChronoInputterStatus.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\checkColors.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\copyPaste.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\clickPlayButton.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\checkForClear.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\postPasteColorCheck.ahk
 
-runUpdate(urlArray, successfulRuns)
+runUpdateQCSREE(urlArray, successfulRuns)
 {
 	for i, salesforceLink in urlArray
 	{
@@ -28,7 +29,7 @@ runUpdate(urlArray, successfulRuns)
 		
 		ToolTip % "Checking if in Google Sheet", 0, 30
 		Sleep, 500
-		chromeSheetCheck()		
+		chronoInputsCheck()
 		Sleep, 2000
 		
 		ToolTip % "Checking if updater needs to be cleared", 0, 30
@@ -58,18 +59,5 @@ runUpdate(urlArray, successfulRuns)
 			Continue
 		}
 	}
-	return successfulRuns
-}
-
-openURL(urlToOpen)
-{
-	run, %urlToOpen%
-	return
-}
-
-showSuccessfulCount(successfulRuns)
-{
-	successfulRuns += 1
-	ToolTip % "Successful Updates: " . successfulRuns, 0, 50, 2	
 	return successfulRuns
 }

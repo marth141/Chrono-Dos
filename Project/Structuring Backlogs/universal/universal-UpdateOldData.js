@@ -41,8 +41,9 @@ function uni_UpdateOldData(backlogArray, oldData) {
   var priorityCol = getMeThatColumn("PRIORITY", backlogArray);
   var notesCol = getMeThatColumn("NOTES", backlogArray);
   var lastUpdateCol = getMeThatColumn("LAST UPDATE", backlogArray);
+  var initialUpdateCol = getMeThatColumn("INITIAL DATE", backlogArray);
   
-  var updatedBacklog = replaceOldInfo(backlogArray, oldData, serviceCol, unitTypeCol, assignCol, statusCol, priorityCol, notesCol, lastUpdateCol);
+  var updatedBacklog = replaceOldInfo(backlogArray, oldData, serviceCol, unitTypeCol, assignCol, statusCol, priorityCol, notesCol, lastUpdateCol, initialUpdateCol);
   return updatedBacklog;
 }
 
@@ -53,7 +54,7 @@ function uni_UpdateOldData(backlogArray, oldData) {
  * @param {array} oldData
  * @returns backlogArray
  */
-function replaceOldInfo(backlogArray, oldData, serviceCol, unitTypeCol, assignCol, statusCol, priorityCol, notesCol, lastUpdateCol) {
+function replaceOldInfo(backlogArray, oldData, serviceCol, unitTypeCol, assignCol, statusCol, priorityCol, notesCol, lastUpdateCol, initialUpdateCol) {
   // Remove all index"s in removeValFromIndex from each row
   for (var oldRow in oldData) {
     for (var newRow in backlogArray) {
@@ -67,6 +68,7 @@ function replaceOldInfo(backlogArray, oldData, serviceCol, unitTypeCol, assignCo
         
       backlogArray[newRow][notesCol] = oldData[oldRow][notesCol];  // Get old notes and place them when the service numbers match
       backlogArray[newRow][lastUpdateCol] = oldData[oldRow][lastUpdateCol];  // Get old Last update and update to new sheet
+      backlogArray[newRow][initialUpdateCol] = oldData[oldRow][initialUpdateCol];  // Get old initial update and update to new sheet
       if (checkAssigned(oldData[oldRow][assignCol], backlogArray[newRow][assignCol])) // Check If there was an old assignment 
         backlogArray[newRow][assignCol] = oldData[oldRow][assignCol];   // Replace with the old assignment
       if (checkStatus(oldData[oldRow][statusCol], backlogArray[newRow][statusCol]))

@@ -60,7 +60,7 @@ function getBacklogArray(sheet, dimensions) {
  * @returns header
  */
 function getHeader(Report) {
-  var header = Report.getRange("G2:2").getValues();
+  var header = Report.getRange("2:2").getValues();
   return header;
 }
 
@@ -111,7 +111,10 @@ function getMeThatIndexOf(columnName, backlogArray) {
  * @returns 
  */
 function setCompleteBacklog(completeBacklog, Report) {
-  Report.getRange("G3:T").clearContent();
+  var header = getHeader(Report);
+  var serviceCol = getMeThatColumn("SERVICE", header);
+  var initialUpdateCol = getMeThatColumn("INITIAL DATE", header);
+  Report.getRange(3, serviceCol+1, Report.getLastRow(), initialUpdateCol+1).clearContent();
   var rowNeeded = completeBacklog.length;
   if (rowNeeded > 0) {
     var colNeeded = completeBacklog[0].length;

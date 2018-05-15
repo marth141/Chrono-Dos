@@ -67,7 +67,7 @@ AutoUpdate:
 			
 			successfulRuns := runUpdateQCSREE(DINCPnPPProd, successfulRuns)
 			successfulRuns := runUpdateQCSREE(PPSubmitted, successfulRuns)
-			Send, ^W
+			Send, ^w
 		}
 	}
 }

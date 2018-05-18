@@ -100,6 +100,33 @@ This page is used to display analytical data about the current state of the Chro
 * Four graphs, divided by East and West coast, displaying the Not Yet Due, Due Today, and Overdue accounts. A breakdown by state is included.
 
 ## Troubleshooting
-### A designer is not being assigned an account.
-A designer not being assigned an account is a regular issue due to the constantly changing filters within the design department. At times when a designer is not being assigned an account, it's good to follow this proceedure,
+### A designer is not being assigned an account
+A designer not being assigned an account is a regular issue due to the constantly changing filters within the design department. If the designer is not being assigned an account, check for your situation and follow the guides available.
 
+#### Ally says, Queue is Empty
+* Double-check that the queue is empty.
+* If the queue is not empty,
+  * Make sure the designer is in the Filter Settings sheet's **Name column** and **Salesforce Name column**.
+  * Make sure the designer's email is listed and that it is **@vivintsolar.com.**
+  * Make sure the designer's **Shift**, and **Include(s)** are correct.
+  * Ensure that the designer's unit type filters are correct.
+* If **all** of these *are not* in error and the queue *is not* empty, then ensure that your designers aren't suppose to recieve this kind of account due to unique team position.
+  * E.g. Being an **Outsource designer**, and not recieving priority accounts. This is normal as **Outsource** is not allowed to be assigned priority accounts. If this changes in the future, regard this an example.
+* If this account type is suppose to be being assigned, please contact your supervisor.
+* When making contact, please press the F12 key and take a screenshot of the Ally screen and send that to your supervisor.
+* If your supervisor is not available, please contact Nathan Casados, Eric Van Wagoner , or Codie Wright.
+
+#### Ally is only showing the spinning circle and has not assigned an account
+* Make sure the designer is in the Filter Settings sheet's **Name column** and **Salesforce Name column**.
+* Make sure the designer's email is listed and that it is **@vivintsolar.com.**
+* Make sure the designer's **Shift**, and **Include(s)** are correct.
+* Ensure that the designer's filters are correct.
+* If **all** of these *are not* in error and the queue *is not* empty, then ensure that your designers aren't suppose to recieve this kind of account due to unique team position.
+  * E.g. Being an **Outsource designer**, and not recieving priority accounts. This is normal as **Outsource** is not allowed to be assigned priority accounts. If this changes in the future, regard this an example.
+* If this account type is suppose to be being assigned, please contact your supervisor.
+* When making contact, please press the F12 key an7 take a screenshot of the Ally screen and send that to your supervisor.
+* If your supervisor is not available, please contact Eric Van Wagoner, Nathan Casados, or Codie Wright.
+
+#### My issue is not listed
+* Please contact your supervisor and discuss with them what is happening. They should verify that the issue is an unknown issue.
+* If an issue is verifiably unknown, please contact Nathan Casados, Eric Van Wagoner, or Codie Wright.

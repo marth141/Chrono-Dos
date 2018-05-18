@@ -70,6 +70,36 @@ The Filter Settings page is where a manager or supervisor will be able to define
 | NAME | Email | Salesforce Name | SHIFT | INCLUDE | INCLUDE | GSR | AURORA | SNOW PROP | PART 1 | CP RD | REJECTED | OTS GSR | OTS AURORA | EXCLUDED | INCLUDED |
 |------|-------|-----------------|-------|---------|---------|-----|--------|-----------|--------|-------|----------|---------|------------|----------|----------|
 | Name of Designer. (**Required**) | Designer's email, must be @vivintsolar.com. (**Required**) | Designer's Salesforce Name. (**Requried**) | AM, MD, or PM. | If NIS, ONE, or Dealer, designer will be permitted to be assigned accounts from that sister Chrono. | If NIS, ONE, or Dealer, designer will be permitted to be assigned accounts from that sister Chrono. | 0 or 1 (Off or On). While **1** the designer will be permitted to be assigned accounts of this unit type. | 0 or 1 (Off or On). While **1** the designer will be permitted to be assigned accounts of this unit type. | 0 or 1 (Off or On). While **1** the designer will be permitted to be assigned accounts of this unit type. | 0 or 1 (Off or On). While **1** the designer will be permitted to be assigned accounts of this unit type. | 0 or 1 (Off or On). While **1** the designer will be permitted to be assigned accounts of this unit type. | 0 or 1 (Off or On). While **1** the designer will be permitted to be assigned accounts of this unit type. | 0 or 1 (Off or On). While **1** the designer will be permitted to be assigned accounts of this unit type. | 0 or 1 (Off or On). While **1** the designer will be permitted to be assigned accounts of this unit type. | If NIS, ONE, or Dealer, designer will not be permitted to be assigned accounts from that sister Chrono. | If NIS, ONE, or Dealer, designer will not be permitted to be assigned accounts from that sister Chrono. |
+
 ## Updater Sheet Documentation
+### Description
+The Updater sheet is used to be able to manually update the Chrono when a manual update is needed. In the Updater sheet, several Salesforce links are shown.
+
+| PROPOSAL | SNOW PROP | CP RD | PART 1 |
+|----------|-----------|-------|--------|
+
+There will also be a right-facing arrow, a play button, used to send a pasted backlog into it's hidden staging zone.
+
+### Performing a Manual Update
+When a manual update is necessary, follow this proceedure,
+
+* Start with Proposal,
+* The manager or supervisor will need to open, copy, and paste the 4 Salesforce links into the Updater sheet at cell **"A1"**.
+* Press the Play button.
+* Continue this process through Snow Prop, CP RD, and Part 1 in order.
+* Once Part 1 has been sent, the Chrono will Update.
+
 ## Analysis Sheet Documentation
+### Description
+This page is used to display analytical data about the current state of the Chrono's report sheet. This sheet will display the following information,
+
+* Total count of each unit type in the Report sheet.
+* Total count of claimed accounts in the Report sheet.
+* Total count of unclaimed accounts in the Report sheet.
+* Number of accounts due today and unclaimed divided by West Coast and East Coast.
+* Four graphs, divided by East and West coast, displaying the Not Yet Due, Due Today, and Overdue accounts. A breakdown by state is included.
+
 ## Troubleshooting
+### A designer is not being assigned an account.
+A designer not being assigned an account is a regular issue due to the constantly changing filters within the design department. At times when a designer is not being assigned an account, it's good to follow this proceedure,
+

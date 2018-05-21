@@ -40,6 +40,7 @@ function overrideIfDebugging(override) {
 }
 
 function backlogProcessJunction(backlogSheetArray, override) {
+  reportRunning(backlogSheetArray.Report);
   var oldData = uni_GetOldData(backlogSheetArray.Report),
     completeBacklog = [];
 
@@ -108,4 +109,5 @@ function backlogProcessJunction(backlogSheetArray, override) {
   completeBacklog = sortCompleteBacklog(completeBacklog, backlogSheetArray.Report);
   setCompleteBacklog(completeBacklog, backlogSheetArray.Report);
   updateLastRefresh(backlogSheetArray.Report);
+  removeReportRunning(backlogSheetArray.Report);
 }

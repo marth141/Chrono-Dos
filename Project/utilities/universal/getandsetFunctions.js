@@ -133,3 +133,13 @@ function updateLastRefresh(Report) {
   Report.getRange("B2").setValue(new Date());
   return;
 }
+
+function reportRunning(Report) {
+  Report.getRange("G1").setValue("REPORT RUNNING");
+  return;
+}
+
+function removeReportRunning(Report) {
+  Report.getRange("G1").setValue("");
+  return;
+}

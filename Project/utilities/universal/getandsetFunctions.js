@@ -136,10 +136,12 @@ function updateLastRefresh(Report) {
 
 function reportRunning(Report) {
   Report.getRange("G1").setValue("REPORT RUNNING");
+  SpreadsheetApp.flush();
   return;
 }
 
 function removeReportRunning(Report) {
   Report.getRange("G1").setValue("");
+  SpreadsheetApp.flush();
   return;
 }

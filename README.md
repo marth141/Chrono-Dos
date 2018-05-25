@@ -51,19 +51,14 @@ The Report Sheet is where Ally will look for and assign new accounts to a design
 
 #### Assign Button Interaction
 Once the Assign button is pressed, the designer's name will show up in the account's **Assigned column**, the **Status column** will be marked *In Progress*, and the **Last Update and Initial Date columns** will be timestamped.
-
 #### Unassign Button Interaction
 Once the Unassign button is pressed, the account's **Status column** will update with **"Unassign: Jane Doe"**, **Notes column** will update with notes if any were provided by the designer, and the **Last Update column** will update it's timestamp.
-
 #### Reject Button (Outsource Only) Interaction
 Once the Reject button is pressed, the account's **Status column** will update with **"Reject: Jane Doe"**, **Notes column** will update with notes if any were provided by the designer, and the **Last Update column** will update it's timestamp.
-
 #### On Hold Button Interaction
 Once the On Hold button is pressed, the account's **Status column** will update with **"On Hold"**, **Notes column** will update with notes if any were provided by the designer, and the **Last Update column** will update it's timestamp.
-
 #### Cancel Button Interaction
 Once the Cancel button is pressed, the account's **Status column** will update with **"Cancel"**, **Notes column** will update with notes if any were provided by the designer, and the **Last Update column** will update it's timestamp.
-
 #### Complete Button Interaction
 Once the Complete button is pressed, the account's **Status column** will update with **"Complete"**, **Notes column** will update with notes if any were provided by the designer, and the **Last Update column** will update it's timestamp.
 

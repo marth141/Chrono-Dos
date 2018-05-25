@@ -40,7 +40,7 @@ var ServiceLock = LockService.getScriptLock();
 * @returns The backlog array with new SolProj link.
 */
 function constructLink(linkColumn, linkTextColumn, backlogArray) {
-  for (var row = 1; row < backlogArray.length - 1; row++) {
+  for (var row = 1; row < backlogArray.length; row++) {
     backlogArray[row][linkTextColumn] = "=HYPERLINK(\"https://vivintsolar.my.salesforce.com/" + backlogArray[row][linkColumn] + "\",\"" + backlogArray[row][linkTextColumn] + "\")";
   }
   return backlogArray;

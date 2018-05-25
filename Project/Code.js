@@ -7,6 +7,10 @@ ServiceMasterBacklog
 backlogProcessJunction
 */
 
+function debugCallMain() {
+  callMain("DEPT PROPOSAL BACKLOG");
+}
+
 function main() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var masterBacklogs = new ServiceMasterBacklog(ss);

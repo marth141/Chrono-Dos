@@ -33,20 +33,10 @@ AutoUpdate:
 		Loop
 		{
 			ToolTip % "Running Updates", 0, 0			
-			successfulRuns := runUpdateONE(departmentProposalReport, successfulRuns)
-			successfulRuns := runUpdateONE(departmentSnowPropReport, successfulRuns)
-			successfulRuns := runUpdateONE(departmentPropReDeReport, successfulRuns)
-			successfulRuns := runUpdateONE(departmentPart1DesReport, successfulRuns)
-			
-			successfulRuns := runUpdateONE(nisProposalReport, successfulRuns)
-			successfulRuns := runUpdateONE(nisSnowPropReport, successfulRuns)
-			successfulRuns := runUpdateONE(nisPropReDeReport, successfulRuns)
-			successfulRuns := runUpdateONE(nisPart1DesReport, successfulRuns)
-			
-			successfulRuns := runUpdateONE(dealerProposalReport, successfulRuns)
-			successfulRuns := runUpdateONE(dealerSnowPropReport, successfulRuns)
-			successfulRuns := runUpdateONE(dealerPropReDeReport, successfulRuns)
-			successfulRuns := runUpdateONE(dealerPart1DesReport, successfulRuns)
+			successfulRuns := runUpdateONE(departmentReports, successfulRuns)
+			successfulRuns := runUpdateONE(nisReports, successfulRuns)
+			successfulRuns := runUpdateONE(dealerReports, successfulRuns)
+			successfulRuns :=
 			Sleep, 6000
 			Send, ^{F5}
 			Sleep, 6000

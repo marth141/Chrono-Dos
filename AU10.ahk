@@ -36,7 +36,7 @@ AutoUpdate:
 			successfulRuns := runUpdateONE(departmentReports, successfulRuns)
 			successfulRuns := runUpdateONE(nisReports, successfulRuns)
 			successfulRuns := runUpdateONE(dealerReports, successfulRuns)
-			successfulRuns :=
+			successfulRuns := runUpdateONE(chronoDOS, successfulRuns)
 			Sleep, 6000
 			Send, ^{F5}
 			Sleep, 6000

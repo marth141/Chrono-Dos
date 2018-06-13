@@ -19,8 +19,7 @@ dealerReports := ["https://vivintsolar.my.salesforce.com/00O41000008G94E", "http
 /*
 	Permit Backlogs
 */
-westCoastPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000008GHt8", "https://vivintsolar.my.salesforce.com/00O41000008GHtI"]
-eastCoastPermitBacklogs := ["https://vivintsolar.my.salesforce.com/00O41000008GHth", "https://vivintsolar.my.salesforce.com/00O41000008GHtr"]
+chronoDOS := ["https://vivintsolar.my.salesforce.com/00O41000008qeF0", "https://vivintsolar.my.salesforce.com/00O41000008qeEl"]
 
 /*
 	QCD Backlogs

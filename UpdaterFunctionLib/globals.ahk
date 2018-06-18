@@ -22,6 +22,11 @@ dealerReports := ["https://vivintsolar.my.salesforce.com/00O41000008G94E", "http
 chronoDOS := ["https://vivintsolar.my.salesforce.com/00O41000008qeF0", "https://vivintsolar.my.salesforce.com/00O41000008qeEl"]
 
 /*
+	Permit QCD
+*/
+PPQCD := ["https://vivintsolar.my.salesforce.com/00O41000008qzDJ", "https://vivintsolar.my.salesforce.com/00O41000008qhVp", "https://vivintsolar.my.salesforce.com/00O41000008qhVu", "https://vivintsolar.my.salesforce.com/00O41000008qzCV", "https://vivintsolar.my.salesforce.com/00O41000008qzDs", "https://vivintsolar.my.salesforce.com/00O41000008qzDx"]
+
+/*
 	QCD Backlogs
 */
 cpQCDReports := ["https://vivintsolar.my.salesforce.com/00O41000008DmPD", "https://vivintsolar.my.salesforce.com/00O41000008Dn1X", "https://vivintsolar.my.salesforce.com/00O41000008Dq1z"]

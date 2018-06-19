@@ -24,7 +24,7 @@ chronoDOS := ["https://vivintsolar.my.salesforce.com/00O41000008qeF0", "https://
 /*
 	Permit QCD
 */
-PPQCD := ["https://vivintsolar.my.salesforce.com/00O41000008qzDJ", "https://vivintsolar.my.salesforce.com/00O41000008qhVp", "https://vivintsolar.my.salesforce.com/00O41000008qhVu", "https://vivintsolar.my.salesforce.com/00O41000008qzCV", "https://vivintsolar.my.salesforce.com/00O41000008qzDs", "https://vivintsolar.my.salesforce.com/00O41000008qzDx"]
+PPQCD := ["https://vivintsolar.my.salesforce.com/00O41000008qzDJ", "https://vivintsolar.my.salesforce.com/00O41000008r0Ec", "https://vivintsolar.my.salesforce.com/00O41000008r0EX", "https://vivintsolar.my.salesforce.com/00O41000008qzCV", "https://vivintsolar.my.salesforce.com/00O41000008qzDs", "https://vivintsolar.my.salesforce.com/00O41000008qzDx"]
 
 /*
 	QCD Backlogs

@@ -38,6 +38,7 @@ AutoUpdate:
 			successfulRuns := runUpdateONE(dealerReports, successfulRuns)
 			successfulRuns := runUpdateONE(chronoDOS, successfulRuns)
 			successfulRuns := runUpdateONE(PPQCD, successfulRuns)
+			successfulRuns := runUpdateONE(DINCPnPPProd, successfulRuns)
 			Sleep, 6000
 			Send, ^{F5}
 			Sleep, 6000

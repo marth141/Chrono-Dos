@@ -43,7 +43,7 @@ electricalEscalations := ["https://vivintsolar.my.salesforce.com/00O41000008pj5I
 /*
 	DIN Backlogs
 */
-DINCPnPPProd := ["https://vivintsolar.my.salesforce.com/00O41000008ppaB", "https://vivintsolar.my.salesforce.com/00O41000008ppaG"]
+DINCPnPPProd := ["https://vivintsolar.my.salesforce.com/00O41000008qhX7", "https://vivintsolar.my.salesforce.com/00O41000008qhXC"]
 
 /*
 	Permits Submitted Last 2 Weeks

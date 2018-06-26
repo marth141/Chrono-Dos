@@ -42,6 +42,8 @@ AutoUpdate:
 			successfulRuns := runUpdateONE(CPQCD, successfulRuns)
 			successfulRuns := runUpdateONE(PPQCD, successfulRuns)
 
+			successfulRuns := runUpdateONE(electricalEscalations, successfulRuns)
+
 			successfulRuns := runUpdateONE(CP_and_PP_DIN, successfulRuns)
 			Sleep, 6000
 			Send, ^{F5}

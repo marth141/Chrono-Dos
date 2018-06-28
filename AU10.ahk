@@ -35,6 +35,7 @@ AutoUpdate:
 			ToolTip % "Running Updates", 0, 0
 
 			;Tested to work
+			successfulRuns := runUpdateONE(chronoDOS, successfulRuns)
 			successfulRuns := runUpdateONE(CPQCD, successfulRuns)
 			successfulRuns := runUpdateONE(PPQCD, successfulRuns)
 			successfulRuns := runUpdateONE(PPSubmitted, successfulRuns)
@@ -42,7 +43,6 @@ AutoUpdate:
 			successfulRuns := runUpdateONE(electricalEscalations, successfulRuns)
 
 			;Broken in Google
-			;successfulRuns := runUpdateONE(chronoDOS, successfulRuns)
 			;successfulRuns := runUpdateONE(Permit_Outsource, successfulRuns)
 
 			Sleep, 6000

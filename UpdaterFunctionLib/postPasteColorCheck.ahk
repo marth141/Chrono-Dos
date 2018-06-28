@@ -6,7 +6,7 @@
 		ToolTip % "Waiting for red to go away on playbutton", 0, 30
 		if (isThereRed() = true)
 		{
-			Sleep, 10
+			Sleep, 1000
 		}
 		else if (isThereRed() = false)
 		{

@@ -38,7 +38,7 @@ AutoUpdate:
 			;successfulRuns := runUpdateONE(CPQCD, successfulRuns)
 			;successfulRuns := runUpdateONE(PPQCD, successfulRuns)
 
-			successfulRuns := runUpdateONE(PPSubmitted, successfulRuns)
+			;successfulRuns := runUpdateONE(PPSubmitted, successfulRuns)
 
 			successfulRuns := runUpdateONE(Permit_Outsource, successfulRuns)
 

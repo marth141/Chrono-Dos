@@ -40,9 +40,9 @@ AutoUpdate:
 
 			;successfulRuns := runUpdateONE(PPSubmitted, successfulRuns)
 
-			successfulRuns := runUpdateONE(Permit_Outsource, successfulRuns)
+			;successfulRuns := runUpdateONE(Permit_Outsource, successfulRuns)
 
-			successfulRuns := runUpdateONE(electricalEscalations, successfulRuns)
+			;successfulRuns := runUpdateONE(electricalEscalations, successfulRuns)
 
 			successfulRuns := runUpdateONE(CP_and_PP_DIN, successfulRuns)
 			Sleep, 6000

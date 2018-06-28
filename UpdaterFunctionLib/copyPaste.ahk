@@ -10,7 +10,7 @@ copy()
 		SendInput, ^a
 		Sleep, 1000
 		SendInput, ^c
-		ClipWait, 2		
+		ClipWait, 2
 		IfInString, Clipboard, %grandTotals%
 		{
 			ToolTip % "Found Grand Totals!", 0, 30
@@ -20,14 +20,14 @@ copy()
 		{
 			ToolTip % "You don't have permission for this report. Skipping.", 0, 30
 			Sleep, 1000
-			clipboard = ; Empty the clipboard   
+			clipboard = ; Empty the clipboard
 			break
 		}
 		else IfInString, Clipboard, %salesforceError%
 		{
 			ToolTip % "Something went wrong. Skipping.", 0, 30
 			Sleep, 1000
-			clipboard = ; Empty the clipboard   
+			clipboard = ; Empty the clipboard
 			break
 		}
 	}
@@ -48,5 +48,5 @@ paste()
 	Sleep, 4000
 	MouseClick, Left, 93, 257, 1
 	MouseMove, 93, 257
-	clipboard = ; Empty the clipboard   
+	clipboard = ; Empty the clipboard
 }

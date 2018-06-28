@@ -16,7 +16,7 @@
 		redChecks++
 	}
 	if(redChecks = 100)
-	{		
+	{
 		return true
 	}
 }

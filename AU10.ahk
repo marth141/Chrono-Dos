@@ -18,7 +18,7 @@ AutoUpdate:
 	CoordMode, Pixel, Screen
 	CoordMode, ToolTip, Screen
 	;ToolTip % "Running SQL", 0, 0
-	;runSQLUpdate()		
+	;runSQLUpdate()
 	successfulRuns = 0
 	ToolTip % "Checking if in Chrono Inputter", 0, 30
 	WinActivate, Chrono ONE Updater
@@ -29,10 +29,10 @@ AutoUpdate:
 		Sleep, 10000
 	}
 	IfWinActive, Chrono ONE Updater
-	{		
+	{
 		Loop
 		{
-			ToolTip % "Running Updates", 0, 0			
+			ToolTip % "Running Updates", 0, 0
 			;successfulRuns := runUpdateONE(chronoDOS, successfulRuns)
 
 			successfulRuns := runUpdateONE(CPQCD, successfulRuns)

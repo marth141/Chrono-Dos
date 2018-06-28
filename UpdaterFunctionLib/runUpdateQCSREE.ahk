@@ -14,7 +14,7 @@ runUpdateQCSREE(urlArray, successfulRuns)
 		ToolTip % "Opening " . urlArray[A_Index], 0, 30
 		openURL(urlArray[A_Index])
 		Sleep, 10000
-		
+
 		ToolTip % "Checking Salesforce Tab Status", 0, 30
 		Sleep, 500
 		if((chromeTabLoading(urlArray[A_Index])) = false)
@@ -23,7 +23,7 @@ runUpdateQCSREE(urlArray, successfulRuns)
 			Sleep, 1000
 			Continue
 		}
-		
+
 		ToolTip % "Copying Salesforce Report " . urlArray[A_Index], 0, 30
 		copy()
 		
@@ -31,30 +31,30 @@ runUpdateQCSREE(urlArray, successfulRuns)
 		Sleep, 500
 		chronoInputsCheck()
 		Sleep, 2000
-		
+
 		ToolTip % "Checking if updater needs to be cleared", 0, 30
 		Sleep, 500
 		checkForClear()
 		Sleep, 2000
-		
+
 		if (Clipboard != "")
 		{
 			ToolTip % "Pasting data", 0, 30
 			paste()
 			Sleep, 5000
-			
+
 			stuckStatus := postPasteColorCheck()
-			
+
 			if(stuckStatus = true)
 			{
 				ToolTip % "AutoUpdater got stuck. Ejecting this check.", 0, 30
 				Sleep, 1000
 				Continue
 			}
-			
+
 			ToolTip % "Sending backlog!", 0, 30
 			Sleep, 500
-			clickPlayButton()		
+			clickPlayButton()
 			successfulRuns := showSuccessfulCount(successfulRuns)
 			Continue
 		}

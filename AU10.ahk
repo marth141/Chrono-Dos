@@ -42,6 +42,8 @@ AutoUpdate:
 			successfulRuns := runUpdateONE(CPQCD, successfulRuns)
 			successfulRuns := runUpdateONE(PPQCD, successfulRuns)
 
+			successfulRuns := runUpdateONE(Permit_Outsource, successfulRuns)
+
 			successfulRuns := runUpdateONE(electricalEscalations, successfulRuns)
 
 			successfulRuns := runUpdateONE(CP_and_PP_DIN, successfulRuns)

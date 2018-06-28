@@ -27,6 +27,11 @@ chronoDOS := ["https://vivintsolar.my.salesforce.com/00O41000008qeF0", "https://
 PPQCD := ["https://vivintsolar.my.salesforce.com/00O41000008qzDJ", "https://vivintsolar.my.salesforce.com/00O41000008r0Ec", "https://vivintsolar.my.salesforce.com/00O41000008r0EX", "https://vivintsolar.my.salesforce.com/00O41000008qzCV", "https://vivintsolar.my.salesforce.com/00O41000008qzDs", "https://vivintsolar.my.salesforce.com/00O41000008qzDx"]
 
 /*
+	Permit Outsource
+*/
+Permit_Outsource := ["https://vivintsolar.my.salesforce.com/00O41000008r1LL","https://vivintsolar.my.salesforce.com/00O41000008r1Km","https://vivintsolar.my.salesforce.com/00O41000008r1KI"]
+
+/*
 	Proposal QCD
 */
 CPQCD := ["https://vivintsolar.my.salesforce.com/00O41000008qhV1", "https://vivintsolar.my.salesforce.com/00O41000008qhV6", "https://vivintsolar.my.salesforce.com/00O41000008qhVB"]

@@ -36,7 +36,7 @@ runUpdateONE(urlArray, successfulRuns)
 			ToolTip % "Pasting data", 0, 30
 			paste()
 			Sleep, 5000
-			
+
 			stuckStatus := postPasteColorCheck()
 
 			if(stuckStatus = true)
@@ -46,6 +46,7 @@ runUpdateONE(urlArray, successfulRuns)
 				Continue
 			}
 
+			Sleep, 2000
 			ToolTip % "Sending backlog!", 0, 30
 			Sleep, 500
 			clickPlayButton()

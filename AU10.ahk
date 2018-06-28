@@ -33,14 +33,12 @@ AutoUpdate:
 		Loop
 		{
 			ToolTip % "Running Updates", 0, 0			
-			successfulRuns := runUpdateONE(departmentReports, successfulRuns)
-			successfulRuns := runUpdateONE(nisReports, successfulRuns)
-			successfulRuns := runUpdateONE(dealerReports, successfulRuns)
-
 			successfulRuns := runUpdateONE(chronoDOS, successfulRuns)
 
 			successfulRuns := runUpdateONE(CPQCD, successfulRuns)
 			successfulRuns := runUpdateONE(PPQCD, successfulRuns)
+
+			successfulRuns := runUpdateONE(PPSubmitted, successfulRuns)
 
 			successfulRuns := runUpdateONE(Permit_Outsource, successfulRuns)
 

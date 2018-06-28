@@ -33,18 +33,18 @@ AutoUpdate:
 		Loop
 		{
 			ToolTip % "Running Updates", 0, 0
+
+			;Tested to work
+			successfulRuns := runUpdateONE(CPQCD, successfulRuns)
+			successfulRuns := runUpdateONE(PPQCD, successfulRuns)
+			successfulRuns := runUpdateONE(PPSubmitted, successfulRuns)
+			successfulRuns := runUpdateONE(CP_and_PP_DIN, successfulRuns)
+
+			;Broken in Google
 			;successfulRuns := runUpdateONE(chronoDOS, successfulRuns)
-
-			;successfulRuns := runUpdateONE(CPQCD, successfulRuns)
-			;successfulRuns := runUpdateONE(PPQCD, successfulRuns)
-
-			;successfulRuns := runUpdateONE(PPSubmitted, successfulRuns)
-
 			;successfulRuns := runUpdateONE(Permit_Outsource, successfulRuns)
-
 			;successfulRuns := runUpdateONE(electricalEscalations, successfulRuns)
 
-			successfulRuns := runUpdateONE(CP_and_PP_DIN, successfulRuns)
 			Sleep, 6000
 			Send, ^{F5}
 			Sleep, 6000

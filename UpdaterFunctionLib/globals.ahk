@@ -58,4 +58,4 @@ CP_and_PP_DIN := ["https://vivintsolar.my.salesforce.com/00O41000008qhX7", "http
 /*
 	Permits Submitted Last 2 Weeks
 */
-PPSubmitted := ["https://vivintsolar.my.salesforce.com/00O41000008r4Dy, https://vivintsolar.my.salesforce.com/00O41000008r4Do"]
+PPSubmitted := ["https://vivintsolar.my.salesforce.com/00O41000008r4Dy", "https://vivintsolar.my.salesforce.com/00O41000008r4Do"]

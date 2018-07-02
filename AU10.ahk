@@ -41,9 +41,12 @@ AutoUpdate:
 			successfulRuns := runUpdateONE(PPSubmitted, successfulRuns)
 			successfulRuns := runUpdateONE(CP_and_PP_DIN, successfulRuns)
 			successfulRuns := runUpdateONE(electricalEscalations, successfulRuns)
+			successfulRuns := runUpdateONE(Permit_Outsource, successfulRuns)
+			successfulRuns := runUpdateONE(qualityConPass, successfulRuns)
+			successfulRuns := runUpdateONE(structrualEscalationsReports, successfulRuns)
+			successfulRuns := runUpdateONE(electricalEscalations, successfulRuns)
 
 			;Broken in Google
-			;successfulRuns := runUpdateONE(Permit_Outsource, successfulRuns)
 
 			Sleep, 6000
 			Send, ^{F5}

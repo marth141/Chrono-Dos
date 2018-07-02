@@ -41,7 +41,7 @@ CPQCD := ["https://vivintsolar.my.salesforce.com/00O41000008qhV1", "https://vivi
 */
 cpQCDReports := ["https://vivintsolar.my.salesforce.com/00O41000008DmPD", "https://vivintsolar.my.salesforce.com/00O41000008Dn1X", "https://vivintsolar.my.salesforce.com/00O41000008Dq1z"]
 ppQCDReports := ["https://vivintsolar.my.salesforce.com/00O41000008Efa8", "https://vivintsolar.my.salesforce.com/00O41000008ECAe", "https://vivintsolar.my.salesforce.com/00O41000008E7Nn", "https://vivintsolar.my.salesforce.com/00O41000008E7Ni", "https://vivintsolar.my.salesforce.com/00O41000008EDJr", "https://vivintsolar.my.salesforce.com/00O41000008EDLd"]
-qualityConPass := ["https://vivintsolar.my.salesforce.com/00O41000008E3nf"]
+qualityConPass := ["https://vivintsolar.my.salesforce.com/00O41000008r5p5"]
 
 /*
 	Escalation Backlogs

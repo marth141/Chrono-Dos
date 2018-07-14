@@ -46,7 +46,7 @@ runUpdateONE(urlArray, successfulRuns)
 				Continue
 			}
 
-			Sleep, 5000
+			Sleep, 10000
 			ToolTip % "Sending backlog!", 0, 30
 			Sleep, 500
 			clickPlayButton()

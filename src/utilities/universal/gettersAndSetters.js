@@ -46,7 +46,7 @@ function getBacklogArray(sheet, dimensions) {
  * @param {Sheet} Report
  * @return {Array} header
  */
-function getHeader(Report) {
+function getHeadersFromSheet(Report) {
   var header = Report.getRange('2:2').getValues();
   return header;
 }
@@ -115,7 +115,7 @@ function getMeThatIndexOf(columnName, backlogArray) {
  * @param {*} Report
  */
 function setCompleteBacklog(completeBacklog, Report) {
-  var header = getHeader(Report);
+  var header = getHeadersFromSheet(Report);
   var serviceCol = getMeThatColumn('SERVICE', header);
   var initialUpdateCol = getMeThatColumn('INITIAL DATE', header) - serviceCol;
   Report.getRange(
@@ -139,7 +139,7 @@ function setCompleteBacklog(completeBacklog, Report) {
  * @return {*} backlogArray
  */
 function getLiveReportBacklog(Report) {
-  var header = getHeader(Report);
+  var header = getHeadersFromSheet(Report);
   var serviceCol = getMeThatColumn('SERVICE', header);
   var initialUpdateCol = getMeThatColumn('INITIAL DATE', header) - serviceCol;
   var backlogArray = Report.getRange(
@@ -164,7 +164,7 @@ function updateLastRefresh(Report) {
  * reportRunning
  * @param {*} Report
  */
-function reportRunning(Report) {
+function setReportRunning(Report) {
   //  var checkReportStatus = Report.getRange("G1").getValue();
   //  if(checkReportStatus !== "") {
   //    throw "Report Already Running";

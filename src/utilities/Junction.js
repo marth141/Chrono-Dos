@@ -15,7 +15,7 @@ function backlogProcessJunction(dosSheets) {
   }
   if (lock.hasLock()) {
     // -------------------- Comment out above for debugging without lock --------------------
-    reportRunning(dosSheets.Report);
+    setReportRunning(dosSheets.Report);
     var oldData = uni_GetOldData(dosSheets.Report);
     var completeBacklog = [];
 

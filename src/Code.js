@@ -1,19 +1,10 @@
-/* exported
-main
-*/
-
-/* global
-ServiceMasterBacklog
-backlogProcessJunction
-*/
-
 /**
  * Main
  * * Used in the Vivint Solar Button on the report page.
  */
 function main() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var masterBacklogs = new ServiceMasterBacklog(ss);
+  var masterBacklogs = new ChronoDOSSheets(ss);
   backlogProcessJunction(masterBacklogs, undefined);
   return;
 }
@@ -24,25 +15,36 @@ function main() {
  * @param {String} backlogName Used to know which backlog is coming in.
  */
 function callMain(backlogName) {
+  // GOOGLE LOCK SERVICE ENGAGES
   var lock = LockService.getDocumentLock();
   try {
     lock.waitLock(10000);
   } catch (e) {
-    throw "Could not acquire lock. Someone else is updating the backlog, please wait.";
+    var lockErrorMessage =
+      'Could not acquire lock. Someone else is updating the backlog, please wait.';
+    throw lockErrorMessage;
   }
   if (lock.hasLock()) {
+    // GOOGLE LOCK SERVICE BREAK
+
     if (backlogName.match(/DOS/i)) {
-      var ss = SpreadsheetApp.openById(
-        "121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0"
+      var chronoDOS = SpreadsheetApp.openById(
+        '121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0'
       );
     } else {
-      throw "Wrong script for this report type";
+      var wrongBacklogMessage = 'Wrong script for this report type';
+      throw wrongBacklogMessage;
     }
-    var masterBacklogs = new ServiceMasterBacklog(ss);
-    backlogProcessJunction(masterBacklogs, undefined);
+    var dosSheets = new ChronoDOSSheets(chronoDOS);
+    backlogProcessJunction(dosSheets);
+
+    // GOOGLE LOCK SERVICE RESUME
   } else {
-    throw "The lock was somehow lost. Someone else is updating the backlog, please wait.";
+    var lostLockMessage =
+      'The lock was somehow lost. Someone else is updating the backlog, please wait.';
+    throw lostLockMessage;
   }
+  // GOOGLE LOCK SERVICE DISENGAGE
   return;
 }
 
@@ -52,7 +54,7 @@ function callMain(backlogName) {
  */
 function callUpdateReportData() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var masterBacklogs = new ServiceMasterBacklog(ss);
+  var masterBacklogs = new ChronoDOSSheets(ss);
   updateReportData(masterBacklogs, undefined);
   return;
 }
@@ -63,16 +65,16 @@ function callUpdateReportData() {
  */
 function replaceOld() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var report = ss.getSheetByName("Report");
+  var report = ss.getSheetByName('Report');
   var testReport = SpreadsheetApp.openById(
-    "11P_RjuFahwmWj9rHxT1QHJrfGfIezFzl-cqUlcCsi_g"
-  ).getSheetByName("Report");
+    '11P_RjuFahwmWj9rHxT1QHJrfGfIezFzl-cqUlcCsi_g'
+  ).getSheetByName('Report');
 
   var oldData = testReport
-    .getRange("L3:Y")
+    .getRange('L3:Y')
     .getValues()
     .filter(function(value) {
-      return value[0].indexOf("S-") > -1;
+      return value[0].indexOf('S-') > -1;
     });
 
   for (var i = report.getLastRow() - 855; i > 1; i--) {

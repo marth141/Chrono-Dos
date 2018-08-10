@@ -7,10 +7,10 @@ ServiceMasterBacklog
 backlogProcessJunction
 */
 
-function debugCallMain() {
-  callMain("DOS PART 1 BACKLOG");
-}
-
+/**
+ * Main
+ * * Used in the Vivint Solar Button on the report page.
+ */
 function main() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var masterBacklogs = new ServiceMasterBacklog(ss);
@@ -18,6 +18,11 @@ function main() {
   return;
 }
 
+/**
+ * callMain
+ * * Used in external calls to this Chrono from other sheets.
+ * @param {String} backlogName Used to know which backlog is coming in.
+ */
 function callMain(backlogName) {
   var lock = LockService.getDocumentLock();
   try {
@@ -41,6 +46,10 @@ function callMain(backlogName) {
   return;
 }
 
+/**
+ * callUpdateReportData
+ * ! Not sure where this is being used.
+ */
 function callUpdateReportData() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var masterBacklogs = new ServiceMasterBacklog(ss);
@@ -48,6 +57,10 @@ function callUpdateReportData() {
   return;
 }
 
+/**
+ * replaceOld
+ * ! Not sure where this is being used.
+ */
 function replaceOld() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var report = ss.getSheetByName("Report");
@@ -74,11 +87,5 @@ function replaceOld() {
       SpreadsheetApp.flush();
     }
   }
-
-  //  var rowNeeded = backlog.length;
-  //  if (rowNeeded > 0) {
-  //    var colNeeded = backlog[0].length;
-  //    testReport.getRange(3, 4, rowNeeded, colNeeded).setValues(backlog);
-  //  }
   SpreadsheetApp.flush();
 }

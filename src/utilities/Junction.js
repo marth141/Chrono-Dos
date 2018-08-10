@@ -36,7 +36,6 @@ function backlogProcessJunction(dosSheets) {
         workThisBacklog = dosSheets[backlog];
         backlogArray = uni_LinkCreator(workThisBacklog);
         backlogArray = uni_CadNameColCreator(backlogArray);
-        // backlogArray = pp_DateCleaner(backlogArray, cache);
         backlogArray = pp_DateCleaner(backlogArray, oldData);
         backlogArray = pp_UnitTypeMarker(backlogArray);
         backlogArray = pp_CleanUpColumns(backlogArray);
@@ -55,7 +54,6 @@ function backlogProcessJunction(dosSheets) {
       } else if (dosSheets[backlog].getName() === 'PERMIT RD BACKLOG') {
         workThisBacklog = dosSheets[backlog];
         backlogArray = uni_LinkCreator(workThisBacklog);
-        // backlogArray = rd_DateCleaner(backlogArray, cache);
         backlogArray = rd_DateCleaner(backlogArray, oldData);
         backlogArray = rd_UnitTypeMarker(backlogArray);
         backlogArray = rd_CleanUpColumns(backlogArray);

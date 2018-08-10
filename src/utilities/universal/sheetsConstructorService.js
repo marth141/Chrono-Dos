@@ -1,15 +1,7 @@
-/* exported
-ServiceLock
-ChronoDOSSheets
-ServiceOfficeCollection
-constructLink
-*/
-
-/* global
-LockService
-SpreadsheetApp
-*/
-
+/**
+ * ChronoDOSSheets
+ * @param {Sheet} chronoDOS
+ */
 var ChronoDOSSheets = function(chronoDOS) {
   this.Report = chronoDOS.getSheetByName('Report');
   this.Permit = chronoDOS.getSheetByName('PERMIT BACKLOG');
@@ -68,7 +60,7 @@ var ServiceOfficeCollection = function() {
  * @param {number} linkColumn The ID of the CAD Object for link.
  * @param {number} linkTextColumn The SP- Name of the Solar Project.
  * @param {array} backlogArray The backlog array.
- * @returns The backlog array with new SolProj link.
+ * @return {Array} backlogArray The backlog array with new SolProj link.
  */
 function constructLink(linkColumn, linkTextColumn, backlogArray) {
   for (var row = 1; row < backlogArray.length; row++) {

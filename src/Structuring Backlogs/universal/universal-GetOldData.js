@@ -8,9 +8,10 @@ function uni_GetOldData(reportSheet) {
   var serviceCol = getMeThatColumn('SERVICE', headers);
   var stageCol = getMeThatColumn('STAGE', headers) - serviceCol;
   var lastRow = reportSheet.getLastRow();
+  var recordsStartRow = 3;
 
   var oldData = reportSheet
-    .getRange(3, serviceCol + 1, lastRow, stageCol + 1)
+    .getRange(recordsStartRow, serviceCol + 1, lastRow, stageCol + 1)
     .getValues()
     .filter(function(value) {
       if (value[0].indexOf('S-') > -1) {

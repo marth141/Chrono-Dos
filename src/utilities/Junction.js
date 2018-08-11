@@ -20,18 +20,11 @@ function backlogProcessJunction(dosSheets) {
   var completeBacklog = [];
 
   var sheet;
+  var workThisBacklog;
+  var backlogArray;
   for (sheet in dosSheets) {
     var backlogName = dosSheets[sheet].getName();
-    if (
-      // Skip everything except permit backlog or permit rd
-      backlogName.match(/PERMIT BACKLOG/i) === false ||
-      backlogName.match(/PERMIT RD BACKLOG/i) === false
-    ) {
-      continue;
-    }
-    var workThisBacklog;
-    var backlogArray;
-    if (backlogName === 'PERMIT BACKLOG') {
+    if (backlogName.match(/PERMIT BACKLOG/i)) {
       workThisBacklog = dosSheets[sheet];
       backlogArray = uni_LinkCreator(workThisBacklog);
       backlogArray = uni_CadNameColCreator(backlogArray);
@@ -47,7 +40,7 @@ function backlogProcessJunction(dosSheets) {
       backlogArray = pp_underTweleveHours(backlogArray, workThisBacklog);
       completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
       continue;
-    } else if (backlogName === 'PERMIT RD BACKLOG') {
+    } else if (backlogName.match(/PERMIT RD BACKLOG/i)) {
       workThisBacklog = dosSheets[sheet];
       backlogArray = uni_LinkCreator(workThisBacklog);
       backlogArray = rd_DateCleaner(backlogArray, oldData);
@@ -65,9 +58,7 @@ function backlogProcessJunction(dosSheets) {
       var backlogNullMessage = 'The backlog was null in dateOperations()';
       throw backlogNullMessage;
     } else {
-      console.log(
-        'This backlog: ' + dosSheets[sheet].getName() + ' is not being worked.'
-      );
+      console.log('This backlog: ' + backlogName + ' is not being worked.');
       continue;
     }
   }

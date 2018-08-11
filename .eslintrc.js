@@ -15,7 +15,7 @@ module.exports = {
     'guard-for-in': 'off',
     'no-var': 'off', // ES3
     'no-unused-vars': 'off', // functions aren't used.
-    'object-curly-spacing': 'always'
+    'object-curly-spacing': ['off', 'always']
   },
   plugins: ['async-await']
 };

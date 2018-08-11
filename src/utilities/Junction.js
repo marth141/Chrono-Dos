@@ -1,7 +1,6 @@
 /**
- * backlogProcessJunction
  * * Used as the backbone of the Chrono process.
- * @param {*} dosSheets
+ * @param {GoogleAppsScript.Spreadsheet.Spreadsheet} dosSheets
  */
 function backlogProcessJunction(dosSheets) {
   // -------------------- Comment out below for debugging without lock --------------------

@@ -1,6 +1,5 @@
 /**
- * ChronoDOSSheets
- * @param {Sheet} chronoDOS
+ * @param {GoogleAppsScript.Spreadsheet.Spreadsheet} chronoDOS
  */
 var ChronoDOSSheets = function(chronoDOS) {
   this.Report = chronoDOS.getSheetByName('Report');

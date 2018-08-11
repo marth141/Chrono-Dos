@@ -5,7 +5,7 @@
 function main() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var masterBacklogs = new ChronoDOSSheets(ss);
-  backlogProcessJunction(masterBacklogs, undefined);
+  backlogProcessJunction(masterBacklogs);
   return;
 }
 

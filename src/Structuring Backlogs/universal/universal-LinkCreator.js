@@ -34,7 +34,7 @@ function uni_LinkCreator(salesforceSheet) {
       );
     }
 
-    if (solProjName === -1) {
+    if (perSolProjName === -1) {
       solProjName = getMeThatColumn('Project Name', salesforceArray);
     }
 

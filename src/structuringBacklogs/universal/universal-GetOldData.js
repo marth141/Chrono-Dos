@@ -1,5 +1,4 @@
 /**
- * uni_GetOldData
  * @param {*} reportSheet
  * @return {Array} oldData
  */

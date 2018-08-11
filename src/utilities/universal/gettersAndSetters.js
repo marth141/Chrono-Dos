@@ -161,7 +161,6 @@ function updateLastRefresh(Report) {
 }
 
 /**
- * reportRunning
  * @param {*} Report
  */
 function setReportRunning(Report) {

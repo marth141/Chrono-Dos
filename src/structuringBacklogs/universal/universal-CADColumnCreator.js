@@ -1,5 +1,4 @@
 /**
- * uni_CadNameColCreator
  * @param {any} backlogArray
  * @return {Array} cadNameArray
  */

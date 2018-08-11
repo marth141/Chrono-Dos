@@ -1,5 +1,4 @@
 /**
- * Uni_LinkCreator
  * @param {Sheet} salesforceSheet
  * @return {Array} salesforceArray
  */

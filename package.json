@@ -1,19 +1,11 @@
 {
-  "name": "gsuite-apps-script-samples",
+  "name": "chrono-dos",
   "version": "1.0.0",
-  "description": "Apps Script samples for [G Suite API](https://developers.google.com/gsuite/) docs.",
+  "description": "A workflow manager",
   "license": "MIT",
   "private": true,
-  "author": "Grant Timmerman",
-  "keywords": [
-    "G Suite",
-    "Apps Script",
-    "Calendar",
-    "Drive",
-    "Sheets",
-    "Slides",
-    "API"
-  ],
+  "author": "Nathan Casados & Eric Van Wagoner",
+  "keywords": [],
   "devDependencies": {
     "@types/google-apps-script": "^0.0.27",
     "eslint": "^4.17.0",

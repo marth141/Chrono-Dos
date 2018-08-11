@@ -19,21 +19,20 @@ function backlogProcessJunction(dosSheets) {
     var oldData = uni_GetOldData(dosSheets.Report);
     var completeBacklog = [];
 
-    for (var backlog in dosSheets) {
-      var backlogArray;
-      var backlogName = dosSheets[backlog].getName();
+    var sheet;
+    for (sheet in dosSheets) {
+      var backlogName = dosSheets[sheet].getName();
       if (
-        backlogName !== 'PERMIT BACKLOG' &&
+        // Skip everything except permit backlog or permit rd
+        backlogName !== 'PERMIT BACKLOG' ||
         backlogName !== 'PERMIT RD BACKLOG'
       ) {
         continue;
       }
-      if (override !== undefined) {
-        backlog = overrideIfDebugging(override);
-      }
       var workThisBacklog;
-      if (dosSheets[backlog].getName() === 'PERMIT BACKLOG') {
-        workThisBacklog = dosSheets[backlog];
+      var backlogArray;
+      if (dosSheets[sheet].getName() === 'PERMIT BACKLOG') {
+        workThisBacklog = dosSheets[sheet];
         backlogArray = uni_LinkCreator(workThisBacklog);
         backlogArray = uni_CadNameColCreator(backlogArray);
         backlogArray = pp_DateCleaner(backlogArray, oldData);
@@ -51,8 +50,8 @@ function backlogProcessJunction(dosSheets) {
           completeBacklog
         );
         continue;
-      } else if (dosSheets[backlog].getName() === 'PERMIT RD BACKLOG') {
-        workThisBacklog = dosSheets[backlog];
+      } else if (dosSheets[sheet].getName() === 'PERMIT RD BACKLOG') {
+        workThisBacklog = dosSheets[sheet];
         backlogArray = uni_LinkCreator(workThisBacklog);
         backlogArray = rd_DateCleaner(backlogArray, oldData);
         backlogArray = rd_UnitTypeMarker(backlogArray);
@@ -68,13 +67,13 @@ function backlogProcessJunction(dosSheets) {
           completeBacklog
         );
         continue;
-      } else if (dosSheets[backlog] === null) {
+      } else if (dosSheets[sheet] === null) {
         var backlogNullMessage = 'The backlog was null in dateOperations()';
         throw backlogNullMessage;
       } else {
         console.log(
           'This backlog: ' +
-            dosSheets[backlog].getName() +
+            dosSheets[sheet].getName() +
             ' is not being worked.'
         );
         continue;

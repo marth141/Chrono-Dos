@@ -69,8 +69,9 @@ function constructLink(linkColumn, linkTextColumn, backlogArray) {
       backlogArray[row][linkTextColumn] + '")'
     ];
 
-    backlogArray[row][linkTextColumn] =
-      linkFormulaStart + linkEnd + linkDisplayEnd;
+    var completeFormula = linkFormulaStart + linkEnd + linkDisplayEnd;
+
+    backlogArray[row][linkTextColumn] = completeFormula;
   }
   return backlogArray;
 }

@@ -15,36 +15,36 @@ function main() {
  * @param {String} backlogName Used to know which backlog is coming in.
  */
 function callMain(backlogName) {
-  // GOOGLE LOCK SERVICE ENGAGES
-  var lock = LockService.getDocumentLock();
-  try {
-    lock.waitLock(10000);
-  } catch (e) {
-    var lockErrorMessage =
-      'Could not acquire lock. Someone else is updating the backlog, please wait.';
-    throw lockErrorMessage;
-  }
-  if (lock.hasLock()) {
-    // GOOGLE LOCK SERVICE BREAK
+  // -------------------- Comment out below for debugging without lock --------------------
+  // var lock = LockService.getDocumentLock();
+  // try {
+  //   lock.waitLock(10000);
+  // } catch (e) {
+  //   var lockErrorMessage =
+  //     'Could not acquire lock. Someone else is updating the backlog, please wait.';
+  //   throw lockErrorMessage;
+  // }
+  // if (lock.hasLock()) {
+  // -------------------- Comment out above for debugging without lock --------------------
 
-    if (backlogName.match(/DOS/i)) {
-      var chronoDOS = SpreadsheetApp.openById(
-        '121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0'
-      );
-    } else {
-      var wrongBacklogMessage = 'Wrong script for this report type';
-      throw wrongBacklogMessage;
-    }
-    var dosSheets = new ChronoDOSSheets(chronoDOS);
-    backlogProcessJunction(dosSheets);
-
-    // GOOGLE LOCK SERVICE RESUME
+  if (backlogName.match(/DOS/i)) {
+    var chronoDOS = SpreadsheetApp.openById(
+      '121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0'
+    );
   } else {
-    var lostLockMessage =
-      'The lock was somehow lost. Someone else is updating the backlog, please wait.';
-    throw lostLockMessage;
+    var wrongBacklogMessage = 'Wrong script for this report type';
+    throw wrongBacklogMessage;
   }
-  // GOOGLE LOCK SERVICE DISENGAGE
+  var dosSheets = new ChronoDOSSheets(chronoDOS);
+  backlogProcessJunction(dosSheets);
+
+  // -------------------- Comment out below for debugging without lock --------------------
+  // } else {
+  //   var lostLockMessage =
+  //     'The lock was somehow lost. Someone else is updating the backlog, please wait.';
+  //   throw lostLockMessage;
+  // }
+  // -------------------- Comment out above for debugging without lock --------------------
   return;
 }
 

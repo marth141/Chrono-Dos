@@ -1,42 +1,24 @@
-/* exported
-debugUniCadName
-*/
-
-/* global
-ServiceMasterBacklog
-*/
-
-function debugUniCadName() {
-  var masterBacklogs = new ServiceMasterBacklog();
-  uni_CadNameColCreator(masterBacklogs.Collection);
-  return;
-}
-
 /**
- *
- * 
- * @param {any} propBacklog 
- * @returns 
+ * uni_CadNameColCreator
+ * @param {any} backlogArray
+ * @return {Array} cadNameArray
  */
 function uni_CadNameColCreator(backlogArray) {
-  
   var cadNameArray = uni_FillCadNameCol(backlogArray);
   return cadNameArray;
 }
 
 /**
- *
- * 
+ * uni_FillCadNameCol
  * @param {array} backlogArray
- * @param {array} dim
- * @param {number} cadNameCol 
- * @returns 
+ * @return {Array} backlogArray
  */
 function uni_FillCadNameCol(backlogArray) {
   // Create Header for CAD OBJECT column. Always after SP Column
-  backlogArray[0].splice(3, 0, "CAD OBJECT");
+  var cadObjectColumn = 3;
+  backlogArray[0].splice(cadObjectColumn, 0, 'CAD OBJECT');
   for (var row = 1; row < backlogArray.length; row++) {
-    backlogArray[row].splice(3, 0, "-");
+    backlogArray[row].splice(cadObjectColumn, 0, '-');
   }
   return backlogArray;
 }

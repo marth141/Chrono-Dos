@@ -55,7 +55,7 @@ function backlogProcessJunction(dosSheets) {
       completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
       continue;
     } else if (dosSheets[sheet] === null) {
-      var backlogNullMessage = 'The backlog was null in dateOperations()';
+      var backlogNullMessage = 'The backlog was null in junction.';
       throw backlogNullMessage;
     } else {
       console.log('This backlog: ' + backlogName + ' is not being worked.');

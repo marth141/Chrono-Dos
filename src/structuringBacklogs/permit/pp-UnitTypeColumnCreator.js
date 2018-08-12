@@ -34,14 +34,13 @@ function pp_UnitTypeMarker(backlogArray) {
  * @return {Array} backlogArray
  */
 function pp_MarkUnits(backlogArray, columns) {
-  var {
-    officeCol,
-    opporTypeCol,
-    dueDateCol,
-    assignCol,
-    primaryDateCol,
-    srNeededCol
-  } = columns;
+  var officeCol = columns.officeCol,
+    opporTypeCol = columns.opporTypeCol,
+    dueDateCol = columns.dueDateCol,
+    assignCol = columns.assignCol,
+    primaryDateCol = columns.primaryDateCol,
+    srNeededCol = columns.srNeededCol;
+
   var backlogArrayHeaders = backlogArray[0];
 
   // Add Unit Type Column before Opportunity Type Column

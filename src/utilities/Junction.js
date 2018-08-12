@@ -14,7 +14,11 @@ function backlogProcessJunction(dosSheets) {
   // }
   // if (lock.hasLock()) {
   // -------------------- Comment out above for debugging without lock --------------------
-  var { Report, Permit, PermitRD, FilterSettings } = dosSheets;
+  var Report = dosSheets.Report,
+    Permit = dosSheets.Permit,
+    PermitRD = dosSheets.PermitRD,
+    FilterSettings = dosSheets.FilterSettings;
+
   setReportRunning(Report);
   var oldData = uni_GetOldData(Report);
   var completeBacklog = [];

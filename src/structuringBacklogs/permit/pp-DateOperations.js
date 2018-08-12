@@ -55,27 +55,24 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
     serviceNumber: undefined,
     row: undefined
   };
-  var {
-    dateValue1,
-    dateValue2,
-    dateValue3,
-    dateValue4,
-    dateValue5,
-    dateValue6,
-    serviceNumber,
-    row
-  } = removeLateDatesObject;
-  var {
-    serviceCol,
-    siteSurveyDateCol,
-    welcomeCallDateCol,
-    signedDateCol,
-    approvedDateCol,
-    leaseApproved,
-    proposalApproved
-  } = columns;
+  var dateValue1 = removeLateDatesObject.dateValue1,
+    dateValue2 = removeLateDatesObject.dateValue2,
+    dateValue3 = removeLateDatesObject.dateValue3,
+    dateValue4 = removeLateDatesObject.dateValue4,
+    dateValue5 = removeLateDatesObject.dateValue5,
+    dateValue6 = removeLateDatesObject.dateValue6,
+    serviceNumber = removeLateDatesObject.serviceNumber,
+    row = removeLateDatesObject.row;
+  var serviceCol = columns.serviceCol,
+    siteSurveyDateCol = columns.siteSurveyDateCol,
+    welcomeCallDateCol = columns.welcomeCallDateCol,
+    signedDateCol = columns.signedDateCol,
+    approvedDateCol = columns.approvedDateCol,
+    leaseApproved = columns.leaseApproved,
+    proposalApproved = columns.proposalApproved;
 
   // Remove column in header
+
   var backlogArrayHeaders = backlogArray[0];
   backlogArrayHeaders.splice(siteSurveyDateCol, 4, 'BACKLOG DATE', 'DUE DATE');
 
@@ -114,23 +111,19 @@ function pp_CompareDates(backlogArray, oldData, removeDatesObject, columns) {
     checkDates: undefined,
     initialDate: undefined
   };
-  var {
-    backlogDate,
-    dueDate,
-    addHours,
-    checkDates,
-    initialDate
-  } = compareDatesObject;
-  var {
-    dateValue1,
-    dateValue2,
-    dateValue3,
-    dateValue4,
-    dateValue5,
-    dateValue6,
-    serviceNumber
-  } = removeDatesObject;
-  var { siteSurveyDateCol } = columns;
+  var backlogDate = compareDatesObject.backlogDate,
+    dueDate = compareDatesObject.dueDate,
+    addHours = compareDatesObject.addHours,
+    checkDates = compareDatesObject.checkDates,
+    initialDate = compareDatesObject.initialDate;
+  var dateValue1 = removeDatesObject.dateValue1,
+    dateValue2 = removeDatesObject.dateValue2,
+    dateValue3 = removeDatesObject.dateValue3,
+    dateValue4 = removeDatesObject.dateValue4,
+    dateValue5 = removeDatesObject.dateValue5,
+    dateValue6 = removeDatesObject.dateValue6,
+    serviceNumber = removeDatesObject.serviceNumber;
+  var siteSurveyDateCol = columns.siteSurveyDateCol;
 
   checkDates = [
     dateValue1,

@@ -45,6 +45,14 @@ function pp_DateCleaner(backlogArray, oldData) {
  * @return {*} backlogArray
  */
 function pp_RemoveLateDates(backlogArray, oldData, columns) {
+  var serviceCol = columns.serviceCol,
+    siteSurveyDateCol = columns.siteSurveyDateCol,
+    welcomeCallDateCol = columns.welcomeCallDateCol,
+    signedDateCol = columns.signedDateCol,
+    approvedDateCol = columns.approvedDateCol,
+    leaseApproved = columns.leaseApproved,
+    proposalApproved = columns.proposalApproved;
+
   var datesObject = {
     dateValue1: undefined,
     dateValue2: undefined,
@@ -55,13 +63,6 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
     serviceNumber: undefined,
     row: undefined
   };
-  var serviceCol = columns.serviceCol,
-    siteSurveyDateCol = columns.siteSurveyDateCol,
-    welcomeCallDateCol = columns.welcomeCallDateCol,
-    signedDateCol = columns.signedDateCol,
-    approvedDateCol = columns.approvedDateCol,
-    leaseApproved = columns.leaseApproved,
-    proposalApproved = columns.proposalApproved;
 
   var backlogArrayHeaders = backlogArray[0];
   // Remove column in header
@@ -94,13 +95,7 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
  * @return {*} backlogArray
  */
 function pp_CompareDates(backlogArray, oldData, datesObject, columns) {
-  var compareDatesObject = {
-    backlogDate: undefined,
-    dueDate: undefined,
-    addHours: undefined,
-    checkDates: undefined,
-    initialDate: undefined
-  };
+  var siteSurveyDateCol = columns.siteSurveyDateCol;
   var dateValue1 = datesObject.dateValue1,
     dateValue2 = datesObject.dateValue2,
     dateValue3 = datesObject.dateValue3,
@@ -109,7 +104,14 @@ function pp_CompareDates(backlogArray, oldData, datesObject, columns) {
     // dateValue6 = datesObject.dateValue6,
     serviceNumber = datesObject.serviceNumber,
     row = datesObject.row;
-  var siteSurveyDateCol = columns.siteSurveyDateCol;
+
+  var compareDatesObject = {
+    backlogDate: undefined,
+    dueDate: undefined,
+    addHours: undefined,
+    checkDates: undefined,
+    initialDate: undefined
+  };
 
   compareDatesObject.checkDates = [
     dateValue1,

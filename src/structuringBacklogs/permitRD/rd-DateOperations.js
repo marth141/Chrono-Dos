@@ -118,11 +118,11 @@ function rd_CompareDates(
       addHours = 48;
       dateValue1 = timeAddHours(dateValue1, addHours);
     } else if (dateValue1.getHours() >= 15) {
-      //add 1 day if backlog date is after 3pm
+      // add 1 day if backlog date is after 3pm
       addHours = 24;
       dateValue1 = timeAddHours(dateValue1, addHours);
     }
-    //set due date to 6pm
+    // set due date to 6pm
     backlogArray[row][customerApprovedCol] = new Date(
       dateValue1.setHours(18, 00, 00, 00)
     );
@@ -140,12 +140,12 @@ function rd_CompareDates(
       addHours = 48;
       dateValue2 = timeAddHours(dateValue2, addHours);
     } else if (dateValue2.getHours() >= 15) {
-      //add 1 day if backlog date is after 3pm
+      // add 1 day if backlog date is after 3pm
       addHours = 24;
       dateValue2 = timeAddHours(dateValue2, addHours);
     }
     backlogArray[row][redesignReqCol] = backlogArray[row][customerApprovedCol];
-    //set due date to 6pm
+    // set due date to 6pm
     backlogArray[row][customerApprovedCol] = new Date(
       dateValue2.setHours(18, 00, 00, 00)
     );

@@ -15,7 +15,11 @@ function rd_CleanUpColumns(backlogArray) {
     'Primary CAD: Permit Packet Completed By',
     backlogArray
   );
-  // Put index"s to remove in array and sort to insure order, remove from end (right to left) to not interupt index's
+
+  /**
+   * Put index"s to remove in array and sort to insure order,
+   * remove from end (right to left) to not interupt index's
+   */
   var removeValFromIndex = [
     projectIDCol,
     cadIDCol,

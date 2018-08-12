@@ -6,28 +6,28 @@
  */
 function pp_DateCleaner(backlogArray, oldData) {
   var columns = {
-    serviceCol: getMeThatColumn('Project: Service', backlogArray),
-    siteSurveyDateCol: getMeThatColumn(
+    serviceCol: getMeThatColumnNoValidate('Project: Service', backlogArray),
+    siteSurveyDateCol: getMeThatColumnNoValidate(
       'Project: Site Survey Completed',
       backlogArray
     ),
-    welcomeCallDateCol: getMeThatColumn(
+    welcomeCallDateCol: getMeThatColumnNoValidate(
       'Opportunity: Welcome Call Completed Date',
       backlogArray
     ),
-    signedDateCol: getMeThatColumn(
+    signedDateCol: getMeThatColumnNoValidate(
       'Primary Contract: Application Signed',
       backlogArray
     ),
-    approvedDateCol: getMeThatColumn(
+    approvedDateCol: getMeThatColumnNoValidate(
       'Primary Contract: Customer Agreement Approved',
       backlogArray
     ),
-    leaseApproved: getMeThatColumn(
+    leaseApproved: getMeThatColumnNoValidate(
       'Primary Contact: Lease Approved',
       backlogArray
     ),
-    proposalApproved: getMeThatColumn(
+    proposalApproved: getMeThatColumnNoValidate(
       'Proposal CAD: Proposal Customer Approved',
       backlogArray
     )
@@ -45,7 +45,7 @@ function pp_DateCleaner(backlogArray, oldData) {
  * @return {*} backlogArray
  */
 function pp_RemoveLateDates(backlogArray, oldData, columns) {
-  var removeLateDatesObject = {
+  var datesObject = {
     dateValue1: undefined,
     dateValue2: undefined,
     dateValue3: undefined,
@@ -55,14 +55,6 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
     serviceNumber: undefined,
     row: undefined
   };
-  var dateValue1 = removeLateDatesObject.dateValue1,
-    dateValue2 = removeLateDatesObject.dateValue2,
-    dateValue3 = removeLateDatesObject.dateValue3,
-    dateValue4 = removeLateDatesObject.dateValue4,
-    dateValue5 = removeLateDatesObject.dateValue5,
-    dateValue6 = removeLateDatesObject.dateValue6,
-    serviceNumber = removeLateDatesObject.serviceNumber,
-    row = removeLateDatesObject.row;
   var serviceCol = columns.serviceCol,
     siteSurveyDateCol = columns.siteSurveyDateCol,
     welcomeCallDateCol = columns.welcomeCallDateCol,
@@ -76,21 +68,20 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
   var backlogArrayHeaders = backlogArray[0];
   backlogArrayHeaders.splice(siteSurveyDateCol, 4, 'BACKLOG DATE', 'DUE DATE');
 
-  for (row = 1; row < backlogArray.length; row++) {
+  for (
+    datesObject.row = 1;
+    datesObject.row < backlogArray.length;
+    datesObject.row++
+  ) {
     var account = backlogArray[row];
-    serviceNumber = account[serviceCol];
-    dateValue1 = new Date(account[siteSurveyDateCol]);
-    dateValue2 = new Date(account[welcomeCallDateCol]);
-    dateValue3 = new Date(account[signedDateCol]);
-    dateValue4 = new Date(account[approvedDateCol]);
-    dateValue5 = new Date(account[leaseApproved]);
-    dateValue6 = new Date(account[proposalApproved]);
-    backlogArray = pp_CompareDates(
-      backlogArray,
-      oldData,
-      removeLateDatesObject,
-      columns
-    );
+    datesObject.serviceNumber = account[serviceCol];
+    datesObject.dateValue1 = new Date(account[siteSurveyDateCol]);
+    datesObject.dateValue2 = new Date(account[welcomeCallDateCol]);
+    datesObject.dateValue3 = new Date(account[signedDateCol]);
+    datesObject.dateValue4 = new Date(account[approvedDateCol]);
+    datesObject.dateValue5 = new Date(account[leaseApproved]);
+    datesObject.dateValue6 = new Date(account[proposalApproved]);
+    backlogArray = pp_CompareDates(backlogArray, oldData, datesObject, columns);
   }
   return backlogArray;
 }
@@ -99,11 +90,11 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
  *
  * @param {*} backlogArray
  * @param {*} oldData
- * @param {*} removeDatesObject
+ * @param {*} datesObject
  * @param {*} columns
  * @return {*} backlogArray
  */
-function pp_CompareDates(backlogArray, oldData, removeDatesObject, columns) {
+function pp_CompareDates(backlogArray, oldData, datesObject, columns) {
   var compareDatesObject = {
     backlogDate: undefined,
     dueDate: undefined,
@@ -111,21 +102,17 @@ function pp_CompareDates(backlogArray, oldData, removeDatesObject, columns) {
     checkDates: undefined,
     initialDate: undefined
   };
-  var backlogDate = compareDatesObject.backlogDate,
-    dueDate = compareDatesObject.dueDate,
-    addHours = compareDatesObject.addHours,
-    checkDates = compareDatesObject.checkDates,
-    initialDate = compareDatesObject.initialDate;
-  var dateValue1 = removeDatesObject.dateValue1,
-    dateValue2 = removeDatesObject.dateValue2,
-    dateValue3 = removeDatesObject.dateValue3,
-    dateValue4 = removeDatesObject.dateValue4,
-    dateValue5 = removeDatesObject.dateValue5,
-    dateValue6 = removeDatesObject.dateValue6,
-    serviceNumber = removeDatesObject.serviceNumber;
+  var dateValue1 = datesObject.dateValue1,
+    dateValue2 = datesObject.dateValue2,
+    dateValue3 = datesObject.dateValue3,
+    dateValue4 = datesObject.dateValue4,
+    dateValue5 = datesObject.dateValue5,
+    dateValue6 = datesObject.dateValue6,
+    serviceNumber = datesObject.serviceNumber,
+    row = datesObject.row;
   var siteSurveyDateCol = columns.siteSurveyDateCol;
 
-  checkDates = [
+  compareDatesObject.checkDates = [
     dateValue1,
     dateValue2,
     dateValue3,
@@ -138,25 +125,35 @@ function pp_CompareDates(backlogArray, oldData, removeDatesObject, columns) {
     return filteredDate;
   });
 
-  initialDate = new Date(Math.max.apply(null, checkDates));
-  addHours = 24;
+  compareDatesObject.initialDate = new Date(
+    Math.max.apply(null, compareDatesObject.checkDates)
+  );
+  compareDatesObject.addHours = 24;
 
   // If the initail date is 6 hours past now and new to the backlog give new date
-  if (checkHibernated(oldData, serviceNumber, initialDate)) {
-    initialDate = new Date();
-    backlogDate = 'CHRONO STAMP';
+  if (checkHibernated(oldData, serviceNumber, compareDatesObject.initialDate)) {
+    compareDatesObject.initialDate = new Date();
+    compareDatesObject.backlogDate = 'CHRONO STAMP';
   } else {
-    backlogDate = initialDate;
+    backlogDate = compareDatesObject.initialDate;
   }
-  if (initialDate.getDay() === 5) {
-    addHours = 72;
+  if (compareDatesObject.initialDate.getDay() === 5) {
+    compareDatesObject.addHours = 72;
   } else if (initialDate.getDay() === 6) {
-    addHours = 48;
+    compareDatesObject.addHours = 48;
   }
   // add 24 hours to initial date
-  dueDate = timeAddHours(new Date(initialDate.getTime()), addHours);
+  compareDatesObject.dueDate = timeAddHours(
+    new Date(compareDatesObject.initialDate.getTime()),
+    compareDatesObject.addHours
+  );
   // replace and remove the other
-  backlogArray[row].splice(siteSurveyDateCol, 4, backlogDate, dueDate);
+  backlogArray[row].splice(
+    siteSurveyDateCol,
+    4,
+    compareDatesObject.backlogDate,
+    compareDatesObject.dueDate
+  );
   return backlogArray;
 }
 

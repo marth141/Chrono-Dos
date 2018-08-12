@@ -63,9 +63,8 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
     leaseApproved = columns.leaseApproved,
     proposalApproved = columns.proposalApproved;
 
-  // Remove column in header
-
   var backlogArrayHeaders = backlogArray[0];
+  // Remove column in header
   backlogArrayHeaders.splice(siteSurveyDateCol, 4, 'BACKLOG DATE', 'DUE DATE');
 
   for (

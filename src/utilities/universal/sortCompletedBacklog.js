@@ -1,8 +1,8 @@
 /**
  *
- *
- * @param {any} sheet
- * @returns
+ * @param {*} backlog
+ * @param {*} Report
+ * @return {*} sortedByName
  */
 function sortCompleteBacklog(backlog, Report) {
   var header = getHeadersFromSheet(Report);
@@ -23,9 +23,11 @@ function sortCompleteBacklog(backlog, Report) {
 
 /**
  *
- *
- * @param {any} sheet
- * @returns
+ * @param {*} backlog
+ * @param {*} priorityCol
+ * @param {*} dueDateCol
+ * @param {*} backlogDateCol
+ * @return {*} backlog
  */
 function sortByProperty(backlog, priorityCol, dueDateCol, backlogDateCol) {
   var len = backlog.length;
@@ -64,10 +66,9 @@ function sortByProperty(backlog, priorityCol, dueDateCol, backlogDateCol) {
 
 /**
  *
- *
- * @param {any} a
- * @param {any} b
- * @returns
+ * @param {*} a
+ * @param {*} b
+ * @return {*}
  */
 function checkPriority(a, b) {
   if (a < b) {
@@ -81,10 +82,11 @@ function checkPriority(a, b) {
 
 /**
  *
- *
- * @param {any} a
- * @param {any} b
- * @returns
+ * @param {*} a
+ * @param {*} b
+ * @param {*} c
+ * @param {*} d
+ * @return {*}
  */
 function checkDueDates(a, b, c, d) {
   return a > b || c > d;
@@ -92,10 +94,10 @@ function checkDueDates(a, b, c, d) {
 
 /**
  *
- *
- * @param {any} a
- * @param {any} b
- * @returns
+ * @param {*} array
+ * @param {*} i
+ * @param {*} j
+ * @return {*}
  */
 function swap(array, i, j) {
   var temp = array[i];

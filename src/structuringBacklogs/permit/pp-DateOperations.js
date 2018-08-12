@@ -62,14 +62,16 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
   } = columns;
 
   // Remove column in header
-  backlogArray[0].splice(siteSurveyDateCol, 4, 'BACKLOG DATE', 'DUE DATE');
+  var backlogArrayHeaders = backlogArray[0];
+  backlogArrayHeaders.splice(siteSurveyDateCol, 4, 'BACKLOG DATE', 'DUE DATE');
 
   for (row = 1; row < backlogArray.length; row++) {
-    serviceNumber = backlogArray[row][serviceCol];
-    dateValue1 = new Date(backlogArray[row][siteSurveyDateCol]);
-    dateValue2 = new Date(backlogArray[row][welcomeCallDateCol]);
-    dateValue3 = new Date(backlogArray[row][signedDateCol]);
-    dateValue4 = new Date(backlogArray[row][approvedDateCol]);
+    var account = backlogArray[row];
+    serviceNumber = account[serviceCol];
+    dateValue1 = new Date(account[siteSurveyDateCol]);
+    dateValue2 = new Date(account[welcomeCallDateCol]);
+    dateValue3 = new Date(account[signedDateCol]);
+    dateValue4 = new Date(account[approvedDateCol]);
     backlogArray = pp_CompareDates(
       backlogArray,
       oldData,

@@ -50,8 +50,8 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
     dateValue2: undefined,
     dateValue3: undefined,
     dateValue4: undefined,
-    dateValue5: undefined,
-    dateValue6: undefined,
+    // dateValue5: undefined,
+    // dateValue6: undefined,
     serviceNumber: undefined,
     row: undefined
   };
@@ -73,14 +73,14 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
     datesObject.row < backlogArray.length;
     datesObject.row++
   ) {
-    var account = backlogArray[row];
+    var account = backlogArray[datesObject.row];
     datesObject.serviceNumber = account[serviceCol];
     datesObject.dateValue1 = new Date(account[siteSurveyDateCol]);
     datesObject.dateValue2 = new Date(account[welcomeCallDateCol]);
     datesObject.dateValue3 = new Date(account[signedDateCol]);
     datesObject.dateValue4 = new Date(account[approvedDateCol]);
-    datesObject.dateValue5 = new Date(account[leaseApproved]);
-    datesObject.dateValue6 = new Date(account[proposalApproved]);
+    // datesObject.dateValue5 = new Date(account[leaseApproved]);
+    // datesObject.dateValue6 = new Date(account[proposalApproved]);
     backlogArray = pp_CompareDates(backlogArray, oldData, datesObject, columns);
   }
   return backlogArray;
@@ -106,8 +106,8 @@ function pp_CompareDates(backlogArray, oldData, datesObject, columns) {
     dateValue2 = datesObject.dateValue2,
     dateValue3 = datesObject.dateValue3,
     dateValue4 = datesObject.dateValue4,
-    dateValue5 = datesObject.dateValue5,
-    dateValue6 = datesObject.dateValue6,
+    // dateValue5 = datesObject.dateValue5,
+    // dateValue6 = datesObject.dateValue6,
     serviceNumber = datesObject.serviceNumber,
     row = datesObject.row;
   var siteSurveyDateCol = columns.siteSurveyDateCol;
@@ -116,9 +116,9 @@ function pp_CompareDates(backlogArray, oldData, datesObject, columns) {
     dateValue1,
     dateValue2,
     dateValue3,
-    dateValue4,
-    dateValue5,
-    dateValue6
+    dateValue4
+    // dateValue5,
+    // dateValue6
   ].filter(function(datesToFilter) {
     var filteredDate =
       datesToFilter instanceof Date && !isNaN(datesToFilter.getTime());
@@ -135,11 +135,11 @@ function pp_CompareDates(backlogArray, oldData, datesObject, columns) {
     compareDatesObject.initialDate = new Date();
     compareDatesObject.backlogDate = 'CHRONO STAMP';
   } else {
-    backlogDate = compareDatesObject.initialDate;
+    compareDatesObject.backlogDate = compareDatesObject.initialDate;
   }
   if (compareDatesObject.initialDate.getDay() === 5) {
     compareDatesObject.addHours = 72;
-  } else if (initialDate.getDay() === 6) {
+  } else if (compareDatesObject.initialDate.getDay() === 6) {
     compareDatesObject.addHours = 48;
   }
   // add 24 hours to initial date

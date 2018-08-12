@@ -22,6 +22,14 @@ function pp_DateCleaner(backlogArray, oldData) {
     approvedDateCol: getMeThatColumn(
       'Primary Contract: Customer Agreement Approved',
       backlogArray
+    ),
+    leaseApproved: getMeThatColumn(
+      'Primary Contact: Lease Approved',
+      backlogArray
+    ),
+    proposalApproved: getMeThatColumn(
+      'Proposal CAD: Proposal Customer Approved',
+      backlogArray
     )
   };
 
@@ -42,6 +50,8 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
     dateValue2: undefined,
     dateValue3: undefined,
     dateValue4: undefined,
+    dateValue5: undefined,
+    dateValue6: undefined,
     serviceNumber: undefined,
     row: undefined
   };
@@ -50,6 +60,8 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
     dateValue2,
     dateValue3,
     dateValue4,
+    dateValue5,
+    dateValue6,
     serviceNumber,
     row
   } = removeLateDatesObject;
@@ -58,7 +70,9 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
     siteSurveyDateCol,
     welcomeCallDateCol,
     signedDateCol,
-    approvedDateCol
+    approvedDateCol,
+    leaseApproved,
+    proposalApproved
   } = columns;
 
   // Remove column in header
@@ -72,6 +86,8 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
     dateValue2 = new Date(account[welcomeCallDateCol]);
     dateValue3 = new Date(account[signedDateCol]);
     dateValue4 = new Date(account[approvedDateCol]);
+    dateValue5 = new Date(account[leaseApproved]);
+    dateValue6 = new Date(account[proposalApproved]);
     backlogArray = pp_CompareDates(
       backlogArray,
       oldData,
@@ -110,13 +126,20 @@ function pp_CompareDates(backlogArray, oldData, removeDatesObject, columns) {
     dateValue2,
     dateValue3,
     dateValue4,
+    dateValue5,
+    dateValue6,
     serviceNumber
   } = removeDatesObject;
   var { siteSurveyDateCol } = columns;
 
-  checkDates = [dateValue1, dateValue2, dateValue3, dateValue4].filter(function(
-    datesToFilter
-  ) {
+  checkDates = [
+    dateValue1,
+    dateValue2,
+    dateValue3,
+    dateValue4,
+    dateValue5,
+    dateValue6
+  ].filter(function(datesToFilter) {
     var filteredDate =
       datesToFilter instanceof Date && !isNaN(datesToFilter.getTime());
     return filteredDate;

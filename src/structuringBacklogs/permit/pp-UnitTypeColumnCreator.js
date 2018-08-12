@@ -4,21 +4,21 @@
  */
 function pp_UnitTypeMarker(backlogArray) {
   var columns = {
-    officeCol: getMeThatColumn(
+    officeCol: getMeThatColumnNoValidate(
       'Service: Regional Operating Center',
       backlogArray
     ),
-    opporTypeCol: getMeThatColumn('Opportunity: Type', backlogArray),
-    dueDateCol: getMeThatColumn('DUE DATE', backlogArray),
-    assignCol: undgetMeThatColumn(
+    opporTypeCol: getMeThatColumnNoValidate('Opportunity: Type', backlogArray),
+    dueDateCol: getMeThatColumnNoValidate('DUE DATE', backlogArray),
+    assignCol: getMeThatColumnNoValidate(
       'Phase: PV Design Completed By',
       backlogArray
     ),
-    primaryDateCol: getMeThatColumn(
+    primaryDateCol: getMeThatColumnNoValidate(
       'Primary CAD: Permit Packet QA Completed',
       backlogArray
     ),
-    srNeededCol: getMeThatColumn(
+    srNeededCol: getMeThatColumnNoValidate(
       'Phase: Structural Review Completed',
       backlogArray
     )

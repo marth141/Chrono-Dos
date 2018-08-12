@@ -14,8 +14,9 @@ function backlogProcessJunction(dosSheets) {
   // }
   // if (lock.hasLock()) {
   // -------------------- Comment out above for debugging without lock --------------------
-  setReportRunning(dosSheets.Report);
-  var oldData = uni_GetOldData(dosSheets.Report);
+  var { Report, Permit, PermitRD, FilterSettings } = dosSheets;
+  setReportRunning(Report);
+  var oldData = uni_GetOldData(Report);
   var completeBacklog = [];
 
   var sheet;
@@ -24,33 +25,25 @@ function backlogProcessJunction(dosSheets) {
   for (sheet in dosSheets) {
     var backlogName = dosSheets[sheet].getName();
     if (backlogName.match(/PERMIT BACKLOG/i)) {
-      workThisBacklog = dosSheets[sheet];
+      workThisBacklog = Permit;
       backlogArray = uni_LinkCreator(workThisBacklog);
       backlogArray = uni_CadNameColCreator(backlogArray);
       backlogArray = pp_DateCleaner(backlogArray, oldData);
       backlogArray = pp_UnitTypeMarker(backlogArray);
       backlogArray = pp_CleanUpColumns(backlogArray);
       backlogArray = uni_addLastColumns(backlogArray);
-      backlogArray = uni_UpdateOldData(
-        dosSheets.FilterSettings,
-        backlogArray,
-        oldData
-      );
+      backlogArray = uni_UpdateOldData(FilterSettings, backlogArray, oldData);
       backlogArray = pp_underTweleveHours(backlogArray, workThisBacklog);
       completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
       continue;
     } else if (backlogName.match(/PERMIT RD BACKLOG/i)) {
-      workThisBacklog = dosSheets[sheet];
+      workThisBacklog = PermitRD;
       backlogArray = uni_LinkCreator(workThisBacklog);
       backlogArray = rd_DateCleaner(backlogArray, oldData);
       backlogArray = rd_UnitTypeMarker(backlogArray);
       backlogArray = rd_CleanUpColumns(backlogArray);
       backlogArray = uni_addLastColumns(backlogArray);
-      backlogArray = uni_UpdateOldData(
-        dosSheets.FilterSettings,
-        backlogArray,
-        oldData
-      );
+      backlogArray = uni_UpdateOldData(FilterSettings, backlogArray, oldData);
       completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
       continue;
     } else if (dosSheets[sheet] === null) {
@@ -61,10 +54,10 @@ function backlogProcessJunction(dosSheets) {
       continue;
     }
   }
-  completeBacklog = sortCompleteBacklog(completeBacklog, dosSheets.Report);
-  setCompleteBacklog(completeBacklog, dosSheets.Report);
-  updateLastRefresh(dosSheets.Report);
-  removeReportRunning(dosSheets.Report);
+  completeBacklog = sortCompleteBacklog(completeBacklog, Report);
+  setCompleteBacklog(completeBacklog, Report);
+  updateLastRefresh(Report);
+  removeReportRunning(Report);
   // -------------------- Comment out below for debugging without lock --------------------
   //   lock.releaseLock();
   // } else {

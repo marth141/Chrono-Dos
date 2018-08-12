@@ -1,5 +1,4 @@
 /**
- * Main
  * * Used in the Vivint Solar Button on the report page.
  */
 function main() {
@@ -10,9 +9,8 @@ function main() {
 }
 
 /**
- * callMain
  * * Used in external calls to this Chrono from other sheets.
- * @param {String} backlogName Used to know which backlog is coming in.
+ * @param {String} backlogName
  */
 function callMain(backlogName) {
   // -------------------- Comment out below for debugging without lock --------------------

@@ -1,3 +1,4 @@
+// @flow
 /**
  * Used to get all of the chrono sheets
  * @param {GoogleAppsScript.Spreadsheet.Spreadsheet} ss

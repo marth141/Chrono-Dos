@@ -1,126 +1,104 @@
-/* exported
-debugPropDateCleaner
-validatePropHeaders
-prop_SortAndCleanDates
-*/
-
-/* global
-ServiceMasterBacklog
-getMeThatColumn
-timeAddHours
-timeStateOffset
-validateHeader
-*/
-
 /**
- *
- * 
- * @returns 
- */
-function debugPermitDateCleaner() {
-  var masterBacklogs = new ServiceMasterBacklog();
-  pp_DateCleaner(masterBacklogs.Collection[4]);
-  return;
-}
-
-/**
- *
- *
- * @param {any} propBacklog
- * @returns 
+ * Starts the dates cleaner
+ * @param {Array} backlogArray
+ * @param {Array} oldData
+ * @return {Array} dateAdjLog
  */
 function pp_DateCleaner(backlogArray, oldData) {
-
-  var serviceCol, siteSurveyDateCol, welcomeCallDateCol, signedDateCol, approvedDateCol;
-  serviceCol = getMeThatColumn("Project: Service", backlogArray);
-  siteSurveyDateCol = getMeThatColumn("Project: Site Survey Completed", backlogArray);
-  welcomeCallDateCol = getMeThatColumn("Opportunity: Welcome Call Completed Date", backlogArray);
-  signedDateCol = getMeThatColumn("Primary Contract: Application Signed", backlogArray);
-  approvedDateCol = getMeThatColumn("Primary Contract: Customer Agreement Approved", backlogArray);
-  var dateAdjLog = pp_RemoveLateDates(backlogArray, oldData, serviceCol, siteSurveyDateCol, welcomeCallDateCol, signedDateCol, approvedDateCol);
+  var columns = new DateColumns();
+  var dateAdjLog = pp_RemoveLateDates(backlogArray, oldData, columns);
   return dateAdjLog;
 }
 
-
-
 /**
- *
- * 
- * @param {array} backlogArray
- * @param {number} propReqDateCol
- * @param {number} propStatDateCol
- * @param {number} stateOfficeCol
- * @returns
+ * Removes late dates from backlog
+ * @param {Array} backlogArray
+ * @param {Array} oldData
+ * @param {DateColumns} columns
+ * @return {Array} backlogArray with removed dates
  */
-function pp_RemoveLateDates(backlogArray, oldData, serviceCol ,siteSurveyDateCol, welcomeCallDateCol, signedDateCol, approvedDateCol) {
-  // Remove column in header
-  backlogArray[0].splice(siteSurveyDateCol, 4, "BACKLOG DATE", "DUE DATE");
+function pp_RemoveLateDates(backlogArray, oldData, columns) {
+  backlogArray[0].splice(
+    columns.siteSurveyDateCol,
+    4,
+    'BACKLOG DATE',
+    'DUE DATE'
+  );
   for (var row = 1; row < backlogArray.length; row++) {
-    var dateValue1 = new Date(backlogArray[row][siteSurveyDateCol]);
-    var dateValue2 = new Date(backlogArray[row][welcomeCallDateCol]);
-    var dateValue3 = new Date(backlogArray[row][signedDateCol]);
-    var dateValue4 = new Date(backlogArray[row][approvedDateCol]);
-    var serviceNumber = backlogArray[row][serviceCol];
-    backlogArray = pp_CompareDates(backlogArray, oldData, serviceNumber, dateValue1, dateValue2, dateValue3, dateValue4, row, siteSurveyDateCol);
+    var lateDates = new LateDatesConstructor(backlogArray, row, columns);
+    backlogArray = pp_CompareDates(
+      backlogArray,
+      oldData,
+      lateDates,
+      row,
+      columns
+    );
   }
   return backlogArray;
 }
 
 /**
- *
- * 
- * @param {array} backlogArray
- * @param {Date} dateValue1
- * @param {Date} dateValue2
- * @param {number} row
- * @param {number} propReqDateCol
- * @param {number} propStatDateCol
- * @param {string} stateAbrv
- * @returns 
+ * Compares dates to be removed in backlog
+ * @param {Array} backlogArray
+ * @param {Array} oldData
+ * @param {LateDatesConstructor} lateDates
+ * @param {Number} row
+ * @param {DateColumns} columns
+ * @return {Array} backlogArray with compared dates
  */
-function pp_CompareDates(backlogArray, oldData, serviceNumber, dateValue1, dateValue2, dateValue3, dateValue4, row, siteSurveyDateCol) {
-  
-  var backlogDate, initialDate, dueDate;
-  var addHours = 24;
-  var checkDates = [dateValue1, dateValue2, dateValue3, dateValue4].filter(function (x) { return x instanceof Date && !isNaN(x.getTime()) });
-  initialDate = new Date(Math.max.apply(null, checkDates));
-  
-  //If the initail date is 6 hours past now and new to the backlog give new date
-  if(checkHibernated(oldData, serviceNumber, initialDate)) {
+function pp_CompareDates(backlogArray, oldData, lateDates, row, columns) {
+  var addHours = 24,
+    backlogDate,
+    initialDate = new CompareDatesConstructor(lateDates).initialDate,
+    dueDate;
+
+  // If the initail date is 6 hours past now and new to the backlog give new date
+  if (checkHibernated(oldData, lateDates.serviceNumber, initialDate)) {
     initialDate = new Date();
-    backlogDate = "CHRONO STAMP";
-  }
-  else {
+    backlogDate = 'CHRONO STAMP';
+  } else {
     backlogDate = initialDate;
   }
-  if(initialDate.getDay() === 5) {
+  if (initialDate.getDay() === 5) {
     addHours = 72;
-  }
-  else if(initialDate.getDay() === 6) {
+  } else if (initialDate.getDay() === 6) {
     addHours = 48;
   }
-  dueDate = timeAddHours(new Date(initialDate.getTime()), addHours); // add 24 hours to initial date
-  backlogArray[row].splice(siteSurveyDateCol, 4, backlogDate, dueDate); // replace and remove the other
+  // add 24 hours to initial date
+  dueDate = timeAddHours(new Date(initialDate.getTime()), addHours);
+  // replace and remove the other
+  backlogArray[row].splice(columns.siteSurveyDateCol, 4, backlogDate, dueDate);
   return backlogArray;
-
 }
 
-
+/**
+ * Checks if the account is hibernated
+ * @param {Array} oldData
+ * @param {Number} serviceNumber
+ * @param {Date} initialDate
+ * @return {Boolean} Boolean
+ */
 function checkHibernated(oldData, serviceNumber, initialDate) {
+  /**
+   * !Use for debugging
+   * if (serviceNumber === 'S-5939376' || serviceNumber === 'S-5932481') var x = 0;
+   */
 
-  if(serviceNumber === 'S-5939376' || serviceNumber ===  "S-5932481")
-    var x = 0;
   // Check initail date is over 6 hours
   var hours = (new Date() - initialDate) / 36e5;
-  if(hours < 6)
+  if (hours < 6) {
     return false;
-  
-  // Check if service number existed already in backlog
-  var found = oldData.some(function(row){ return row[0] === serviceNumber});
-  //If found return false, else the account was not in the backlog before
-  if(found)
-    return false;
-  else 
-    return true;
-}
+  }
 
+  // Check if service number existed already in backlog
+  var found = oldData.some(function(row) {
+    var trueFalse = row[0] === serviceNumber;
+    return trueFalse;
+  });
+  // If found return false, else the account was not in the backlog before
+  if (found) {
+    return false;
+  } else {
+    return true;
+  }
+}

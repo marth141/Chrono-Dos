@@ -1,10 +1,11 @@
 /**
+ * Main entry point for Chrono
  * * Is also used in updater
  */
 function main() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var masterBacklogs = new ServiceMasterBacklog(ss);
-  backlogProcessJunction(masterBacklogs, undefined);
+  backlogProcessJunction(masterBacklogs);
   return;
 }
 

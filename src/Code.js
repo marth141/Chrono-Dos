@@ -1,91 +1,76 @@
-/**
- * * Used in the Vivint Solar Button on the report page.
- */
+/* exported
+main
+*/
+
+/* global
+ServiceMasterBacklog
+backlogProcessJunction
+*/
+
+function debugCallMain() {
+  callMain("DOS PART 1 BACKLOG");
+}
+
 function main() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var masterBacklogs = new ChronoDOSSheets(ss);
-  backlogProcessJunction(masterBacklogs);
+  var masterBacklogs = new ServiceMasterBacklog(ss);
+  backlogProcessJunction(masterBacklogs, undefined);  
   return;
 }
 
-/**
- * * Used in external calls to this Chrono from other sheets.
- * @param {String} backlogName
- */
 function callMain(backlogName) {
-  // -------------------- Comment out below for debugging without lock --------------------
-  // var lock = LockService.getDocumentLock();
-  // try {
-  //   lock.waitLock(10000);
-  // } catch (e) {
-  //   var lockErrorMessage =
-  //     'Could not acquire lock. Someone else is updating the backlog, please wait.';
-  //   throw lockErrorMessage;
-  // }
-  // if (lock.hasLock()) {
-  // -------------------- Comment out above for debugging without lock --------------------
-
-  if (backlogName.match(/DOS/i)) {
-    var chronoDOS = SpreadsheetApp.openById(
-      '121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0'
-    );
-  } else {
-    var wrongBacklogMessage = 'Wrong script for this report type';
-    throw wrongBacklogMessage;
+  var lock = LockService.getDocumentLock();
+  try {
+    lock.waitLock(10000)
+  } catch (e) {
+    throw "Could not acquire lock. Someone else is updating the backlog, please wait."
   }
-  var dosSheets = new ChronoDOSSheets(chronoDOS);
-  backlogProcessJunction(dosSheets);
-
-  // -------------------- Comment out below for debugging without lock --------------------
-  // } else {
-  //   var lostLockMessage =
-  //     'The lock was somehow lost. Someone else is updating the backlog, please wait.';
-  //   throw lostLockMessage;
-  // }
-  // -------------------- Comment out above for debugging without lock --------------------
+  if (lock.hasLock()) {
+    if (backlogName.match(/DOS/i)) {
+      var ss = SpreadsheetApp.openById("121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0");
+    } else {
+      throw "Wrong script for this report type";
+    }
+    var masterBacklogs = new ServiceMasterBacklog(ss);
+    backlogProcessJunction(masterBacklogs, undefined);
+  } else {
+    throw "The lock was somehow lost. Someone else is updating the backlog, please wait."
+  }
   return;
 }
 
-/**
- * callUpdateReportData
- * ! Not sure where this is being used.
- */
 function callUpdateReportData() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var masterBacklogs = new ChronoDOSSheets(ss);
+  var masterBacklogs = new ServiceMasterBacklog(ss);
   updateReportData(masterBacklogs, undefined);
   return;
 }
 
-/**
- * replaceOld
- * ! Not sure where this is being used.
- */
 function replaceOld() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var report = ss.getSheetByName('Report');
-  var testReport = SpreadsheetApp.openById(
-    '11P_RjuFahwmWj9rHxT1QHJrfGfIezFzl-cqUlcCsi_g'
-  ).getSheetByName('Report');
-
-  var oldData = testReport
-    .getRange('L3:Y')
-    .getValues()
-    .filter(function(value) {
-      return value[0].indexOf('S-') > -1;
-    });
-
-  for (var i = report.getLastRow() - 855; i > 1; i--) {
+  var report = ss.getSheetByName("Report")
+  var testReport = SpreadsheetApp.openById("11P_RjuFahwmWj9rHxT1QHJrfGfIezFzl-cqUlcCsi_g").getSheetByName("Report");
+  
+  var oldData = testReport.getRange("L3:Y").getValues().filter(function (value) { return value[0].indexOf("S-") > -1 });
+  
+  for(var i = report.getLastRow()-855; i > 1; i--) {
     var serviceNum = report.getRange(i, 7).getValue();
     var unitType = report.getRange(i, 15).getValue();
-    for (var row in oldData) {
+    for(var row in oldData) {
       var oldServiceNum = oldData[row][0];
       var oldUnitType = oldData[row][0];
-      if (serviceNum !== oldServiceNum && unitType !== oldUnitType) continue;
+      if(serviceNum !== oldServiceNum && unitType !== oldUnitType)
+        continue;
 
       report.getRange(i, 21).setValue(oldData[row][13]);
       SpreadsheetApp.flush();
     }
   }
+  
+//  var rowNeeded = backlog.length;
+//  if (rowNeeded > 0) {
+//    var colNeeded = backlog[0].length;
+//    testReport.getRange(3, 4, rowNeeded, colNeeded).setValues(backlog);
+//  }
   SpreadsheetApp.flush();
 }

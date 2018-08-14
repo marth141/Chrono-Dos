@@ -5,7 +5,7 @@
  * @return {Array} dateAdjLog
  */
 function pp_DateCleaner(backlogArray, oldData) {
-  var columns = new DateColumns();
+  var columns = new DateColumns(backlogArray);
   var dateAdjLog = pp_RemoveLateDates(backlogArray, oldData, columns);
   return dateAdjLog;
 }

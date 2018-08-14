@@ -1,7 +1,8 @@
 /**
  * Used to set up columns in the date operations
+ * @param {Array} backlogArray
  */
-var DateColumns = function() {
+var DateColumns = function(backlogArray) {
   /** @type {Number} */
   this.serviceCol = getMeThatColumn('Project: Service', backlogArray);
   /** @type {Number} */

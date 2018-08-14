@@ -1,22 +1,3 @@
-/* exported
-debugUniSolProj
-*/
-
-/* global
-getMeThatColumnNoValidate
-ServiceMasterBacklog
-constructLink
-getBacklogArray
-getDimensions
-getMeThatColumn
-*/
-
-function debugUniSolProj() {
-  var masterBacklogs = new ServiceMasterBacklog();
-  uni_LinkCreator(masterBacklogs.Collection);
-  return;
-}
-
 /**
  *
  * @param {GoogleAppsScript.Spreadsheet.Sheet} propBacklog

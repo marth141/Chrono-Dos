@@ -1,4 +1,5 @@
-// @flow
+// @flow strict
+'use strict';
 /**
  *
  *
@@ -46,8 +47,8 @@ function getBacklogArray(sheet, dimensions) {
 
 /**
  *
- *
- * @returns header
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} Report
+ * @return {Array}
  */
 function getHeader(Report) {
   var header = Report.getRange('2:2').getValues();
@@ -81,11 +82,10 @@ function getMeThatColumn(columnName, backlogArray) {
 }
 
 /**
- *
- *
- * @param {RegExp|String} columnName
- * @param {array} backlogArray
- * @returns
+ * Used to get headers
+ * @param {String} columnName
+ * @param {Array[]} backlogArray
+ * @return {Number}
  */
 function getMeThatColumnNoValidate(columnName, backlogArray) {
   return backlogArray[0].indexOf(columnName);

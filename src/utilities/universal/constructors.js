@@ -1,9 +1,9 @@
-// @flow
+// @flow strict
 /**
  * Used to get all of the chrono sheets
  * @param {GoogleAppsScript.Spreadsheet.Spreadsheet} ss
  */
-var ServiceMasterBacklog = function(ss) {
+function ServiceMasterBacklog(ss) {
   /** @type GoogleAppsScript.Spreadsheet.Sheet */
   this.Report = ss.getSheetByName('Report');
   /** @type GoogleAppsScript.Spreadsheet.Sheet */
@@ -14,7 +14,7 @@ var ServiceMasterBacklog = function(ss) {
   this.FilterSettings = ss.getSheetByName('Filter Settings');
   /** @type GoogleAppsScript.Spreadsheet.Sheet */
   this.Cache = ss.getSheetByName('Cache');
-};
+}
 
 var ServiceOfficeCollection = function() {
   this.GritMovem = ['NJ', 'NY', 'PA'];

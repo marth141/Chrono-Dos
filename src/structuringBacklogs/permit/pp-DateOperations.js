@@ -1,8 +1,9 @@
+// @flow strict
 /**
  * Starts the dates cleaner
- * @param {Array} backlogArray
- * @param {Array} oldData
- * @return {Array} dateAdjLog
+ * @param {Array[]} backlogArray
+ * @param {Array[]} oldData
+ * @return {Array[]} dateAdjLog
  */
 function pp_DateCleaner(backlogArray, oldData) {
   var columns = new DateColumnsConstructor(backlogArray);
@@ -12,18 +13,14 @@ function pp_DateCleaner(backlogArray, oldData) {
 
 /**
  * Removes late dates from backlog
- * @param {Array} backlogArray
- * @param {Array} oldData
+ * @param {Array[]} backlogArray
+ * @param {Array[]} oldData
  * @param {DateColumnsConstructor} columns
- * @return {Array} backlogArray with removed dates
+ * @return {Array[]} backlogArray with removed dates
  */
 function pp_RemoveLateDates(backlogArray, oldData, columns) {
-  backlogArray[0].splice(
-    columns.siteSurveyDateCol,
-    4,
-    'BACKLOG DATE',
-    'DUE DATE'
-  );
+  var headers = backlogArray[0];
+  headers.splice(columns.siteSurveyDateCol, 4, 'BACKLOG DATE', 'DUE DATE');
   for (var row = 1; row < backlogArray.length; row++) {
     var lateDates = new LateDatesConstructor(backlogArray, row, columns);
     backlogArray = pp_CompareDates(
@@ -39,12 +36,12 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
 
 /**
  * Compares dates to be removed in backlog
- * @param {Array} backlogArray
- * @param {Array} oldData
+ * @param {Array[]} backlogArray
+ * @param {Array[]} oldData
  * @param {LateDatesConstructor} lateDates
  * @param {Number} row
  * @param {DateColumnsConstructor} columns
- * @return {Array} backlogArray with compared dates
+ * @return {Array[]} backlogArray with compared dates
  */
 function pp_CompareDates(backlogArray, oldData, lateDates, row, columns) {
   var addHours = 24,
@@ -73,7 +70,7 @@ function pp_CompareDates(backlogArray, oldData, lateDates, row, columns) {
 
 /**
  * Checks if the account is hibernated
- * @param {Array} oldData
+ * @param {Array[]} oldData
  * @param {Number} serviceNumber
  * @param {Date} initialDate
  * @return {Boolean} Boolean

@@ -1,20 +1,19 @@
 [ignore]
 .*/node_modules/.*
+.*/orig/.*
 
 [include]
 
 [libs]
-node_modules/@types/google-apps-script
+./node_modules/@types/google-apps-script/google-apps-script.spreadsheet.d.ts
 
 [lints]
 
 [options]
-module.ignore_non_literal_requires
-module.use_strict
 
 [strict]
 nonstrict-import
-unclear-type
 unsafe-getters-setters
+unclear-type
 untyped-import
 untyped-type-import

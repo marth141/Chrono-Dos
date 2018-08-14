@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 /**
  * The backbone of the Chrono
  * @param {ServiceMasterBacklog} masterBacklog
@@ -35,8 +35,8 @@ function backlogProcessJunction(masterBacklog) {
     if (backlogName === 'PERMIT BACKLOG') {
       backlogArray = uni_LinkCreator(sheet);
       backlogArray = uni_CadNameColCreator(backlogArray);
-      backlogArray = pp_DateCleaner(backlogArray, oldData); // Cleaning
-      backlogArray = pp_UnitTypeMarker(backlogArray);
+      backlogArray = pp_DateCleaner(backlogArray, oldData);
+      backlogArray = pp_UnitTypeMarker(backlogArray); // Cleaning
       backlogArray = pp_CleanUpColumns(backlogArray);
       backlogArray = uni_addLastColumns(backlogArray);
       backlogArray = uni_UpdateOldData(

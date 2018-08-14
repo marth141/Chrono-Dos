@@ -21,11 +21,24 @@ function pp_DateCleaner(backlogArray, oldData) {
 function pp_RemoveLateDates(backlogArray, oldData, columns) {
   var headers = backlogArray[0];
   var siteSurveyDateCol = columns.siteSurveyDateCol;
-  headers.splice(siteSurveyDateCol, 4, 'BACKLOG DATE', 'DUE DATE');
+  var spliceDeleteCount = 6;
+  headers.splice(
+    siteSurveyDateCol,
+    spliceDeleteCount,
+    'BACKLOG DATE',
+    'DUE DATE'
+  );
   for (var row = 1; row < backlogArray.length; row++) {
     var account = backlogArray[row];
     var lateDates = new LateDatesConstructor(backlogArray, row, columns);
-    backlogArray = pp_CompareDates(backlogArray, oldData, lateDates, account, columns);
+    backlogArray = pp_CompareDates(
+      backlogArray,
+      oldData,
+      lateDates,
+      account,
+      columns,
+      spliceDeleteCount
+    );
   }
   return backlogArray;
 }
@@ -37,9 +50,17 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
  * @param {LateDatesConstructor} lateDates
  * @param {Array} account
  * @param {DateColumnsConstructor} columns
+ * @param {Number} spliceDeleteCount
  * @return {Array[]} backlogArray with compared dates
  */
-function pp_CompareDates(backlogArray, oldData, lateDates, account, columns) {
+function pp_CompareDates(
+  backlogArray,
+  oldData,
+  lateDates,
+  account,
+  columns,
+  spliceDeleteCount
+) {
   var addHours = 24,
     serviceNumber = lateDates.serviceNumber,
     siteSurveyDateCol = columns.siteSurveyDateCol,
@@ -55,14 +76,14 @@ function pp_CompareDates(backlogArray, oldData, lateDates, account, columns) {
     backlogDate = initialDate;
   }
   if (initialDate.getDay() === 5) {
-    addHours = 72;
+    addHours = 71;
   } else if (initialDate.getDay() === 6) {
-    addHours = 48;
+    addHours = 47;
   }
   // add 24 hours to initial date
   dueDate = timeAddHours(new Date(initialDate.getTime()), addHours);
   // replace and remove the other
-  account.splice(siteSurveyDateCol, 4, backlogDate, dueDate);
+  account.splice(siteSurveyDateCol, spliceDeleteCount, backlogDate, dueDate);
   return backlogArray;
 }
 
@@ -86,8 +107,9 @@ function checkHibernated(oldData, serviceNumber, initialDate) {
   }
 
   // Check if service number existed already in backlog
-  var found = oldData.some(function(row) {
-    var trueFalse = row[0] === serviceNumber;
+  var found = oldData.some(function(account) {
+    var checkServiceCol = 0;
+    var trueFalse = account[checkServiceCol] === serviceNumber;
     return trueFalse;
   });
   // If found return false, else the account was not in the backlog before

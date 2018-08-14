@@ -5,7 +5,7 @@
  * @return {Array} dateAdjLog
  */
 function pp_DateCleaner(backlogArray, oldData) {
-  var columns = new DateColumns(backlogArray);
+  var columns = new DateColumnsConstructor(backlogArray);
   var dateAdjLog = pp_RemoveLateDates(backlogArray, oldData, columns);
   return dateAdjLog;
 }
@@ -14,7 +14,7 @@ function pp_DateCleaner(backlogArray, oldData) {
  * Removes late dates from backlog
  * @param {Array} backlogArray
  * @param {Array} oldData
- * @param {DateColumns} columns
+ * @param {DateColumnsConstructor} columns
  * @return {Array} backlogArray with removed dates
  */
 function pp_RemoveLateDates(backlogArray, oldData, columns) {
@@ -43,7 +43,7 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
  * @param {Array} oldData
  * @param {LateDatesConstructor} lateDates
  * @param {Number} row
- * @param {DateColumns} columns
+ * @param {DateColumnsConstructor} columns
  * @return {Array} backlogArray with compared dates
  */
 function pp_CompareDates(backlogArray, oldData, lateDates, row, columns) {

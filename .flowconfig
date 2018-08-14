@@ -3,6 +3,7 @@
 .*/orig/.*
 
 [include]
+.*/src/.*
 
 [libs]
 ./node_modules/@types/google-apps-script/google-apps-script.spreadsheet.d.ts
@@ -12,8 +13,3 @@
 [options]
 
 [strict]
-nonstrict-import
-unsafe-getters-setters
-unclear-type
-untyped-import
-untyped-type-import

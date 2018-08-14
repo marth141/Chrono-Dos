@@ -1,5 +1,7 @@
+// @flow
 /**
- *
+ * Will add the CAD Object column
+ * with some default data
  * @param {Array[]} backlogArray
  * @return {Array[]}
  */
@@ -15,9 +17,15 @@ function uni_CadNameColCreator(backlogArray) {
  */
 function uni_FillCadNameCol(backlogArray) {
   // Create Header for CAD OBJECT column. Always after SP Column
-  backlogArray[0].splice(3, 0, 'CAD OBJECT');
+  var headers = backlogArray[0];
+  var solarProjectCol = 3;
+  var columnsToRemove = 0;
+  var headerToAdd = 'CAD OBJECT';
+  var headerToAdd_Data = '-';
+  headers.splice(solarProjectCol, columnsToRemove, headerToAdd);
   for (var row = 1; row < backlogArray.length; row++) {
-    backlogArray[row].splice(3, 0, '-');
+    var account = backlogArray[row];
+    account.splice(solarProjectCol, columnsToRemove, headerToAdd_Data);
   }
   return backlogArray;
 }

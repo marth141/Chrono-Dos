@@ -14,5 +14,5 @@
  */
 
 declare module '@types/google-apps-script' {
-  declare module.exports: any;
+  declare module.exports: GoogleAppsScript;
 }

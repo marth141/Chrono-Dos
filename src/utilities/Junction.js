@@ -1,4 +1,4 @@
-// @flow strict
+// @flow
 /**
  * The backbone of the Chrono
  * @param {ServiceMasterBacklog} masterBacklog

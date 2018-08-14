@@ -20,16 +20,12 @@ function pp_DateCleaner(backlogArray, oldData) {
  */
 function pp_RemoveLateDates(backlogArray, oldData, columns) {
   var headers = backlogArray[0];
-  headers.splice(columns.siteSurveyDateCol, 4, 'BACKLOG DATE', 'DUE DATE');
+  var siteSurveyDateCol = columns.siteSurveyDateCol;
+  headers.splice(siteSurveyDateCol, 4, 'BACKLOG DATE', 'DUE DATE');
   for (var row = 1; row < backlogArray.length; row++) {
+    var account = backlogArray[row];
     var lateDates = new LateDatesConstructor(backlogArray, row, columns);
-    backlogArray = pp_CompareDates(
-      backlogArray,
-      oldData,
-      lateDates,
-      row,
-      columns
-    );
+    backlogArray = pp_CompareDates(backlogArray, oldData, lateDates, account, columns);
   }
   return backlogArray;
 }
@@ -39,18 +35,20 @@ function pp_RemoveLateDates(backlogArray, oldData, columns) {
  * @param {Array[]} backlogArray
  * @param {Array[]} oldData
  * @param {LateDatesConstructor} lateDates
- * @param {Number} row
+ * @param {Array} account
  * @param {DateColumnsConstructor} columns
  * @return {Array[]} backlogArray with compared dates
  */
-function pp_CompareDates(backlogArray, oldData, lateDates, row, columns) {
+function pp_CompareDates(backlogArray, oldData, lateDates, account, columns) {
   var addHours = 24,
-    backlogDate,
+    serviceNumber = lateDates.serviceNumber,
+    siteSurveyDateCol = columns.siteSurveyDateCol,
     initialDate = new CompareDatesConstructor(lateDates).initialDate,
+    backlogDate,
     dueDate;
 
   // If the initail date is 6 hours past now and new to the backlog give new date
-  if (checkHibernated(oldData, lateDates.serviceNumber, initialDate)) {
+  if (checkHibernated(oldData, serviceNumber, initialDate)) {
     initialDate = new Date();
     backlogDate = 'CHRONO STAMP';
   } else {
@@ -64,7 +62,7 @@ function pp_CompareDates(backlogArray, oldData, lateDates, row, columns) {
   // add 24 hours to initial date
   dueDate = timeAddHours(new Date(initialDate.getTime()), addHours);
   // replace and remove the other
-  backlogArray[row].splice(columns.siteSurveyDateCol, 4, backlogDate, dueDate);
+  account.splice(siteSurveyDateCol, 4, backlogDate, dueDate);
   return backlogArray;
 }
 

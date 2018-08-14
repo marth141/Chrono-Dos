@@ -1,5 +1,4 @@
-// @flow strict
-'use strict';
+// @flow
 /**
  *
  *
@@ -70,18 +69,6 @@ function getUsers(FilterSettings) {
 }
 
 /**
- *
- *
- * @param {RegExp|String} columnName
- * @param {array} backlogArray
- * @returns
- */
-function getMeThatColumn(columnName, backlogArray) {
-  validateHeader(columnName, backlogArray);
-  return backlogArray[0].indexOf(columnName);
-}
-
-/**
  * Used to get headers
  * @param {String} columnName
  * @param {Array[]} backlogArray
@@ -116,8 +103,8 @@ function getMeThatIndexOf(columnName, backlogArray) {
  */
 function setCompleteBacklog(completeBacklog, Report) {
   var header = getHeader(Report);
-  var serviceCol = getMeThatColumn('SERVICE', header);
-  var initialUpdateCol = getMeThatColumn('INITIAL DATE', header) - serviceCol;
+  var serviceCol = getMeThatColumnNoValidate('SERVICE', header);
+  var initialUpdateCol = getMeThatColumnNoValidate('INITIAL DATE', header) - serviceCol;
   Report.getRange(
     3,
     serviceCol + 1,
@@ -141,8 +128,8 @@ function setCompleteBacklog(completeBacklog, Report) {
  */
 function getLiveReportBacklog(Report) {
   var header = getHeader(Report);
-  var serviceCol = getMeThatColumn('SERVICE', header);
-  var initialUpdateCol = getMeThatColumn('INITIAL DATE', header) - serviceCol;
+  var serviceCol = getMeThatColumnNoValidate('SERVICE', header);
+  var initialUpdateCol = getMeThatColumnNoValidate('INITIAL DATE', header) - serviceCol;
   var backlogArray = Report.getRange(
     2,
     serviceCol + 1,
@@ -172,7 +159,9 @@ function reportRunning(Report) {
   // if (checkReportStatus !== '') {
   //   throw 'Report Already Running';
   // }
-  Report.getRange('G1').setValue('REPORT RUNNING');
+  var reportRunning_Location = 'G1';
+  var reportRunning_Value = 'REPORT RUNNING';
+  Report.getRange(reportRunning_Location).setValue(reportRunning_Value);
   SpreadsheetApp.flush();
   return;
 }

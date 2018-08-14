@@ -16,10 +16,10 @@ sortCompleteBacklog
 function sortCompleteBacklog(backlog, Report) {
 
   var header = getHeader(Report);
-  var serviceCol = getMeThatColumn("SERVICE", header);
-  var priorityCol = getMeThatColumn("PRIORITY", header) - serviceCol;
-  var dueDateCol = getMeThatColumn("DUE DATE", header) - serviceCol;
-  var backlogDateCol = getMeThatColumn("BACKLOG DATE", header) - serviceCol;
+  var serviceCol = getMeThatColumnNoValidate("SERVICE", header);
+  var priorityCol = getMeThatColumnNoValidate("PRIORITY", header) - serviceCol;
+  var dueDateCol = getMeThatColumnNoValidate("DUE DATE", header) - serviceCol;
+  var backlogDateCol = getMeThatColumnNoValidate("BACKLOG DATE", header) - serviceCol;
 
   // does it need to be in a variable?
   var sortedByName = sortByProperty(backlog, priorityCol, dueDateCol, backlogDateCol);

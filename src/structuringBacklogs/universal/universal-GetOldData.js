@@ -1,4 +1,4 @@
-// @flow strict
+// @flow
 /**
  * Gets the chrono's report page data
  * @param {GoogleAppsScript.Spreadsheet.Sheet} Report
@@ -6,11 +6,17 @@
  */
 function uni_GetOldData(Report) {
   var header = getHeader(Report);
+  var reportData_StartRow = 3;
   var serviceCol = getMeThatColumnNoValidate('SERVICE', header);
   var stageCol = getMeThatColumnNoValidate('STAGE', header) - serviceCol;
-  var lastRow = Report.getLastRow();
+  var reportData_LastRow = Report.getLastRow();
 
-  var oldData = Report.getRange(3, serviceCol + 1, lastRow, stageCol + 1)
+  var oldData = Report.getRange(
+    reportData_StartRow,
+    serviceCol + 1,
+    reportData_LastRow,
+    stageCol + 1
+  )
     .getValues()
     .filter(function(value) {
       var serviceNumber = value[0];

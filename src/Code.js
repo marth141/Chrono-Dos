@@ -1,4 +1,4 @@
-// @flow strict
+// @flow
 /**
  * Main entry point for Chrono
  * * Is also used in updater

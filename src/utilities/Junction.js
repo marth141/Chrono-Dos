@@ -22,8 +22,8 @@ function backlogProcessJunction(masterBacklog) {
   for (backlog in masterBacklog) {
     /** @type GoogleAppsScript.Spreadsheet.Sheet */
     var sheet = masterBacklog[backlog];
+    /** @type Array[] */
     var backlogArray;
-    var workThisBacklog;
 
     var backlogName = sheet.getName();
     if (
@@ -33,8 +33,7 @@ function backlogProcessJunction(masterBacklog) {
       continue;
     }
     if (backlogName === 'PERMIT BACKLOG') {
-      workThisBacklog = sheet;
-      backlogArray = uni_LinkCreator(workThisBacklog);
+      backlogArray = uni_LinkCreator(sheet);
       backlogArray = uni_CadNameColCreator(backlogArray);
       backlogArray = pp_DateCleaner(backlogArray, oldData);
       backlogArray = pp_UnitTypeMarker(backlogArray);
@@ -45,12 +44,11 @@ function backlogProcessJunction(masterBacklog) {
         backlogArray,
         oldData
       );
-      backlogArray = pp_underTweleveHours(backlogArray, workThisBacklog);
+      backlogArray = pp_underTweleveHours(backlogArray, sheet);
       completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
       continue;
     } else if (masterBacklog[backlog].getName() === 'PERMIT RD BACKLOG') {
-      workThisBacklog = masterBacklog[backlog];
-      backlogArray = uni_LinkCreator(workThisBacklog);
+      backlogArray = uni_LinkCreator(sheet);
       backlogArray = rd_DateCleaner(backlogArray, oldData);
       backlogArray = rd_UnitTypeMarker(backlogArray);
       backlogArray = rd_CleanUpColumns(backlogArray);

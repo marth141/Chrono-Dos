@@ -3,31 +3,31 @@
  * @param {Array} backlogArray
  */
 var DateColumns = function(backlogArray) {
-  /** @type {Number} */
+  /** @type Number */
   this.serviceCol = getMeThatColumn('Project: Service', backlogArray);
-  /** @type {Number} */
+  /** @type Number */
   this.siteSurveyDateCol = getMeThatColumn(
     'Project: Site Survey Completed',
     backlogArray
   );
-  /** @type {Number} */
+  /** @type Number */
   this.welcomeCallDateCol = getMeThatColumn(
     'Opportunity: Welcome Call Completed Date',
     backlogArray
   );
-  /** @type {Number} */
+  /** @type Number */
   this.signedDateCol = getMeThatColumn(
     'Primary Contract: Application Signed',
     backlogArray
   );
-  /** @type {Number} */
+  /** @type Number */
   this.approvedDateCol = getMeThatColumn(
     'Primary Contract: Customer Agreement Approved',
     backlogArray
   );
-  /** @type {Number} */
+  /** @type Number */
   this.leaseDateCol = undefined;
-  /** @type {Number} */
+  /** @type Number */
   this.proposalDateCol = undefined;
 };
 

@@ -1,3 +1,4 @@
+// @flow
 /**
  *
  *
@@ -164,7 +165,7 @@ function updateLastRefresh(Report) {
 /**
  * Sets the report running cell
  * to prevent redundant running
- * @param {*} Report
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} Report
  */
 function reportRunning(Report) {
   // var checkReportStatus = Report.getRange('G1').getValue();

@@ -1,7 +1,7 @@
 /**
  * Gets the chrono's report page data
- * @param {*} Report
- * @return {*} oldData
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} Report
+ * @return {Array[]} oldData
  */
 function uni_GetOldData(Report) {
   var header = getHeader(Report);

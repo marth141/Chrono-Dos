@@ -21,5 +21,8 @@
   },
   "eslintIgnore": [
     "**/node_modules/**"
-  ]
+  ],
+  "dependencies": {
+    "flow-typed": "^2.5.1"
+  }
 }

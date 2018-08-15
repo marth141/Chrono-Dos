@@ -1,24 +1,9 @@
-/* exported
-getBacklogArray
-getDimensions
-getHeader
-getMeThatColumn
-getMeThatColumnNoValidate
-getMeThatIndexOf
-setCompleteBacklog
-updateLastRefresh
-*/
-
-/* global
-SpreadsheetApp
-validateHeader
-*/
-
+// @flow
 /**
  *
  *
  * @param {any} sheet
- * @returns 
+ * @returns
  */
 function getDimensions(sheet) {
   if (sheet !== null) {
@@ -29,7 +14,7 @@ function getDimensions(sheet) {
     dimensions.push(lastCol);
     return dimensions;
   } else {
-    throw "getDimensions() has a null; backlogSheet: " + sheet;
+    throw 'getDimensions() has a null; backlogSheet: ' + sheet;
   }
 }
 
@@ -38,32 +23,36 @@ function getDimensions(sheet) {
  *
  * @param {any} sheet
  * @param {array} dimensions
- * @returns 
+ * @returns
  */
 function getBacklogArray(sheet, dimensions) {
   if (sheet !== null) {
-    var backlogData = sheet.getRange(1, 1, dimensions[0], dimensions[1]).getValues().filter(function (value) {
-      return value[0].match(/^S-[0-9]/i) ||
-        value[0].match(/^Service:/i) ||
-        value[0].match(/^Project:/i) ||
-        value[0].match(/^Opportunity:/i);
-    });
+    var backlogData = sheet
+      .getRange(1, 1, dimensions[0], dimensions[1])
+      .getValues()
+      .filter(function(value) {
+        return (
+          value[0].match(/^S-[0-9]/i) ||
+          value[0].match(/^Service:/i) ||
+          value[0].match(/^Project:/i) ||
+          value[0].match(/^Opportunity:/i)
+        );
+      });
     return backlogData;
   } else {
-    throw "getBacklogArray() has a null; backlogSheet: " + sheet;
+    throw 'getBacklogArray() has a null; backlogSheet: ' + sheet;
   }
 }
 
 /**
  *
- *
- * @returns header
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} Report
+ * @return {Array}
  */
 function getHeader(Report) {
-  var header = Report.getRange("2:2").getValues();
+  var header = Report.getRange('2:2').getValues();
   return header;
 }
-
 
 /**
  *
@@ -71,29 +60,19 @@ function getHeader(Report) {
  * @returns header
  */
 function getUsers(FilterSettings) {
-  var users = FilterSettings.getRange("B4:D").getValues().filter(function(row) { return row[0] !== "" || row[2] !== ""; });
+  var users = FilterSettings.getRange('B4:D')
+    .getValues()
+    .filter(function(row) {
+      return row[0] !== '' || row[2] !== '';
+    });
   return users;
 }
 
-
 /**
- *
- *
- * @param {RegExp|String} columnName
- * @param {array} backlogArray
- * @returns
- */
-function getMeThatColumn(columnName, backlogArray) {
-  validateHeader(columnName, backlogArray);
-  return backlogArray[0].indexOf(columnName);
-}
-
-/**
- *
- *
- * @param {RegExp|String} columnName
- * @param {array} backlogArray
- * @returns
+ * Used to get headers
+ * @param {String} columnName
+ * @param {Array[]} backlogArray
+ * @return {Number}
  */
 function getMeThatColumnNoValidate(columnName, backlogArray) {
   return backlogArray[0].indexOf(columnName);
@@ -112,21 +91,26 @@ function getMeThatIndexOf(columnName, backlogArray) {
     col = backlogArray[0].indexOf(columnName);
     return col;
   } else if (col === backlogArray[0].length) {
-    throw "getMeThatColumn() could not find: " + columnName;
+    throw 'getMeThatColumn() could not find: ' + columnName;
   }
 }
 
 /**
  *
- * 
+ *
  * @param {any} completeBacklog
- * @returns 
+ * @returns
  */
 function setCompleteBacklog(completeBacklog, Report) {
   var header = getHeader(Report);
-  var serviceCol = getMeThatColumn("SERVICE", header);
-  var initialUpdateCol = getMeThatColumn("INITIAL DATE", header) - serviceCol;
-  Report.getRange(3, serviceCol+1, Report.getLastRow()-2, initialUpdateCol).clearContent();
+  var serviceCol = getMeThatColumnNoValidate('SERVICE', header);
+  var initialUpdateCol = getMeThatColumnNoValidate('INITIAL DATE', header) - serviceCol;
+  Report.getRange(
+    3,
+    serviceCol + 1,
+    Report.getLastRow() - 2,
+    initialUpdateCol
+  ).clearContent();
   var rowNeeded = completeBacklog.length;
   if (rowNeeded > 0) {
     var colNeeded = completeBacklog[0].length;
@@ -136,18 +120,22 @@ function setCompleteBacklog(completeBacklog, Report) {
   return;
 }
 
-
 /**
  *
- * 
+ *
  * @param {any} Report Sheet
  * @returns Live Backlog
  */
 function getLiveReportBacklog(Report) {
   var header = getHeader(Report);
-  var serviceCol = getMeThatColumn("SERVICE", header);
-  var initialUpdateCol = getMeThatColumn("INITIAL DATE", header) - serviceCol;
-  var backlogArray = Report.getRange(2, serviceCol+1, Report.getLastRow()-2, initialUpdateCol).getValues();
+  var serviceCol = getMeThatColumnNoValidate('SERVICE', header);
+  var initialUpdateCol = getMeThatColumnNoValidate('INITIAL DATE', header) - serviceCol;
+  var backlogArray = Report.getRange(
+    2,
+    serviceCol + 1,
+    Report.getLastRow() - 2,
+    initialUpdateCol
+  ).getValues();
   return backlogArray;
 }
 
@@ -157,22 +145,29 @@ function getLiveReportBacklog(Report) {
  * @returns
  */
 function updateLastRefresh(Report) {
-  Report.getRange("B2").setValue(new Date());
+  Report.getRange('B2').setValue(new Date());
   return;
 }
 
+/**
+ * Sets the report running cell
+ * to prevent redundant running
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} Report
+ */
 function reportRunning(Report) {
-//  var checkReportStatus = Report.getRange("G1").getValue();
-//  if(checkReportStatus !== "") {
-//    throw "Report Already Running";
-//  }
-  Report.getRange("G1").setValue("REPORT RUNNING");
+  // var checkReportStatus = Report.getRange('G1').getValue();
+  // if (checkReportStatus !== '') {
+  //   throw 'Report Already Running';
+  // }
+  var reportRunning_Location = 'G1';
+  var reportRunning_Value = 'REPORT RUNNING';
+  Report.getRange(reportRunning_Location).setValue(reportRunning_Value);
   SpreadsheetApp.flush();
   return;
 }
 
 function removeReportRunning(Report) {
-  Report.getRange("G1").setValue("");
+  Report.getRange('G1').setValue('');
   SpreadsheetApp.flush();
   return;
 }

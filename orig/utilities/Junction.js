@@ -1,101 +1,85 @@
-/* exported
-debugJunction
-*/
+// @flow
+/**
+ * The backbone of the Chrono
+ * @param {ServiceMasterBacklog} masterBacklog
+ */
+function backlogProcessJunction(masterBacklog) {
+  // -------------------- Comment out below for debugging without lock --------------------
+  // var lock = LockService.getScriptLock();
+  // try {
+  //   lock.waitLock(10000);
+  // } catch (e) {
+  //   throw 'Could not acquire lock. Someone else is updating the backlog, please wait.';
+  // }
+  // if (lock.hasLock()) {
+  // -------------------- Comment out above for debugging without lock --------------------
+  reportRunning(masterBacklog.Report);
+  /** @type GoogleAppsScript.Spreadsheet.Sheet */
+  var backlog;
+  var completeBacklog = [];
+  var oldData = uni_GetOldData(masterBacklog.Report);
 
-/* global
-ServiceMasterBacklog
-cprd_CleanUpColumns
-cprd_DateCleaner
-cprd_UnitTypeMarker
-partOne_CleanUpColumns
-partOne_DateCleaner
-partOne_UnitTypeMarker
-prop_CleanUpColumns
-prop_DateCleaner
-prop_UnitTypeMarker
-setCompleteBacklog
-snow_CleanUpColumns
-snow_DateCleaner
-snow_UnitTypeMarker
-sortCompleteBacklog
-uni_AddToCompleteBacklog
-uni_CadNameColCreator
-uni_GetOldData
-uni_LinkCreator
-uni_UpdateOldData
-uni_addLastColumns
-updateLastRefresh
-*/
+  for (backlog in masterBacklog) {
+    /** @type GoogleAppsScript.Spreadsheet.Sheet */
+    var sheet = masterBacklog[backlog];
+    /** @type Array[] */
+    var backlogArray;
 
-
-function backlogProcessJunction(backlogSheetArray, override) {
-  // ----------------------------------------------- Comment out below for debugging without lock -----------------------------------------------
-  var lock = LockService.getScriptLock();
-  try {
-    lock.waitLock(10000)
-  } catch (e) {
-    throw "Could not acquire lock. Someone else is updating the backlog, please wait."
-  }
-  if (lock.hasLock()) {
-  // ----------------------------------------------- Comment out above for debugging without lock -----------------------------------------------
-    reportRunning(backlogSheetArray.Report);
-    var oldData = uni_GetOldData(backlogSheetArray.Report);
-    //  var cache = uni_GetCacheData(backlogSheetArray.Cache);
-    var completeBacklog = [];
-
-    for (var backlog in backlogSheetArray) {
-      var backlogArray;
-      var backlogName = backlogSheetArray[backlog].getName();
-      if (backlogName !== "PERMIT BACKLOG" && backlogName !== "PERMIT RD BACKLOG") {
-        continue;
-      }
-      if (override !== undefined) {
-        backlog = overrideIfDebugging(override);
-      }
-      var workThisBacklog;
-      if (backlogSheetArray[backlog].getName() === "PERMIT BACKLOG") {
-        workThisBacklog = backlogSheetArray[backlog];
-        backlogArray = uni_LinkCreator(workThisBacklog);
-        backlogArray = uni_CadNameColCreator(backlogArray);
-        //      backlogArray = pp_DateCleaner(backlogArray, cache);
-        backlogArray = pp_DateCleaner(backlogArray, oldData);
-        backlogArray = pp_UnitTypeMarker(backlogArray);
-        backlogArray = pp_CleanUpColumns(backlogArray);
-        backlogArray = uni_addLastColumns(backlogArray);
-        backlogArray = uni_UpdateOldData(backlogSheetArray.FilterSettings, backlogArray, oldData);
-        backlogArray = pp_underTweleveHours(backlogArray, workThisBacklog);
-        completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
-        continue;
-      }
-      else if (backlogSheetArray[backlog].getName() === "PERMIT RD BACKLOG") {
-        workThisBacklog = backlogSheetArray[backlog];
-        backlogArray = uni_LinkCreator(workThisBacklog);
-        //      backlogArray = rd_DateCleaner(backlogArray, cache);
-        backlogArray = rd_DateCleaner(backlogArray, oldData);
-        backlogArray = rd_UnitTypeMarker(backlogArray);
-        backlogArray = rd_CleanUpColumns(backlogArray);
-        backlogArray = uni_addLastColumns(backlogArray);
-        backlogArray = uni_UpdateOldData(backlogSheetArray.FilterSettings, backlogArray, oldData);
-        completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
-        continue;
-      }
-      else if (backlogSheetArray[backlog] === null) {
-        throw "The backlog was null in dateOperations()";
-      }
-      else {
-        console.log("This backlog: " + backlogSheetArray[backlog].getName() + " is not being worked.");
-        continue;
-      }
+    var backlogName = sheet.getName();
+    if (
+      backlogName !== 'PERMIT BACKLOG' &&
+      backlogName !== 'PERMIT RD BACKLOG'
+    ) {
+      continue;
     }
-    //  return;
-    completeBacklog = sortCompleteBacklog(completeBacklog, backlogSheetArray.Report);
-    setCompleteBacklog(completeBacklog, backlogSheetArray.Report);
-    updateLastRefresh(backlogSheetArray.Report);
-    removeReportRunning(backlogSheetArray.Report);
-  // ----------------------------------------------- Comment out below for debugging without lock -----------------------------------------------
-    lock.releaseLock();
-  } else {
-    throw "The lock was somehow lost. Someone else is updating the backlog, please wait."
+    if (backlogName === 'PERMIT BACKLOG') {
+      backlogArray = uni_LinkCreator(sheet);
+      backlogArray = uni_CadNameColCreator(backlogArray);
+      backlogArray = pp_DateCleaner(backlogArray, oldData);
+      backlogArray = pp_UnitTypeMarker(backlogArray); // Cleaning
+      backlogArray = pp_CleanUpColumns(backlogArray);
+      backlogArray = uni_addLastColumns(backlogArray);
+      backlogArray = uni_UpdateOldData(
+        masterBacklog.FilterSettings,
+        backlogArray,
+        oldData
+      );
+      backlogArray = pp_underTweleveHours(backlogArray, sheet);
+      completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
+      continue;
+    } else if (masterBacklog[backlog].getName() === 'PERMIT RD BACKLOG') {
+      backlogArray = uni_LinkCreator(sheet);
+      backlogArray = rd_DateCleaner(backlogArray, oldData);
+      backlogArray = rd_UnitTypeMarker(backlogArray);
+      backlogArray = rd_CleanUpColumns(backlogArray);
+      backlogArray = uni_addLastColumns(backlogArray);
+      backlogArray = uni_UpdateOldData(
+        masterBacklog.FilterSettings,
+        backlogArray,
+        oldData
+      );
+      completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
+      continue;
+    } else if (masterBacklog[backlog] === null) {
+      throw 'The backlog was null in dateOperations()';
+    } else {
+      console.log(
+        'This backlog: ' +
+          masterBacklog[backlog].getName() +
+          ' is not being worked.'
+      );
+      continue;
+    }
   }
-  // ----------------------------------------------- Comment out above for debugging without lock -----------------------------------------------
+  // return;
+  completeBacklog = sortCompleteBacklog(completeBacklog, masterBacklog.Report);
+  setCompleteBacklog(completeBacklog, masterBacklog.Report);
+  updateLastRefresh(masterBacklog.Report);
+  removeReportRunning(masterBacklog.Report);
+  // -------------------- Comment out below for debugging without lock --------------------
+  //   lock.releaseLock();
+  // } else {
+  //   throw 'The lock was somehow lost. Someone else is updating the backlog, please wait.';
+  // }
+  // -------------------- Comment out above for debugging without lock --------------------
 }

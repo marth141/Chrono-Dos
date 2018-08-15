@@ -32,14 +32,14 @@ function uni_UpdateOldData(FilterSettings, backlogArray, oldData) {
   if (assignCol === -1) {
     assignCol = getMeThatColumnNoValidate("Redesign Completed By: Vivint Employee Name", backlogArray);
   }
-  var backlogDateCol = getMeThatColumn("BACKLOG DATE", backlogArray);
-  var dueDateCol = getMeThatColumn("DUE DATE", backlogArray);
-  var unitTypeCol = getMeThatColumn("UNIT TYPE", backlogArray);
-  var statusCol = getMeThatColumn("STATUS", backlogArray);
-  var priorityCol = getMeThatColumn("PRIORITY", backlogArray);
-  var notesCol = getMeThatColumn("NOTES", backlogArray);
-  var lastUpdateCol = getMeThatColumn("LAST UPDATE", backlogArray);
-  var initialUpdateCol = getMeThatColumn("INITIAL DATE", backlogArray);
+  var backlogDateCol = getMeThatColumnNoValidate("BACKLOG DATE", backlogArray);
+  var dueDateCol = getMeThatColumnNoValidate("DUE DATE", backlogArray);
+  var unitTypeCol = getMeThatColumnNoValidate("UNIT TYPE", backlogArray);
+  var statusCol = getMeThatColumnNoValidate("STATUS", backlogArray);
+  var priorityCol = getMeThatColumnNoValidate("PRIORITY", backlogArray);
+  var notesCol = getMeThatColumnNoValidate("NOTES", backlogArray);
+  var lastUpdateCol = getMeThatColumnNoValidate("LAST UPDATE", backlogArray);
+  var initialUpdateCol = getMeThatColumnNoValidate("INITIAL DATE", backlogArray);
 
   var updatedBacklog = replaceOldInfo(FilterSettings, backlogArray, oldData, serviceCol, backlogDateCol, dueDateCol, unitTypeCol, assignCol, statusCol, priorityCol, notesCol, lastUpdateCol, initialUpdateCol);
   return updatedBacklog;

@@ -27,16 +27,6 @@ function uni_UpdateOldData(FilterSettings, backlogArray, oldData) {
  */
 function replaceOldInfo(FilterSettings, incomingBacklog, liveBacklog, columns) {
   var checkServiceNumber = 'S-5954011';
-  var serviceCol = columns.serviceCol,
-    assignCol = columns.assignCol,
-    backlogDateCol = columns.backlogDateCol,
-    dueDateCol = columns.dueDateCol,
-    unitTypeCol = columns.unitTypeCol,
-    statusCol = columns.statusCol,
-    priorityCol = columns.priorityCol,
-    notesCol = columns.notesCol,
-    lastUpdateCol = columns.lastUpdateCol,
-    initialUpdateCol = columns.initialUpdateCol;
   // Remove all indexes in removeValFromIndex from each row
   for (var liveIndex = 0; liveIndex < liveBacklog.length; liveIndex++) {
     for (
@@ -76,6 +66,7 @@ function replaceOldInfo(FilterSettings, incomingBacklog, liveBacklog, columns) {
         liveAccount.assigned,
         incomingUpdate.assigned
       );
+
       /**
        * If service number's are the
        * same and unit types match

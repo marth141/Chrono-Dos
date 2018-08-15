@@ -219,10 +219,10 @@ function checkMismatchAndNotBlank(notBlankMatch, match) {
 /**
  * ! For Debugging
  * if (
- *   checkServiceNumber === backlogArray[salesForceAccount][serviceCol]
+ *   checkServiceNumber === incomingUpdate.serviceNumber
  * ) {
  *   console.error('Here it is @ update start!');
- *   console.log(backlogArray[salesForceAccount]);
- *   console.log(backlogArray[oldDataAccount]);
+ *   console.log(incomingUpdate);
+ *   console.log(liveAccount);
  * }
  */

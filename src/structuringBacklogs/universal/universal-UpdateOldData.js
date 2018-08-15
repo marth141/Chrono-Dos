@@ -48,12 +48,12 @@ function replaceOldInfo(FilterSettings, incomingBacklog, liveBacklog, columns) {
         liveAccount.unitType,
         incomingUpdate.unitType
       );
-      var incomingIsAssigned = checkSRAssigned(
+      var incomingIsAssigned = checkIfSRIsAssigned(
         incomingUpdate.unitType,
         incomingUpdate.assigned,
         FilterSettings
       );
-      var liveIsAssigned = checkSRAssigned(
+      var liveIsAssigned = checkIfSRIsAssigned(
         incomingUpdate.unitType,
         liveAccount.assigned,
         FilterSettings
@@ -62,7 +62,7 @@ function replaceOldInfo(FilterSettings, incomingBacklog, liveBacklog, columns) {
         liveAccount.priority,
         incomingUpdate.priority
       );
-      var assignedInLive_NotInIncoming = checkAssigned(
+      var assignedInLive_NotInIncoming = checkLiveAssignedIncomingBlank(
         liveAccount.assigned,
         incomingUpdate.assigned
       );
@@ -133,38 +133,38 @@ function replaceOldInfo(FilterSettings, incomingBacklog, liveBacklog, columns) {
 
 /**
  *
- * @param {String} oldServiceNumber
- * @param {String} currentServiceNumber
+ * @param {String} liveServiceNumber
+ * @param {String} incomingServiceNumber
  * @return {Boolean} service numbers match
  */
-function checkServiceNumbersMatch(oldServiceNumber, currentServiceNumber) {
-  var result = oldServiceNumber === currentServiceNumber;
+function checkServiceNumbersMatch(liveServiceNumber, incomingServiceNumber) {
+  var result = liveServiceNumber === incomingServiceNumber;
   return result;
 }
 
 /**
  *
- * @param {String} oldUnitType
+ * @param {String} liveUnitType
  * @param {String} incomingUnitType
  * @return {Boolean}
  */
-function checkUnitTypeMatch(oldUnitType, incomingUnitType) {
-  if (incomingUnitType === 'SR' && (oldUnitType !== 'PERMIT RD' || 'DE RD')) {
+function checkUnitTypeMatch(liveUnitType, incomingUnitType) {
+  if (incomingUnitType === 'SR' && (liveUnitType !== 'PERMIT RD' || 'DE RD')) {
     return true;
   } else {
     // Checks if unit type is not permit
     var falseTerms = ['PERMIT RD', 'DE RD', 'CP MATCH', 'SR'];
-    var currentSomeResult = falseTerms.some(function(term) {
+    var currentSomeBool = falseTerms.some(function(term) {
       return incomingUnitType.indexOf(term) > -1;
     });
-    var oldSomeResult = falseTerms.some(function(term) {
-      var termIsFalse = oldUnitType.indexOf(term) > -1;
-      return oldUnitType.indexOf(term) > -1;
+    var liveSomeBool = falseTerms.some(function(term) {
+      var termIsFalse = liveUnitType.indexOf(term) > -1;
+      return liveUnitType.indexOf(term) > -1;
     });
     var unitTypePermitBool =
-      oldUnitType !== incomingUnitType &&
-      oldUnitType !== '' &&
-      !(currentSomeResult || oldSomeResult);
+      liveUnitType !== incomingUnitType &&
+      liveUnitType !== '' &&
+      !(currentSomeBool || liveSomeBool);
     return unitTypePermitBool;
   }
 }
@@ -175,7 +175,7 @@ function checkUnitTypeMatch(oldUnitType, incomingUnitType) {
  * @param {String} incomingAssignment
  * @return {Boolean}
  */
-function checkAssigned(liveAssignment, incomingAssignment) {
+function checkLiveAssignedIncomingBlank(liveAssignment, incomingAssignment) {
   var result = liveAssignment !== '' && incomingAssignment === '';
   return result;
 }
@@ -187,15 +187,15 @@ function checkAssigned(liveAssignment, incomingAssignment) {
  * @param {GoogleAppsScript.Spreadsheet.Sheet} FilterSettings
  * @return {*}
  */
-function checkSRAssigned(unitType, assigned, FilterSettings) {
+function checkIfSRIsAssigned(unitType, assigned, FilterSettings) {
   if (unitType === 'SR') {
-    var foundDesigner = getUsers(FilterSettings).some(function(designer) {
+    var designerFound = getUsers(FilterSettings).some(function(designer) {
       var name = designer[0],
         email = designer[1],
         sfName = designer[2];
       return name === assigned || sfName === assigned;
     });
-    if (!foundDesigner) {
+    if (!designerFound) {
       return true;
     }
   }

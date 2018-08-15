@@ -23,7 +23,7 @@ function uni_UpdateOldData(FilterSettings, backlogArray, oldData) {
  * @param {Array[]} incomingBacklog
  * @param {Array[]} liveBacklog
  * @param {UpdateDataColumns} columns
- * @return {*}
+ * @return {Array[]}
  */
 function replaceOldInfo(FilterSettings, incomingBacklog, liveBacklog, columns) {
   var checkServiceNumber = 'S-5954011';
@@ -70,6 +70,7 @@ function replaceOldInfo(FilterSettings, incomingBacklog, liveBacklog, columns) {
       var incomingUpdateIsNotSR = incomingUpdate.unitType !== 'SR';
 
       /**
+       * ! START HERE
        * If service number's are the
        * same and unit types match
        */
@@ -121,8 +122,9 @@ function replaceOldInfo(FilterSettings, incomingBacklog, liveBacklog, columns) {
         }
       } else {
         /**
-         * ! If service number's are not the same
-         * ! the else will be skipped
+         * ! END HERE
+         * If service number's are not the
+         * same continue for loop
          */
         continue;
       } // End of matching service number jobs
@@ -185,7 +187,7 @@ function checkLiveAssignedIncomingBlank(liveAssignment, incomingAssignment) {
  * @param {String} unitType
  * @param {String} assigned
  * @param {GoogleAppsScript.Spreadsheet.Sheet} FilterSettings
- * @return {*}
+ * @return {Boolean}
  */
 function checkIfSRIsAssigned(unitType, assigned, FilterSettings) {
   if (unitType === 'SR') {

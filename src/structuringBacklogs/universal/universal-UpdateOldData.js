@@ -48,12 +48,12 @@ function replaceOldInfo(FilterSettings, incomingBacklog, liveBacklog, columns) {
         liveAccount.unitType,
         incomingUpdate.unitType
       );
-      var incomingIsAssigned = checkIfSRIsAssigned(
+      var incomingSRIsAssigned = checkIfSRIsAssigned(
         incomingUpdate.unitType,
         incomingUpdate.assigned,
         FilterSettings
       );
-      var liveIsAssigned = checkIfSRIsAssigned(
+      var liveSRIsAssigned = checkIfSRIsAssigned(
         incomingUpdate.unitType,
         liveAccount.assigned,
         FilterSettings
@@ -98,8 +98,8 @@ function replaceOldInfo(FilterSettings, incomingBacklog, liveBacklog, columns) {
           incomingUpdate.priority = liveAccount.priority;
         }
 
-        if (incomingIsAssigned) {
-          if (liveIsAssigned) {
+        if (incomingSRIsAssigned) {
+          if (liveSRIsAssigned) {
             incomingUpdate.assigned = '';
             incomingUpdate.status = '';
             incomingUpdate.initialUpdate = '';

@@ -32,30 +32,35 @@ function pp_MarkUnits(backlogArray, columns) {
       var x = 0;
     }
 
-    // If the opportunity type is add-on, or the offices are az, ny-09, or il
-    // Then set design path string as permit
-    // All else set as outsource
-    // Then set design path string as outsource
+    /**
+     * If the opportunity type is add-on, or the offices are az, ny-09, or il
+     * Then set design path string as permit
+     * All else set as outsource
+     * Then set design path string as outsource
+     */
     if (
       backlogArray[row][opporTypeCol].match(/add/i) ||
       backlogArray[row][officeCol].match(/az-/i) ||
       backlogArray[row][officeCol].match(/ny-09/i) ||
-      backlogArray[row][officeCol].match(/il-/i) ||
-      backlogArray[row][officeCol].match(/ca-02/i)
+      backlogArray[row][officeCol].match(/il-/i)
     ) {
-      // For debugging a specific service number.
-      // if (backlogArray[row][0].match(/S-5958052/)) {
-      //   console.error("Here it is @ Permit!");
-      //   console.info(backlogArray[row]);
-      // }
+      /**
+       * For debugging a specific service number.
+       * if (backlogArray[row][0].match(/S-5958052/)) {
+       *   console.error("Here it is @ Permit!");
+       *   console.info(backlogArray[row]);
+       * }
+       */
 
       designPathString = 'PERMIT';
     } else if (backlogArray[row][opporTypeCol].match(/new/i)) {
-      // For debugging a specific service number.
-      // if (backlogArray[row][0].match(/S-5958052/)) {
-      //   console.error("Here it is @ Outsource!");
-      //   console.info(backlogArray[row]);
-      // }
+      /**
+       * For debugging a specific service number.
+       * if (backlogArray[row][0].match(/S-5958052/)) {
+       *   console.error("Here it is @ Outsource!");
+       *   console.info(backlogArray[row]);
+       * }
+       */
 
       // For debugging a specific service number.
       if (backlogArray[row][opporTypeCol].match(/add/i)) {
@@ -76,11 +81,13 @@ function pp_MarkUnits(backlogArray, columns) {
         testDate(backlogArray[row][primaryDateCol]) &&
         !testDate(backlogArray[row][srNeededCol])
       ) {
-        // For debugging a specific service number.
-        // if (backlogArray[row][0].match(/S-5958052/)) {
-        //   console.error("Here it is @ SR!");
-        //   console.info(backlogArray[row]);
-        // }
+        /**
+         * For debugging a specific service number.
+         * if (backlogArray[row][0].match(/S-5958052/)) {
+         *   console.error("Here it is @ SR!");
+         *   console.info(backlogArray[row]);
+         * }
+         */
         designPathString = 'SR';
       }
     }

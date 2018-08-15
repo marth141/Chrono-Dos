@@ -55,15 +55,19 @@ function getHeader(Report) {
 }
 
 /**
- *
- *
- * @returns header
+ * Gets all of the users who can be assigned an account
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} FilterSettings
+ * @return {Array<String>[]}
  */
 function getUsers(FilterSettings) {
-  var users = FilterSettings.getRange('B4:D')
+  var userDataRange = 'B4:D';
+  var users = FilterSettings.getRange(userDataRange)
     .getValues()
-    .filter(function(row) {
-      return row[0] !== '' || row[2] !== '';
+    .filter(function(designerRecord) {
+      var name = designerRecord[0];
+      var email = designerRecord[1];
+      var sfName = designerRecord[3];
+      return name !== '' || sfName !== '';
     });
   return users;
 }
@@ -75,7 +79,8 @@ function getUsers(FilterSettings) {
  * @return {Number}
  */
 function getMeThatColumnNoValidate(columnName, backlogArray) {
-  return backlogArray[0].indexOf(columnName);
+  var backlogHeaders = backlogArray[0];
+  return backlogHeaders.indexOf(columnName);
 }
 
 /**
@@ -104,7 +109,8 @@ function getMeThatIndexOf(columnName, backlogArray) {
 function setCompleteBacklog(completeBacklog, Report) {
   var header = getHeader(Report);
   var serviceCol = getMeThatColumnNoValidate('SERVICE', header);
-  var initialUpdateCol = getMeThatColumnNoValidate('INITIAL DATE', header) - serviceCol;
+  var initialUpdateCol =
+    getMeThatColumnNoValidate('INITIAL DATE', header) - serviceCol;
   Report.getRange(
     3,
     serviceCol + 1,
@@ -129,7 +135,8 @@ function setCompleteBacklog(completeBacklog, Report) {
 function getLiveReportBacklog(Report) {
   var header = getHeader(Report);
   var serviceCol = getMeThatColumnNoValidate('SERVICE', header);
-  var initialUpdateCol = getMeThatColumnNoValidate('INITIAL DATE', header) - serviceCol;
+  var initialUpdateCol =
+    getMeThatColumnNoValidate('INITIAL DATE', header) - serviceCol;
   var backlogArray = Report.getRange(
     2,
     serviceCol + 1,

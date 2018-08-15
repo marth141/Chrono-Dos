@@ -62,20 +62,22 @@ function pp_MarkUnits(backlogArray, columns) {
        * }
        */
 
-      // For debugging a specific service number.
-      if (backlogArray[row][opporTypeCol].match(/add/i)) {
-        console.error('Add-on passed into Outsource');
-        console.error(backlogArray[row]);
-        MailApp.sendEmail(
-          'nathan.casados@vivintsolar.com',
-          'Chrono Error found - Add-on passed to Outsource',
-          backlogArray[row] +
-            '\r\nWas found being passed to outsource in error.'
-        );
-        var addonErrorMsg =
-          'Add-on becoming outsource. Please report this issue.';
-        throw addonErrorMsg;
-      }
+      /**
+       * For debugging a specific service number.
+       * if (backlogArray[row][opporTypeCol].match(/add/i)) {
+       *   console.error('Add-on passed into Outsource');
+       *   console.error(backlogArray[row]);
+       *   MailApp.sendEmail(
+       *     'nathan.casados@vivintsolar.com',
+       *     'Chrono Error found - Add-on passed to Outsource',
+       *     backlogArray[row] +
+       *       '\r\nWas found being passed to outsource in error.'
+       *   );
+       *   var addonErrorMsg =
+       *     'Add-on becoming outsource. Please report this issue.';
+       *   throw addonErrorMsg;
+       * }
+       */
       designPathString = 'OUTSOURCE';
       if (
         testDate(backlogArray[row][primaryDateCol]) &&

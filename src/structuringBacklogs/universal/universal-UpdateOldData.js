@@ -1,229 +1,239 @@
-/* exported
-addLastColumns
-debugAddLastColumns
-debugUpdateOldData
-uni_UpdateOldData
-*/
-
-/* global
-ServiceMasterBacklog
-getMeThatColumnNoValidate
-getMeThatColumn
-*/
-function debugUpdateOldData() {
-  var masterBacklogs = new ServiceMasterBacklog();
-  var overRide = 1;
-  uni_addLastColumns(masterBacklogs.Collection[overRide]);
-  return;
-}
-
 /**
  *
- * 
- * @param {any} backlogArray 
- * @returns backlogArray
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} FilterSettings
+ * @param {Array[]} backlogArray
+ * @param {Array[]} oldData
+ * @return {Array[]}
  */
 function uni_UpdateOldData(FilterSettings, backlogArray, oldData) {
-  var serviceCol = getMeThatColumnNoValidate("Project: Service", backlogArray);
-  if (serviceCol === -1) {
-    serviceCol = getMeThatColumnNoValidate("Service: Service Name", backlogArray);
-  }
-  var assignCol = getMeThatColumnNoValidate("Phase: PV Design Completed By", backlogArray);
-  if (assignCol === -1) {
-    assignCol = getMeThatColumnNoValidate("Redesign Completed By: Vivint Employee Name", backlogArray);
-  }
-  var backlogDateCol = getMeThatColumnNoValidate("BACKLOG DATE", backlogArray);
-  var dueDateCol = getMeThatColumnNoValidate("DUE DATE", backlogArray);
-  var unitTypeCol = getMeThatColumnNoValidate("UNIT TYPE", backlogArray);
-  var statusCol = getMeThatColumnNoValidate("STATUS", backlogArray);
-  var priorityCol = getMeThatColumnNoValidate("PRIORITY", backlogArray);
-  var notesCol = getMeThatColumnNoValidate("NOTES", backlogArray);
-  var lastUpdateCol = getMeThatColumnNoValidate("LAST UPDATE", backlogArray);
-  var initialUpdateCol = getMeThatColumnNoValidate("INITIAL DATE", backlogArray);
+  var columns = new UpdateDataColumns(backlogArray);
 
-  var updatedBacklog = replaceOldInfo(FilterSettings, backlogArray, oldData, serviceCol, backlogDateCol, dueDateCol, unitTypeCol, assignCol, statusCol, priorityCol, notesCol, lastUpdateCol, initialUpdateCol);
+  var updatedBacklog = replaceOldInfo(
+    FilterSettings,
+    backlogArray,
+    oldData,
+    columns
+  );
   return updatedBacklog;
 }
 
 /**
  *
- * 
- * @param {array} backlogArray
- * @param {array} oldData
- * @returns backlogArray
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} FilterSettings
+ * @param {Array[]} incomingBacklog
+ * @param {Array[]} liveBacklog
+ * @param {UpdateDataColumns} columns
+ * @return {*}
  */
-function replaceOldInfo(FilterSettings, backlogArray, oldData, serviceCol, backlogDateCol, dueDateCol, unitTypeCol, assignCol, statusCol, priorityCol, notesCol, lastUpdateCol, initialUpdateCol) {
-  var checkServiceNumber = "S-5954011";
-  // Remove all index"s in removeValFromIndex from each row
-  for (var oldRow = 0; oldRow < oldData.length; oldRow++) {
-    for (var newRow = 0; newRow < backlogArray.length; newRow++) {
-      if (!checkServiceNumbers(oldData[oldRow][serviceCol], backlogArray[newRow][serviceCol])) { //Check service numbers are the same, if not continue
+function replaceOldInfo(FilterSettings, incomingBacklog, liveBacklog, columns) {
+  var checkServiceNumber = 'S-5954011';
+  var serviceCol = columns.serviceCol,
+    assignCol = columns.assignCol,
+    backlogDateCol = columns.backlogDateCol,
+    dueDateCol = columns.dueDateCol,
+    unitTypeCol = columns.unitTypeCol,
+    statusCol = columns.statusCol,
+    priorityCol = columns.priorityCol,
+    notesCol = columns.notesCol,
+    lastUpdateCol = columns.lastUpdateCol,
+    initialUpdateCol = columns.initialUpdateCol;
+  // Remove all indexes in removeValFromIndex from each row
+  for (var liveIndex = 0; liveIndex < liveBacklog.length; liveIndex++) {
+    for (
+      var incomingIndex = 0;
+      incomingIndex < incomingBacklog.length;
+      incomingIndex++
+    ) {
+      var liveAccount = new AccountRecord(liveBacklog, liveIndex, columns);
+      var incomingUpdate = new AccountRecord(
+        incomingBacklog,
+        incomingIndex,
+        columns
+      );
+      var serviceNumbersMatch = checkServiceNumbersMatch(
+        liveAccount.serviceNumber,
+        incomingUpdate.serviceNumber
+      );
+      var unitTypesMatch = checkUnitTypeMatch(
+        liveAccount.unitType,
+        incomingUpdate.unitType
+      );
+      var incomingIsAssigned = checkSRAssigned(
+        incomingUpdate.unitType,
+        incomingUpdate.assigned,
+        FilterSettings
+      );
+      var liveIsAssigned = checkSRAssigned(
+        incomingUpdate.unitType,
+        liveAccount.assigned,
+        FilterSettings
+      );
+      var priorityMismatchAndLiveNotBlank = checkMismatchAndNotBlank(
+        liveAccount.priority,
+        incomingUpdate.priority
+      );
+      var assignedInLive_NotInIncoming = checkAssigned(
+        liveAccount.assigned,
+        incomingUpdate.assigned
+      );
+      /**
+       * If service number's are the
+       * same and unit types match
+       */
+      if (serviceNumbersMatch) {
+        var liveUnitTypeNotBlank = liveAccount.unitType !== '';
+        if (unitTypesMatch) {
+          var incomingUpdateIsNotSR = incomingUpdate.unitType !== 'SR';
+          if (incomingUpdateIsNotSR) {
+            incomingUpdate.unitType = liveAccount.unitType;
+          }
+        } else if (liveUnitTypeNotBlank && !unitTypesMatch) {
+          continue;
+        }
+        // Set incoming account backlog date to existing backlog date
+        incomingUpdate.backlogDate = liveAccount.backlogDate;
+        // Set incoming account due date to existing due date
+        incomingUpdate.dueDate = liveAccount.dueDate;
+        // Set incoming notes to existing notes
+        incomingUpdate.notes = liveAccount.notes;
+        // set incoming last update date to existing last update date
+        incomingUpdate.lastUpdate = liveAccount.lastUpdate;
+        // set incoming initial update date to existing initial update date
+        incomingUpdate.initialUpdate = liveAccount.initialUpdate;
+
+        if (priorityMismatchAndLiveNotBlank) {
+          // Set incoming priority to existing priority
+          incomingUpdate.priority = liveAccount.priority;
+        }
+
+        if (incomingIsAssigned) {
+          if (liveIsAssigned) {
+            incomingUpdate.assigned = '';
+            incomingUpdate.status = '';
+            incomingUpdate.initialUpdate = '';
+            liveAccount.status = '';
+            liveAccount.initialUpdate = '';
+          } else {
+            incomingUpdate.assigned = liveAccount.assigned;
+          }
+        } else if (assignedInLive_NotInIncoming) {
+          /**
+           * If incoming has no assignee but live does
+           * set the incoming assignee as the live assignee
+           */
+          incomingUpdate.assigned = liveAccount.assigned;
+        }
+
+        var statusMismatchAndLiveNotBlank = checkMismatchAndNotBlank(
+          liveAccount.status,
+          incomingUpdate.status
+        );
+        if (statusMismatchAndLiveNotBlank) {
+          // Set incoming update status to live status
+          incomingUpdate.status = liveAccount.status;
+        }
+      } else {
+        /**
+         * ! If service number's are not the same
+         * ! the else will be skipped
+         */
         continue;
-      }
-      var thisOldRow = oldData[oldRow];
-      var thisNewRow = backlogArray[newRow];
-      
-      // DEBUGGER
-      if(checkServiceNumber === backlogArray[newRow][serviceCol]) {
-        console.error('Here it is @ update start!');
-        console.log(backlogArray[newRow]);
-        console.log(backlogArray[oldRow]);
-      }
-      // DEBUGGER
-      
-      if (checkUnitType(oldData[oldRow][unitTypeCol], backlogArray[newRow][unitTypeCol])) { //Check unit type
-        if(backlogArray[newRow][unitTypeCol] === "SR") {
-          oldData[oldRow][unitTypeCol] = "SR";
-          // DEBUGGER
-          if(checkServiceNumber === backlogArray[newRow][serviceCol]) {
-            console.error('Here it is @ update Check Unit Type SR!');
-            console.log(backlogArray[newRow]);
-            console.log(backlogArray[oldRow]);
-          }
-          // DEBUGGER
-        }
-        // DEBUGGER
-        if(checkServiceNumber === backlogArray[newRow][serviceCol]) {
-          console.error('Here it is @ update Check Unit Type post SR!');
-          console.log(backlogArray[newRow]);
-          console.log(backlogArray[oldRow]);
-        }
-        // DEBUGGER
-        backlogArray[newRow][unitTypeCol] = oldData[oldRow][unitTypeCol];
-        // DEBUGGER
-        if(checkServiceNumber === backlogArray[newRow][serviceCol]) {
-          console.error('Here it is @ update Check Unit Type post SR After assignment!');
-          console.log(backlogArray[newRow]);
-          console.log(backlogArray[oldRow]);
-        }
-        // DEBUGGER
-      }
-      // If the Unit types don"t match continue
-      if (oldData[oldRow][unitTypeCol] !== "" && oldData[oldRow][unitTypeCol] !== backlogArray[newRow][unitTypeCol]) {
-        continue;
-      }
-      backlogArray[newRow][backlogDateCol] = oldData[oldRow][backlogDateCol];  // Get old backlog date
-      backlogArray[newRow][dueDateCol] = oldData[oldRow][dueDateCol];  // Get old due date
-      backlogArray[newRow][notesCol] = oldData[oldRow][notesCol];  // Get old notes and place them when the service numbers match
-      backlogArray[newRow][lastUpdateCol] = oldData[oldRow][lastUpdateCol];  // Get old Last update and update to new sheet
-      backlogArray[newRow][initialUpdateCol] = oldData[oldRow][initialUpdateCol];  // Get old initial update and update to new sheet
-      if(checkSRAssigned(backlogArray[newRow][unitTypeCol], backlogArray[newRow][assignCol], FilterSettings)) {        
-        if(checkSRAssigned(backlogArray[newRow][unitTypeCol], oldData[oldRow][assignCol], FilterSettings)) {
-      
-          // DEBUGGER
-          if(checkServiceNumber === backlogArray[newRow][serviceCol]) {
-            console.error('Here it is @ SR in Update!');
-            console.log(backlogArray[newRow]);
-            console.log(backlogArray[oldRow]);
-          }
-          // DEBUGGER
-          
-          backlogArray[newRow][assignCol] = "";
-          backlogArray[newRow][statusCol] = "";
-          backlogArray[newRow][initialUpdateCol] = "";
-          oldData[oldRow][statusCol] = "";
-          oldData[oldRow][initialUpdateCol] = "";
-        }
-        else {
-          // DEBUGGER
-          if(checkServiceNumber === backlogArray[newRow][serviceCol]) {
-            console.error('Here it is @ SR Else in update!');
-            console.log(backlogArray[newRow]);
-            console.log(backlogArray[oldRow]);
-          }
-          // DEBUGGER
-          backlogArray[newRow][assignCol] = oldData[oldRow][assignCol];
-        }
-          
-      }
-      else if (checkAssigned(oldData[oldRow][assignCol], backlogArray[newRow][assignCol])) // Check If there was an old assignment
-        backlogArray[newRow][assignCol] = oldData[oldRow][assignCol];   // Replace with the old assignment
-      if (checkStatus(oldData[oldRow][statusCol], backlogArray[newRow][statusCol]))
-        backlogArray[newRow][statusCol] = oldData[oldRow][statusCol];  // Get old Status and update
-      if (checkStatus(oldData[oldRow][priorityCol], backlogArray[newRow][priorityCol]))
-        backlogArray[newRow][priorityCol] = oldData[oldRow][priorityCol];  // Get old Priority status and update
-      
-      // DEBUGGER
-      if(checkServiceNumber === backlogArray[newRow][serviceCol]) {
-        console.error('Here it is @ update end!');
-        console.log(backlogArray[newRow]);
-        console.log(backlogArray[oldRow]);
-      }
-      // DEBUGGER
-    }
-  }
-  return backlogArray;
+      } // End of matching service number jobs
+    } // End of incoming account for loop
+  } // End of live account for loop
+  return incomingBacklog;
 }
 
 /**
  *
- *
- * @param {any} oldServiceNumber
- * @param {number} currentServiceNumber
- * @returns {boolean} service numbers match
+ * @param {String} oldServiceNumber
+ * @param {String} currentServiceNumber
+ * @return {Boolean} service numbers match
  */
-function checkServiceNumbers(oldServiceNumber, currentServiceNumber) {
-  return oldServiceNumber === currentServiceNumber;
+function checkServiceNumbersMatch(oldServiceNumber, currentServiceNumber) {
+  var result = oldServiceNumber === currentServiceNumber;
+  return result;
 }
 
 /**
  *
- * 
- * @param {any} oldServiceNumber
- * @param {number} currentServiceNumber
- * @returns {boolean} service numbers match
+ * @param {String} oldUnitType
+ * @param {String} incomingUnitType
+ * @return {Boolean}
  */
-function checkUnitType(oldUnitType, currentUnitType) {
-
-  if (currentUnitType === "SR" && oldUnitType !== "PERMIT RD" && oldUnitType !== "DE RD") {
+function checkUnitTypeMatch(oldUnitType, incomingUnitType) {
+  if (incomingUnitType === 'SR' && (oldUnitType !== 'PERMIT RD' || 'DE RD')) {
     return true;
+  } else {
+    // Checks if unit type is not permit
+    var falseTerms = ['PERMIT RD', 'DE RD', 'CP MATCH', 'SR'];
+    var currentSomeResult = falseTerms.some(function(term) {
+      return incomingUnitType.indexOf(term) > -1;
+    });
+    var oldSomeResult = falseTerms.some(function(term) {
+      var termIsFalse = oldUnitType.indexOf(term) > -1;
+      return oldUnitType.indexOf(term) > -1;
+    });
+    var unitTypePermitBool =
+      oldUnitType !== incomingUnitType &&
+      oldUnitType !== '' &&
+      !(currentSomeResult || oldSomeResult);
+    return unitTypePermitBool;
   }
-    
-  var check1 = ["PERMIT RD", "DE RD", "CP MATCH", "SR"].some(function (value) { return currentUnitType.indexOf(value) > -1 });
-  var check2 = ["PERMIT RD", "DE RD", "CP MATCH", "SR"].some(function (value) { return oldUnitType.indexOf(value) > -1 });
-  return (oldUnitType !== currentUnitType &&
-    oldUnitType !== "" &&
-    !(check1 || check2));
 }
 
 /**
  *
- * 
- * @param {any} oldServiceNumber
- * @param {number} currentServiceNumber
- * @returns {boolean} service numbers match
+ * @param {String} liveAssignment
+ * @param {String} incomingAssignment
+ * @return {Boolean}
  */
-function checkAssigned(oldAssigned, currentAssigned) {
-  
-  return oldAssigned !== "" && currentAssigned === "";
+function checkAssigned(liveAssignment, incomingAssignment) {
+  var result = liveAssignment !== '' && incomingAssignment === '';
+  return result;
 }
 
-
-
 /**
- *
- * 
- * @param {any} oldServiceNumber
- * @param {number} currentServiceNumber
- * @returns {boolean} service numbers match
+ * Checks if account is assigned
+ * @param {String} unitType
+ * @param {String} assigned
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} FilterSettings
+ * @return {*}
  */
 function checkSRAssigned(unitType, assigned, FilterSettings) {
-  
-  if(unitType === "SR") {
-    var foundUser = getUsers(FilterSettings).some(function(user) { return user[0] === assigned || user[2] === assigned });
-    if(!foundUser) {
+  if (unitType === 'SR') {
+    var foundDesigner = getUsers(FilterSettings).some(function(designer) {
+      var name = designer[0],
+        email = designer[1],
+        sfName = designer[2];
+      return name === assigned || sfName === assigned;
+    });
+    if (!foundDesigner) {
       return true;
     }
   }
 }
 
 /**
- *
- * 
- * @param {any} oldServiceNumber
- * @param {number} currentServiceNumber
- * @returns {boolean} service numbers match
+ * Checks that the live and incoming status
+ * do not match and that the live status
+ * is not blank
+ * @param {String} notBlankMatch
+ * @param {String} match
+ * @return {Boolean}
  */
-function checkStatus(oldStatus, currentStatus) {
-  return oldStatus !== currentStatus && oldStatus !== "";
+function checkMismatchAndNotBlank(notBlankMatch, match) {
+  var result = notBlankMatch !== match && notBlankMatch !== '';
+  return result;
 }
+
+/**
+ * ! For Debugging
+ * if (
+ *   checkServiceNumber === backlogArray[salesForceAccount][serviceCol]
+ * ) {
+ *   console.error('Here it is @ update start!');
+ *   console.log(backlogArray[salesForceAccount]);
+ *   console.log(backlogArray[oldDataAccount]);
+ * }
+ */

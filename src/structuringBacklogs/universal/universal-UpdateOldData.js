@@ -66,15 +66,15 @@ function replaceOldInfo(FilterSettings, incomingBacklog, liveBacklog, columns) {
         liveAccount.assigned,
         incomingUpdate.assigned
       );
+      var liveUnitTypeNotBlank = liveAccount.unitType !== '';
+      var incomingUpdateIsNotSR = incomingUpdate.unitType !== 'SR';
 
       /**
        * If service number's are the
        * same and unit types match
        */
       if (serviceNumbersMatch) {
-        var liveUnitTypeNotBlank = liveAccount.unitType !== '';
         if (unitTypesMatch) {
-          var incomingUpdateIsNotSR = incomingUpdate.unitType !== 'SR';
           if (incomingUpdateIsNotSR) {
             incomingUpdate.unitType = liveAccount.unitType;
           }
@@ -108,10 +108,6 @@ function replaceOldInfo(FilterSettings, incomingBacklog, liveBacklog, columns) {
             incomingUpdate.assigned = liveAccount.assigned;
           }
         } else if (assignedInLive_NotInIncoming) {
-          /**
-           * If incoming has no assignee but live does
-           * set the incoming assignee as the live assignee
-           */
           incomingUpdate.assigned = liveAccount.assigned;
         }
 

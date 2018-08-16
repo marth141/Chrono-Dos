@@ -1,9 +1,8 @@
 // @flow
 /**
  *
- *
- * @param {any} sheet
- * @returns
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} sheet
+ * @return {Array}
  */
 function getDimensions(sheet) {
   if (sheet !== null) {
@@ -14,7 +13,9 @@ function getDimensions(sheet) {
     dimensions.push(lastCol);
     return dimensions;
   } else {
-    throw 'getDimensions() has a null; backlogSheet: ' + sheet;
+    var getDimensionsError =
+      'getDimensions() has a null; backlogSheet: ' + sheet;
+    throw getDimensionsError;
   }
 }
 
@@ -160,16 +161,16 @@ function updateLastRefresh(Report) {
 /**
  * Sets the report running cell
  * to prevent redundant running
- * @param {GoogleAppsScript.Spreadsheet.Sheet} Report
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} reportSheet
  */
-function reportRunning(Report) {
+function reportRunning(reportSheet) {
   // var checkReportStatus = Report.getRange('G1').getValue();
   // if (checkReportStatus !== '') {
   //   throw 'Report Already Running';
   // }
   var reportRunning_Location = 'G1';
   var reportRunning_Value = 'REPORT RUNNING';
-  Report.getRange(reportRunning_Location).setValue(reportRunning_Value);
+  reportSheet.getRange(reportRunning_Location).setValue(reportRunning_Value);
   SpreadsheetApp.flush();
   return;
 }

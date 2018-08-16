@@ -1,12 +1,12 @@
 // @flow
 /**
  * Gets the chrono's report page data
- * @param {GoogleAppsScript.Spreadsheet.Sheet} report
  * @param {ReportPageColumns} reportColumns
  * @return {Array[]} oldData
  */
-function uni_GetOldData(report, reportColumns) {
-  var oldData = reportColumns.reportRange.getValues().filter(function(value) {
+function uni_GetOldData(reportColumns) {
+  var reportRange = report.getRange('G3:W');
+  var oldData = reportRange.getValues().filter(function(value) {
     var serviceNumber = value[0];
     var serviceNumberRegex = new RegExp(/S-[0-9]{7}/);
     var filteredValue = serviceNumber.match(serviceNumberRegex);

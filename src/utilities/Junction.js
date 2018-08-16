@@ -21,12 +21,27 @@ function backlogProcessJunction(
   // }
   // if (lock.hasLock()) {
   // -------------------- Comment out above for debugging without lock --------------------
-  reportRunning(masterBacklogSheets.Report);
+  var reportSheet = masterBacklogSheets.Report;
+  var permitSheet = masterBacklogSheets.Permit;
+  var redesignSheet = masterBacklogSheets.PermitRD;
+  reportRunning(reportSheet);
   /** @type GoogleAppsScript.Spreadsheet.Sheet */
   var backlog;
   var completeBacklog = [];
-  var oldData = uni_GetOldData(masterBacklogSheets.Report, reportColumns);
-  debugger;
+  var reportBacklog = new BacklogCreator().reportBacklog(reportSheet);
+  var permitBacklog = new BacklogCreator().permitBacklog(permitSheet);
+  var redesignBacklog = new BacklogCreator().redesignBacklog(redesignSheet);
+  // UPDATE PERMIT BACKLOG
+  permitBacklog = new LinkCreator().permitSolLinks(
+    permitBacklog,
+    permitColumns
+  );
+  // UPDATE REDESIGN BACKLOG
+  redesignBacklog = new LinkCreator().redesignCADLinks(
+    redesignBacklog,
+    redesignColumns
+  );
+  debugger; // CURRENTLY WORKING HERE
 
   for (backlog in masterBacklogSheets) {
     /** @type GoogleAppsScript.Spreadsheet.Sheet */
@@ -44,28 +59,28 @@ function backlogProcessJunction(
     if (backlogName === 'PERMIT BACKLOG') {
       backlogArray = uni_LinkCreator(sheet);
       backlogArray = uni_CadNameColCreator(backlogArray);
-      backlogArray = pp_DateCleaner(backlogArray, oldData);
+      backlogArray = pp_DateCleaner(backlogArray, reportBacklog);
       backlogArray = pp_UnitTypeMarker(backlogArray); // Cleaning
       backlogArray = pp_CleanUpColumns(backlogArray);
       backlogArray = uni_addLastColumns(backlogArray);
       backlogArray = uni_UpdateOldData(
         masterBacklogSheets.FilterSettings,
         backlogArray,
-        oldData
+        reportBacklog
       );
       backlogArray = pp_underTweleveHours(backlogArray, sheet);
       completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
       continue;
     } else if (masterBacklogSheets[backlog].getName() === 'PERMIT RD BACKLOG') {
       backlogArray = uni_LinkCreator(sheet);
-      backlogArray = rd_DateCleaner(backlogArray, oldData);
+      backlogArray = rd_DateCleaner(backlogArray, reportBacklog);
       backlogArray = rd_UnitTypeMarker(backlogArray);
       backlogArray = rd_CleanUpColumns(backlogArray);
       backlogArray = uni_addLastColumns(backlogArray);
       backlogArray = uni_UpdateOldData(
         masterBacklogSheets.FilterSettings,
         backlogArray,
-        oldData
+        reportBacklog
       );
       completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
       continue;

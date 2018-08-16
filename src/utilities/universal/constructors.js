@@ -17,6 +17,59 @@ function MasterBacklogSheets(ss) {
 }
 
 /**
+ *
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} reportSheet
+ */
+function BacklogCreator() {
+  /**
+   * @param {GoogleAppsScript.Spreadsheet.Sheet} reportSheet
+   * @return {Array[]}
+   */
+  this.reportBacklog = function(reportSheet) {
+    var reportRange = reportSheet.getRange('G2:W');
+    var backlogArray = reportRange.getValues().filter(function(value) {
+      var serviceNumber = value[0];
+      var serviceNumberRegex = new RegExp(/S-[0-9]{7}/);
+      var filteredValue = serviceNumber.match(serviceNumberRegex);
+      return filteredValue;
+    });
+    return backlogArray;
+  };
+  /**
+   * @param {GoogleAppsScript.Spreadsheet.Sheet} permitSheet
+   * @return {Array[]}
+   */
+  this.permitBacklog = function(permitSheet) {
+    var dim = getDimensions(permitSheet);
+    var backlogArray = getBacklogArray(permitSheet, dim).filter(function(
+      value
+    ) {
+      var serviceNumber = value[0];
+      var serviceNumberRegex = new RegExp(/S-[0-9]{7}/);
+      var filteredValue = serviceNumber.match(serviceNumberRegex);
+      return filteredValue;
+    });
+    return backlogArray;
+  };
+  /**
+   * @param {GoogleAppsScript.Spreadsheet.Sheet} redesignSheet
+   * @return {Array[]}
+   */
+  this.redesignBacklog = function(redesignSheet) {
+    var dim = getDimensions(redesignSheet);
+    var backlogArray = getBacklogArray(redesignSheet, dim).filter(function(
+      value
+    ) {
+      var serviceNumber = value[0];
+      var serviceNumberRegex = new RegExp(/S-[0-9]{7}/);
+      var filteredValue = serviceNumber.match(serviceNumberRegex);
+      return filteredValue;
+    });
+    return backlogArray;
+  };
+}
+
+/**
  * Used to get all of the report page headers
  * @param {MasterBacklogSheets} chrono
  */
@@ -25,7 +78,6 @@ function ReportPageColumns(chrono) {
   var backlogArray = report.getRange('G2:W2').getValues();
   var googleSheetToArrayOffset = 0;
 
-  this.reportRange = report.getRange('G3:W');
   this.service =
     getMeThatColumnNoValidate('SERVICE', backlogArray) +
     googleSheetToArrayOffset;
@@ -90,10 +142,10 @@ function RedesignColumns(chrono) {
     'Service: Service Name',
     backlogArray
   );
-  this.projectName = getMeThatColumnNoValidate('Project Name', backlogArray);
+  this.solProjName = getMeThatColumnNoValidate('Project Name', backlogArray);
   this.solProjID = getMeThatColumnNoValidate('Solar Project ID', backlogArray);
   this.cadName = getMeThatColumnNoValidate('CAD Name', backlogArray);
-  this.solCADID = getMeThatColumnNoValidate('Solar CAD ID', backlogArray);
+  this.cadID = getMeThatColumnNoValidate('Solar CAD ID', backlogArray);
   this.regionOffice = getMeThatColumnNoValidate(
     'Service: Regional Operating Center',
     backlogArray
@@ -136,7 +188,7 @@ function PermitColumns(chrono) {
     'Project: Service',
     backlogArray
   );
-  this.projectName = getMeThatColumnNoValidate(
+  this.solProjName = getMeThatColumnNoValidate(
     'Project: Project Name',
     backlogArray
   );
@@ -237,18 +289,18 @@ var ServiceOfficeCollection = function() {
  * array. This array will be pasted back over the
  * report page.
  *
- * @param {number} linkColumn The ID of the CAD Object for link.
- * @param {number} linkTextColumn The SP- Name of the Solar Project.
- * @param {array} backlogArray The backlog array.
- * @returns The backlog array with new SolProj link.
+ * @param {Number} linkIDColumn
+ * @param {Number} linkNameColumn This column will be replaced by link
+ * @param {Array[]} backlogArray
+ * @return {Array[]}
  */
-function constructLink(linkColumn, linkTextColumn, backlogArray) {
-  for (var row = 1; row < backlogArray.length; row++) {
-    backlogArray[row][linkTextColumn] =
+function constructLink(linkIDColumn, linkNameColumn, backlogArray) {
+  for (var row = 0; row < backlogArray.length; row++) {
+    backlogArray[row][linkNameColumn] =
       '=HYPERLINK("https://vivintsolar.my.salesforce.com/' +
-      backlogArray[row][linkColumn] +
+      backlogArray[row][linkIDColumn] +
       '","' +
-      backlogArray[row][linkTextColumn] +
+      backlogArray[row][linkNameColumn] +
       '")';
   }
   return backlogArray;

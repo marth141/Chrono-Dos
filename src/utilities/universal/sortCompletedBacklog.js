@@ -11,55 +11,68 @@ sortCompleteBacklog
  *
  *
  * @param {any} sheet
- * @returns 
+ * @returns
  */
 function sortCompleteBacklog(backlog, Report) {
-
   var header = getHeader(Report);
-  var serviceCol = getMeThatColumn("SERVICE", header);
-  var priorityCol = getMeThatColumn("PRIORITY", header) - serviceCol;
-  var dueDateCol = getMeThatColumn("DUE DATE", header) - serviceCol;
-  var backlogDateCol = getMeThatColumn("BACKLOG DATE", header) - serviceCol;
+  var serviceCol = getMeThatColumn('SERVICE', header);
+  var priorityCol = getMeThatColumn('PRIORITY', header) - serviceCol;
+  var dueDateCol = getMeThatColumn('DUE DATE', header) - serviceCol;
+  var backlogDateCol = getMeThatColumn('BACKLOG DATE', header) - serviceCol;
 
   // does it need to be in a variable?
-  var sortedByName = sortByProperty(backlog, priorityCol, dueDateCol, backlogDateCol);
+  var sortedByName = sortByProperty(
+    backlog,
+    priorityCol,
+    dueDateCol,
+    backlogDateCol
+  );
   return sortedByName;
 }
-
 
 /**
  *
  *
  * @param {any} sheet
- * @returns 
+ * @returns
  */
 function sortByProperty(backlog, priorityCol, dueDateCol, backlogDateCol) {
-  
   var len = backlog.length;
-  for (var i = len-1; i>=0; i--){
-    for(var j = 1; j<=i; j++){
-      if(backlog[j-1][priorityCol] !== "" || backlog[j][priorityCol] !== "")
+  for (var i = len - 1; i >= 0; i--) {
+    for (var j = 1; j <= i; j++) {
+      if (
+        backlog[j - 1][priorityCol] !== '' ||
+        backlog[j][priorityCol] !== ''
+      ) {
         var x = 0;
-      var row1 = backlog[j-1];
+      }
+      var row1 = backlog[j - 1];
       var row2 = backlog[j];
-      
-      if(row1[0] === "S-5920692" || row2[0] === "S-5920692"){
+
+      if (row1[0] === 'S-5920692' || row2[0] === 'S-5920692') {
         var x = 0;
       }
-    
-      var check1 = checkPriority(backlog[j-1][priorityCol], backlog[j][priorityCol]);
-      if(check1){
-        backlog = swap(backlog, j-1, j);
-      }
-      else if(check1 === 0 && checkDueDates(backlog[j-1][dueDateCol], backlog[j][dueDateCol], backlog[j-1][backlogDateCol], backlog[j][backlogDateCol])){
-        backlog = swap(backlog, j-1, j);
+
+      var check1 = checkPriority(
+        backlog[j - 1][priorityCol],
+        backlog[j][priorityCol]
+      );
+      if (check1) {
+        backlog = swap(backlog, j - 1, j);
+      } else if (
+        check1 === 0 &&
+        checkDueDates(
+          backlog[j - 1][dueDateCol],
+          backlog[j][dueDateCol],
+          backlog[j - 1][backlogDateCol],
+          backlog[j][backlogDateCol]
+        )
+      ) {
+        backlog = swap(backlog, j - 1, j);
       }
     }
   }
   return backlog;
-   
-   
-
 }
 
 /**
@@ -67,13 +80,13 @@ function sortByProperty(backlog, priorityCol, dueDateCol, backlogDateCol) {
  *
  * @param {any} a
  * @param {any} b
- * @returns 
+ * @returns
  */
 function checkPriority(a, b) {
-  if(a < b) {
+  if (a < b) {
     return 1;
   }
-  if(a === b) {
+  if (a === b) {
     return 0;
   }
   return false;
@@ -82,11 +95,14 @@ function checkPriority(a, b) {
 /**
  *
  *
- * @param {any} a
- * @param {any} b
- * @returns 
+ * @param {Date} a
+ * @param {Date} b
+ * @param {Date} c
+ * @param {Date} d
+ * @return {Boolean}
  */
 function checkDueDates(a, b, c, d) {
+  var isOverDue = a < new Date() || b < new Date();
   return a > b || c > d;
 }
 
@@ -95,7 +111,7 @@ function checkDueDates(a, b, c, d) {
  *
  * @param {any} a
  * @param {any} b
- * @returns 
+ * @returns
  */
 function swap(array, i, j) {
   var temp = array[i];

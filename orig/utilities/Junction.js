@@ -30,13 +30,13 @@ updateLastRefresh
 
 function backlogProcessJunction(backlogSheetArray, override) {
   // ----------------------------------------------- Comment out below for debugging without lock -----------------------------------------------
-  var lock = LockService.getScriptLock();
-  try {
-    lock.waitLock(10000)
-  } catch (e) {
-    throw "Could not acquire lock. Someone else is updating the backlog, please wait."
-  }
-  if (lock.hasLock()) {
+//  var lock = LockService.getScriptLock();
+//  try {
+//    lock.waitLock(10000)
+//  } catch (e) {
+//    throw "Could not acquire lock. Someone else is updating the backlog, please wait."
+//  }
+//  if (lock.hasLock()) {
   // ----------------------------------------------- Comment out above for debugging without lock -----------------------------------------------
     reportRunning(backlogSheetArray.Report);
     var oldData = uni_GetOldData(backlogSheetArray.Report);
@@ -93,9 +93,9 @@ function backlogProcessJunction(backlogSheetArray, override) {
     updateLastRefresh(backlogSheetArray.Report);
     removeReportRunning(backlogSheetArray.Report);
   // ----------------------------------------------- Comment out below for debugging without lock -----------------------------------------------
-    lock.releaseLock();
-  } else {
-    throw "The lock was somehow lost. Someone else is updating the backlog, please wait."
-  }
+//    lock.releaseLock();
+//  } else {
+//    throw "The lock was somehow lost. Someone else is updating the backlog, please wait."
+//  }
   // ----------------------------------------------- Comment out above for debugging without lock -----------------------------------------------
 }

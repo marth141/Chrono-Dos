@@ -90,6 +90,9 @@ function backlogProcessJunction(backlogSheetArray, override) {
     //  return;
     completeBacklog = sortCompleteBacklog(completeBacklog, backlogSheetArray.Report);
     setCompleteBacklog(completeBacklog, backlogSheetArray.Report);
+    oldData = uni_GetOldData(backlogSheetArray.Report);
+    var resort = sortCompleteBacklog(oldData, backlogSheetArray.Report);
+    setCompleteBacklog(resort, backlogSheetArray.Report);
     updateLastRefresh(backlogSheetArray.Report);
     removeReportRunning(backlogSheetArray.Report);
   // ----------------------------------------------- Comment out below for debugging without lock -----------------------------------------------

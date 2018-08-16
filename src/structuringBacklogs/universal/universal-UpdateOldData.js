@@ -44,6 +44,7 @@ function replaceOldInfo(FilterSettings, incomingBacklog, liveBacklog, columns) {
         liveAccount.serviceNumber,
         incomingUpdate.serviceNumber
       );
+      debugger;
       var unitTypesMatch = checkUnitTypeMatch(
         liveAccount.unitType,
         incomingUpdate.unitType

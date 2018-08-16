@@ -1,9 +1,17 @@
 // @flow
 /**
- * The backbone of the Chrono
- * @param {ServiceMasterBacklog} masterBacklog
+ * Backbone of Chrono
+ * @param {MasterBacklogSheets} masterBacklogSheets
+ * @param {PermitColumns} permitColumns
+ * @param {RedesignColumns} redesignColumns
+ * @param {ReportPageColumns} reportColumns
  */
-function backlogProcessJunction(masterBacklog) {
+function backlogProcessJunction(
+  masterBacklogSheets,
+  permitColumns,
+  redesignColumns,
+  reportColumns
+) {
   // -------------------- Comment out below for debugging without lock --------------------
   // var lock = LockService.getScriptLock();
   // try {
@@ -13,15 +21,16 @@ function backlogProcessJunction(masterBacklog) {
   // }
   // if (lock.hasLock()) {
   // -------------------- Comment out above for debugging without lock --------------------
-  reportRunning(masterBacklog.Report);
+  reportRunning(masterBacklogSheets.Report);
   /** @type GoogleAppsScript.Spreadsheet.Sheet */
   var backlog;
   var completeBacklog = [];
-  var oldData = uni_GetOldData(masterBacklog.Report);
+  var oldData = uni_GetOldData(masterBacklogSheets.Report, reportColumns);
+  debugger;
 
-  for (backlog in masterBacklog) {
+  for (backlog in masterBacklogSheets) {
     /** @type GoogleAppsScript.Spreadsheet.Sheet */
-    var sheet = masterBacklog[backlog];
+    var sheet = masterBacklogSheets[backlog];
     /** @type Array[] */
     var backlogArray;
 
@@ -40,42 +49,45 @@ function backlogProcessJunction(masterBacklog) {
       backlogArray = pp_CleanUpColumns(backlogArray);
       backlogArray = uni_addLastColumns(backlogArray);
       backlogArray = uni_UpdateOldData(
-        masterBacklog.FilterSettings,
+        masterBacklogSheets.FilterSettings,
         backlogArray,
         oldData
       );
       backlogArray = pp_underTweleveHours(backlogArray, sheet);
       completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
       continue;
-    } else if (masterBacklog[backlog].getName() === 'PERMIT RD BACKLOG') {
+    } else if (masterBacklogSheets[backlog].getName() === 'PERMIT RD BACKLOG') {
       backlogArray = uni_LinkCreator(sheet);
       backlogArray = rd_DateCleaner(backlogArray, oldData);
       backlogArray = rd_UnitTypeMarker(backlogArray);
       backlogArray = rd_CleanUpColumns(backlogArray);
       backlogArray = uni_addLastColumns(backlogArray);
       backlogArray = uni_UpdateOldData(
-        masterBacklog.FilterSettings,
+        masterBacklogSheets.FilterSettings,
         backlogArray,
         oldData
       );
       completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
       continue;
-    } else if (masterBacklog[backlog] === null) {
+    } else if (masterBacklogSheets[backlog] === null) {
       throw 'The backlog was null in dateOperations()';
     } else {
       console.log(
         'This backlog: ' +
-          masterBacklog[backlog].getName() +
+          masterBacklogSheets[backlog].getName() +
           ' is not being worked.'
       );
       continue;
     }
   }
   // return;
-  completeBacklog = sortCompleteBacklog(completeBacklog, masterBacklog.Report);
-  setCompleteBacklog(completeBacklog, masterBacklog.Report);
-  updateLastRefresh(masterBacklog.Report);
-  removeReportRunning(masterBacklog.Report);
+  completeBacklog = sortCompleteBacklog(
+    completeBacklog,
+    masterBacklogSheets.Report
+  );
+  setCompleteBacklog(completeBacklog, masterBacklogSheets.Report);
+  updateLastRefresh(masterBacklogSheets.Report);
+  removeReportRunning(masterBacklogSheets.Report);
   // -------------------- Comment out below for debugging without lock --------------------
   //   lock.releaseLock();
   // } else {

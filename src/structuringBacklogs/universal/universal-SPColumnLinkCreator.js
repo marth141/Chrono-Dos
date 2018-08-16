@@ -12,7 +12,7 @@ getMeThatColumn
 */
 
 function debugUniSolProj() {
-  var masterBacklogs = new ServiceMasterBacklog();
+  var masterBacklogs = new MasterBacklogSheets();
   uni_SolProjLinkCreator(masterBacklogs.Collection);
   return;
 }

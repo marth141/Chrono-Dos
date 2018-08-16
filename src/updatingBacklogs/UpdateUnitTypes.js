@@ -10,7 +10,7 @@ getUpdateArray
 matchClass
 */
 function debugCompare() {
-  var masterBacklogs = new ServiceMasterBacklog();
+  var masterBacklogs = new MasterBacklogSheets();
   var overRide = 4;
   setupUnitTypeArrays(masterBacklogs.Collection[overRide]);
   return;

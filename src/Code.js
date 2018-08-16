@@ -5,8 +5,16 @@
  */
 function main() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var masterBacklogs = new ServiceMasterBacklog(ss);
-  backlogProcessJunction(masterBacklogs);
+  var masterBacklogSheets = new MasterBacklogSheets(ss);
+  var permitColumns = new PermitColumns(masterBacklogSheets);
+  var redesignColumns = new RedesignColumns(masterBacklogSheets);
+  var reportColumns = new ReportPageColumns(masterBacklogSheets);
+  backlogProcessJunction(
+    masterBacklogSheets,
+    permitColumns,
+    redesignColumns,
+    reportColumns
+  );
   return;
 }
 
@@ -25,7 +33,7 @@ function callMain(backlogName) {
     } else {
       throw 'Wrong script for this report type';
     }
-    var masterBacklogs = new ServiceMasterBacklog(ss);
+    var masterBacklogs = new MasterBacklogSheets(ss);
     backlogProcessJunction(masterBacklogs, undefined);
   } else {
     throw 'The lock was somehow lost. Someone else is updating the backlog, please wait.';
@@ -35,7 +43,7 @@ function callMain(backlogName) {
 
 function callUpdateReportData() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var masterBacklogs = new ServiceMasterBacklog(ss);
+  var masterBacklogs = new MasterBacklogSheets(ss);
   updateReportData(masterBacklogs, undefined);
   return;
 }

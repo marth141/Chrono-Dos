@@ -10,7 +10,7 @@ getUpdateArray
 matchClass
 */
 function debugPriority() {
-  var masterBacklogs = new ServiceMasterBacklog();
+  var masterBacklogs = new MasterBacklogSheets();
   var overRide = 4;
   setupPriority(masterBacklogs.Collection[overRide]);
   return;

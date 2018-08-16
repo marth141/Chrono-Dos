@@ -19,11 +19,10 @@ function getDimensions(sheet) {
 }
 
 /**
- *
- *
- * @param {any} sheet
- * @param {array} dimensions
- * @returns
+ * Used to make an array from a google sheet
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} sheet
+ * @param {Array} dimensions
+ * @return {Array[]}
  */
 function getBacklogArray(sheet, dimensions) {
   if (sheet !== null) {
@@ -40,7 +39,9 @@ function getBacklogArray(sheet, dimensions) {
       });
     return backlogData;
   } else {
-    throw 'getBacklogArray() has a null; backlogSheet: ' + sheet;
+    var getBacklogArrayError =
+      'getBacklogArray() has a null; backlogSheet: ' + sheet;
+    throw getBacklogArrayError;
   }
 }
 

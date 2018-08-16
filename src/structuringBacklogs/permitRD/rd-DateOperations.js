@@ -11,7 +11,7 @@ timeAddHours
 */
 
 function debugRDDateCleaner() {
-  var masterBacklogs = new ServiceMasterBacklog();
+  var masterBacklogs = new MasterBacklogSheets();
   masterBacklogs = masterBacklogs.Collection;
   rd_DateCleaner(masterBacklogs[3]);
   return;

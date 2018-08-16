@@ -10,7 +10,7 @@ getUpdateArray
 matchClass
 */
 function debugNotes() {
-  var masterBacklogs = new ServiceMasterBacklog();
+  var masterBacklogs = new MasterBacklogSheets();
   var overRide = 4;
   setupNotes(masterBacklogs.Collection[overRide]);
   return;

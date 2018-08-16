@@ -10,7 +10,7 @@ ServiceMasterBacklog
 uni_addLastColumns
 */
 function debugAddToCompleteBacklog() {
-  var masterBacklogs = new ServiceMasterBacklog();
+  var masterBacklogs = new MasterBacklogSheets();
   var overRide = 1;
   uni_addLastColumns(masterBacklogs.Collection[overRide]);
   return;

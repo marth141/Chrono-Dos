@@ -10,7 +10,7 @@ getUpdateArray
 matchClass
 */
 function debugLastUpdate() {
-  var masterBacklogs = new ServiceMasterBacklog();
+  var masterBacklogs = new MasterBacklogSheets();
   var overRide = 4;
   setupLastUpdateArrays(masterBacklogs.Collection[overRide]);
   return;

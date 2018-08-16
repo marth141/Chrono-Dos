@@ -90,7 +90,8 @@ function pp_MarkUnits(
       backlogArray[row][opporTypeCol].match(/add/i) ||
       backlogArray[row][officeCol].match(/az-/i) ||
       backlogArray[row][officeCol].match(/ny-09/i) ||
-      backlogArray[row][officeCol].match(/il-/i)
+      backlogArray[row][officeCol].match(/il-/i) ||
+      backlogArray[row][officeCol].match(/ca-02/i)
     ) {
       // For debugging a specific service number.
       // if (backlogArray[row][0].match(/S-5958052/)) {

@@ -45,30 +45,6 @@ function replaceOldInfo(FilterSettings, incomingBacklog, liveBacklog, columns) {
         incomingUpdate.serviceNumber
       );
       debugger;
-      var unitTypesMatch = checkUnitTypeMatch(
-        liveAccount.unitType,
-        incomingUpdate.unitType
-      );
-      var incomingSRIsAssigned = checkIfSRIsAssigned(
-        incomingUpdate.unitType,
-        incomingUpdate.assigned,
-        FilterSettings
-      );
-      var liveSRIsAssigned = checkIfSRIsAssigned(
-        incomingUpdate.unitType,
-        liveAccount.assigned,
-        FilterSettings
-      );
-      var priorityMismatchAndLiveNotBlank = checkMismatchAndNotBlank(
-        liveAccount.priority,
-        incomingUpdate.priority
-      );
-      var assignedInLive_NotInIncoming = checkLiveAssignedIncomingBlank(
-        liveAccount.assigned,
-        incomingUpdate.assigned
-      );
-      var liveUnitTypeNotBlank = liveAccount.unitType !== '';
-      var incomingUpdateIsNotSR = incomingUpdate.unitType !== 'SR';
 
       /**
        * ! START HERE
@@ -76,7 +52,13 @@ function replaceOldInfo(FilterSettings, incomingBacklog, liveBacklog, columns) {
        * same and unit types match
        */
       if (serviceNumbersMatch) {
+        var unitTypesMatch = checkUnitTypeMatch(
+          liveAccount.unitType,
+          incomingUpdate.unitType
+        );
+        var liveUnitTypeNotBlank = liveAccount.unitType !== '';
         if (unitTypesMatch) {
+          var incomingUpdateIsNotSR = incomingUpdate.unitType !== 'SR';
           if (incomingUpdateIsNotSR) {
             incomingUpdate.unitType = liveAccount.unitType;
           }
@@ -94,12 +76,30 @@ function replaceOldInfo(FilterSettings, incomingBacklog, liveBacklog, columns) {
         // set incoming initial update date to existing initial update date
         incomingUpdate.initialUpdate = liveAccount.initialUpdate;
 
+        var priorityMismatchAndLiveNotBlank = checkMismatchAndNotBlank(
+          liveAccount.priority,
+          incomingUpdate.priority
+        );
         if (priorityMismatchAndLiveNotBlank) {
           // Set incoming priority to existing priority
           incomingUpdate.priority = liveAccount.priority;
         }
 
+        var incomingSRIsAssigned = checkIfSRIsAssigned(
+          incomingUpdate.unitType,
+          incomingUpdate.assigned,
+          FilterSettings
+        );
+        var assignedInLive_NotInIncoming = checkLiveAssignedIncomingBlank(
+          liveAccount.assigned,
+          incomingUpdate.assigned
+        );
         if (incomingSRIsAssigned) {
+          var liveSRIsAssigned = checkIfSRIsAssigned(
+            incomingUpdate.unitType,
+            liveAccount.assigned,
+            FilterSettings
+          );
           if (liveSRIsAssigned) {
             incomingUpdate.assigned = '';
             incomingUpdate.status = '';

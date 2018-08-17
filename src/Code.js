@@ -4,8 +4,7 @@
  * * Is also used in updater
  */
 function main() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var masterBacklogSheets = new MasterBacklogSheets(ss);
+  var masterBacklogSheets = new MasterBacklogSheets();
   var permitColumns = new PermitColumns(masterBacklogSheets);
   var redesignColumns = new RedesignColumns(masterBacklogSheets);
   var reportColumns = new ReportPageColumns(masterBacklogSheets);

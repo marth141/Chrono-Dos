@@ -34,8 +34,8 @@ function setupAssigned(newBacklog) {
  * @returns
  */
 function workOnAssigned(newBacklogArray, oldBacklogArray) {
-  var newAssignedCol = getMeThatColumn("Assigned", newBacklogArray);
-  var oldAssignedCol = getMeThatColumn("Assigned", oldBacklogArray);
+  var newAssignedCol = getColumnIndex("Assigned", newBacklogArray);
+  var oldAssignedCol = getColumnIndex("Assigned", oldBacklogArray);
 
   var newArrayPostUnit = setLastAssigned(newBacklogArray, oldBacklogArray, newAssignedCol, oldAssignedCol);
 

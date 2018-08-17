@@ -1,53 +1,6 @@
 // @flow
 /**
  *
- * @param {GoogleAppsScript.Spreadsheet.Sheet} sheet
- * @return {Array}
- */
-function getDimensions(sheet) {
-  if (sheet !== null) {
-    var dimensions = [];
-    var lastRow = sheet.getLastRow();
-    var lastCol = sheet.getLastColumn();
-    dimensions.push(lastRow);
-    dimensions.push(lastCol);
-    return dimensions;
-  } else {
-    var getDimensionsError =
-      'getDimensions() has a null; backlogSheet: ' + sheet;
-    throw getDimensionsError;
-  }
-}
-
-/**
- * Used to make an array from a google sheet
- * @param {GoogleAppsScript.Spreadsheet.Sheet} sheet
- * @param {Array} dimensions
- * @return {Array[]}
- */
-function getBacklogArray(sheet, dimensions) {
-  if (sheet !== null) {
-    var backlogData = sheet
-      .getRange(1, 1, dimensions[0], dimensions[1])
-      .getValues()
-      .filter(function(value) {
-        return (
-          value[0].match(/^S-[0-9]/i) ||
-          value[0].match(/^Service:/i) ||
-          value[0].match(/^Project:/i) ||
-          value[0].match(/^Opportunity:/i)
-        );
-      });
-    return backlogData;
-  } else {
-    var getBacklogArrayError =
-      'getBacklogArray() has a null; backlogSheet: ' + sheet;
-    throw getBacklogArrayError;
-  }
-}
-
-/**
- *
  * @param {GoogleAppsScript.Spreadsheet.Sheet} Report
  * @return {Array}
  */
@@ -75,17 +28,6 @@ function getUsers(FilterSettings) {
 }
 
 /**
- * Used to get headers
- * @param {String} columnName
- * @param {Array[]} backlogArray
- * @return {Number}
- */
-function getMeThatColumnNoValidate(columnName, backlogArray) {
-  var backlogHeaders = backlogArray[0];
-  return backlogHeaders.indexOf(columnName);
-}
-
-/**
  *
  *
  * @param {String} columnName
@@ -110,9 +52,8 @@ function getMeThatIndexOf(columnName, backlogArray) {
  */
 function setCompleteBacklog(completeBacklog, Report) {
   var header = getHeader(Report);
-  var serviceCol = getMeThatColumnNoValidate('SERVICE', header);
-  var initialUpdateCol =
-    getMeThatColumnNoValidate('INITIAL DATE', header) - serviceCol;
+  var serviceCol = getColumnIndex('SERVICE', header);
+  var initialUpdateCol = getColumnIndex('INITIAL DATE', header) - serviceCol;
   Report.getRange(
     3,
     serviceCol + 1,
@@ -136,9 +77,8 @@ function setCompleteBacklog(completeBacklog, Report) {
  */
 function getLiveReportBacklog(Report) {
   var header = getHeader(Report);
-  var serviceCol = getMeThatColumnNoValidate('SERVICE', header);
-  var initialUpdateCol =
-    getMeThatColumnNoValidate('INITIAL DATE', header) - serviceCol;
+  var serviceCol = getColumnIndex('SERVICE', header);
+  var initialUpdateCol = getColumnIndex('INITIAL DATE', header) - serviceCol;
   var backlogArray = Report.getRange(
     2,
     serviceCol + 1,

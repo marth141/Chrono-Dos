@@ -34,8 +34,8 @@ function setupUnitTypeArrays(newBacklog) {
  * @returns
  */
 function workOnUnitType(newBacklogArray, oldBacklogArray) {
-  var newUnitTypeCol = getMeThatColumn("UNIT TYPE", newBacklogArray);
-  var oldUnitTypeCol = getMeThatColumn("UNIT TYPE", oldBacklogArray);
+  var newUnitTypeCol = getColumnIndex("UNIT TYPE", newBacklogArray);
+  var oldUnitTypeCol = getColumnIndex("UNIT TYPE", oldBacklogArray);
 
   var newArrayPostUnit = compareUnitTypes(newBacklogArray, oldBacklogArray, newUnitTypeCol, oldUnitTypeCol);
 

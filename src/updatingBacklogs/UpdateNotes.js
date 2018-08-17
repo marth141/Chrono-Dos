@@ -34,8 +34,8 @@ function setupNotes(newBacklog) {
  * @returns
  */
 function workOnNotes(newBacklogArray, oldBacklogArray) {
-  var newNotesCol = getMeThatColumn("Notes", newBacklogArray);
-  var oldNotesCol = getMeThatColumn("Notes", oldBacklogArray);
+  var newNotesCol = getColumnIndex("Notes", newBacklogArray);
+  var oldNotesCol = getColumnIndex("Notes", oldBacklogArray);
 
   var newArrayPostUnit = setLastUpdate(newBacklogArray, oldBacklogArray, newNotesCol, oldNotesCol);
 

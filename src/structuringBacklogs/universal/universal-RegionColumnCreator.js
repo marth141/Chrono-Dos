@@ -26,7 +26,7 @@ function debugUniRegMar() {
 function uni_RegionMarker(backlogArray, sheetDim) {
   // Above is a set up, below is an action.
   validateHeader("Service: Regional Operating Center", backlogArray);
-  var regOpCenterCol = getMeThatColumn("Service: Regional Operating Center", backlogArray);
+  var regOpCenterCol = getColumnIndex("Service: Regional Operating Center", backlogArray);
   var markedRegions = markRegion(backlogArray, regOpCenterCol, sheetDim);
   var markedNatOffices = markNatlRegion(markedRegions, sheetDim);
   // Above is a set up, below is an action.
@@ -102,7 +102,7 @@ function markCaliRegion(offices, region, backlogArray, sNumberRow, regOpCenterCo
  * @returns
  */
 function markNatlRegion(markedRegionsArray, sheetDim) {
-  var OpproOfficeCol = getMeThatColumn("Opportunity: Office:*", markedRegionsArray);
+  var OpproOfficeCol = getColumnIndex("Opportunity: Office:*", markedRegionsArray);
   var markedNatOffices = markNatlOffice(markedRegionsArray, OpproOfficeCol, sheetDim);
   return markedNatOffices;
 }

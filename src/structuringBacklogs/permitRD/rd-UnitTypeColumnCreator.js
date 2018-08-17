@@ -21,8 +21,8 @@ function debugRDUnitType() {
  */
 function rd_UnitTypeMarker(backlogArray) {
 
-  var recordTypeCol = getMeThatColumnNoValidate("Record Type", backlogArray);
-  var primaryReasonCol = getMeThatColumnNoValidate("Redesign Primary Reason", backlogArray);
+  var recordTypeCol = getColumnIndex("Record Type", backlogArray);
+  var primaryReasonCol = getColumnIndex("Redesign Primary Reason", backlogArray);
   backlogArray = rd_MarkUnits(backlogArray, recordTypeCol, primaryReasonCol);
 
   return backlogArray;

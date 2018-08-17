@@ -3,11 +3,11 @@
  * @param {Array[]} backlogArray
  */
 function UpdateDataColumns(backlogArray) {
-  var permitServiceCol = getMeThatColumnNoValidate(
+  var permitServiceCol = getColumnIndex(
     'Project: Service',
     backlogArray
   );
-  var redesignServiceCol = getMeThatColumnNoValidate(
+  var redesignServiceCol = getColumnIndex(
     'Service: Service Name',
     backlogArray
   );
@@ -16,11 +16,11 @@ function UpdateDataColumns(backlogArray) {
   } else if (redesignServiceCol > -1) {
     serviceColResult = redesignServiceCol;
   }
-  var permitAssignCol = getMeThatColumnNoValidate(
+  var permitAssignCol = getColumnIndex(
     'Phase: PV Design Completed By',
     backlogArray
   );
-  var redesignAssignCol = getMeThatColumnNoValidate(
+  var redesignAssignCol = getColumnIndex(
     'Redesign Completed By: Vivint Employee Name',
     backlogArray
   );
@@ -31,14 +31,14 @@ function UpdateDataColumns(backlogArray) {
   }
   this.serviceCol = serviceColResult;
   this.assignCol = assignColResult;
-  this.backlogDateCol = getMeThatColumnNoValidate('BACKLOG DATE', backlogArray);
-  this.dueDateCol = getMeThatColumnNoValidate('DUE DATE', backlogArray);
-  this.unitTypeCol = getMeThatColumnNoValidate('UNIT TYPE', backlogArray);
-  this.statusCol = getMeThatColumnNoValidate('STATUS', backlogArray);
-  this.priorityCol = getMeThatColumnNoValidate('PRIORITY', backlogArray);
-  this.notesCol = getMeThatColumnNoValidate('NOTES', backlogArray);
-  this.lastUpdateCol = getMeThatColumnNoValidate('LAST UPDATE', backlogArray);
-  this.initialUpdateCol = getMeThatColumnNoValidate(
+  this.backlogDateCol = getColumnIndex('BACKLOG DATE', backlogArray);
+  this.dueDateCol = getColumnIndex('DUE DATE', backlogArray);
+  this.unitTypeCol = getColumnIndex('UNIT TYPE', backlogArray);
+  this.statusCol = getColumnIndex('STATUS', backlogArray);
+  this.priorityCol = getColumnIndex('PRIORITY', backlogArray);
+  this.notesCol = getColumnIndex('NOTES', backlogArray);
+  this.lastUpdateCol = getColumnIndex('LAST UPDATE', backlogArray);
+  this.initialUpdateCol = getColumnIndex(
     'INITIAL DATE',
     backlogArray
   );

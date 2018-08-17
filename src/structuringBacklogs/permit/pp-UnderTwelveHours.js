@@ -6,11 +6,11 @@
  */
 function pp_underTweleveHours(backlogArray, Report) {
 
-  var unitTypeCol = getMeThatColumnNoValidate("UNIT TYPE", backlogArray);
-  var dueDateCol = getMeThatColumnNoValidate("DUE DATE", backlogArray);
-  var assignCol = getMeThatColumnNoValidate("Phase: PV Design Completed By", backlogArray);
+  var unitTypeCol = getColumnIndex("UNIT TYPE", backlogArray);
+  var dueDateCol = getColumnIndex("DUE DATE", backlogArray);
+  var assignCol = getColumnIndex("Phase: PV Design Completed By", backlogArray);
   if (assignCol === -1) {
-    assignCol = getMeThatColumnNoValidate("ASSIGNED", backlogArray);
+    assignCol = getColumnIndex("ASSIGNED", backlogArray);
   }
   var lastUpdateDate = Report.getRange("B2").getValue();
   backlogArray = changeUnitType(backlogArray, dueDateCol, unitTypeCol, assignCol, lastUpdateDate); 

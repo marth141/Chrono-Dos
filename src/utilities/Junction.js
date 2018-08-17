@@ -28,19 +28,22 @@ function backlogProcessJunction(
   /** @type GoogleAppsScript.Spreadsheet.Sheet */
   var backlog;
   var completeBacklog = [];
-  var reportBacklog = new BacklogCreator().reportBacklog(reportSheet);
-  var permitBacklog = new BacklogCreator().permitBacklog(permitSheet);
-  var redesignBacklog = new BacklogCreator().redesignBacklog(redesignSheet);
+  var reportBacklog = new Backlog().reportBacklog(reportSheet);
+  var permitBacklog = new Backlog().permitBacklog(permitSheet);
+  var redesignBacklog = new Backlog().redesignBacklog(redesignSheet);
   // UPDATE PERMIT BACKLOG
-  permitBacklog = new LinkCreator().permitSolLinks(
+  permitBacklog = new BacklogWithLinks().permitSolLinks(
     permitBacklog,
     permitColumns
   );
+  permitBacklog = new BacklogWithCADColumn(permitBacklog, permitColumns);
+  // permitBacklog = new BacklogWithPermitDates(permitBacklog, reportBacklog);
   // UPDATE REDESIGN BACKLOG
-  redesignBacklog = new LinkCreator().redesignCADLinks(
+  redesignBacklog = new BacklogWithLinks().redesignCADLinks(
     redesignBacklog,
     redesignColumns
   );
+  redesignBacklog = new BacklogWithCADColumn(redesignBacklog, redesignColumns);
   debugger; // CURRENTLY WORKING HERE
 
   for (backlog in masterBacklogSheets) {

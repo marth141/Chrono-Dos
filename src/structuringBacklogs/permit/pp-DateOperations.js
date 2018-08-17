@@ -3,12 +3,26 @@
  * Starts the dates cleaner
  * @param {Array[]} backlogArray
  * @param {Array[]} oldData
+ * @param {PermitColumns} permitColumns
+ * @param {RedesignColumns} redesignColumns
  * @return {Array[]} dateAdjLog
  */
-function pp_DateCleaner(backlogArray, oldData) {
+function pp_DateCleaner(backlogArray, oldData, permitColumns, redesignColumns) {
   var columns = new DateColumnsConstructor(backlogArray);
-  var dateAdjLog = pp_RemoveLateDates(backlogArray, oldData, columns);
+  var dateAdjLog = pp_RemoveLateDates(
+    backlogArray,
+    oldData,
+    permitColumns,
+    redesignColumns
+  );
   return dateAdjLog;
+}
+
+/**
+ *
+ */
+function PermitDates() {
+  this.headers = backlogArray[0];
 }
 
 /**
@@ -18,7 +32,12 @@ function pp_DateCleaner(backlogArray, oldData) {
  * @param {DateColumnsConstructor} columns
  * @return {Array[]} backlogArray with removed dates
  */
-function pp_RemoveLateDates(backlogArray, oldData, columns) {
+function pp_RemoveLateDates(
+  backlogArray,
+  oldData,
+  permitColumns,
+  redesignColumns
+) {
   var headers = backlogArray[0];
   var siteSurveyDateCol = columns.siteSurveyDateCol;
   var spliceDeleteCount = 6;

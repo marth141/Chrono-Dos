@@ -4,13 +4,13 @@
  * @return {Array[]}
  */
 function pp_CleanUpColumns(backlogArray) {
-  var projectIDCol = getMeThatColumnNoValidate('Project: Solar Project ID', backlogArray);
-  var opporTypeCol = getMeThatColumnNoValidate('Opportunity: Type', backlogArray);
-  var PermitCompletedCol = getMeThatColumnNoValidate(
+  var projectIDCol = getColumnIndex('Project: Solar Project ID', backlogArray);
+  var opporTypeCol = getColumnIndex('Opportunity: Type', backlogArray);
+  var PermitCompletedCol = getColumnIndex(
     'Primary CAD: Permit Packet QA Completed',
     backlogArray
   );
-  var structuralCompletedCol = getMeThatColumnNoValidate(
+  var structuralCompletedCol = getColumnIndex(
     'Phase: Structural Review Completed',
     backlogArray
   );

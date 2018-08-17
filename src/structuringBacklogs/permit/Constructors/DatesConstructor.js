@@ -4,34 +4,34 @@
  */
 function DateColumnsConstructor(backlogArray) {
   /** @type Number */
-  this.serviceCol = getMeThatColumnNoValidate('Project: Service', backlogArray);
+  this.serviceCol = getColumnIndex('Project: Service', backlogArray);
   /** @type Number */
-  this.siteSurveyDateCol = getMeThatColumnNoValidate(
+  this.siteSurveyDateCol = getColumnIndex(
     'Project: Site Survey Completed',
     backlogArray
   );
   /** @type Number */
-  this.welcomeCallDateCol = getMeThatColumnNoValidate(
+  this.welcomeCallDateCol = getColumnIndex(
     'Opportunity: Welcome Call Completed Date',
     backlogArray
   );
   /** @type Number */
-  this.signedDateCol = getMeThatColumnNoValidate(
+  this.signedDateCol = getColumnIndex(
     'Primary Contract: Application Signed',
     backlogArray
   );
   /** @type Number */
-  this.approvedDateCol = getMeThatColumnNoValidate(
+  this.approvedDateCol = getColumnIndex(
     'Primary Contract: Customer Agreement Approved',
     backlogArray
   );
   /** @type Number */
-  this.leaseDateCol = getMeThatColumnNoValidate(
+  this.leaseDateCol = getColumnIndex(
     'Primary Contract: Lease Approved',
     backlogArray
   );
   /** @type Number */
-  this.proposalDateCol = getMeThatColumnNoValidate(
+  this.proposalDateCol = getColumnIndex(
     'Proposal CAD: Proposal Customer Approved',
     backlogArray
   );

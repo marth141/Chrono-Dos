@@ -26,10 +26,10 @@ function debugRDDateCleaner() {
 function rd_DateCleaner(backlogArray, oldData) {
 
   var serviceCol, customerApprovedCol, redesignReqCol, recordTypeCol;
-  serviceCol = getMeThatColumnNoValidate("Service: Service Name", backlogArray);
-  redesignReqCol = getMeThatColumnNoValidate("Redesign Requested", backlogArray);
-  customerApprovedCol = getMeThatColumnNoValidate("Proposal Customer Approved", backlogArray);
-  recordTypeCol = getMeThatColumnNoValidate("Record Type", backlogArray);
+  serviceCol = getColumnIndex("Service: Service Name", backlogArray);
+  redesignReqCol = getColumnIndex("Redesign Requested", backlogArray);
+  customerApprovedCol = getColumnIndex("Proposal Customer Approved", backlogArray);
+  recordTypeCol = getColumnIndex("Record Type", backlogArray);
   var dateAdjBacklog = rd_RemoveLateDates(backlogArray, oldData, serviceCol, redesignReqCol, customerApprovedCol, recordTypeCol);
   
   return dateAdjBacklog;

@@ -34,8 +34,8 @@ function setupPriority(newBacklog) {
  * @returns
  */
 function workOnPriority(newBacklogArray, oldBacklogArray) {
-  var newAssignedCol = getMeThatColumn("Priority", newBacklogArray);
-  var oldAssignedCol = getMeThatColumn("Priority", oldBacklogArray);
+  var newAssignedCol = getColumnIndex("Priority", newBacklogArray);
+  var oldAssignedCol = getColumnIndex("Priority", oldBacklogArray);
 
   var newArrayPostUnit = setLastPriority(newBacklogArray, oldBacklogArray, newAssignedCol, oldAssignedCol);
 

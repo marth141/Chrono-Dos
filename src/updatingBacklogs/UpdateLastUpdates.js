@@ -34,8 +34,8 @@ function setupLastUpdateArrays(newBacklog) {
  * @returns
  */
 function workOnLastUpdate(newBacklogArray, oldBacklogArray) {
-  var newLastUpdateCol = getMeThatColumn("Last Update", newBacklogArray);
-  var oldLastUpdateCol = getMeThatColumn("Last Update", oldBacklogArray);
+  var newLastUpdateCol = getColumnIndex("Last Update", newBacklogArray);
+  var oldLastUpdateCol = getColumnIndex("Last Update", oldBacklogArray);
 
   var newArrayPostUnit = setLastUpdate(newBacklogArray, oldBacklogArray, newLastUpdateCol, oldLastUpdateCol);
 

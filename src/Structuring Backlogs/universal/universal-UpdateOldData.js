@@ -121,7 +121,6 @@ function replaceOldInfo(FilterSettings, backlogArray, oldData, serviceCol, backl
           backlogArray[newRow][assignCol] = "";
           backlogArray[newRow][statusCol] = "";
           backlogArray[newRow][initialUpdateCol] = "";
-          oldData[oldRow][statusCol] = "";
           oldData[oldRow][initialUpdateCol] = "";
         }
         else {

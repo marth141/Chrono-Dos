@@ -145,7 +145,7 @@ function rd_CompareDates(
     }
     //set due date to 6pm
     backlogArray[row][customerApprovedCol] = new Date(
-      dateValue1.setHours(18, 00, 00, 00)
+      dateValue1.setHours(12, 00, 00, 00)
     );
 
     return backlogArray;
@@ -168,7 +168,7 @@ function rd_CompareDates(
     backlogArray[row][redesignReqCol] = backlogArray[row][customerApprovedCol];
     //set due date to 6pm
     backlogArray[row][customerApprovedCol] = new Date(
-      dateValue2.setHours(18, 00, 00, 00)
+      dateValue2.setHours(12, 00, 00, 00)
     );
     return backlogArray;
   } else throw 'PERMIT RD DATE ERROR';

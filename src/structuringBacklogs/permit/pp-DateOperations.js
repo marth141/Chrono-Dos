@@ -1,28 +1,58 @@
 // @flow strict
 /**
- * Starts the dates cleaner
+ * Will create the backlog date and due date columns
  * @param {Array[]} backlogArray
- * @param {Array[]} oldData
  * @param {PermitColumns} permitColumns
- * @param {RedesignColumns} redesignColumns
- * @return {Array[]} dateAdjLog
+ * @param {Array[]} reportBacklog
+ * @return {Array[]}
  */
-function pp_DateCleaner(backlogArray, oldData, permitColumns, redesignColumns) {
-  var columns = new DateColumnsConstructor(backlogArray);
-  var dateAdjLog = pp_RemoveLateDates(
-    backlogArray,
-    oldData,
-    permitColumns,
-    redesignColumns
+function BacklogWithDateColumns(backlogArray, permitColumns, reportBacklog) {
+  var backlogDateColumn = new BacklogDateColumn(backlogArray, permitColumns);
+  var dueDateColumn = new DueDateColumn(backlogArray, permitColumns);
+  var siteSurveyDateCol = permitColumns.siteSurvey_Date;
+  var columnsToRemove = 6;
+  var headers = backlogArray[0];
+  headers.splice(
+    siteSurveyDateCol,
+    columnsToRemove,
+    backlogDateColumn.headerToAdd,
+    dueDateColumn.headerToAdd
   );
-  return dateAdjLog;
+  for (var row = 1; row < backlogArray.length; row++) {
+    var account = backlogArray[row];
+    var lateDates = new LateDatesConstructor(account, row, permitColumns);
+    debugger;
+    account.splice(
+      siteSurveyDateCol,
+      columnsToRemove,
+      backlogDateColumn.headerToAdd_Data,
+      dueDateColumn.headerToAdd_Data
+    );
+  }
+  debugger;
+  return backlogArray;
 }
 
 /**
- *
+ * Will create the backlog date column
+ * @param {Array[]} backlogArray
+ * @param {PermitColumns} permitColumns
  */
-function PermitDates() {
-  this.headers = backlogArray[0];
+function BacklogDateColumn(backlogArray, permitColumns) {
+  var data = new Date();
+  this.headerToAdd = 'BACKLOG DATE';
+  this.headerToAdd_Data = data;
+}
+
+/**
+ * Will create the backlog date column
+ * @param {Array[]} backlogArray
+ * @param {PermitColumns} permitColumns
+ */
+function DueDateColumn(backlogArray, permitColumns) {
+  var data = new Date();
+  this.headerToAdd = 'DUE DATE';
+  this.headerToAdd_Data = data;
 }
 
 /**
@@ -120,7 +150,8 @@ function checkHibernated(oldData, serviceNumber, initialDate) {
    */
 
   // Check initail date is over 6 hours
-  var hours = (new Date() - initialDate) / 36e5;
+  var now = new Date();
+  var hours = (now - initialDate) / 36e5;
   if (hours < 6) {
     return false;
   }

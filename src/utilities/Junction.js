@@ -32,18 +32,25 @@ function backlogProcessJunction(
   var permitBacklog = new Backlog().permitBacklog(permitSheet);
   var redesignBacklog = new Backlog().redesignBacklog(redesignSheet);
   // UPDATE PERMIT BACKLOG
+  // Size 14 columns
   permitBacklog = new BacklogWithLinks().permitSolLinks(
     permitBacklog,
     permitColumns
   );
+  // Size 15 columns
   permitBacklog = new BacklogWithCADColumn(permitBacklog, permitColumns);
-  // permitBacklog = new BacklogWithPermitDates(permitBacklog, reportBacklog);
+  permitColumns = new PermitColumns(undefined, permitBacklog);
+  permitBacklog = new BacklogWithDateColumns(permitBacklog, permitColumns, reportBacklog);
+  permitColumns = new PermitColumns(undefined, permitBacklog);
   // UPDATE REDESIGN BACKLOG
+  // Size 14 columns
   redesignBacklog = new BacklogWithLinks().redesignCADLinks(
     redesignBacklog,
     redesignColumns
   );
+  // Size 15 columns
   redesignBacklog = new BacklogWithCADColumn(redesignBacklog, redesignColumns);
+  redesignColumns = new RedesignColumns(undefined, redesignBacklog);
   debugger; // CURRENTLY WORKING HERE
 
   for (backlog in masterBacklogSheets) {

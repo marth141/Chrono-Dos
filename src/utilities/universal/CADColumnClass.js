@@ -10,7 +10,8 @@ function BacklogWithCADColumn(backlogArray, backlogColumns) {
   // Create Header for CAD OBJECT column. Always after SP Column
   var cadColumn = new CADNameColumn(backlogArray, backlogColumns);
   // Add CAD Object Field
-  cadColumn.headers.splice(
+  var headers = backlogArray[0];
+  headers.splice(
     cadColumn.solarProjectCol,
     cadColumn.columnsToRemove,
     cadColumn.headerToAdd
@@ -34,7 +35,6 @@ function BacklogWithCADColumn(backlogArray, backlogColumns) {
  * @param {PermitColumns|RedesignColumns} backlogColumns
  */
 function CADNameColumn(backlogArray, backlogColumns) {
-  this.headers = backlogArray[0];
   this.solarProjectCol = backlogColumns.solProjID;
   this.columnsToRemove = 0;
   this.headerToAdd = 'CAD OBJECT';

@@ -39,18 +39,18 @@ function DateColumnsConstructor(backlogArray) {
 
 /**
  * Used to reduce the complexity in remove late dates.
- * @param {Array} backlogArray
+ * @param {Array[]} account
  * @param {Number} row
- * @param {DateColumn} columns
+ * @param {PermitColumns} columns
  */
-function LateDatesConstructor(backlogArray, row, columns) {
-  this.serviceNumber = backlogArray[row][columns.serviceCol];
-  this.dateValue1 = new Date(backlogArray[row][columns.siteSurveyDateCol]);
-  this.dateValue2 = new Date(backlogArray[row][columns.welcomeCallDateCol]);
-  this.dateValue3 = new Date(backlogArray[row][columns.signedDateCol]);
-  this.dateValue4 = new Date(backlogArray[row][columns.approvedDateCol]);
-  this.dateValue5 = new Date(backlogArray[row][columns.leaseDateCol]);
-  this.dateValue6 = new Date(backlogArray[row][columns.proposalDateCol]);
+function LateDatesConstructor(account, row, columns) {
+  this.serviceNumber = account[columns.serviceNumber];
+  this.siteSurveyDate = new Date(account[columns.appSigned_Date]);
+  this.welcomeCallDate = new Date(account[columns.custAgree_Date]);
+  this.dateValue3 = new Date(account[columns.permitQA_Date]);
+  this.dateValue4 = new Date(account[columns.siteSurvey_Date]);
+  this.dateValue5 = new Date(account[columns.srReview_Date]);
+  this.dateValu6 = new Date(account[columns.welcomeCall_Date]);
 }
 
 /**

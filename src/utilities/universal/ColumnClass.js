@@ -6,12 +6,7 @@
  */
 function getColumn(header, backlogArray) {
   var columnNum = getColumnIndex(header, backlogArray);
-  var columnExists = columnNum instanceof Number > -1;
-  if (columnExists) {
-    return columnNum;
-  } else {
-    throw columnCreationError(header, columnNum, report);
-  }
+  return columnNum;
 }
 
 /**
@@ -23,18 +18,6 @@ function getColumn(header, backlogArray) {
 function getColumnIndex(columnName, backlogArray) {
   var backlogHeaders = backlogArray[0];
   return backlogHeaders.indexOf(columnName);
-}
-
-/**
- * @param {String} target
- * @param {Number} column
- * @param {GoogleAppsScript.Spreadsheet.Sheet} sheet
- * @return {String}
- */
-function columnCreationError(target, column, sheet) {
-  var columnCreationError =
-    'Unable to find ' + target + ' in ' + sheet.getName();
-  return columnCreationError;
 }
 
 /**
@@ -69,14 +52,18 @@ function ReportPageColumns(chrono) {
  * Used to get all the columns in redesign backlog
  * @constructor
  * @param {MasterBacklogSheets} chrono
+ * @param {Array[]} backlogArray pass in for new header assessment
  */
-function RedesignColumns(chrono) {
-  var redesignSheet = chrono.PermitRD;
-  var dim = getDimensions(redesignSheet);
-  var backlogArray = getBacklogArray(redesignSheet, dim);
+function RedesignColumns(chrono, backlogArray) {
+  if (chrono !== undefined) {
+    var redesignSheet = chrono.PermitRD;
+    var dim = getDimensions(redesignSheet);
+    var backlogArray = getBacklogArray(redesignSheet, dim);
+  }
 
   this.serviceNumber = getColumn('Service: Service Name', backlogArray);
   this.solProjName = getColumn('Project Name', backlogArray);
+  this.cadObject = getColumn('CAD OBJECT', backlogArray);
   this.solProjID = getColumn('Solar Project ID', backlogArray);
   this.cadName = getColumn('CAD Name', backlogArray);
   this.cadID = getColumn('Solar CAD ID', backlogArray);
@@ -103,33 +90,37 @@ function RedesignColumns(chrono) {
 /**
  * Used to get all the columns in a permit backlog
  * @constructor
- * @param {MasterBacklogSheets} chrono
+ * @param {MasterBacklogSheets} chrono undefined for new header assessment
+ * @param {Array[]} backlogArray pass in for new header assessment
  */
-function PermitColumns(chrono) {
-  var permitSheet = chrono.Permit;
-  var dim = getDimensions(permitSheet);
-  var backlogArray = getBacklogArray(permitSheet, dim);
+function PermitColumns(chrono, backlogArray) {
+  if (chrono !== undefined) {
+    var permitSheet = chrono.Permit;
+    var dim = getDimensions(permitSheet);
+    var backlogArray = getBacklogArray(permitSheet, dim);
+  }
 
   this.serviceNumber = getColumn('Project: Service', backlogArray);
   this.solProjName = getColumn('Project: Project Name', backlogArray);
+  this.cadObject = getColumn('CAD OBJECT', backlogArray);
   this.solProjID = getColumn('Project: Solar Project ID', backlogArray);
   this.regionOffice = getColumn(
     'Service: Regional Operating Center',
     backlogArray
   );
-  this.siteSurveyDate = getColumn(
+  this.siteSurvey_Date = getColumn(
     'Project: Site Survey Completed',
     backlogArray
   );
-  this.welcomeCallDate = getColumn(
+  this.welcomeCall_Date = getColumn(
     'Opportunity: Welcome Call Completed Date',
     backlogArray
   );
-  this.appSignedDate = getColumn(
+  this.appSigned_Date = getColumn(
     'Primary Contract: Application Signed',
     backlogArray
   );
-  this.custAgreeDate = getColumn(
+  this.custAgree_Date = getColumn(
     'Primary Contract: Customer Agreement Approved',
     backlogArray
   );
@@ -137,12 +128,14 @@ function PermitColumns(chrono) {
   this.utilityType = getColumn('Project: Utility', backlogArray);
   this.opportunityType = getColumn('Opportunity: Type', backlogArray);
   this.pvDesigner = getColumn('Phase: PV Design Completed By', backlogArray);
-  this.permitQADate = getColumn(
+  this.permitQA_Date = getColumn(
     'Primary CAD: Permit Packet QA Completed',
     backlogArray
   );
-  this.srReviewDate = getColumn(
+  this.srReview_Date = getColumn(
     'Phase: Structural Review Completed',
     backlogArray
   );
+  this.backlog_Date = getColumn('BACKLOG DATE', backlogArray);
+  this.due_Date = getColumn('DUE DATE', backlogArray);
 }

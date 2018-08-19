@@ -53,7 +53,7 @@ function uni_UpdateOldData(FilterSettings, backlogArray, oldData) {
  * @returns backlogArray
  */
 function replaceOldInfo(FilterSettings, backlogArray, oldData, serviceCol, backlogDateCol, dueDateCol, unitTypeCol, assignCol, statusCol, priorityCol, notesCol, lastUpdateCol, initialUpdateCol) {
-  var checkServiceNumber = "S-5954011";
+  var checkServiceNumber = "S-5961855";
   // Remove all index"s in removeValFromIndex from each row
   for (var oldRow = 0; oldRow < oldData.length; oldRow++) {
     for (var newRow = 0; newRow < backlogArray.length; newRow++) {

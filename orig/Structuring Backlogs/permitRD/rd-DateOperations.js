@@ -132,8 +132,9 @@ function rd_CompareDates(
       dateValue1 = new Date();
       backlogArray[row][redesignReqCol] = 'CHRONO STAMP';
     }
-    if (dateValue1.getDay() === 5) {
-      addHours = 72;
+    // ----------------------------------------------- If Sat or Sun then due monday -----------------------------------------------
+    if (dateValue1.getDay() === 0) {
+      addHours = 24;
       dateValue1 = timeAddHours(dateValue1, addHours);
     } else if (dateValue1.getDay() === 6) {
       addHours = 48;
@@ -154,8 +155,9 @@ function rd_CompareDates(
       dateValue2 = new Date();
       backlogArray[row][customerApprovedCol] = 'CHRONO STAMP';
     }
-    if (dateValue2.getDay() === 5) {
-      addHours = 72;
+    // ----------------------------------------------- If Sat or Sun then due monday -----------------------------------------------
+    if (dateValue2.getDay() === 0) {
+      addHours = 24;
       dateValue2 = timeAddHours(dateValue2, addHours);
     } else if (dateValue2.getDay() === 6) {
       addHours = 48;

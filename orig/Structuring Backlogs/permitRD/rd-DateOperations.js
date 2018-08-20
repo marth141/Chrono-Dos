@@ -139,7 +139,7 @@ function rd_CompareDates(
     } else if (dateValue1.getDay() === 6) {
       addHours = 48;
       dateValue1 = timeAddHours(dateValue1, addHours);
-    } else if (dateValue1.getHours() >= 15) {
+    } else if (dateValue1.getHours() >= 12) {
       //add 1 day if backlog date is after 3pm
       addHours = 24;
       dateValue1 = timeAddHours(dateValue1, addHours);
@@ -162,7 +162,7 @@ function rd_CompareDates(
     } else if (dateValue2.getDay() === 6) {
       addHours = 48;
       dateValue2 = timeAddHours(dateValue2, addHours);
-    } else if (dateValue2.getHours() >= 15) {
+    } else if (dateValue2.getHours() >= 12) {
       //add 1 day if backlog date is after 3pm
       addHours = 24;
       dateValue2 = timeAddHours(dateValue2, addHours);

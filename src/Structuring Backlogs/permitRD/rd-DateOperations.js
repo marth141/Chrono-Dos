@@ -67,20 +67,20 @@ function rd_RemoveLateDates(
   backlogArray[0].splice(redesignReqCol, 2, 'BACKLOG DATE', 'DUE DATE');
   for (var row = 1; row < backlogArray.length; row++) {
     var serviceNumber = backlogArray[row][serviceCol];
-    var dateValue1 = new Date(backlogArray[row][redesignReqCol]);
-    var dateValue2 = new Date(backlogArray[row][customerApprovedCol]);
-    dateValue1 = invalidFix(dateValue1);
-    dateValue2 = invalidFix(dateValue2);
+    var redesignReq = new Date(backlogArray[row][redesignReqCol]);
+    var customerApproved = new Date(backlogArray[row][customerApprovedCol]);
+    redesignReq = invalidFix(redesignReq);
+    customerApproved = invalidFix(customerApproved);
     // If record type proposal, set customer approved date as Initial and due date
     if (backlogArray[row][recordTypeCol].match(/proposal/i)) {
-      dateValue1 = new Date(1970, 1, 1, 0, 0, 0, 0);
+      redesignReq = new Date(1970, 1, 1, 0, 0, 0, 0);
     }
     backlogArray = rd_CompareDates(
       backlogArray,
       oldData,
       serviceNumber,
-      dateValue1,
-      dateValue2,
+      redesignReq,
+      customerApproved,
       row,
       redesignReqCol,
       customerApprovedCol
@@ -108,8 +108,8 @@ function invalidFix(dateValue) {
  *
  *
  * @param {any} backlogArray
- * @param {Date} dateValue1
- * @param {Date} dateValue2
+ * @param {Date} redesignReq
+ * @param {Date} customerApproved
  * @param {Date} dateValue3
  * @param {number} row
  * @param {number} opPropCompCol
@@ -120,69 +120,75 @@ function rd_CompareDates(
   backlogArray,
   oldData,
   serviceNumber,
-  dateValue1,
-  dateValue2,
+  redesignReq,
+  customerApproved,
   row,
   redesignReqCol,
   customerApprovedCol
 ) {
   var addHours = 24;
   var now = new Date();
-  if (dateValue2 <= dateValue1) {
-    if (checkHibernated(oldData, serviceNumber, dateValue1)) {
-      dateValue1 = new Date();
+  if (customerApproved <= redesignReq) {
+    if (checkHibernated(oldData, serviceNumber, redesignReq)) {
+      redesignReq = new Date();
       backlogArray[row][redesignReqCol] = 'CHRONO STAMP';
     }
     // ----------------------------------------------- If Sat or Sun then due monday -----------------------------------------------
-    if (dateValue1.getDay() === 0) {
+    if (redesignReq.getDay() === 0) {
       addHours = 24;
-      dateValue1 = timeAddHours(dateValue1, addHours);
-    } else if (dateValue1.getDay() === 6) {
+      redesignReq = timeAddHours(redesignReq, addHours);
+    } else if (redesignReq.getDay() === 6) {
       addHours = 48;
-      dateValue1 = timeAddHours(dateValue1, addHours);
-    } else if (dateValue1.getHours() >= 12) {
+      redesignReq = timeAddHours(redesignReq, addHours);
+    } else if (redesignReq.getHours() >= 12) {
       //add 1 day if backlog date is after 3pm
       addHours = 24;
-      dateValue1 = timeAddHours(dateValue1, addHours);
+      redesignReq = timeAddHours(redesignReq, addHours);
     }
     //set due date to 6pm
     if (now.getHours() >= 12) {
       backlogArray[row][customerApprovedCol] = new Date(
-        dateValue1.setHours(18, 00, 00, 00)
+        redesignReq.setHours(18, 00, 00, 00)
       );
     } else if (now.getHours() < 12) {
-      backlogArray[row][customerApprovedCol] = new Date(
-        dateValue1.setHours(12, 00, 00, 00)
+      backlogArray[row][customerApprovedCol] = new Date().setHours(
+        18,
+        00,
+        00,
+        00
       );
     }
 
     return backlogArray;
-  } else if (dateValue1 <= dateValue2) {
-    if (checkHibernated(oldData, serviceNumber, dateValue2)) {
-      dateValue2 = new Date();
+  } else if (redesignReq <= customerApproved) {
+    if (checkHibernated(oldData, serviceNumber, customerApproved)) {
+      customerApproved = new Date();
       backlogArray[row][customerApprovedCol] = 'CHRONO STAMP';
     }
     // ----------------------------------------------- If Sat or Sun then due monday -----------------------------------------------
-    if (dateValue2.getDay() === 0) {
+    if (customerApproved.getDay() === 0) {
       addHours = 24;
-      dateValue2 = timeAddHours(dateValue2, addHours);
-    } else if (dateValue2.getDay() === 6) {
+      customerApproved = timeAddHours(customerApproved, addHours);
+    } else if (customerApproved.getDay() === 6) {
       addHours = 48;
-      dateValue2 = timeAddHours(dateValue2, addHours);
-    } else if (dateValue2.getHours() >= 12) {
+      customerApproved = timeAddHours(customerApproved, addHours);
+    } else if (customerApproved.getHours() >= 12) {
       //add 1 day if backlog date is after 3pm
       addHours = 24;
-      dateValue2 = timeAddHours(dateValue2, addHours);
+      customerApproved = timeAddHours(customerApproved, addHours);
     }
     backlogArray[row][redesignReqCol] = backlogArray[row][customerApprovedCol];
     //set due date to 6pm
     if (now.getHours() >= 12) {
       backlogArray[row][customerApprovedCol] = new Date(
-        dateValue2.setHours(18, 00, 00, 00)
+        customerApproved.setHours(18, 00, 00, 00)
       );
     } else if (now.getHours() < 12) {
-      backlogArray[row][customerApprovedCol] = new Date(
-        dateValue2.setHours(12, 00, 00, 00)
+      backlogArray[row][customerApprovedCol] = new Date().setHours(
+        18,
+        00,
+        00,
+        00
       );
     }
     return backlogArray;

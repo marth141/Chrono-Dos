@@ -127,6 +127,7 @@ function rd_CompareDates(
   customerApprovedCol
 ) {
   var addHours = 24;
+  var now = new Date();
   if (dateValue2 <= dateValue1) {
     if (checkHibernated(oldData, serviceNumber, dateValue1)) {
       dateValue1 = new Date();
@@ -145,9 +146,15 @@ function rd_CompareDates(
       dateValue1 = timeAddHours(dateValue1, addHours);
     }
     //set due date to 6pm
-    backlogArray[row][customerApprovedCol] = new Date(
-      dateValue1.setHours(12, 00, 00, 00)
-    );
+    if (now.getHours() >= 12) {
+      backlogArray[row][customerApprovedCol] = new Date(
+        dateValue1.setHours(18, 00, 00, 00)
+      );
+    } else if (now.getHours() < 12) {
+      backlogArray[row][customerApprovedCol] = new Date(
+        dateValue1.setHours(12, 00, 00, 00)
+      );
+    }
 
     return backlogArray;
   } else if (dateValue1 <= dateValue2) {
@@ -169,9 +176,15 @@ function rd_CompareDates(
     }
     backlogArray[row][redesignReqCol] = backlogArray[row][customerApprovedCol];
     //set due date to 6pm
-    backlogArray[row][customerApprovedCol] = new Date(
-      dateValue2.setHours(12, 00, 00, 00)
-    );
+    if (now.getHours() >= 12) {
+      backlogArray[row][customerApprovedCol] = new Date(
+        dateValue2.setHours(18, 00, 00, 00)
+      );
+    } else if (now.getHours() < 12) {
+      backlogArray[row][customerApprovedCol] = new Date(
+        dateValue2.setHours(12, 00, 00, 00)
+      );
+    }
     return backlogArray;
   } else throw 'PERMIT RD DATE ERROR';
 }

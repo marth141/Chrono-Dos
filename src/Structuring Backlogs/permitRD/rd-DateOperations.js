@@ -128,6 +128,10 @@ function rd_CompareDates(
 ) {
   var addHours = 24;
   var now = new Date();
+  if (backlogArray[row][0] === "S-5884143") {
+      var x = "Hello"
+      debugger;
+  }
   if (customerApproved <= redesignReq) {
     if (checkHibernated(oldData, serviceNumber, redesignReq)) {
       redesignReq = new Date();
@@ -150,6 +154,9 @@ function rd_CompareDates(
       backlogArray[row][customerApprovedCol] = new Date(
         redesignReq.setHours(18, 00, 00, 00)
       );
+      backlogArray[row][customerApprovedCol] = new Date(backlogArray[row][customerApprovedCol]);
+      var checkThis = backlogArray[row];
+      debugger;
     } else if (now.getHours() < 12) {
       backlogArray[row][customerApprovedCol] = new Date().setHours(
         18,
@@ -157,8 +164,11 @@ function rd_CompareDates(
         00,
         00
       );
+      backlogArray[row][customerApprovedCol] = new Date(backlogArray[row][customerApprovedCol]);
+      checkThis = backlogArray[row];
+      debugger;
     }
-
+    checkThis = backlogArray[row];
     return backlogArray;
   } else if (redesignReq <= customerApproved) {
     if (checkHibernated(oldData, serviceNumber, customerApproved)) {
@@ -183,6 +193,9 @@ function rd_CompareDates(
       backlogArray[row][customerApprovedCol] = new Date(
         customerApproved.setHours(18, 00, 00, 00)
       );
+      backlogArray[row][customerApprovedCol] = new Date(backlogArray[row][customerApprovedCol]);
+      var checkThis2 = backlogArray[row];
+      debugger;
     } else if (now.getHours() < 12) {
       backlogArray[row][customerApprovedCol] = new Date().setHours(
         18,
@@ -190,7 +203,11 @@ function rd_CompareDates(
         00,
         00
       );
-    }
+      backlogArray[row][customerApprovedCol] = new Date(backlogArray[row][customerApprovedCol]);
+      checkThis2 = backlogArray[row];
+      debugger;
+    }    
+    checkThis2 = backlogArray[row];
     return backlogArray;
   } else throw 'PERMIT RD DATE ERROR';
 }

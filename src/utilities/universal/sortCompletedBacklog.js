@@ -102,6 +102,8 @@ function checkPriority(a, b) {
  * @return {Boolean}
  */
 function checkDueDates(a, b, c, d) {
+  a = new Date(a);
+  b = new Date(b);
   var isOverDue = a < new Date() || b < new Date();
   var isFriday = new Date().getDay() === 5;
   var isDueFriday = a.getDay() === 5 || b.getDay() === 5;

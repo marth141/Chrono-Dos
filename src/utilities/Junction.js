@@ -110,5 +110,4 @@ function testUnit(array) {
       return true;
     }
   });
-  debugger;
 }

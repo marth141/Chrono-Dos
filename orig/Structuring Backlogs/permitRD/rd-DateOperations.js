@@ -1,38 +1,19 @@
-/* exported
-debugCPRDDateCleaner
-cprd_RemoveDoubleDate
-*/
-
-/* global
-ServiceMasterBacklog
-SpreadsheetApp
-getMeThatColumn
-timeAddHours
-*/
-
-function debugRDDateCleaner() {
-  var masterBacklogs = new ServiceMasterBacklog();
-  masterBacklogs = masterBacklogs.Collection;
-  rd_DateCleaner(masterBacklogs[3]);
-  return;
-}
-
 /**
  *
- *
- * @param {any} propBacklog
- * @returns
+ * @param {*} backlogArray
+ * @param {*} oldData
+ * @return {Array[]}
  */
 function rd_DateCleaner(backlogArray, oldData) {
-  var serviceCol, customerApprovedCol, redesignReqCol, recordTypeCol;
-  serviceCol = getMeThatColumn('Service: Service Name', backlogArray);
-  redesignReqCol = getMeThatColumn('Redesign Requested', backlogArray);
-  customerApprovedCol = getMeThatColumn(
-    'Proposal Customer Approved',
-    backlogArray
-  );
-  recordTypeCol = getMeThatColumn('Record Type', backlogArray);
-  var dateAdjBacklog = rd_RemoveLateDates(
+  var serviceCol = getMeThatColumn('Service: Service Name', backlogArray),
+    customerApprovedCol = getMeThatColumn(
+      'Proposal Customer Approved',
+      backlogArray
+    ),
+    redesignReqCol = getMeThatColumn('Redesign Requested', backlogArray),
+    recordTypeCol = getMeThatColumn('Record Type', backlogArray);
+
+  var backlogWithDatesFiguredOut = rd_FigureOutDates(
     backlogArray,
     oldData,
     serviceCol,
@@ -41,21 +22,20 @@ function rd_DateCleaner(backlogArray, oldData) {
     recordTypeCol
   );
 
-  return dateAdjBacklog;
+  return backlogWithDatesFiguredOut;
 }
 
 /**
  *
- *
- * @param {any} backlogArray
- * @param {array} dim
- * @param {number} opPropCompCol
- * @param {number} initPropCompCol
- * @param {number} redesReqCol
- * @param {number} stateOfficeCol
- * @returns
+ * @param {*} backlogArray
+ * @param {*} oldData
+ * @param {*} serviceCol
+ * @param {*} redesignReqCol
+ * @param {*} customerApprovedCol
+ * @param {*} recordTypeCol
+ * @return {Array[]}
  */
-function rd_RemoveLateDates(
+function rd_FigureOutDates(
   backlogArray,
   oldData,
   serviceCol,
@@ -63,24 +43,33 @@ function rd_RemoveLateDates(
   customerApprovedCol,
   recordTypeCol
 ) {
-  // Remove column in header
-  backlogArray[0].splice(redesignReqCol, 2, 'BACKLOG DATE', 'DUE DATE');
+  // * Insert columns after redesignReqCol
+  var headers = backlogArray[0];
+  var toDelete = 2;
+  var insert_backlogDate = 'BACKLOG DATE';
+  var insert_dueDate = 'DUE DATE';
+  headers.splice(redesignReqCol, toDelete, insert_backlogDate, insert_dueDate);
+
   for (var row = 1; row < backlogArray.length; row++) {
-    var serviceNumber = backlogArray[row][serviceCol];
-    var redesignReq = new Date(backlogArray[row][redesignReqCol]);
-    var customerApproved = new Date(backlogArray[row][customerApprovedCol]);
-    redesignReq = invalidFix(redesignReq);
-    customerApproved = invalidFix(customerApproved);
+    var account = backlogArray[row];
+    var serviceNumber = account[serviceCol];
+    var backlogDate = new Date(account[redesignReqCol]);
+    var dueDate = new Date(account[customerApprovedCol]);
+
+    backlogDate = invalidFix(backlogDate);
+    dueDate = invalidFix(dueDate);
+
     // If record type proposal, set customer approved date as Initial and due date
-    if (backlogArray[row][recordTypeCol].match(/proposal/i)) {
-      redesignReq = new Date(1970, 1, 1, 0, 0, 0, 0);
+    if (account[recordTypeCol].match(/proposal/i)) {
+      backlogDate = new Date(1970, 1, 1, 0, 0, 0, 0);
     }
     backlogArray = rd_CompareDates(
       backlogArray,
+      account,
       oldData,
       serviceNumber,
-      redesignReq,
-      customerApproved,
+      backlogDate,
+      dueDate,
       row,
       redesignReqCol,
       customerApprovedCol
@@ -91,9 +80,8 @@ function rd_RemoveLateDates(
 
 /**
  *
- *
  * @param {Date} dateValue
- * @returns
+ * @return {Date}
  */
 function invalidFix(dateValue) {
   if (dateValue.toString() === 'Invalid Date') {
@@ -108,106 +96,100 @@ function invalidFix(dateValue) {
  *
  *
  * @param {any} backlogArray
- * @param {Date} redesignReq
- * @param {Date} customerApproved
- * @param {Date} dateValue3
+ * @param {*} account
+ * @param {*} oldData
+ * @param {*} serviceNumber
+ * @param {Date} backlogDate
+ * @param {Date} dueDate
  * @param {number} row
- * @param {number} opPropCompCol
- * @param {string} stateAbrv
- * @returns
+ * @param {number} redesignReqCol
+ * @param {string} customerApprovedCol
+ * @return {*}
  */
 function rd_CompareDates(
-  backlogArray,
+  backlogArray, // TODO: Change all backlogArray[row] to account
+  account,
   oldData,
   serviceNumber,
-  redesignReq,
-  customerApproved,
+  backlogDate,
+  dueDate,
   row,
   redesignReqCol,
   customerApprovedCol
 ) {
   var addHours = 24;
   var now = new Date();
-  if (backlogArray[row][0] === "S-5884143") {
-      var x = "Hello"
-      debugger;
+  if (account[0] === 'S-5884143') {
+    var x = 'Hello';
+    //debugger;
   }
-  if (customerApproved <= redesignReq) {
-    if (checkHibernated(oldData, serviceNumber, redesignReq)) {
-      redesignReq = new Date();
-      backlogArray[row][redesignReqCol] = 'CHRONO STAMP';
+  if (dueDate <= backlogDate) {
+    if (checkHibernated(oldData, serviceNumber, backlogDate)) {
+      backlogDate = new Date();
+      account[redesignReqCol] = 'CHRONO STAMP';
     }
-    // ----------------------------------------------- If Sat or Sun then due monday -----------------------------------------------
-    if (redesignReq.getDay() === 0) {
+    // -------------------- If Sat or Sun then due monday --------------------
+    if (backlogDate.getDay() === 0) {
       addHours = 24;
-      redesignReq = timeAddHours(redesignReq, addHours);
-    } else if (redesignReq.getDay() === 6) {
+      backlogDate = timeAddHours(backlogDate, addHours);
+    } else if (backlogDate.getDay() === 6) {
       addHours = 48;
-      redesignReq = timeAddHours(redesignReq, addHours);
-    } else if (redesignReq.getHours() >= 12) {
-      //add 1 day if backlog date is after 3pm
+      backlogDate = timeAddHours(backlogDate, addHours);
+    } else if (backlogDate.getHours() >= 12) {
+      // add 1 day if backlog date is after 3pm
       addHours = 24;
-      redesignReq = timeAddHours(redesignReq, addHours);
+      backlogDate = timeAddHours(backlogDate, addHours);
     }
-    //set due date to 6pm
+    // set due date to 6pm
     if (now.getHours() >= 12) {
-      backlogArray[row][customerApprovedCol] = new Date(
-        redesignReq.setHours(18, 00, 00, 00)
+      account[customerApprovedCol] = new Date(
+        backlogDate.setHours(18, 00, 00, 00)
       );
-      backlogArray[row][customerApprovedCol] = new Date(backlogArray[row][customerApprovedCol]);
-      var checkThis = backlogArray[row];
-      debugger;
+      account[customerApprovedCol] = new Date(account[customerApprovedCol]);
+      var checkThis = account;
+      //debugger;
     } else if (now.getHours() < 12) {
-      backlogArray[row][customerApprovedCol] = new Date().setHours(
-        18,
-        00,
-        00,
-        00
-      );
-      backlogArray[row][customerApprovedCol] = new Date(backlogArray[row][customerApprovedCol]);
-      checkThis = backlogArray[row];
-      debugger;
+      account[customerApprovedCol] = new Date().setHours(18, 00, 00, 00);
+      account[customerApprovedCol] = new Date(account[customerApprovedCol]);
+      checkThis = account;
+      //debugger;
     }
-    checkThis = backlogArray[row];
+    checkThis = account;
     return backlogArray;
-  } else if (redesignReq <= customerApproved) {
-    if (checkHibernated(oldData, serviceNumber, customerApproved)) {
-      customerApproved = new Date();
-      backlogArray[row][customerApprovedCol] = 'CHRONO STAMP';
+  } else if (backlogDate <= dueDate) {
+    if (checkHibernated(oldData, serviceNumber, dueDate)) {
+      dueDate = new Date();
+      account[customerApprovedCol] = 'CHRONO STAMP';
     }
-    // ----------------------------------------------- If Sat or Sun then due monday -----------------------------------------------
-    if (customerApproved.getDay() === 0) {
+    // ------------------- If Sat or Sun then due monday --------------------
+    if (dueDate.getDay() === 0) {
       addHours = 24;
-      customerApproved = timeAddHours(customerApproved, addHours);
-    } else if (customerApproved.getDay() === 6) {
+      dueDate = timeAddHours(dueDate, addHours);
+    } else if (dueDate.getDay() === 6) {
       addHours = 48;
-      customerApproved = timeAddHours(customerApproved, addHours);
-    } else if (customerApproved.getHours() >= 12) {
-      //add 1 day if backlog date is after 3pm
+      dueDate = timeAddHours(dueDate, addHours);
+    } else if (dueDate.getHours() >= 12) {
+      // add 1 day if backlog date is after 3pm
       addHours = 24;
-      customerApproved = timeAddHours(customerApproved, addHours);
+      dueDate = timeAddHours(dueDate, addHours);
     }
-    backlogArray[row][redesignReqCol] = backlogArray[row][customerApprovedCol];
-    //set due date to 6pm
+    account[redesignReqCol] = account[customerApprovedCol];
+    // set due date to 6pm
     if (now.getHours() >= 12) {
-      backlogArray[row][customerApprovedCol] = new Date(
-        customerApproved.setHours(18, 00, 00, 00)
-      );
-      backlogArray[row][customerApprovedCol] = new Date(backlogArray[row][customerApprovedCol]);
-      var checkThis2 = backlogArray[row];
-      debugger;
+      account[customerApprovedCol] = new Date(dueDate.setHours(18, 00, 00, 00));
+      account[customerApprovedCol] = new Date(account[customerApprovedCol]);
+      var checkThis2 = account;
+      //debugger;
     } else if (now.getHours() < 12) {
-      backlogArray[row][customerApprovedCol] = new Date().setHours(
-        18,
-        00,
-        00,
-        00
-      );
-      backlogArray[row][customerApprovedCol] = new Date(backlogArray[row][customerApprovedCol]);
-      checkThis2 = backlogArray[row];
-      debugger;
-    }    
-    checkThis2 = backlogArray[row];
+      account[customerApprovedCol] = new Date().setHours(18, 00, 00, 00);
+      account[customerApprovedCol] = new Date(account[customerApprovedCol]);
+      checkThis2 = account;
+      //debugger;
+    }
+    checkThis2 = account;
     return backlogArray;
-  } else throw 'PERMIT RD DATE ERROR';
+  } else {
+    var errorMessage = 'PERMIT RD DATE ERROR';
+    throw errorMessage;
+  }
 }

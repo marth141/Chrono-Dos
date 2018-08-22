@@ -1,26 +1,45 @@
+// Will need edit to check states.
+
+/* exported
+debugPropUnitType
+*/
+
+/* global
+ServiceMasterBacklog
+getMeThatColumn
+ServiceOfficeCollection
+*/
+
+function debugPermitUnitType() {
+  var masterBacklogs = new ServiceMasterBacklog();
+  prop_UnitTypeMarker(masterBacklogs.Collection);
+  return;
+}
+
 /**
  *
- * @param {*} backlogArray
- * @return {Array[]}
+ *
+ * @param {any} propBacklog
+ * @returns
  */
 function pp_UnitTypeMarker(backlogArray) {
   var officeCol = getMeThatColumn(
-    'Service: Regional Operating Center',
+    "Service: Regional Operating Center",
     backlogArray
   );
-  var opporTypeCol = getMeThatColumn('Opportunity: Type', backlogArray);
-  var dueDateCol = getMeThatColumn('DUE DATE', backlogArray);
+  var opporTypeCol = getMeThatColumn("Opportunity: Type", backlogArray);
+  var dueDateCol = getMeThatColumn("DUE DATE", backlogArray);
   var assignCol = getMeThatColumn(
-    'Phase: PV Design Completed By',
+    "Phase: PV Design Completed By",
     backlogArray
   );
 
   var primaryDateCol = getMeThatColumn(
-    'Primary CAD: Permit Packet QA Completed',
+    "Primary CAD: Permit Packet QA Completed",
     backlogArray
   );
   var srNeededCol = getMeThatColumn(
-    'Phase: Structural Review Completed',
+    "Phase: Structural Review Completed",
     backlogArray
   );
 
@@ -38,14 +57,12 @@ function pp_UnitTypeMarker(backlogArray) {
 
 /**
  *
- * @param {*} backlogArray
- * @param {*} officeCol
- * @param {*} opporTypeCol
- * @param {*} dueDateCol
- * @param {*} assignCol
- * @param {*} primaryDateCol
- * @param {*} srNeededCol
- * @return {Array[]}
+ *
+ * @param {array} backlogArray
+ * @param {number} designPathCol
+ * @param {number} opporTypeCol
+ * @param {array} dim
+ * @returns
  */
 function pp_MarkUnits(
   backlogArray,
@@ -57,11 +74,11 @@ function pp_MarkUnits(
   srNeededCol
 ) {
   // Add Unit Type Column before Opportunity: Type Column
-  backlogArray[0].splice(opporTypeCol, 0, 'UNIT TYPE');
+  backlogArray[0].splice(opporTypeCol, 0, "UNIT TYPE");
   var designPathString;
   for (var row = 1; row < backlogArray.length; row++) {
     var account = backlogArray[row];
-    if ('S-5920785' === backlogArray[row][0]) {
+    if ("S-5920785" === backlogArray[row][0]) {
       var x = 0;
     }
 
@@ -69,39 +86,45 @@ function pp_MarkUnits(
     // Then set design path string as permit
     // All else set as outsource
     // Then set design path string as outsource
-    /** @type String */
-    var accountOppType = backlogArray[row][opporTypeCol];
-    var accountOffice = backlogArray[row][officeCol];
-
-    if (account[0].match(/S-5967276/i)) {
-      var isAddon = accountOppType.match(/add/i) !== null;
-      var isNewInst = accountOppType.match(/new/i) !== null;
-      var isAZ = accountOffice.match(/az-/i) !== null;
-      var isNY09 = accountOffice.match(/ny-09/i) !== null;
-      var isIL = accountOffice.match(/il-/i) !== null;
-      // debugger;
-    }
-    if (isAddon && (isAZ === true || isNY09 === true || isIL === true)) {
-      // For debugging a specific service number.
-      if (backlogArray[row][0].match(/S-5967276/)) {
-        console.error('Here it is @ Permit!');
-        var errorAccount = backlogArray[row];
-        debugger;
-      }
-
-      designPathString = 'PERMIT';
-    } else if (
-      isNewInst &&
-      (isAZ === false && isNY09 === false && isIL === false)
+    if (
+      (backlogArray[row][opporTypeCol].match(/add/i) ||
+      backlogArray[row][officeCol].match(/az-/i) ||
+      backlogArray[row][officeCol].match(/ny-09/i) ||
+      backlogArray[row][officeCol].match(/il-/i)) &&
+      !backlogArray[row][opporTypeCol].match(/new/i)
     ) {
       // For debugging a specific service number.
-      if (backlogArray[row][0].match(/S-5967276/)) {
-        console.error('Here it is @ Outsource!');
-        var errorAccount = backlogArray[row];
-        debugger;
+      // if (backlogArray[row][0].match(/S-5958052/)) {
+      //   console.error("Here it is @ Permit!");
+      //   console.info(backlogArray[row]);
+      // }
+      
+      designPathString = "PERMIT";
+    } else if (
+      (!backlogArray[row][opporTypeCol].match(/add/i) ||
+      !backlogArray[row][officeCol].match(/az-/i) ||
+      !backlogArray[row][officeCol].match(/ny-09/i) ||
+      !backlogArray[row][officeCol].match(/il-/i)) &&
+      backlogArray[row][opporTypeCol].match(/new/i)) {
+      // For debugging a specific service number.
+      // if (backlogArray[row][0].match(/S-5958052/)) {
+      //   console.error("Here it is @ Outsource!");
+      //   console.info(backlogArray[row]);
+      // }
+      
+      // For debugging a specific service number.
+      if (backlogArray[row][opporTypeCol].match(/add/i)) {
+        console.error("Add-on passed into Outsource");
+        console.error(backlogArray[row]);
+        MailApp.sendEmail(
+          "nathan.casados@vivintsolar.com",
+          "Chrono Error found - Add-on passed to Outsource",
+          backlogArray[row] +
+            "\r\nWas found being passed to outsource in error."
+        );
+        throw "Add-on becoming outsource. Please report this issue.";
       }
-
-      designPathString = 'OUTSOURCE';
+      designPathString = "OUTSOURCE";
       if (
         testDate(backlogArray[row][primaryDateCol]) &&
         !testDate(backlogArray[row][srNeededCol])
@@ -111,7 +134,7 @@ function pp_MarkUnits(
         //   console.error("Here it is @ SR!");
         //   console.info(backlogArray[row]);
         // }
-        designPathString = 'SR';
+        designPathString = "SR";
       }
     }
     backlogArray[row].splice(opporTypeCol, 0, designPathString);
@@ -119,11 +142,6 @@ function pp_MarkUnits(
   return backlogArray;
 }
 
-/**
- *
- * @param {Date} date
- * @return {Date}
- */
 function testDate(date) {
   return date instanceof Date;
 }

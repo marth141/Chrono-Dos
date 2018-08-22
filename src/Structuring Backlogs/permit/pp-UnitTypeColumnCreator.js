@@ -73,46 +73,43 @@ function pp_MarkUnits(
     var accountOppType = backlogArray[row][opporTypeCol];
     var accountOffice = backlogArray[row][officeCol];
 
-    if (account[0].match(/S-5967276/i)) {
-      var isAddon = accountOppType.match(/add/i) !== null;
-      var isNewInst = accountOppType.match(/new/i) !== null;
-      var isAZ = accountOffice.match(/az-/i) !== null;
-      var isNY09 = accountOffice.match(/ny-09/i) !== null;
-      var isIL = accountOffice.match(/il-/i) !== null;
-      // debugger;
-    }
-    if (isAddon && (isAZ === true || isNY09 === true || isIL === true)) {
-      // For debugging a specific service number.
-      if (backlogArray[row][0].match(/S-5967276/)) {
-        console.error('Here it is @ Permit!');
-        var errorAccount = backlogArray[row];
-        debugger;
-      }
+    var isAddon = accountOppType.match(/add/i) !== null;
+    var isNewInst = accountOppType.match(/new/i) !== null;
+    var isAZ = accountOffice.match(/az-/i) !== null;
+    var isNY09 = accountOffice.match(/ny-09/i) !== null;
+    var isIL = accountOffice.match(/il-/i) !== null;
 
+    // If it is a new installation...
+    if (isNewInst) {
+      // and if it's not AZ, NY-09, and IL
+      if (!isAZ && !isNY09 && !isIL) {
+        // Be outsource
+        designPathString = 'OUTSOURCE';
+        if (
+          testDate(backlogArray[row][primaryDateCol]) &&
+          !testDate(backlogArray[row][srNeededCol])
+        ) {
+          // Unless SR
+          designPathString = 'SR';
+        }
+        // If it is a new install and is AZ, NY-09, or IL
+      } else if (isAZ || isNY09 || isIL) {
+        // Be permit
+        designPathString = 'PERMIT';
+        // ! else there be trouble in these parts
+      } else {
+        errorMessage = backlogArray[row] + ' does not fit as a new install.';
+        throw errorMessage;
+      }
+      // If it's any addon
+    } else if (isAddon) {
+      // be permit
       designPathString = 'PERMIT';
-    } else if (
-      isNewInst &&
-      (isAZ === false && isNY09 === false && isIL === false)
-    ) {
-      // For debugging a specific service number.
-      if (backlogArray[row][0].match(/S-5967276/)) {
-        console.error('Here it is @ Outsource!');
-        var errorAccount = backlogArray[row];
-        debugger;
-      }
-
-      designPathString = 'OUTSOURCE';
-      if (
-        testDate(backlogArray[row][primaryDateCol]) &&
-        !testDate(backlogArray[row][srNeededCol])
-      ) {
-        // For debugging a specific service number.
-        // if (backlogArray[row][0].match(/S-5958052/)) {
-        //   console.error("Here it is @ SR!");
-        //   console.info(backlogArray[row]);
-        // }
-        designPathString = 'SR';
-      }
+      // ! else there be trouble in these parts
+    } else {
+      errorMessage =
+        backlogArray[row] + ' does not fit in the unit type system.';
+      throw errorMessage;
     }
     backlogArray[row].splice(opporTypeCol, 0, designPathString);
   }

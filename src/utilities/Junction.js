@@ -4,7 +4,7 @@
  * @param {*} override
  */
 function backlogProcessJunction(backlogSheetArray, override) {
-  // ----------------------------------------------- Comment out below for debugging without lock -----------------------------------------------
+  // -------------------- Comment out below for debugging without lock --------------------
   //  var lock = LockService.getScriptLock();
   //  try {
   //    lock.waitLock(10000)
@@ -12,7 +12,7 @@ function backlogProcessJunction(backlogSheetArray, override) {
   //    throw "Could not acquire lock. Someone else is updating the backlog, please wait."
   //  }
   //  if (lock.hasLock()) {
-  // ----------------------------------------------- Comment out above for debugging without lock -----------------------------------------------
+  // -------------------- Comment out above for debugging without lock --------------------
   reportRunning(backlogSheetArray.Report);
   var oldData = uni_GetOldData(backlogSheetArray.Report);
   //  var cache = uni_GetCacheData(backlogSheetArray.Cache);
@@ -45,7 +45,8 @@ function backlogProcessJunction(backlogSheetArray, override) {
         backlogArray,
         oldData
       );
-      // backlogArray = pp_underTweleveHours(backlogArray, workThisBacklog); // Turned off by request
+      // ! Turned off by request
+      // backlogArray = pp_underTweleveHours(backlogArray, workThisBacklog);
       testUnit(backlogArray);
       completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
       continue;
@@ -83,12 +84,12 @@ function backlogProcessJunction(backlogSheetArray, override) {
   setCompleteBacklog(completeBacklog, backlogSheetArray.Report);
   updateLastRefresh(backlogSheetArray.Report);
   removeReportRunning(backlogSheetArray.Report);
-  // ----------------------------------------------- Comment out below for debugging without lock -----------------------------------------------
+  // -------------------- Comment out below for debugging without lock --------------------
   //    lock.releaseLock();
   //  } else {
   //    throw "The lock was somehow lost. Someone else is updating the backlog, please wait."
   //  }
-  // ----------------------------------------------- Comment out above for debugging without lock -----------------------------------------------
+  // -------------------- Comment out above for debugging without lock --------------------
 }
 
 /**

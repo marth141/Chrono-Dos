@@ -99,7 +99,9 @@ function pp_MarkUnits(
         designPathString = 'PERMIT';
       } else {
         // ! there be trouble in these parts
-        errorMessage = backlogArray[row] + ' does not fit as a new install.';
+        var errorServiceNumber = backlogArray[row][0];
+        var errorMessage =
+          errorServiceNumber + ' does not fit as a new install.';
         throw errorMessage;
       }
       // If it's any addon
@@ -108,8 +110,9 @@ function pp_MarkUnits(
       designPathString = 'PERMIT';
     } else {
       // ! there be trouble in these parts
+      errorServiceNumber = backlogArray[row][0];
       errorMessage =
-        backlogArray[row] + ' does not fit in the unit type system.';
+        errorServiceNumber + ' does not fit in the unit type system.';
       throw errorMessage;
     }
     backlogArray[row].splice(opporTypeCol, 0, designPathString);

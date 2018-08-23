@@ -97,8 +97,8 @@ function pp_MarkUnits(
       } else if (isAZ || isNY09 || isIL) {
         // Be permit
         designPathString = 'PERMIT';
-        // ! else there be trouble in these parts
       } else {
+        // ! there be trouble in these parts
         errorMessage = backlogArray[row] + ' does not fit as a new install.';
         throw errorMessage;
       }
@@ -106,8 +106,8 @@ function pp_MarkUnits(
     } else if (isAddon) {
       // be permit
       designPathString = 'PERMIT';
-      // ! else there be trouble in these parts
     } else {
+      // ! there be trouble in these parts
       errorMessage =
         backlogArray[row] + ' does not fit in the unit type system.';
       throw errorMessage;

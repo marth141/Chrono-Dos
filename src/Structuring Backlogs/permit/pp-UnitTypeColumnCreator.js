@@ -61,19 +61,19 @@ function pp_MarkUnits(
   var designPathString;
   for (var row = 1; row < backlogArray.length; row++) {
     var account = backlogArray[row];
-    if ('S-5920785' === backlogArray[row][0]) {
-      var x = 0;
+    var serviceNumber = account[0];
+
+    if ('S-5920785' === serviceNumber) {
+      // debugger;
     }
 
     // If the opportunity type is add-on, or the offices are az, ny-09, or il
     // Then set design path string as permit
     // All else set as outsource
     // Then set design path string as outsource
-    var account = backlogArray[row];
-    var serviceNumber = backlogArray[row][0];
     /** @type String */
-    var accountOppType = backlogArray[row][opporTypeCol];
-    var accountOffice = backlogArray[row][officeCol];
+    var accountOppType = account[opporTypeCol];
+    var accountOffice = account[officeCol];
 
     var isAddon = accountOppType.match(/add/i) !== null;
     var isNewInst = accountOppType.match(/new/i) !== null;

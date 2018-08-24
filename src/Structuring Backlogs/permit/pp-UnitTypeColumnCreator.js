@@ -60,10 +60,13 @@ function pp_MarkUnits(
   backlogArray[0].splice(opporTypeCol, 0, 'UNIT TYPE');
   var designPathString;
   for (var row = 1; row < backlogArray.length; row++) {
+    /** @type Array<String|Date> */
     var account = backlogArray[row];
+    /** @type String */
     var serviceNumber = account[0];
 
-    if ('S-5920785' === serviceNumber) {
+    var debug_thisServiceNumber = serviceNumber === 'S-5920785';
+    if (debug_thisServiceNumber) {
       // debugger;
     }
 

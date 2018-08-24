@@ -83,7 +83,7 @@ function pp_MarkUnits(
     // If it is a new installation...
     if (isNewInst) {
       // and if it's not AZ, NY-09, and IL
-      if (!isAZ && !isNY09 && !isIL) {
+      if (!isNY09 && !isIL) {
         // Be outsource
         designPathString = 'OUTSOURCE';
         if (
@@ -94,7 +94,7 @@ function pp_MarkUnits(
           designPathString = 'SR';
         }
         // If it is a new install and is AZ, NY-09, or IL
-      } else if (isAZ || isNY09 || isIL) {
+      } else if (isNY09 || isIL) {
         // Be permit
         designPathString = 'PERMIT';
       } else {

@@ -69,6 +69,8 @@ function pp_MarkUnits(
     // Then set design path string as permit
     // All else set as outsource
     // Then set design path string as outsource
+    var account = backlogArray[row];
+    var serviceNumber = backlogArray[row][0];
     /** @type String */
     var accountOppType = backlogArray[row][opporTypeCol];
     var accountOffice = backlogArray[row][officeCol];
@@ -87,8 +89,8 @@ function pp_MarkUnits(
         // Be outsource
         designPathString = 'OUTSOURCE';
         if (
-          testDate(backlogArray[row][primaryDateCol]) &&
-          !testDate(backlogArray[row][srNeededCol])
+          testDate(account[primaryDateCol]) &&
+          !testDate(account[srNeededCol])
         ) {
           // Unless SR
           designPathString = 'SR';
@@ -99,9 +101,7 @@ function pp_MarkUnits(
         designPathString = 'PERMIT';
       } else {
         // ! there be trouble in these parts
-        var errorServiceNumber = backlogArray[row][0];
-        var errorMessage =
-          errorServiceNumber + ' does not fit as a new install.';
+        var errorMessage = serviceNumber + ' does not fit as a new install.';
         throw errorMessage;
       }
       // If it's any addon
@@ -110,9 +110,7 @@ function pp_MarkUnits(
       designPathString = 'PERMIT';
     } else {
       // ! there be trouble in these parts
-      errorServiceNumber = backlogArray[row][0];
-      errorMessage =
-        errorServiceNumber + ' does not fit in the unit type system.';
+      errorMessage = serviceNumber + ' does not fit in the unit type system.';
       throw errorMessage;
     }
     backlogArray[row].splice(opporTypeCol, 0, designPathString);

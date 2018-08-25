@@ -8,9 +8,13 @@
   "keywords": [],
   "devDependencies": {
     "@types/google-apps-script": "^0.0.27",
+    "babel-cli": "^6.26.0",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-google-apps-script": "^0.0.3",
     "eslint": "^4.17.0",
     "eslint-config-google": "^0.9.1",
     "eslint-plugin-async-await": "0.0.0",
+    "flow-bin": "^0.78.0",
     "prettier-eslint": "^8.8.2"
   },
   "scripts": {
@@ -18,5 +22,8 @@
   },
   "eslintIgnore": [
     "**/node_modules/**"
-  ]
+  ],
+  "dependencies": {
+    "flow-typed": "^2.5.1"
+  }
 }

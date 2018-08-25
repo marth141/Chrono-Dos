@@ -15,7 +15,6 @@ function backlogProcessJunction(backlogSheetArray, override) {
   // -------------------- Comment out above for debugging without lock --------------------
   reportRunning(backlogSheetArray.Report);
   var oldData = uni_GetOldData(backlogSheetArray.Report);
-  //  var cache = uni_GetCacheData(backlogSheetArray.Cache);
   var completeBacklog = [];
 
   for (var backlog in backlogSheetArray) {
@@ -35,7 +34,6 @@ function backlogProcessJunction(backlogSheetArray, override) {
       workThisBacklog = backlogSheetArray[backlog];
       backlogArray = uni_LinkCreator(workThisBacklog);
       backlogArray = uni_CadNameColCreator(backlogArray);
-      // backlogArray = pp_DateCleaner(backlogArray, cache);
       backlogArray = pp_DateCleaner(backlogArray, oldData);
       backlogArray = pp_UnitTypeMarker(backlogArray);
       backlogArray = pp_CleanUpColumns(backlogArray);
@@ -53,7 +51,6 @@ function backlogProcessJunction(backlogSheetArray, override) {
     } else if (backlogSheetArray[backlog].getName() === 'PERMIT RD BACKLOG') {
       workThisBacklog = backlogSheetArray[backlog];
       backlogArray = uni_LinkCreator(workThisBacklog);
-      // backlogArray = rd_DateCleaner(backlogArray, cache);
       backlogArray = rd_DateCleaner(backlogArray, oldData);
       backlogArray = rd_UnitTypeMarker(backlogArray);
       backlogArray = rd_CleanUpColumns(backlogArray);
@@ -66,7 +63,8 @@ function backlogProcessJunction(backlogSheetArray, override) {
       completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
       continue;
     } else if (backlogSheetArray[backlog] === null) {
-      throw 'The backlog was null in dateOperations()';
+      var errorMessage = 'The backlog was null in dateOperations()';
+      throw errorMessage;
     } else {
       console.log(
         'This backlog: ' +
@@ -76,7 +74,6 @@ function backlogProcessJunction(backlogSheetArray, override) {
       continue;
     }
   }
-  //  return;
   // TODO: Review completed backlog for accounts that must be priority.
   completeBacklog = uni_priorityMarker(completeBacklog);
   completeBacklog = sortCompleteBacklog(

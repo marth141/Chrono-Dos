@@ -77,6 +77,8 @@ function backlogProcessJunction(backlogSheetArray, override) {
     }
   }
   //  return;
+  // TODO: Review completed backlog for accounts that must be priority.
+  completeBacklog = uni_priorityMarker(completeBacklog);
   completeBacklog = sortCompleteBacklog(
     completeBacklog,
     backlogSheetArray.Report

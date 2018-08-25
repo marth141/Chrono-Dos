@@ -74,7 +74,7 @@ function backlogProcessJunction(backlogSheetArray, override) {
       continue;
     }
   }
-  // TODO: Review completed backlog for accounts that must be priority.
+  // * NEW: Adds priority to defined accounts
   completeBacklog = uni_priorityMarker(completeBacklog);
   completeBacklog = sortCompleteBacklog(
     completeBacklog,

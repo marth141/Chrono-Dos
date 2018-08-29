@@ -14,33 +14,40 @@
 function onEdit(e) {
   // POPULATES THE APPROPRIATE ACCOUNT INFORMATION WHEN THE SERVICE NUMBER IS CHANGED IN
   // REQUIREMENTS!C2
+  var headers = new ChronoHeaders();
+
   var editedSheet = e.source.getActiveSheet();
   var sheetName = editedSheet.getName();
+
+  var column = e.range.getColumn();
+  var row = e.range.getRow();
+  // Check if edited sheet was On Hold or Report
   if (sheetName === 'On Hold' || sheetName === 'Report') {
-    var range = e.range;
-    var column = range.getColumn();
-    var row = range.getRow();
-    if (e.value === undefined) {
-      e.value = editedSheet.getRange(row, column).getValue();
+    // Check if value is there. Will not be there is more than 1 cell was edited.
+    var editedColumnIsNotes = column === headers.notes;
+    if (e.value === undefined && editedColumnIsNotes) {
+      e.value = 'Deleted by lead or supervisor';
+    } else if (e.value === undefined) {
+      var alertMessage =
+        'Leaving anything but notes blank will not ' +
+        'update the master chrono. This is a Google problem and cannot be resolved.';
+      SpreadsheetApp.getActiveSpreadsheet().toast(alertMessage, 'Alert', 60);
+      getReport();
+      return;
     }
-    if (column >= 15 && column <= 19 && row > 2) {
-      var header = editedSheet.getRange('2:2').getValues()[0];
-      var servicenNumCol = header.indexOf('SERVICE') + 1;
-      var unitTypeCol = header.indexOf('UNIT TYPE') + 1;
-      var regionCol = header.indexOf('REGION') + 1;
-      var lastUpdateCol = header.indexOf('LAST UPDATE') + 1;
-      var serviceNumber = editedSheet.getRange(row, servicenNumCol).getValue();
-      var unitType = editedSheet.getRange(row, unitTypeCol).getValue();
-      var region = editedSheet.getRange(row, regionCol).getValue();
-      if (serviceNumber === '') {
-        //        Browser.msgBox("Value sent" +  e.value);
-        return;
-      }
+
+    var editIsBetweenUnitType = column >= headers.unitType;
+    var editNotBeyondNotes = column <= headers.notes;
+    var isNotInHeaderRow = row > 2;
+    if (editIsBetweenUnitType && editNotBeyondNotes && isNotInHeaderRow) {
+      var serviceNumber = editedSheet.getRange(row, headers.service).getValue();
+      var unitType = editedSheet.getRange(row, headers.unitType).getValue();
+      var region = editedSheet.getRange(row, headers.region).getValue();
       var pass = makeEdits(
         serviceNumber,
-        servicenNumCol,
+        headers.service,
         unitType,
-        lastUpdateCol,
+        headers.lastUpdate,
         column,
         e.value
       );
@@ -49,13 +56,23 @@ function onEdit(e) {
       }
       editedSheet.getRange(row, lastUpdateCol).setValue(new Date());
     } else {
-      Browser.msgBox("Can't edit those columns");
+      Browser.msgBox('Can not edit those columns');
     }
-  }
+  } // End of sheet check
 }
 
+/**
+ *
+ * @param {String} teamChronoServiceNumber
+ * @param {Number} servicenNumCol
+ * @param {String} unitType
+ * @param {Number} lastUpdateCol
+ * @param {Number} column
+ * @param {*} value
+ * @return {*}
+ */
 function makeEdits(
-  serviceNumber,
+  teamChronoServiceNumber,
   servicenNumCol,
   unitType,
   lastUpdateCol,
@@ -63,28 +80,57 @@ function makeEdits(
   value
 ) {
   var foundRow;
-  var ssReport = SpreadsheetApp.openById(
+  // Dev: 1r06cw7MtVKolZY6pXkmuoxcWPUeqtdm8Tu9sc5ljBkg
+  // Prod: 121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0
+  var masterReport = SpreadsheetApp.openById(
     '121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0'
   ).getSheetByName('Report');
-  var test = ssReport
-    .getRange(3, servicenNumCol, ssReport.getLastRow() - 1, lastUpdateCol)
+  var backlogRowStart = 3;
+  var masterReportsLastRow = masterReport.getLastRow() - 1;
+
+  var test = masterReport
+    .getRange(
+      backlogRowStart,
+      servicenNumCol,
+      masterReportsLastRow,
+      lastUpdateCol
+    )
     .getValues()
     .some(function(row, index) {
-      if (row[0] === serviceNumber && row[8] === unitType) {
+      var masterReportServiceNumber = row[0];
+      var masterReportUnitType = row[8];
+
+      var masterTeamServiceNumbersMatch =
+        masterReportServiceNumber === teamChronoServiceNumber;
+      var masterTeamUnitTypeMatch = masterReportUnitType === unitType;
+
+      if (masterTeamServiceNumbersMatch) {
         foundRow = index + 2;
         return true;
+      } else {
+        return false;
       }
     });
 
   if (foundRow === undefined) {
+    SpreadsheetApp.getActiveSpreadsheet().toast(
+      'Could not find a matching service number, refreshing this chrono',
+      'Error'
+    );
     getReport();
     return false;
+  } else if (foundRow !== undefined) {
+    masterReport.getRange(foundRow + 1, column).setValue(value);
+    masterReport.getRange(foundRow + 1, lastUpdateCol).setValue(new Date());
+  } else {
+    var findingRowInMasterError = 'Error in finding row';
+    throw findingRowInMasterError;
   }
-
-  ssReport.getRange(foundRow + 1, column).setValue(value);
-  ssReport.getRange(foundRow + 1, lastUpdateCol).setValue(new Date());
 }
 
+/**
+ * Testing
+ */
 function test() {
   makeEdits('S-5962801', 7, 'OUTSOURCE', 17, 20, 'PRIORITY');
 }

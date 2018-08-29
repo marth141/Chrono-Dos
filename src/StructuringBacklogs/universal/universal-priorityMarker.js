@@ -11,8 +11,9 @@ function uni_priorityMarker(completeBacklog) {
     var accountIsNJ = account[headers.Office].match(/nj-/i) !== null;
     var accountIsPA = account[headers.Office].match(/pa-/i) !== null;
     var accountIsIL = account[headers.Office].match(/il-/i) !== null;
+    var accountIsRedesign = account[headers.UnitType].match(/RD/i) !== null;
 
-    if (accountIsNJ || accountIsPA || accountIsIL) {
+    if ((accountIsNJ || accountIsPA || accountIsIL) && !accountIsRedesign) {
       completeBacklog[record][headers.Priority] = 'Priority';
     } else {
       continue;

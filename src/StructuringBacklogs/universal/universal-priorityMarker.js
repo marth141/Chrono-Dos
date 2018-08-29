@@ -12,9 +12,13 @@ function uni_priorityMarker(completeBacklog) {
     var accountIsPA = account[headers.Office].match(/pa-/i) !== null;
     var accountIsIL = account[headers.Office].match(/il-/i) !== null;
     var accountIsRedesign = account[headers.UnitType].match(/RD/i) !== null;
+    var accountIsOutsource = account[headers.UnitType].match(/outsource/i) !== null;
 
     if ((accountIsNJ || accountIsPA || accountIsIL) && !accountIsRedesign) {
       completeBacklog[record][headers.Priority] = 'Priority';
+      if (accountIsOutsource) {
+        completeBacklog[record][headers.UnitType] = 'PERMIT';
+      }
     } else {
       continue;
     }

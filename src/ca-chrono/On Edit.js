@@ -25,9 +25,21 @@ function onEdit(e) {
   if (sheetName === 'On Hold' || sheetName === 'Report') {
     // Check if value is there. Will not be there is more than 1 cell was edited.
     var editedColumnIsNotes = column === headers.notes;
+    var editedColumnIsAssigned = column === headers.assigned;
+    var editedColumnIsPriority = column === headers.priority;
+    var editedColumnIsStatus = column === headers.status;
+    var editedCanBeBlank =
+      editedColumnIsAssigned || editedColumnIsPriority || editedColumnIsStatus;
     if (e.value === undefined && editedColumnIsNotes) {
       e.value = 'Deleted by lead or supervisor';
-    } else if (e.value === undefined) {
+    } else if (
+      e.value === undefined &&
+      !(
+        editedColumnIsAssigned ||
+        editedColumnIsPriority ||
+        editedColumnIsStatus
+      )
+    ) {
       var alertMessage =
         'Leaving anything but notes blank will not ' +
         'update the master chrono. This is a Google problem and cannot be resolved.';
@@ -49,7 +61,8 @@ function onEdit(e) {
         unitType,
         headers.lastUpdate,
         column,
-        e.value
+        e.value,
+        editedCanBeBlank
       );
       if (!pass) {
         return;
@@ -69,6 +82,7 @@ function onEdit(e) {
  * @param {Number} lastUpdateCol
  * @param {Number} column
  * @param {*} value
+ * @param {Boolean} editedCanBeBlank
  * @return {*}
  */
 function makeEdits(
@@ -77,13 +91,14 @@ function makeEdits(
   unitType,
   lastUpdateCol,
   column,
-  value
+  value,
+  editedCanBeBlank
 ) {
   var foundRow;
   // Dev: 1r06cw7MtVKolZY6pXkmuoxcWPUeqtdm8Tu9sc5ljBkg
   // Prod: 121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0
   var masterReport = SpreadsheetApp.openById(
-    '121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0'
+    '1r06cw7MtVKolZY6pXkmuoxcWPUeqtdm8Tu9sc5ljBkg'
   ).getSheetByName('Report');
   var backlogRowStart = 3;
   var masterReportsLastRow = masterReport.getLastRow() - 1;
@@ -120,8 +135,13 @@ function makeEdits(
     getReport();
     return false;
   } else if (foundRow !== undefined) {
-    masterReport.getRange(foundRow + 1, column).setValue(value);
-    masterReport.getRange(foundRow + 1, lastUpdateCol).setValue(new Date());
+    if (value === undefined && editedCanBeBlank) {
+      masterReport.getRange(foundRow + 1, column).clearContent();
+      masterReport.getRange(foundRow + 1, lastUpdateCol).setValue(new Date());
+    } else {
+      masterReport.getRange(foundRow + 1, column).setValue(value);
+      masterReport.getRange(foundRow + 1, lastUpdateCol).setValue(new Date());
+    }
   } else {
     var findingRowInMasterError = 'Error in finding row';
     throw findingRowInMasterError;

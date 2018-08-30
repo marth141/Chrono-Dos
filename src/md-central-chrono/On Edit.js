@@ -25,17 +25,18 @@ function onEdit(e) {
   // Check if edited sheet was On Hold or Report
   if (sheetName === ONHOLD_SHEET || sheetName === REPORT_SHEET) {
     // Check if value is there. Will not be there is more than 1 cell was edited.
-    var editedColumnIsNotes = column === headers.notes;
+    var editedColumnIsUnitType = column === headers.unitType;
     var editedColumnIsAssigned = column === headers.assigned;
     var editedColumnIsPriority = column === headers.priority;
     var editedColumnIsStatus = column === headers.status;
-    var editedColumnIsUnitType = column === headers.unitType;
+    var editedColumnIsNotes = column === headers.notes;
 
-    if (e.value === undefined && editedColumnIsNotes) {
-      e.value = 'Deleted by lead or supervisor';
-    } else if (
+    if (
       e.value === undefined &&
-      (editedColumnIsAssigned || editedColumnIsPriority || editedColumnIsStatus)
+      (editedColumnIsAssigned ||
+        editedColumnIsPriority ||
+        editedColumnIsStatus ||
+        editedColumnIsNotes)
     ) {
       var editedCanBeBlank = true;
     } else if (

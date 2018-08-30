@@ -2,6 +2,7 @@
 
 /**
  * Used to update the master
+ * * Used on Triggers: onEdit
  * @param {Object} e
  * @param {GoogleAppsScript.Script.AuthMode} e.authMode
  * @param {*} e.oldValue
@@ -22,17 +23,20 @@ function onEdit(e) {
   var column = e.range.getColumn();
   var row = e.range.getRow();
   // Check if edited sheet was On Hold or Report
-  if (sheetName === 'On Hold' || sheetName === 'Report') {
+  if (sheetName === ONHOLD_SHEET || sheetName === REPORT_SHEET) {
     // Check if value is there. Will not be there is more than 1 cell was edited.
-    var editedColumnIsNotes = column === headers.notes;
+    var editedColumnIsUnitType = column === headers.unitType;
     var editedColumnIsAssigned = column === headers.assigned;
     var editedColumnIsPriority = column === headers.priority;
     var editedColumnIsStatus = column === headers.status;
-    if (e.value === undefined && editedColumnIsNotes) {
-      e.value = 'Deleted by lead or supervisor';
-    } else if (
+    var editedColumnIsNotes = column === headers.notes;
+
+    if (
       e.value === undefined &&
-      (editedColumnIsAssigned || editedColumnIsPriority || editedColumnIsStatus)
+      (editedColumnIsAssigned ||
+        editedColumnIsPriority ||
+        editedColumnIsStatus ||
+        editedColumnIsNotes)
     ) {
       var editedCanBeBlank = true;
     } else if (
@@ -44,8 +48,23 @@ function onEdit(e) {
       )
     ) {
       var alertMessage =
-        'Leaving anything but notes blank will not ' +
-        'update the master chrono. This is a Google problem and cannot be resolved.';
+        'Only Assigned, Priority, and Status can be left blank.';
+      SpreadsheetApp.getActiveSpreadsheet().toast(alertMessage, 'Alert', 60);
+      getReport();
+      return;
+    } else if (
+      (e.value !== undefined || e.value === undefined) &&
+      !(
+        editedColumnIsUnitType ||
+        editedColumnIsAssigned ||
+        editedColumnIsPriority ||
+        editedColumnIsStatus ||
+        editedColumnIsNotes
+      )
+    ) {
+      var alertMessage =
+        'Cannot edit anything but Unit Type, Assigned, Priority, Status, or notes. ' +
+        'This Chrono will refresh to fix itself.';
       SpreadsheetApp.getActiveSpreadsheet().toast(alertMessage, 'Alert', 60);
       getReport();
       return;
@@ -54,6 +73,7 @@ function onEdit(e) {
     var editIsBetweenUnitType = column >= headers.unitType;
     var editNotBeyondNotes = column <= headers.notes;
     var isNotInHeaderRow = row > 2;
+
     if (editIsBetweenUnitType && editNotBeyondNotes && isNotInHeaderRow) {
       var serviceNumber = editedSheet.getRange(row, headers.service).getValue();
       var unitType = editedSheet.getRange(row, headers.unitType).getValue();
@@ -74,7 +94,7 @@ function onEdit(e) {
     } else {
       Browser.msgBox('Can not edit those columns');
     }
-  } // End of sheet check
+  }
 }
 
 /**
@@ -98,11 +118,9 @@ function makeEdits(
   editedCanBeBlank
 ) {
   var foundRow;
-  // Dev: 1r06cw7MtVKolZY6pXkmuoxcWPUeqtdm8Tu9sc5ljBkg
-  // Prod: 121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0
-  var masterReport = SpreadsheetApp.openById(
-    '1r06cw7MtVKolZY6pXkmuoxcWPUeqtdm8Tu9sc5ljBkg'
-  ).getSheetByName('Report');
+  var masterReport = SpreadsheetApp.openById(MASTER_CHRONO).getSheetByName(
+    REPORT_SHEET
+  );
   var backlogRowStart = 3;
   var masterReportsLastRow = masterReport.getLastRow() - 1;
 

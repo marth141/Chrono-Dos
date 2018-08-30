@@ -53,7 +53,7 @@ function onEdit(e) {
       getReport();
       return;
     } else if (
-      e.value !== undefined &&
+      (e.value !== undefined || e.value === undefined) &&
       !(
         editedColumnIsUnitType ||
         editedColumnIsAssigned ||

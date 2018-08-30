@@ -28,10 +28,13 @@ function onEdit(e) {
     var editedColumnIsAssigned = column === headers.assigned;
     var editedColumnIsPriority = column === headers.priority;
     var editedColumnIsStatus = column === headers.status;
-    var editedCanBeBlank =
-      editedColumnIsAssigned || editedColumnIsPriority || editedColumnIsStatus;
     if (e.value === undefined && editedColumnIsNotes) {
       e.value = 'Deleted by lead or supervisor';
+    } else if (
+      e.value === undefined &&
+      (editedColumnIsAssigned || editedColumnIsPriority || editedColumnIsStatus)
+    ) {
+      var editedCanBeBlank = true;
     } else if (
       e.value === undefined &&
       !(

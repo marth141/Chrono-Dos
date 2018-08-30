@@ -13,8 +13,7 @@ function uni_priorityMarker(completeBacklog) {
     var accountIsIL = account[headers.Office].match(/il-/i) !== null;
     var accountIsRedesign = account[headers.UnitType].match(/RD/i) !== null;
     var accountIsOutsource =
-      account[headers.UnitType].match(/outsource/i) !== null ||
-      account[headers.UnitType].match(/OTS/i) !== null;
+      account[headers.UnitType].match(/outsource/i) !== null;
 
     if ((accountIsNJ || accountIsPA || accountIsIL) && !accountIsRedesign) {
       completeBacklog[record][headers.Priority] = 'Priority';

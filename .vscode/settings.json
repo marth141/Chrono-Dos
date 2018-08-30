@@ -1,1 +1,10 @@
-{}
+{
+  "git.ignoreLimitWarning": true,
+  "workbench.startupEditor": "newUntitledFile",
+  "javascript.validate.enable": false,
+  "editor.tabSize": 2,
+  "files.autoSave": "onFocusChange",
+  "javascript.updateImportsOnFileMove.enabled": "never",
+  "javascript.referencesCodeLens.enabled": true,
+  "prettier.singleQuote": true
+}

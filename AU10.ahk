@@ -35,6 +35,7 @@ AutoUpdate:
 			ToolTip % "Running Updates", 0, 0
 
 			;Tested to work
+			clearAtStart()
 			successfulRuns := runUpdateONE(chronoDOS, successfulRuns)
 			successfulRuns := runUpdateONE(CPQCD, successfulRuns)
 			successfulRuns := runUpdateONE(PPQCD, successfulRuns)

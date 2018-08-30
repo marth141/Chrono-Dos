@@ -7,3 +7,10 @@
 			;MouseMove, 1226, 314
 	}
 }
+
+clearAtStart()
+{
+	ToolTip % "Clearing Updater.", 0, 30
+	MouseClick, Left, 1226, 314, 1
+		;MouseMove, 1226, 314
+}

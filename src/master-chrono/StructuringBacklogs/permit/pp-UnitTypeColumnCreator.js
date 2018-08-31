@@ -114,6 +114,13 @@ function pp_MarkUnits(
     } else {
       // ! there be trouble in these parts
       errorMessage = serviceNumber + ' does not fit in the unit type system.';
+      var errorHint =
+        'Please check the PERMIT BACKLOG sheet for "' +
+        serviceNumber +
+        '" ' +
+        'and remove that row from the PERMIT BACKLOG sheet. ' +
+        'This message will stay for 5 minutes.';
+      SpreadsheetApp.getActiveSpreadsheet().toast(errorHint, 'Error Help', 300);
       throw errorMessage;
     }
     backlogArray[row].splice(opporTypeCol, 0, designPathString);

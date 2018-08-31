@@ -17,9 +17,6 @@ function uni_priorityMarker(completeBacklog) {
 
     if ((accountIsNJ || accountIsPA || accountIsIL) && !accountIsRedesign) {
       completeBacklog[record][headers.Priority] = 'Priority';
-      if (accountIsOutsource) {
-        completeBacklog[record][headers.UnitType] = 'PERMIT';
-      }
     } else {
       continue;
     }

@@ -1,0 +1,327 @@
+<!-- Custom client-side JavaScript code. -->
+<script>
+var marketsMasterData;
+var utiltyRateData;
+
+google.script.run.withSuccessHandler(setMarketsMasterData).getMarketsMasterData();
+google.script.run.withSuccessHandler(setUtilityRateData).getUtilityRateData();
+
+
+function setMarketsMasterData(reference){
+  console.log("Markets Master Data: ", reference);
+  marketsMasterData = reference;
+  
+  reference.splice(0,1)
+  //add list of utilities to select
+  var select = document.getElementById("vrUtilityDatalist");
+  var option;
+  reference.forEach(function(value){
+    option = document.createElement("option");
+    option.text = value[1];
+    select.appendChild(option);
+  });
+  
+  var select = document.getElementById("escUtilityDatalist");
+  var option;
+  reference.forEach(function(value){
+    option = document.createElement("option");
+    option.text = value[1];
+    select.appendChild(option);
+  });
+}
+
+
+
+
+function setUtilityRateData(reference){
+  console.log("Utilty Rate Data: ", reference);
+  utiltyRateData = reference;
+}
+
+
+function vrCalc(){
+
+//  var auth2 = gapi.auth2.getAuthInstance();
+//  var truth = auth2.currentUser.get();
+//  console.log('Signed in?: ' + truth.BasicProfile().getId());
+//  
+//  var profile = auth2.getBasicProfile();
+//  var profile = gapi.auth2.BasicProfile();
+//  console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+//  console.log('Full Name: ' + profile.getName());
+//  console.log('Given Name: ' + profile.getGivenName());
+//  console.log('Family Name: ' + profile.getFamilyName());
+//  console.log("Image URL: " + profile.getImageUrl());
+//  console.log("Email: " + profile.getEmail());
+        
+        
+  
+  var design = new vrCalculation();
+  //Set the Min sunhours if utility is set
+  if(design.utility != "") {
+    //set Minimum Sun Hours
+    document.getElementById("minSunHours").value = design.minSunHours;
+  }
+  if(design.nisAddon=="" || design.utility=="" || design.type=="" || design.rating=="" || design.production=="" || design.numModules=="") {
+//    console.log("NIS Addon: ", nisAddon);
+
+    vrClearOutputs(design.utility=="");
+    return;
+  }
+  
+  //set Base Rate
+  document.getElementById("baseRate").value = design.baseRate(); 
+  
+  //set Minimum Sun Hours
+  document.getElementById("minSunHours").value = design.minSunHours;
+  
+  //set Designed Sun Hours
+  document.getElementById("designedSunHours").value = design.designedSunHours;
+
+  //set Designed System Size
+  document.getElementById("designedSystemSize").value = design.designedSystemSize;
+
+  //set Min System Size
+  document.getElementById("minSystemSize").value = design.minSystemSize();
+
+  //set Sun Hour Adder
+  document.getElementById("sunHourAdder").value = design.sunHourAdder();
+  
+  //set System Size Adder
+  document.getElementById("systemSizeAdder").value = design.systemSizeAdder()[2];
+  
+  //set NIS Credit
+  var nisCredit = Math.abs(design.nisAddonAdder());
+  document.getElementById("nisCredit").value = nisCredit;
+  
+  var message = ""
+  if(nisCredit > 0)
+    message = "Don't forget to add the NIS Credit of "+nisCredit+" to the adder object in salesforce. ";
+  //set Message
+  if(design.baseRate() == "-")
+  {
+    document.getElementById("message").value = "LOAN/CASH ONLY MARKET";
+    clearOutputs();
+  }
+  else if(design.designedSunHours < 600 && design.type == "PPA/LEASE")
+    document.getElementById("message").value = "Sun Hours Below 600";
+  else if(design.designedSystemSize < 2)
+    document.getElementById("message").value = "System Size Too Small";
+  else if(design.newRate() == design.baseRate())
+    document.getElementById("message").value = "No Rate Change Necessary";
+  else if(design.newRate() <= design.utilityRate())
+    document.getElementById("message").value = message + "$"+design.newRate();
+  else
+    document.getElementById("message").value = "New Rate ($"+design.newRate()+") Exceeds Max Rate of ($"+design.utilityRate()+") Please Change Design";  
+  
+  
+  return;
+}
+
+
+function vrReset(){
+  vrClearOutputs(true);
+  vrClearInputs();
+}
+
+
+function vrClearOutputs(utility)
+{
+  try{
+    if(utility) {
+      document.getElementById("minSunHours").value = "";
+    }
+    document.getElementById("baseRate").value = "";
+    document.getElementById("designedSunHours").value = "";
+    document.getElementById("designedSystemSize").value = "";
+    document.getElementById("minSystemSize").value = "";
+    document.getElementById("sunHourAdder").value = "";
+    document.getElementById("systemSizeAdder").value = "";
+    document.getElementById("nisCredit").value = "";
+    document.getElementById("message").value = "";
+  }catch(err){
+    console.log("Empty");
+  }
+}
+
+function vrClearInputs()
+{
+  try{
+    document.getElementById("nisAddon").selectedIndex = 0;
+    document.getElementById("vrUtility").value = "";
+    document.getElementById("contractType").value = "";
+    document.getElementById("moduleRating").value = "";
+    document.getElementById("systemProduction").value = "";
+    document.getElementById("numModules").value = "";
+  }catch(err){
+    console.log("Empty");
+  }
+}        
+        
+       
+//*****************************************************
+// vrCalculation Object
+//*****************************************************
+
+function vrCalculation()
+{
+  this.nisAddon = document.getElementById("nisAddon").value;
+  this.utility = document.getElementById("vrUtility").value;
+  this.type = document.getElementById("contractType").value;
+  this.rating = document.getElementById("moduleRating").value;
+  this.production = document.getElementById("systemProduction").value;
+  this.numModules = document.getElementById("numModules").value;
+  
+  var utility = this.utility;
+  //filter data to single row of selected Utility company
+  this.marketsData = marketsMasterData.filter(function(value){
+    if(value[1].toLowerCase() == utility.toLowerCase())
+      return true;
+  });
+  this.utilityData = utiltyRateData.filter(function(value){
+    if(value[1].toLowerCase() == utility.toLowerCase())
+       return true;
+  });
+ 
+  this.minSunHours = this.marketsData[0][10];
+  this.designedSunHours = Math.round(this.production / ((this.rating * this.numModules) / 1000));
+  this.designedSystemSize = (this.rating * this.numModules) / 1000;
+  
+  
+  //Functions
+  this.baseRate = function baseRate()  //
+  {
+    var rate;
+    switch(this.type)
+    {
+      case 'PPA/LEASE':
+        rate = this.marketsData[0][8];  //set Base Rate
+        break;
+      case 'LOAN':
+        rate = this.marketsData[0][2];  //set Base Rate
+        break;
+      case 'CASH':
+        rate = this.marketsData[0][5];  //set Base Rate
+        break;
+    }
+    return rate;
+  }
+  this.utilityRate = function utilityRate()  //Returns utility rate for PPA/LEASE, or max rate for loans/cash
+  {
+    var rate;
+    switch(this.type)
+    {
+      case 'PPA/LEASE':
+        try{
+          rate = this.utilityData[0][2];  //set Base Rate
+        }catch(err){
+          return -1;
+        }
+        break;
+      case 'LOAN':
+        rate = this.marketsData[0][3];  //set Base Rate
+        break;
+      case 'CASH':
+        rate = this.marketsData[0][6];  //set Base Rate
+        break;
+    }
+    return rate;
+  }
+  this.minSystemSize = function minSystemSize()  //
+  {
+    //if the system size adder + base rate is above the Utility rate then 2-3kw is not allowed
+    if((this.systemSizeAdder()[0] + this.nisAddonAdder() + this.baseRate()) <= this.utilityRate())
+      return "2 kW";
+    else if((this.systemSizeAdder()[1] + this.nisAddonAdder() + this.baseRate()) <= this.utilityRate()) //else if the system size adder + base rate is above the Utility rate then 3-4kw is not allowed
+      return "3 kW";
+    else  //Else the min system size is 4 kW/ no variable rate allowed for low system size
+      return "4 kW";
+  }
+  this.systemSizeAdder = function systemSizeAdder()  //Get the system size adders
+  {
+    var maxSize = 3.96;
+    var middleSize = 3;
+    var minSize = 2;
+    var adder = [];  //Array of 3 adders [2-3kw, 3-4kw, actual adder]
+    switch(this.type)
+    {
+      case 'PPA/LEASE':
+        adder[0] = this.marketsData[0][12];  //set 2-3kw ppa/lease adder + nis addon adder
+        adder[1] = this.marketsData[0][11];  //set 3-4kw ppa/lease adder + nis addon adder
+        break;
+      case 'LOAN':
+      case 'CASH':
+        adder[0] = this.marketsData[0][14];  //set 2-3kw ppa/lease adder + nis addon adder
+        adder[1] = this.marketsData[0][13];  //set 3-4kw ppa/lease adder + nis addon adder
+        break;
+    }
+
+    var size = this.designedSystemSize;
+    if(size <= maxSize && size >= middleSize)  //If the system size is bewtween 3-3.96kW then add the adder to the array for the actual adder
+      adder.push(adder[1]);
+    else if(size < middleSize && size >= minSize)  //Else If the system size is bewtween 2-3kW then add the adder to the array for the actual adder
+      adder.push(adder[0]);
+    else  //Else add 0 to the array for the actual adder. Because it is either too low or not a variable rate
+      adder.push(0)
+    return adder;
+  }
+  this.nisAddonAdder = function nisAddonAdder()  //
+  {
+    if(this.nisAddon == "No")
+      return 0;
+    var adder;
+    switch(this.type)
+    {
+      case 'PPA/LEASE':
+        adder = -0.015;  //set adder to -0.015
+        break;
+      case 'LOAN':
+      case 'CASH':
+        adder = -0.25;  //set adder to -0.25
+        break;
+    }
+    //If the NIS Adder is greater than the other two adders combined. Then only use the amount of the other adders combined to cancel out to 0
+    var greater = this.systemSizeAdder()[2] + this.sunHourAdder();
+    if(Math.abs(adder) > greater)
+      adder = greater * -1;
+    return Math.round(adder*1000)/1000;
+  }
+  this.sunHourAdder = function sunHourAdder()  //
+  {
+    if(this.designedSunHours >= minSunHours)
+      return 0;
+    var adder;
+    switch(this.type)
+    {
+      case 'PPA/LEASE':
+        if(this.designedSunHours < this.minSunHours)
+          adder = ((this.minSunHours - this.designedSunHours) * this.baseRate()) / this.designedSunHours;  //Revenue loss((min sun hours - designed sun hours) * Base Rate) / designed sun hours
+        else
+          adder = 0;
+        break;
+      case 'LOAN':
+      case 'CASH':
+        adder = 0;  //set adder to 0
+        break;
+    }
+    return Math.round(adder*1000)/1000;
+  }
+  this.newRate = function newRate()  //add all the adders together with the base rate to get new rate
+  {
+    var rate = this.baseRate() + this.systemSizeAdder()[2] + this.sunHourAdder() + this.nisAddonAdder();
+    return Math.round(rate*1000)/1000;
+  }
+}
+
+
+
+</script>
+
+
+<!--
+
+
+
+
+
+ --> 

@@ -1,0 +1,75 @@
+<script>
+  let usage = {
+    type: "daily",
+    inputValues: { jan: 0, feb: 0, mar: 0, apr: 0, may: 0, jun: 0, jul: 0, aug: 0, sep: 0, oct: 0, nov: 0, dec: 0 },
+    estimatedMonthly: { jan: 0, feb: 0, mar: 0, apr: 0, may: 0, jun: 0, jul: 0, aug: 0, sep: 0, oct: 0, nov: 0, dec: 0 },
+    estimatedTotal: 0
+  };
+  
+  function setUsageType(event) {
+    usage.type = event.target.value;
+    
+    const months = Object.keys(usage.inputValues);
+    if(usage.type === "daily") {
+      for(let i = 0; i < months.length; i++) {
+        usage.estimatedMonthly[months[i]] = estimateMonthlyUsage(months[i], usage.inputValues[months[i]]);
+        document.getElementById("estimated-" + months[i]).value = usage.estimatedMonthly[months[i]];
+      }
+    } else {
+      for(let i = 0; i < months.length; i++) {
+        usage.estimatedMonthly[months[i]] = 0;
+        document.getElementById("estimated-" + months[i]).value = usage.estimatedMonthly[months[i]];
+      }
+    }
+    document.getElementById("t-usage").value = estimateTotalUsage(usage);
+  }
+  
+  function estimateMonthlyUsage(month, dailyUsage) {
+    const daysInMonth = { jan: 31, feb: 28, mar: 31, apr: 30, may: 31, jun: 30, jul: 31, aug: 31, sep: 30, oct: 31, nov: 30, dec: 31 };
+    
+    return dailyUsage * daysInMonth[month];
+  }
+  
+  function estimateTotalUsage(usage) {
+    usage.estimatedTotal = 0;
+    for(let i = 0; i < 12; i++) {
+      if(usage.type === "daily") {
+        usage.estimatedTotal += Object.values(usage.estimatedMonthly)[i];
+      } else {
+        usage.estimatedTotal += Object.values(usage.inputValues)[i];
+      }
+    }
+    
+    return usage.estimatedTotal;
+  }
+  
+  function captureUsageValue(event) {
+    const month = event.target.id;
+    usage.inputValues[month] = parseInt(event.target.value);
+    document.getElementById(month).value = usage.inputValues[month];
+    
+    if(usage.type === "daily") {
+      usage.estimatedMonthly[month] = estimateMonthlyUsage(month, usage.inputValues[month]);
+      document.getElementById("estimated-" + month).value = usage.estimatedMonthly[month];
+    }
+    
+    document.getElementById("t-usage").value = estimateTotalUsage(usage);
+  }
+  
+  function usageReset() {
+    const months = Object.keys(usage.inputValues);
+    
+    usage = {
+      type: "daily",
+      inputValues: { jan: 0, feb: 0, mar: 0, apr: 0, may: 0, jun: 0, jul: 0, aug: 0, sep: 0, oct: 0, nov: 0, dec: 0 },
+      estimatedMonthly: { jan: 0, feb: 0, mar: 0, apr: 0, may: 0, jun: 0, jul: 0, aug: 0, sep: 0, oct: 0, nov: 0, dec: 0 },
+      estimatedTotal: 0
+    };
+    document.getElementById("usage-type").selectedIndex = 0;
+    for(let i = 0; i < months.length; i++) {
+      document.getElementById(months[i]).value = "";
+      document.getElementById("estimated-" + months[i]).value = 0;
+    }
+    document.getElementById("t-usage").value = 0;
+  }
+</script>

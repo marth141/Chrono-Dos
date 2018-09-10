@@ -1,0 +1,15 @@
+{
+  "timeZone": "America/Denver",
+  "dependencies": {
+    "libraries": [{
+      "userSymbol": "OAuth2",
+      "libraryId": "1B7FSrk5Zi6L1rSxxTDgDEUsPzlukDsi4KGuTMorsTQHhGBzBkMun4iDF",
+      "version": "24"
+    }]
+  },
+  "webapp": {
+    "access": "DOMAIN",
+    "executeAs": "USER_ACCESSING"
+  },
+  "exceptionLogging": "STACKDRIVER"
+}

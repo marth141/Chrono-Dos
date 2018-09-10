@@ -1,0 +1,209 @@
+<!-- Custom client-side JavaScript code. -->
+<script>
+  function honorTool(){
+    var honor = new honorRate();
+    
+    // Check all needed values are filled in else clear answer section and return
+    if(honor.initialPermit=="" || honor.origin=="" || honor.type=="" || honor.customerApproved=="" || honor.currentBase=="" || honor.newBase=="") {
+      //console.log("initialPermit: ", initialPermit);
+      hClearOutputs();
+      return;
+    } else if(honor.type != "PPA" && (honor.oldSystemSize=="" || honor.oldProduction=="" || honor.newSystemSize=="" || honor.newProduction=="" || honor.differ=="")) {
+      hClearOutputs();
+      return;
+    } else if(honor.type == "PPA" && honor.salesPrice=="") {
+      hClearOutputs();
+      return;
+    }
+    
+    // Publish CAD record type
+    document.getElementById("cadType").value = honor.cadRecordType();
+    
+    // Uncheck Re-Calculate
+    document.getElementById("reCalc").value = honor.reCalc();
+    
+    // Design within tolerance
+    document.getElementById("tolerance").value = honor.tolerance();
+    
+    // Re-populate proposal customer approved
+    document.getElementById("reApprove").value = honor.repopulateApproval();
+    
+    // Re-populate proposal customer approved
+    document.getElementById("archiveCAD").value = honor.removeArchive();
+    
+    return;
+  }
+
+
+  function checkType(value){
+    if(value == "PPA") {
+      // Get all elements with class="showPPA" and show them
+      var content = document.getElementsByClassName("showPPA");
+      for (i = 0; i < content.length; i++) {
+          content[i].style.display = "flex";
+      }
+      // Get all elements with class="hidePPA" and hide them
+      content = document.getElementsByClassName("hidePPA");
+      for (i = 0; i < content.length; i++) {
+          content[i].style.display = "none";
+      }
+    } else if(value == "LEASE" || value == "LOAN/CASH") {
+      // Get all elements with class="showPPA" and hide them
+      var content = document.getElementsByClassName("showPPA");
+      for (i = 0; i < content.length; i++) {
+          content[i].style.display = "none";
+      }
+      // Get all elements with class="hidePPA" and show them
+      content = document.getElementsByClassName("hidePPA");
+      for (i = 0; i < content.length; i++) {
+          content[i].style.display = "flex";
+      }
+    } else {  // Hide Both PPA questions and LEASE, LOAN, CASH questions
+      // Get all elements with class="showPPA" and hide them
+      var content = document.getElementsByClassName("showPPA");
+      for (i = 0; i < content.length; i++) {
+          content[i].style.display = "none";
+      }
+      // Get all elements with class="hidePPA" and hide them
+      content = document.getElementsByClassName("hidePPA");
+      for (i = 0; i < content.length; i++) {
+          content[i].style.display = "none";
+      }
+    }
+    
+    honorTool();
+    return;
+  }
+
+
+  function hrReset() {
+    hClearOutputs();
+    hClearInputs();
+  }
+
+
+  function hClearOutputs() {
+    try {
+      document.getElementById("cadType").value = "";
+      document.getElementById("reCalc").value = "";
+      document.getElementById("tolerance").value = "";
+      document.getElementById("reApprove").value = "";
+      document.getElementById("archiveCAD").value = "";
+    } catch(err) {
+      console.log("Empty");
+    }
+  }
+
+  function hClearInputs() {
+    try {
+      document.getElementById("initialPermit").value = "";
+      document.getElementById("origin").value = "";
+      document.getElementById("hContractType").value = "";
+      document.getElementById("customerApproved").value = "";
+      document.getElementById("currentBase").value = "";
+      document.getElementById("newBase").value = "";
+      document.getElementById("salesPrice").value = "";
+      document.getElementById("oldSystemSize").value = "";
+      document.getElementById("oldProduction").value = "";
+      document.getElementById("newSystemSize").value = "";
+      document.getElementById("newProduction").value = "";
+      document.getElementById("differ").value = "";
+      checkType();
+    } catch(err) {
+      console.log("Empty");
+    }
+  }
+
+  //*****************************************************
+  // honorRate Object
+  //*****************************************************
+  function honorRate() {
+    // Initial questions
+    this.initialPermit = document.getElementById("initialPermit").value;
+    this.origin = document.getElementById("origin").value;
+    this.type = document.getElementById("hContractType").value;
+    this.customerApproved = document.getElementById("customerApproved").value;
+    this.currentBase = document.getElementById("currentBase").value;
+    this.newBase = document.getElementById("newBase").value;
+    // PPA Sales price
+    this.salesPrice = document.getElementById("salesPrice").value;
+    
+    // Old Design
+    this.oldSystemSize = document.getElementById("oldSystemSize").value;
+    this.oldProduction = document.getElementById("oldProduction").value;
+    
+    // New Design
+    this.newSystemSize = document.getElementById("newSystemSize").value;
+    this.newProduction = document.getElementById("newProduction").value;
+    this.differ = document.getElementById("differ").value;
+      
+    
+    this.cadRecordType = function cadRecordType() {
+      if(this.repopulateApproval() == "No")
+        return "Proposal";
+      else if(this.initialPermit == "Yes")
+        return "Permit";
+      else
+        return "Proposal";
+    }
+    
+    this.reCalc = function reCalc() {
+      if(this.newBase > this.currentBase && this.origin == "Other")
+        return "Yes";
+      else
+        return "No";
+    }
+    
+    this.repopulateApproval = function repopulateApproval() {
+      if(this.origin == "Other" && this.materialDevation())
+        return "Yes";
+      else
+        return "No";
+    }
+    
+    this.tolerance = function tolerance() {
+      // Get within tolereance per contract type retrun true if "Yes" Within tolerance
+      if(this.customerApproved == "No")
+        return "No";
+      
+      // If tolerance is true then the design is within tolerance
+      if(this.materialDevation())
+        return "Yes";
+      else if(this.type == "PPA" && this.origin == "Other")
+        return "Yes";
+      else
+        return "No";
+    }
+    
+    this.removeArchive = function removeArchive() {
+      if(this.cadRecordType() == "Proposal" && this.initialPermit == "Yes")
+        return "Yes";
+      else
+        return "No";
+    }
+    
+    // Return FALSE if there is a material devation
+    this.materialDevation = function materialDevation() {
+      switch(this.type) {
+        case 'PPA':
+          if(this.newBase > this.salesPrice)
+            return false;
+          else
+            return true;
+          break;
+        case 'LEASE':
+          if(this.oldSystemSize != this.newSystemSize || (Math.abs(this.newProduction - this.oldProduction)/this.oldProduction)>=0.025 || this.differ == "Yes")
+            return false;
+          else
+            return true;
+          break;
+        case 'LOAN/CASH':
+          if(Math.abs(this.newSystemSize - this.oldSystemSize) > 0.3)
+            return false;
+          else
+            return true;
+          break;
+      }
+    }
+  }
+</script>

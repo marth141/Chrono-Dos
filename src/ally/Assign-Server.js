@@ -529,14 +529,15 @@ function debugGetAssignment() {
     name: "Nathan Casados",
     regions: ["PERMIT"],
     settings: {
-      "CP MATCH": "",
-      "DE RD": null,
-      "OUTSOUCE": 0,
-      "PERMIT": "",
-      "PERMIT RD": ""
+      "CP MATCH": 0,
+      "DE RD": 0,
+      "OTS": null,
+      "OUTSOUCE": 1,
+      "PERMIT": 0,
+      "PERMIT RD": 0
     },
     sfName: "Nathan Casados (200354)",
-    team: "Outsource",
+    team: "PP",
   };
   getAssignment(designer);
 }

@@ -2,17 +2,13 @@
   "timeZone": "America/Denver",
   "dependencies": {
     "libraries": [{
-      "userSymbol": "DOS_Chrono",
-      "libraryId": "1Jh-Mekjz8bYnXdBdd3cpvoo0wx6jF7-ECZ-ZEoQ-YWYghbcRciQVQ_9G",
-      "version": "89"
-    }, {
       "userSymbol": "CPQCD_Chrono",
       "libraryId": "1jvx14Ub3wIXlvdIojdIpwnZe7TMTaQGgGXCPhQy2HgLLLW6Avb-FmXtx",
       "version": "3"
     }, {
-      "userSymbol": "SREE_Chrono",
-      "libraryId": "10D93sG3TmQ-AuBxr-Br7YY0HAkZBB7TG1IB3AESYWNpZfcf0XcNZocS7",
-      "version": "5"
+      "userSymbol": "PP_Outsource_Chrono",
+      "libraryId": "1jvXZ6mCjs-LblrvzPyar9fnLKffFa-aarreM5hScq61iprGERDPSRzZt",
+      "version": "4"
     }, {
       "userSymbol": "EE_Chrono",
       "libraryId": "1b2uVjAlxSEUmaZZBKeFJxmriGzprXgCYINSCmjhAYcj4pJM3UoZ4YPJW",
@@ -22,9 +18,13 @@
       "libraryId": "1TIqfUBVmXTRrbW27I64qz_vIJFgeanGsycPw6yAZBEy59FvdShfKW-9p",
       "version": "10"
     }, {
-      "userSymbol": "PP_Outsource_Chrono",
-      "libraryId": "1jvXZ6mCjs-LblrvzPyar9fnLKffFa-aarreM5hScq61iprGERDPSRzZt",
-      "version": "4"
+      "userSymbol": "SREE_Chrono",
+      "libraryId": "10D93sG3TmQ-AuBxr-Br7YY0HAkZBB7TG1IB3AESYWNpZfcf0XcNZocS7",
+      "version": "5"
+    }, {
+      "userSymbol": "DOS_Chrono",
+      "libraryId": "1Jh-Mekjz8bYnXdBdd3cpvoo0wx6jF7-ECZ-ZEoQ-YWYghbcRciQVQ_9G",
+      "version": "90"
     }]
   },
   "exceptionLogging": "STACKDRIVER"

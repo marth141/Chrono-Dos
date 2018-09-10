@@ -15,7 +15,7 @@ function uni_priorityMarker(completeBacklog) {
     var accountIsOutsource =
       account[headers.UnitType].match(/outsource/i) !== null;
 
-    if ((accountIsNJ || accountIsPA || accountIsIL) && !accountIsRedesign) {
+    if (accountIsIL && !accountIsRedesign) {
       completeBacklog[record][headers.Priority] = 'Priority';
     } else {
       continue;

@@ -1,0 +1,68 @@
+<script type="text/babel">
+class Announcement extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      teamMessage: [['Getting Team Message...']],
+      email: '',
+      team: ''
+    };
+    this.getTeamMessage = this.getTeamMessage.bind(this);
+    this.setTeamMessage = this.setTeamMessage.bind(this);
+    this.setEmail = this.setEmail.bind(this);
+    this.setTeam = this.setTeam.bind(this);
+  }
+
+  componentDidMount() {
+    // Gets the user's email
+    google.script.run
+      .withSuccessHandler(this.setEmail)
+      .withUserObject(this)
+      .getEmail();
+
+    // Find the user's email and team in the filter settings
+    google.script.run
+      .withSuccessHandler(this.setTeam)
+      .findTeam(this.state.email);
+
+    // Gets new team messages on intervals
+    setInterval(this.getTeamMessage, 10000);
+  }
+
+  setTeam(value) {
+    this.setState({ team: value });
+  }
+
+  setEmail(value) {
+    console.log('react: ' + value);
+    this.setState({ email: value });
+  }
+
+  getTeamMessage() {
+    google.script.run
+      .withSuccessHandler(this.setTeamMessage)
+      .getTeamAnnouncement(this.state.team);
+  }
+
+  setTeamMessage(value) {
+    console.log(value);
+    this.setState({ teamMessage: value });
+  }
+
+  render() {
+    const messages = this.state.teamMessage.map(function(message) {
+      return <li><p class='announcement-paragraph'>{message}</p></li>
+    });
+    return (
+      <div>
+        <div class='announcement-title'>
+          <h1>Team announcements</h1>
+        </div>
+        <ul>
+          {messages}
+        </ul>
+      </div>
+    );
+  }
+}
+</script>

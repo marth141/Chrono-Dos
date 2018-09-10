@@ -1,0 +1,387 @@
+<!-- Custom client-side JavaScript code. -->
+
+<script>
+var jurisdictionDatabase;
+var utilityDatabase;
+var fieldOfficeDatabase;
+
+google.script.run.withSuccessHandler(setUtilityDatabase).getUtilityDatabase();
+google.script.run.withSuccessHandler(setJurisdictionDatabase).getJurisdictionDatabase();
+google.script.run.withSuccessHandler(setFieldOfficeDatabase).getFieldOfficeDatabase();
+
+
+
+
+function setUtilityDatabase(reference){
+  console.log("Utility Database: ", reference);
+  utilityDatabase = reference;
+}
+
+function setJurisdictionDatabase(reference){
+  console.log("Jurisdiction Database: ", reference);
+  jurisdictionDatabase = reference;
+  
+  var select = document.getElementById("ahjDatalist");
+  var option;
+  reference.forEach(function(value){
+    option = document.createElement("option");
+    option.text = value[1];
+    select.appendChild(option);
+  });
+}
+
+function setFieldOfficeDatabase(reference){
+  console.log("Field Office Database: ", reference);
+  fieldOfficeDatabase = reference;
+}
+
+function escCalc(){
+  
+  var electrical = new interconnection();
+  var panel = electrical.panelType;
+  if(['Solar Ready','Supply Bus','Split Bus','SS Taps Allowed'].some(function(value){ return panel.indexOf(value) > -1})) {
+    console.log("SS No ESC Required");
+    eClearOutputs();
+    document.getElementById("esc-message").value = "SS No ESC Required";
+    return;
+  }
+    
+  // Check all needed values are filled in else clear answer section and return
+  if(electrical.panelType=="" || electrical.busRating=="" || electrical.mainBreaker=="" || electrical.inverter=="" || electrical.moduleCount=="" || electrical.escUtility=="" || electrical.ahj=="")
+  {
+    //console.log("panelType: ", electrical.panelType);
+    eClearOutputs();
+    return;
+  }
+  
+  electrical.init();
+    
+  var columnOne = electrical.columnOne;
+  var columnTwo = electrical.columnTwo;
+  var columnThreeFour = electrical.columnThreeFour;
+  
+  console.log("column: ", columnThreeFour);
+  // AS Is backfeed
+  document.getElementById("A1").innerHTML = columnOne[0];
+  // AS Is Modules Max
+  document.getElementById("A2").innerHTML = columnOne[1];
+  // AS Is System Size
+  document.getElementById("A3").innerHTML = columnOne[2];
+  
+  // Derate backfeed
+  document.getElementById("B1").innerHTML = columnTwo[0];
+  // Derate Modules Max
+  document.getElementById("B2").innerHTML = columnTwo[1];
+  // Derate System Size
+  document.getElementById("B3").innerHTML = columnTwo[2];
+  
+  // Down Size for PPA/LEASE Backfeed
+  document.getElementById("C1").innerHTML = columnThreeFour[0][0]; //add one module more than 
+  // Down Size for PPA/LEASE Modules Max
+  document.getElementById("C2").innerHTML = columnThreeFour[0][1];
+  // Down Size for PPA/LEASE System Size
+  document.getElementById("C3").innerHTML = columnThreeFour[0][2];
+  
+  // ESC Backfeed
+  document.getElementById("D1").innerHTML = columnThreeFour[1][0]; //add one module more than 
+  // ESC Modules Max
+  document.getElementById("D2").innerHTML = columnThreeFour[1][1];
+  // ESC System Size
+  document.getElementById("D3").innerHTML = columnThreeFour[1][2];
+  
+  // CREATE MESSAGE: If the number of modules falls under the as is section
+  if(electrical.moduleCount <= columnOne[1])
+    document.getElementById("esc-message").value = "No Action Needed";
+  else if(columnTwo[1] != "NA" && electrical.moduleCount <= columnTwo[1]) // Else if num modules falls with in the derate section
+    document.getElementById("esc-message").value = "Create Derate Case";
+  else if(electrical.moduleCount <= columnThreeFour[2][1]) // Else if num modules falls with in the derate section
+    document.getElementById("esc-message").value = "Downsize Design";
+  else
+    document.getElementById("esc-message").value = "Create ESC Case and Hold";
+
+  return;  
+}
+
+
+function escReset() {
+  eClearOutputs();
+  eClearInputs();
+}
+
+
+function eClearOutputs()
+{
+  try {
+    // Empty Ouputs
+    document.getElementById("A1").innerHTML = "";
+    document.getElementById("A2").innerHTML = "";
+    document.getElementById("A3").innerHTML = "";
+    document.getElementById("B1").innerHTML = "";
+    document.getElementById("B2").innerHTML = "";
+    document.getElementById("B3").innerHTML = "";
+    document.getElementById("C1").innerHTML = "";
+    document.getElementById("C2").innerHTML = "";
+    document.getElementById("C3").innerHTML = "";
+    document.getElementById("D1").innerHTML = "";
+    document.getElementById("D2").innerHTML = "";
+    document.getElementById("D3").innerHTML = "";
+    document.getElementById("esc-message").value = "Fill Out All ESC Calculator Inputs";
+  }catch(err){
+    console.log("Empty");
+  }
+}
+
+function eClearInputs()
+{
+  try {
+    // Empty Ouputs
+    document.getElementById("escUtility").value = "";
+    document.getElementById("ahj").value = "";
+    document.getElementById("addOn").selectedIndex  = 0;
+    document.getElementById("panelType").value = "";
+    document.getElementById("busRating").value = "";
+    document.getElementById("mainBreaker").value = "";
+    document.getElementById("inverter").value = "";
+    document.getElementById("moduleCount").value = "";
+  }catch(err){
+    console.log("Empty");
+  }
+}
+
+
+
+//*****************************************************
+// ESC Calculator Object
+//*****************************************************
+function interconnection() {
+
+  this.panelType = document.getElementById("panelType").value;
+  this.busRating = document.getElementById("busRating").value;
+  this.mainBreaker = document.getElementById("mainBreaker").value;
+  this.inverter = document.getElementById("inverter").value;
+  this.moduleCount = document.getElementById("moduleCount").value;
+  
+  this.escUtility = document.getElementById("escUtility").value;
+  this.ahj = document.getElementById("ahj").value;
+  this.addOn = document.getElementById("addOn").value;
+  
+  this.init = function() {
+    this.pMax = this.getPMax();
+    this.columnOne = this.asIs();
+    this.columnTwo = this.derate();
+    this.columnThreeFour = this.downSize();
+    
+  }
+  //Gets the values for the "As Is" column
+  this.asIs = function asIs() {
+    var array = [];
+    // Get backfeed capacity
+    if(this.panelType == "Center-fed") 
+      array[0] = Math.max(0,(this.busRating * this.centerFedRule()) - this.mainBreaker - this.addOn);
+    else
+      array[0] = Math.max(0,(this.busRating * 1.2) - this.mainBreaker - this.addOn);
+//    if(this.addOn != "NA") { // If Add-On system subtract the already used backfeed 
+//      console.log("Add-On: ", this.addOn);
+//      array[0] = Math.max(0,array[0] - this.addOn);
+//    }
+    // Get max modules
+    if(this.inverter == "Enphase")
+      array[1] =  Math.floor(array[0] / 1.2);
+    else {
+      array[1] = this.solarEdge(array[0]).num; // returns object of amps: and Max number of modules num:
+    }
+    //Get System Size
+    array[2] = Math.round(((array[1] * this.pMax) / 1000) * 100) / 100;
+
+    console.log("ASIS: ", array);
+    return array;
+  }
+  
+  this.derate = function derate() {
+    var array = [];
+
+    // If Derate are not allowed
+    if(!this.allowed() || this.mainBreaker == 100)
+      return [["NA"],["NA"],["NA"]];
+
+    switch(this.busRating)
+    {
+      case '225':
+      case '200':
+        var subtract = 150;
+        break;
+      case '150':
+        var subtract = 125;
+        break;
+      default:
+        var subtract = 100;
+        break;
+    }
+    array[0] = Math.max(0, ((this.busRating * this.centerFedRule()) - subtract) - this.addOn);
+
+    if(array[0] <= this.columnOne[0])
+      return [["NA"],["NA"],["NA"]];
+      
+    // Get max modules per enphase/solar edge
+    if(this.inverter == "Enphase") {
+      // Get max modules
+      array[1] =  Math.floor(array[0] / 1.2);
+    }
+    else {
+      array[1] = this.solarEdge(array[0]).num; // returns object of amps: and Max number of modules num:
+    }
+      
+    array[2] = Math.round(array[1] * this.pMax * 100) / 100000;
+    
+    
+    return array;
+  }
+  
+  
+  this.downSize = function downSize() {
+    var array = [];
+    var derate = this.columnTwo;
+    if(derate[0] != "NA")
+      var start = derate[1] + 1;
+    else
+      var start = this.columnOne[1] + 1;
+    
+    var ahj = this.ahj;
+    var row = jurisdictionDatabase.find(function(value){ return value[1].indexOf(ahj) > -1});
+    if(row[0].toLowerCase().indexOf("ca-") > -1)
+      var adder = 3;
+    else
+      var adder = 4;
+    
+    // add the min system size adder before elegible for esc
+    var end = Math.floor(((((start-1) * this.pMax) / 1000) + 3) / this.pMax * 1000);
+    
+    
+    if(this.inverter == "Enphase") {
+      // Get max modules
+      var backfeed =  Math.round(start * 1.125) + " - " + Math.round(end * 1.125);
+      var max = Math.floor(start) + " - " + Math.floor(end);
+      var size = (Math.round(start * this.pMax *  100) / 100000) + " - " + (Math.round(end * this.pMax * 100) / 100000);
+  
+      var escBackfeed = Math.round(end * 1.125 + 1) + "+";
+      var escMax = Math.round(end + 1) + "+";
+      var escSize = Math.round((end + 1) * this.pMax * 100 / 1000) / 100 + "+"; 
+    }
+    else {
+      var maxStart = this.solarEdge(start, true).amp; // returns object of amps: and Max number of modules num:
+      var maxEnd = this.solarEdge(end, true).amp; // returns object of amps: and Max number of modules num:
+      
+      var backfeed = maxStart + " - " + maxEnd;
+      var max = Math.floor(start) + " - " + Math.floor(end);
+      var size = (Math.round(start * this.pMax *  100) / 100000) + " - " + (Math.round(end * this.pMax * 100) / 100000);
+  
+      var escBackfeed = maxEnd + 1 + "+";
+      var escMax = Math.round(end + 1) + "+";
+      var escSize = Math.round((end + 1) * this.pMax * 100 / 1000) / 100 + "+"; 
+    }
+    
+    
+    
+    return [[backfeed, max, size], [escBackfeed, escMax, escSize], [start, end]];
+  }
+  
+  this.allowed = function allowed() {
+    
+    var escUtility = this.escUtility;
+    var row = utilityDatabase.find(function(value){ return value[0].indexOf(escUtility) > -1});
+
+    // If Derates are not allowed return false
+    if(row[1].toLowerCase().indexOf("yes") == -1)
+      return false
+    return true;
+  }
+  
+  
+  this.centerFedRule = function centerFedRule() {
+    var ahj = this.ahj;
+    var row = jurisdictionDatabase.find(function(value){ return value[1].indexOf(ahj) > -1});
+    
+    if(typeof row[2] == "number" && row[2] == 1.2)
+      return 1.2;
+    else if(typeof row[2] == "number" && row[2] == 1)
+      return 1;
+    else if(row[2].indexOf('100') > -1 && this.panelType == "Center-fed")
+      return 1;
+    else
+      return 1.2;
+  }
+  
+  this.getPMax = function getPMax() {
+    var ahj = this.ahj;
+    var row = jurisdictionDatabase.find(function(value){ return value[1].indexOf(ahj) > -1});
+    var row = fieldOfficeDatabase.find(function(value){ return value[1].indexOf(row[0]) > -1});
+    console.log("PMAX ROW: ", row);
+    return row[3];
+  }
+  
+  
+  this.solarEdge = function solarEdge(check, reverse) {
+    var caBackfeed = {
+      275: [ {amp:0, num:0}, {amp:20, num:21}, {amp:40, num:37}, {amp:60, num:58}, {amp:80, num:76}, {amp:100, num:92}, {amp:120, num:110}],
+      280: [ {amp:0, num:0}, {amp:20, num:21}, {amp:40, num:36}, {amp:60, num:57}, {amp:80, num:75}, {amp:100, num:90}, {amp:120, num:108}],
+      285: [ {amp:0, num:0}, {amp:20, num:20}, {amp:40, num:36}, {amp:60, num:56}, {amp:80, num:74}, {amp:100, num:90}, {amp:120, num:108}],
+      290: [ {amp:0, num:0}, {amp:20, num:20}, {amp:40, num:35}, {amp:60, num:55}, {amp:80, num:73}, {amp:100, num:88}, {amp:120, num:106}]
+    };
+    
+    var list = {
+      275: [ {amp:0, num:0}, {amp:20, num:21}, {amp:40, num:42}, {amp:60, num:63}, {amp:80, num:84}, {amp:100, num:97}, {amp:120, num:126}],
+      280: [ {amp:0, num:0}, {amp:20, num:21}, {amp:40, num:42}, {amp:60, num:63}, {amp:80, num:84}, {amp:100, num:96}, {amp:120, num:126}],
+      285: [ {amp:0, num:0}, {amp:20, num:20}, {amp:40, num:41}, {amp:60, num:61}, {amp:80, num:82}, {amp:100, num:95}, {amp:120, num:123}],
+      290: [ {amp:0, num:0}, {amp:20, num:20}, {amp:40, num:40}, {amp:60, num:60}, {amp:80, num:80}, {amp:100, num:93}, {amp:120, num:120}]
+    };
+    
+    // If the office contains any in the array then use the inverters for their office
+    var office = this.office().toLowerCase();
+    if(['ca-08','ca-18','ca-21'].some(function(value){ return office.indexOf(value) > -1})) {
+      list = caBackfeed;
+//      console.log("CA Office");
+    }
+    console.log("LIST: ", list[this.pMax], " PMAX: ", this.pMax);
+    if(reverse == true) {
+      for( var i = 0; i < list[this.pMax].length; i++) {
+        //If reverse, look at max modules first. Else Look at backfeed. Return both amps, and num modules. 
+        if(reverse == true && check <= list[this.pMax][i].num) {
+          console.log("Key1: ", list[this.pMax][i].amp, " Value: ", list[this.pMax][i].num);
+          return list[this.pMax][i];
+        }
+      }
+      return {amp:140, num:106}
+    }
+    
+    for( var i = list[this.pMax].length - 1; i >= 0; i--) {
+      if(check >= list[this.pMax][i].amp) {
+        console.log("Key: ", list[this.pMax][i].amp, " Value: ", list[this.pMax][i].num);
+        return list[this.pMax][i];
+      }
+    }
+ 
+    return;    
+  }
+
+  this.office = function office() {
+    var ahj = this.ahj;
+    var row = jurisdictionDatabase.find(function(value){ return value[1].indexOf(ahj) > -1});
+    
+    // Return the Office that matches the AHJ 
+    return row[0];
+  }
+  
+  
+}
+
+
+</script>
+
+
+<!--
+
+
+
+
+
+ --> 

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <base target="_top">
+    <?!= getContent('oAuth') ?>
+    <?!= getContent('stylesheet') ?>
+    <?!= getContent('jsMain') ?>
+    <?!= getContent('jsVR') ?>
+    <?!= getContent('jsHonor') ?>
+    <?!= getContent('jsESC') ?>
+    <?!= getContent('jsUsage') ?>
+    <font face = "Roboto"></font>
+  </head>
+  <body>
+
+    <button onclick="signOut()">Sign Out</button>
+    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div> 
+    
+        
+    <nav>
+      <ul class="tabs">
+        <li class="tab">
+          <a href="#vrCalculator" id="vrCalculatorBtn" class="tablink active" onclick="openTab(event, 'vrCalculator')">VR Calculator</a>
+        </li>
+        <li class="tab">
+          <a href="#honorRate" id="honorRateBtn" class="tablink" onclick="openTab(event, 'honorRate')">Honor Rate</a>
+        </li>
+        <li class="tab">
+          <a href="#escCalculator" id="escCalculatorBtn" class="tablink" onclick="openTab(event, 'escCalculator')">ESC Calculator</a>
+        </li>
+        <li class="tab">
+          <a href="#usageCalculator" id="usageCalculatorBtn" class="tablink" onclick="openTab(event, 'usageCalculator')">Usage Calculator</a>
+        </li>
+      </ul>
+    </nav>
+    
+    <div id="all-content">
+      <!--
+        Variable Rate CALCULATOR TAB
+      -->
+      <div id="vrCalculator" class="tabcontent">
+        <form>
+          <h1>Variable Rate Calculator</h1>
+          
+          <div class="inputs">
+            <div class="label-column">
+              <label for="nisAddon">NIS Office & Add-On System</label>
+              <label for="vrUtility" class="select">Utility</label>
+              <label for="contractType">Contract Type</label>
+              <label for="moduleRating">Module Rating</label>
+              <label for="systemProduction">System Production</label>
+              <label for="numModules"># of Modules</label>
+            </div>
+            <div class="input-column">
+              <select id="nisAddon" onChange="vrCalc()">
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+              </select>
+              
+              <input type="text" list="vrUtilityDatalist" id="vrUtility" onChange="vrCalc()"/>
+              <datalist id="vrUtilityDatalist"></datalist>
+              
+              <select id="contractType" onChange="vrCalc()">
+                <option disabled selected value> -- select an option -- </option>
+                <option value="PPA/LEASE">PPA/LEASE</option>
+                <option value="LOAN">LOAN</option>
+                <option value="CASH">CASH</option>
+              </select>
+              <select id="moduleRating" onChange="vrCalc()">
+                <option disabled selected value> -- select an option -- </option>
+                <option value="270">270</option>
+                <option value="275">275</option>
+                <option value="280">280</option>
+                <option value="285">285</option>
+                <option value="290">290</option>
+                <option value="295">295</option>
+                <option value="300">300</option>
+                <option value="305">305</option>
+                <option value="310">310</option>
+                <option value="315">315</option>
+              </select>
+              <input id="systemProduction" type="number" onChange="vrCalc()" />
+              <input id="numModules" class="input" type="number" onChange="vrCalc()" />
+            </div>
+          </div>
+          
+          <hr>
+          
+          <div class="outputs">
+            <div class="label-column">
+              <label for="baseRate">Base Rate</label>
+              <label for="minSunHours">Min. System Sun Hours</label>
+              <label for="designedSunHours">Designed System Sun Hours</label>
+              <label for="designedSystemSize">Designed System Size</label>
+              <label for="minSystemSize">Min. System Size</label>
+            </div>
+            <div class="input-column">
+              <input class="output" name="baseRate" id="baseRate" type="number" readonly/>
+              <input class="output" name="minSunHours" id="minSunHours" type="number" readonly/>
+              <input class="output" name="designedSunHours" id="designedSunHours" type="number" readonly/>
+              <input class="output" name="designedSystemSize" id="designedSystemSize" type="number" readonly/>
+              <input class="output" name="minSystemSize" id="minSystemSize" type="text" readonly/>
+            </div>
+          </div>
+          
+          <hr>
+          
+          <div class="outputs">
+            <div class="label-column">
+              <label for="sunHourAdder">Sun Hour Adder</label>
+              <label for="systemSizeAdder">System Size Adder</label>
+              <label for="nisCredit">NIS Credit</label>
+            </div>
+            <div class="input-column">
+              <input class="output" name="sunHourAdder" id="sunHourAdder" type="number" readonly/>
+              <input class="output" name="systemSizeAdder" id="systemSizeAdder" type="number" readonly/>
+              <input class="output" name="nisCredit" id="nisCredit" type="number" readonly/>
+            </div>
+          </div>
+          <div class="messageDiv">
+            <label for="message">Message</label>
+            <textarea id="message" class="output-message" rows="3" cols="35" readonly></textarea>
+          </div>
+        </form>
+        
+        <button id="vrResetBtn" class="reset" onclick="vrReset()">Reset</button>
+      </div>
+      
+      <!--
+      ******************************
+      HONOR RATE TAB
+      ******************************
+      -->
+      <div id="honorRate" class="tabcontent" style="display:none">
+        <form>
+          <!--HEADER/TITLE-->
+          <h1>Honor Rate Decision Tool</h1>
+          <!--QUESTIONS SECTION-->
+          <div id="honor-rate-container">
+            <div class="questions">
+              <!--INITAL QUESTIONS SECTION-->
+              <div class="initialQuestions">
+                <h2>Initial Questions</h2>
+                <div class="container-1">
+                  <label for="initialPermit">Has a permit packet been completed?</label>
+                  <select id="initialPermit" onChange="honorTool()">
+                    <option disabled selected value> -- select an option -- </option>
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                  </select>
+                </div>
+                
+                <div class="container-1">
+                  <label for="origin">What is the redesign origin?</label>
+                  <select id="origin" onChange="honorTool()">
+                    <option disabled selected value> -- select an option -- </option>
+                    <option value="Other">Other</option>
+                    <option value="Customer/Rep">Customer/Rep</option>
+                  </select>
+                </div>
+                
+                <div class="container-1">
+                  <label for="hContractType">What is the current contract type?</label>
+                  <select id="hContractType" onChange="checkType(this.value)">
+                    <option disabled selected value> -- select an option -- </option>
+                    <option value="PPA">PPA</option>
+                    <option value="LEASE">LEASE</option>
+                    <option value="LOAN/CASH">LOAN/CASH</option>
+                  </select>
+                </div>
+                
+                <div class="container-1">
+                  <label for="customerApproved">Is the contract customer agreement approved?</label>
+                  <select id="customerApproved" onChange="honorTool()">
+                    <option disabled selected value> -- select an option -- </option>
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                  </select>
+                </div>
+                
+                <div class="container-1">
+                  <label for="currentBase">What is the current base price?</label>
+                  <input id="currentBase" type="number" onChange="honorTool()" />
+                </div>
+                
+                <div class="container-1">
+                  <label for="newBase">What is the new base price?</label>
+                  <input id="newBase" type="number" onChange="honorTool()"/>
+                </div>
+                
+                <div class="showPPA container-1" style="display:none">
+                  <label for="salesPrice">What is the current sales price?</label>
+                  <input id="salesPrice" type="number" onChange="honorTool()" />
+                </div>
+              </div>
+              
+              <!--CONTRACT QUESTIONS SECTION-->
+              <div id="contractQuestions" class="hidePPA" style="display:none">
+                <h2>Design On Contract</h2>
+                <div class="container-1">
+                  <label for="oldSystemSize">What is the system size on the contract? kW</label>
+                  <input id="oldSystemSize" type="number" onChange="honorTool()" />
+                </div>
+                
+                <div class="container-1">
+                  <label for="oldProduction">What is the production of the previous design?</label>
+                  <input id="oldProduction" type="number" onChange="honorTool()" />
+                </div>
+              </div>
+              
+              <!--NEW DESIGN QUESTIONS SECTION-->
+              <div id="newDesignQuestions" class="hidePPA" style="display:none">
+                <h2>New Design</h2>
+                
+                <div class="container-1">
+                  <label for="newSystemSize">What is the new system size? kW</label>
+                  <input id="newSystemSize" type="number" onChange="honorTool()" />
+                </div>
+                
+                <div class="container-1">
+                  <label for="newProduction">What is the new production? kWh</label>
+                  <input id="newProduction" type="number" onChange="honorTool()" />
+                </div>
+                
+                <div class="container-1">
+                  <label for="differ">Does the inverter or module differ from the current design?</label>
+                  <select id="differ" onChange="honorTool()">
+                    <option disabled selected value> -- select an option -- </option>
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <div class="vl">
+            </div>
+            
+            <!--INSTRUCTIONS/ACTIONS SECTION-->
+            <div class="instructions">
+              <h2>Actions To Take On CAD Object</h2>
+              <!--ANSWERS SECTION-->
+              <div class="answers">
+                <div class="container-1">
+                  <label for="cadType">Publish CAD record type:</label>
+                  <input id="cadType" class="output" type="text" readonly/>
+                </div>
+                
+                <div class="container-1">
+                  <label for="reCalc">Uncheck Re-Calculate:</label>
+                  <input id="reCalc" class="output" type="text" readonly/>
+                </div>
+                
+                <div class="container-1">
+                  <label for="tolerance">Design within tolerance:</label>
+                  <input id="tolerance" class="output" type="text" readonly/>
+                </div>
+                
+                <div class="container-1">
+                  <label for="reApprove">Re-populate proposal customer approved:</label>
+                  <input id="reApprove" class="output" type="text" readonly/>
+                </div>
+                
+                <div class="container-1">
+                  <label for="archiveCAD">Remove primary CAD and archive permit CAD:</label>
+                  <input id="archiveCAD" class="output" type="text" readonly/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        
+        <button id="hrResetBtn" class="reset" onclick="hrReset()">Reset</button>
+      </div>
+      
+      <!--
+        ******************************
+        ESC CALCULATOR TAB
+        ******************************
+        -->
+      <div id="escCalculator" class="tabcontent" style="display:none">
+        <form>
+        <!--HEADER/TITLE-->
+          <h1>ESC Calculator</h1>
+          <div class="inputs">
+            <div class="label-column">
+              <label for="escUtility">Utility</label>
+              <label for="ahj">City / County / AHJ</label>
+              <label for="addOn">Add-On Existing Solar Breaker</label>
+              <label for="panelType">Main Panel Type</label>
+              <label for="busRating">Main Panel Bus Rating</label>
+              <label for="mainBreaker">Main Breaker</label>
+              <label for="inverter">Inverter</label>
+              <label for="moduleCount">Module Count</label>
+            </div>
+            <div class="input-column">
+              <input type="text" list="escUtilityDatalist" id="escUtility" onChange="escCalc()"/>
+              <datalist id="escUtilityDatalist"></datalist>
+              <input type="text" list="ahjDatalist" id="ahj" onChange="escCalc()"/>
+              <datalist id="ahjDatalist"></datalist>
+              <select id="addOn" onChange="escCalc()">
+                <option selected value=0>NA</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="60">60</option>
+                <option value="80">80</option>
+              </select>
+              <select id="panelType" onChange="escCalc()">
+                <option disabled selected value> -- select an option -- </option>
+                <option value="End-fed">End-fed</option>
+                <option value="Center-fed">Center-fed</option>
+                <option value="Supply Bus">Supply Bus</option>
+                <option value="Split Bus">Split Bus</option>
+                <option value="Solar Ready">Solar Ready</option>
+              </select>
+              <select id="busRating" onChange="escCalc()">
+                <option disabled selected value> -- select an option -- </option>
+                <option value="225">225</option>
+                <option value="200">200</option>
+                <option value="150">150</option>
+                <option value="125">125</option>
+                <option value="100">100</option>
+              </select>
+              <select id="mainBreaker" onChange="escCalc()">
+                <option disabled selected value> -- select an option -- </option>
+                <option value="225">225</option>
+                <option value="200">200</option>
+                <option value="150">150</option>
+                <option value="125">125</option>
+                <option value="100">100</option>
+              </select>
+              <select id="inverter" onChange="escCalc()">
+                <option disabled selected value> -- select an option -- </option>
+                <option value="Enphase">Enphase</option>
+                <option value="Solar Edge">Solar Edge</option>
+              </select>
+              <input id="moduleCount" type="number" onChange="escCalc()" />
+            </div>
+          </div>
+          <!--OUTPUT SECTION-->
+          <div class="outputs">
+            <h2>Possibilities</h2>
+            <table class="table">
+              <!--HEADER-->
+              <thead>
+                <tr>
+                  <th></th>
+                  <th class="table-header">As Is</th>
+                  <th class="table-header">Derate</th>
+                  <th class="table-header">Down Size for PPA/LEASE</th>
+                  <th class="table-header">ESC</th>
+                </tr>
+              </thead>
+              <!--1st ROW-->
+              <tbody>
+                <tr>
+                  <th class="table-header">Backfeed</th>
+                  <td id="A1"></td>
+                  <td id="B1"></td>
+                  <td id="C1"></td>
+                  <td id="D1"></td>
+                </tr>
+                <!--2nd ROW-->
+                <tr>
+                  <th class="table-header">Modules Max</th>
+                  <td id="A2"></td>
+                  <td id="B2"></td>
+                  <td id="C2"></td>
+                  <td id="D2"></td>
+                </tr>
+                <!--3rd ROW-->
+                <tr>
+                  <th class="table-header">System Size</th>
+                  <td id="A3"></td>
+                  <td id="B3"></td>
+                  <td id="C3"></td>
+                  <td id="D3"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="messageDiv">
+            <label class="esc-label" for="esc-message">Message</label>
+            <textarea class="output-message" name="message" id="esc-message" rows="3" cols="35" readonly>
+            </textarea>
+          </div>
+        </form>
+        
+        <button id="escResetBtn" class="reset" onclick="escReset()">Reset</button>
+      </div>
+      
+      <!--
+      ******************************
+      Usage Calculator
+      ******************************
+      -->
+      <div id="usageCalculator" class="tabcontent" style="display:none">
+        <form>
+          <!--HEADER/TITLE-->
+          <h1>Usage Calculator</h1>
+          <div id="usage-type-row">
+            <label for="usage-type">Usage Type</label>
+            <select id="usage-type" onchange="setUsageType(event)">
+              <option value="daily" selected>Daily</option>
+              <option value="monthly">Monthly</option>
+            </select>
+          </div>
+          <div class="column-headers">
+            <h3 id="month-header" class="column-header">Month</h3>
+            <h3 class="column-header">Input</h3>
+            <h3 class="column-header">Estimated Monthly</h3>
+          </div>
+          <div id="usage">
+            <div class="label-column">
+              <label for="jan">January</label>
+              <label for="feb">February</label>
+              <label for="mar">March</label>
+              <label for="apr">April</label>
+              <label for="may">May</label>
+              <label for="jun">June</label>
+              <label for="jul">July</label>
+              <label for="aug">August</label>
+              <label for="sep">September</label>
+              <label for="oct">October</label>
+              <label for="nov">November</label>
+              <label for="dec">December</label>
+              <label for="total-usage">Total Usage</label>
+            </div>
+            <div class="input-column">
+              <input id="jan" value="" class="usage-input" oninput="captureUsageValue(event)"></input>
+              <input id="feb" value="" class="usage-input" oninput="captureUsageValue(event)"></input>
+              <input id="mar" value="" class="usage-input" oninput="captureUsageValue(event)"></input>
+              <input id="apr" value="" class="usage-input" oninput="captureUsageValue(event)"></input>
+              <input id="may" value="" class="usage-input" oninput="captureUsageValue(event)"></input>
+              <input id="jun" value="" class="usage-input" oninput="captureUsageValue(event)"></input>
+              <input id="jul" value="" class="usage-input" oninput="captureUsageValue(event)"></input>
+              <input id="aug" value="" class="usage-input" oninput="captureUsageValue(event)"></input>
+              <input id="sep" value="" class="usage-input" oninput="captureUsageValue(event)"></input>
+              <input id="oct" value="" class="usage-input" oninput="captureUsageValue(event)"></input>
+              <input id="nov" value="" class="usage-input" oninput="captureUsageValue(event)"></input>
+              <input id="dec" value="" class="usage-input" oninput="captureUsageValue(event)"></input>
+              <input id="total-usage" value="" class="usage-input" disabled></input>
+            </div>
+            <div class="output-column">
+              <output id="estimated-jan" class="output" for="jan">0</output>
+              <output id="estimated-feb" class="output" for="feb">0</output>
+              <output id="estimated-mar" class="output" for="mar">0</output>
+              <output id="estimated-apr" class="output" for="apr">0</output>
+              <output id="estimated-may" class="output" for="may">0</output>
+              <output id="estimated-jun" class="output" for="jun">0</output>
+              <output id="estimated-jul" class="output" for="jul">0</output>
+              <output id="estimated-aug" class="output" for="aug">0</output>
+              <output id="estimated-sep" class="output" for="sep">0</output>
+              <output id="estimated-oct" class="output" for="oct">0</output>
+              <output id="estimated-nov" class="output" for="nov">0</output>
+              <output id="estimated-dec" class="output" for="dec">0</output>
+              <output id="t-usage" for="total-usage" class="output">0</output>
+            </div>
+          </div>
+        </form>
+        
+        <button id="usageResetBtn" class="reset" onclick="usageReset()">Reset</button>
+      </div> <!-- id="usageCalculator" -->
+    </div>
+  </body>
+</html>
+

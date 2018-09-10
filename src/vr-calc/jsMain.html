@@ -1,0 +1,33 @@
+<!-- Load the jQuery and jQuery UI libraries. -->
+<script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script src="https://code.jquery.com/ui/1.10.0/jquery-ui.min.js"></script>
+
+<!-- Custom client-side JavaScript code. -->
+<script>
+  function openTab(evt, tabName) {
+    // Prevent the default action of the calling event.
+    //Google seems to have a problem with the anchor tag default action.
+    evt.preventDefault();
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+      if(tablinks[i].id === tabName + "Btn") {
+        // Show the current tab, and add an "active" class to the link that opened the tab
+        tablinks[i].className = tablinks[i].className + " active";
+        document.getElementById(tabName).style.display = "flex";
+      } else {
+        // Remove styling due to the class attribute
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+    }
+  }    
+</script>

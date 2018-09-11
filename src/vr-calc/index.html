@@ -10,7 +10,15 @@
     <?!= getContent('jsHonor') ?>
     <?!= getContent('jsESC') ?>
     <?!= getContent('jsUsage') ?>
+
+    <?!= getContent('react/containers/percentDiffCalc') ?>
+    <?!= getContent('React') ?>
     <font face = "Roboto"></font>
+    
+    <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js" integrity="sha256-FiZMk1zgTeujzf/+vomWZGZ9r00+xnGvOgXoj0Jo1jA="
+      crossorigin="anonymous"></script>
   </head>
   <body>
 
@@ -31,6 +39,9 @@
         </li>
         <li class="tab">
           <a href="#usageCalculator" id="usageCalculatorBtn" class="tablink" onclick="openTab(event, 'usageCalculator')">Usage Calculator</a>
+        </li>
+        <li class="tab">
+          <a href="#percentDiffCalculator" id="percentDiffCalculatorBtn" class="tablink" onclick="openTab(event, 'percentDiffCalculator')">Percent Diff Calc</a>
         </li>
       </ul>
     </nav>
@@ -467,6 +478,7 @@
         
         <button id="usageResetBtn" class="reset" onclick="usageReset()">Reset</button>
       </div> <!-- id="usageCalculator" -->
+      <div id="percentDiffCalculator" class="tabcontent" style="display:none"></div>
     </div>
   </body>
 </html>

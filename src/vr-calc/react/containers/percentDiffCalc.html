@@ -1,0 +1,67 @@
+<script type="text/babel">
+  class PercentDiffCalculator extends React.Component {
+    constructor() {
+      super();
+      this.state = {
+        usageOne: 0,
+        usageTwo: 0,
+        percentDiff: 0,
+        tolerance: ""
+      }
+
+      this.setUsageOne = this.setUsageOne.bind(this);
+      this.setUsageTwo = this.setUsageTwo.bind(this);
+      this.getPercentDiff = this.getPercentDiff.bind(this);
+      this.checkTolerance = this.checkTolerance.bind(this);
+    }
+
+    setUsageOne(event) {
+      this.setState(
+        {usageOne: event.target.value},
+        () => this.getPercentDiff()
+      );
+    }
+
+    setUsageTwo(event) {
+      this.setState(
+        {usageTwo: event.target.value},
+        () => this.getPercentDiff()
+      );
+    }
+
+    getPercentDiff() {
+      let usageOne = Math.abs(this.state.usageOne);
+      let usageTwo = Math.abs(this.state.usageTwo);
+      let numerator = usageOne - usageTwo;
+      let denominator = usageOne;
+      let fraction = numerator / denominator
+      let result = (fraction * 100) * -1
+      let resultRound = result.toFixed(2);
+      this.setState({percentDiff: resultRound}, () => this.checkTolerance())
+    }
+
+    checkTolerance() {
+      let percentDiff = this.state.percentDiff;
+      if (percentDiff <= 5 && percentDiff >= -10) {
+        this.setState({tolerance: "Within tolerance."});
+      } else {
+        this.setState({tolerance: "Not within tolerance."});
+      }
+    }
+ 
+    render () {
+      return (
+        <div>
+          <h1>Existing Production</h1>
+          <input type='number' value={this.state.usageOne} onChange={this.setUsageOne}></input>
+          <h1>New Production</h1>
+          <input type='number' value={this.state.usageTwo} onChange={this.setUsageTwo}></input>
+          <br/>
+          <h1>Percentage Difference</h1>
+          <p>{this.state.percentDiff}</p>
+          <p>{this.state.tolerance}</p>
+        </div>
+      );
+    }
+  }
+</script>

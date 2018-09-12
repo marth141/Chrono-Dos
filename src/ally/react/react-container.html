@@ -1,9 +1,51 @@
 <script type="text/babel">
 class ReactContainer extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      email: '',
+      team: ''
+    };
+
+    this.setEmail = this.setEmail.bind(this);
+    this.setTeam = this.setTeam.bind(this);
+  }
+
+  componentDidMount() {
+    // Gets the user's email
+    google.script.run
+      .withSuccessHandler(this.setEmail)
+      .withUserObject(this)
+      .getEmail();
+
+    // Find the user's email and team in the filter settings
+    google.script.run
+      .withSuccessHandler(this.setTeam)
+      .findTeam(this.state.email);
+  }
+
+  setTeam(value) {
+    this.setState({ team: value });
+  }
+
+  setEmail(value) {
+    console.log('react: ' + value);
+    this.setState({ email: value });
+  }
+
   render() {
     return (
       <div>
-        <Announcement />
+        <section>
+          <div class="row">
+            <div class="column">
+              <Announcement team={this.state.team} />
+            </div>
+            <div class="Column">
+              <BacklogStats team={this.state.team}/>
+            </div>
+          </div>
+        </section>
       </div>
     );
   }

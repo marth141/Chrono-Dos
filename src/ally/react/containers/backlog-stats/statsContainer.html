@@ -1,0 +1,46 @@
+<script type="text/babel">
+  class BacklogStats extends React.Component {
+    constructor() {
+      super();
+      this.state = {
+        teamStats: "Getting Backlog Count..."
+      };
+
+      this.getTeamUnclaimed = this.getTeamUnclaimed.bind(this);
+      this.setTeamStats = this.setTeamStats.bind(this);
+    }
+
+    componentDidUpdate(prevProps) {
+      if (this.props.team !== prevProps.team) {
+        this.getTeamUnclaimed();
+      }
+    }
+
+    componentDidMount() {
+      // Gets new team messages on intervals
+      setInterval(this.getTeamUnclaimed, 60000);
+    }
+
+    getTeamUnclaimed() {
+      google.script.run
+        .withSuccessHandler(this.setTeamStats)
+        .getTeamStats(this.props.team);
+    }
+
+    setTeamStats(stats) {
+      this.setState({ teamStats: stats });
+    }
+  
+    render() {
+      return (
+        <div>
+          <div class='backlogStats-title'>
+            <h1>Backlog Count</h1>
+          </div>
+          <p class='backlogStats-paragraph'>{this.state.teamStats}</p>
+        </div>
+      );
+    }
+  }
+</script>
+  

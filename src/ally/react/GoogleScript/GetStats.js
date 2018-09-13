@@ -12,17 +12,17 @@ function getTeamStats(designerTeam) {
   switch (designerTeam) {
     case 'CA':
       stats = analysisPage
-        .getRange('E32')
+        .getRange('E33')
         .getValue();
       return stats;
     case 'MANY':
       stats = analysisPage
-        .getRange('O32')
+        .getRange('O33')
         .getValue();
       return stats;
     case 'MDCEN':
       stats = analysisPage
-        .getRange('E42')
+        .getRange('E43')
         .getValue();
       return stats;
     case 'Outsource':

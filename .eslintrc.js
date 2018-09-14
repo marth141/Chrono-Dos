@@ -17,7 +17,8 @@ module.exports = {
     'no-unused-vars': 'off', // functions aren't used.
     'object-curly-spacing': ['off', 'always'],
     'linebreak-style': ['error', 'unix'],
-    'one-var': ['off']
+    'one-var': ['off'],
+    'quote-props': [1, 'always']
   },
   plugins: ['async-await']
 };

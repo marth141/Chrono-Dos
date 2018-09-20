@@ -18,7 +18,8 @@ module.exports = {
     'object-curly-spacing': ['off', 'always'],
     'linebreak-style': ['error', 'unix'],
     'one-var': ['off'],
-    'quote-props': [1, 'always']
+    'quote-props': [1, 'always'],
+    'indent': ['error', 2, { "SwitchCase": 1 }]
   },
   plugins: ['async-await']
 };

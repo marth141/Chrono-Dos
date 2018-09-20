@@ -4,14 +4,18 @@
 function main() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var masterBacklogs = new ServiceMasterBacklog(ss);
+  var alertTitle = 'Alert';
+
   var alertMessage = 'Updating Master.';
-  toastThis(alertMessage);
+  toastThis(alertMessage, alertTitle, 60);
   backlogProcessJunction(masterBacklogs, undefined);
+
   alertMessage = 'Updating views.';
-  toastThis(alertMessage);
+  toastThis(alertMessage, alertTitle, 60);
   updateViews();
+
   alertMessage = 'Done updating.';
-  toastThis(alertMessage);
+  toastThis(alertMessage, alertTitle, null);
   return;
 }
 
@@ -38,14 +42,18 @@ function callMain(backlogName) {
       throw errorMsg_NoScript;
     }
     var masterBacklogs = new ServiceMasterBacklog(ss);
+    var alertTitle = 'Auto-Updater';
+
     var alertMessage = 'Updating Master.';
-    toastThis_Auto(alertMessage);
+    toastThis(alertMessage, alertTitle, null);
     backlogProcessJunction(masterBacklogs, undefined);
+
     alertMessage = 'Updating Views.';
-    toastThis_Auto(alertMessage);
+    toastThis(alertMessage, alertTitle, null);
     updateViews();
+
     alertMessage = 'Done Updating.';
-    toastThis_Auto(alertMessage);
+    toastThis(alertMessage, alertTitle, null);
   } else {
     var errorMsg_LockLost =
       'The lock was somehow lost. Someone else is updating the backlog, please wait.';
@@ -67,22 +75,13 @@ function updateViews() {
 /**
  * Used to display toaster messages
  * @param {String} alertMessage
+ * @param {String} title
+ * @param {Number} lifespan
  */
-function toastThis(alertMessage) {
+function toastThis(alertMessage, title, lifespan) {
   SpreadsheetApp.openById('121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0').toast(
     alertMessage,
-    'Alert',
-    60
-  );
-}
-
-/**
- * Used to display toaster messages for auto updater
- * @param {String} alertMessage
- */
-function toastThis_Auto(alertMessage) {
-  SpreadsheetApp.openById('121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0').toast(
-    alertMessage,
-    'Auto Updater'
+    title,
+    lifespan
   );
 }

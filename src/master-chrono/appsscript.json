@@ -1,6 +1,23 @@
 {
   "timeZone": "America/Denver",
   "dependencies": {
+    "libraries": [{
+      "userSymbol": "permitoutsourceviewscript",
+      "libraryId": "1jvXZ6mCjs-LblrvzPyar9fnLKffFa-aarreM5hScq61iprGERDPSRzZt",
+      "version": "5"
+    }, {
+      "userSymbol": "permitmanyviewscript",
+      "libraryId": "1sOkIZLwytZVkqySpTe8Cwuyecw0xmDnqPjEOaE18Y5I1NCKxEG4UU83S",
+      "version": "3"
+    }, {
+      "userSymbol": "permitmdcenviewscript",
+      "libraryId": "1CiizGtCT-APSUV-NhzBJC9r_0QtBX3DvhlcSRoxyMz0d1dlt8aiDMPMT",
+      "version": "3"
+    }, {
+      "userSymbol": "permitcaviewscript",
+      "libraryId": "13uA6L-I-5cRQQUaT_hPqB_C_jR9463sv4ZtcRXs_7bgd2SnjiCu5WHNb",
+      "version": "3"
+    }]
   },
   "exceptionLogging": "STACKDRIVER"
 }

@@ -2,9 +2,10 @@
  * Get's the report from the master chrono
  */
 function getReport() {
-  var ssThis = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(
-    REPORT_SHEET
+  var THIS_SHEET = SpreadsheetApp.openById(
+    '1bX6a2OrPSuzd6_jy-73lGwWOqAXTCEmKk8GBgB0kMM4'
   );
+  var ssThis = THIS_SHEET.getSheetByName(REPORT_SHEET);
   var ssReport = SpreadsheetApp.openById(MASTER_CHRONO).getSheetByName(
     REPORT_SHEET
   );

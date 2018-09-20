@@ -3,8 +3,13 @@
  * * Used on triggers: onOpen & during onEdit errors
  */
 function getReport() {
-  var ssThis = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(REPORT_SHEET);
-  var ssReport = SpreadsheetApp.openById(MASTER_CHRONO).getSheetByName(REPORT_SHEET);
+  var THIS_SHEET = SpreadsheetApp.openById(
+    '1g-m4NxFSu8lAIl1W1tSaeKQVwtHHqBU4TPLxFTgjNhM'
+  );
+  var ssThis = THIS_SHEET.getSheetByName(REPORT_SHEET);
+  var ssReport = SpreadsheetApp.openById(MASTER_CHRONO).getSheetByName(
+    REPORT_SHEET
+  );
   var completeBacklog = [];
 
   var header = ssReport.getRange('2:2').getValues()[0];

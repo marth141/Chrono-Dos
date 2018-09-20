@@ -5,6 +5,7 @@ function main() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var masterBacklogs = new ServiceMasterBacklog(ss);
   backlogProcessJunction(masterBacklogs, undefined);
+  updateViews();
   return;
 }
 
@@ -32,10 +33,21 @@ function callMain(backlogName) {
     }
     var masterBacklogs = new ServiceMasterBacklog(ss);
     backlogProcessJunction(masterBacklogs, undefined);
+    updateViews();
   } else {
     var errorMsg_LockLost =
       'The lock was somehow lost. Someone else is updating the backlog, please wait.';
     throw errorMsg_LockLost;
   }
   return;
+}
+
+/**
+ * Used to update the view Chronos
+ */
+function updateViews() {
+  permitoutsourceviewscript.getReport();
+  permitmanyviewscript.getReport();
+  permitmdcenviewscript.getReport();
+  permitcaviewscript.getReport();
 }

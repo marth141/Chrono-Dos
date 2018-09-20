@@ -2,8 +2,11 @@
  * Used to get report
  */
 function getReport() {
-  var ssThis = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Report');
-  var ssFilterSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Filter Settings');
+  var THIS_SHEET = SpreadsheetApp.openById(
+    '1J2vOLMlEGc9zoddFTUmA9P7K0yenWFfKKxxK3TAseeE'
+  );
+  var ssThis = THIS_SHEET.getSheetByName('Report');
+  var ssFilterSettings = THIS_SHEET.getSheetByName('Filter Settings');
   var ssReport = SpreadsheetApp.openById(
     '121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0'
   ).getSheetByName('Report');
@@ -44,7 +47,9 @@ function getReport() {
     var unassigned = row[assignedCol] === '';
 
     if (
-      (foundMemeberBool || (outsourceBool && unassigned) || (otsBool && unassigned)) &&
+      (foundMemeberBool ||
+        (outsourceBool && unassigned) ||
+        (otsBool && unassigned)) &&
       !onHoldBool
     ) {
       row[solarProjectCol] = formulas[index][solarProjectCol];

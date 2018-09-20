@@ -43,7 +43,6 @@ function backlogProcessJunction(backlogSheetArray, override) {
       );
       // ! Turned off by request
       // backlogArray = pp_underTweleveHours(backlogArray, workThisBacklog);
-      testUnit(backlogArray);
       completeBacklog = uni_AddToCompleteBacklog(backlogArray, completeBacklog);
       continue;
     } else if (backlogSheetArray[backlog].getName() === 'PERMIT RD BACKLOG') {

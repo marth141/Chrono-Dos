@@ -83,7 +83,6 @@ function toastThis(alertMessage) {
 function toastThis_Auto(alertMessage) {
   SpreadsheetApp.openById('121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0').toast(
     alertMessage,
-    'Auto Updater',
-    60
+    'Auto Updater'
   );
 }

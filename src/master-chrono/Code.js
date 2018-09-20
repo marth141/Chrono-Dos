@@ -4,8 +4,14 @@
 function main() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var masterBacklogs = new ServiceMasterBacklog(ss);
+  var alertMessage = 'Updating Master.';
+  toastThis(alertMessage);
   backlogProcessJunction(masterBacklogs, undefined);
+  alertMessage = 'Updating views.';
+  toastThis(alertMessage);
   updateViews();
+  alertMessage = 'Done updating.';
+  toastThis(alertMessage);
   return;
 }
 
@@ -32,8 +38,14 @@ function callMain(backlogName) {
       throw errorMsg_NoScript;
     }
     var masterBacklogs = new ServiceMasterBacklog(ss);
+    var alertMessage = 'Updating Master.';
+    toastThis_Auto(alertMessage);
     backlogProcessJunction(masterBacklogs, undefined);
+    alertMessage = 'Updating Views.';
+    toastThis_Auto(alertMessage);
     updateViews();
+    alertMessage = 'Done Updating.';
+    toastThis_Auto(alertMessage);
   } else {
     var errorMsg_LockLost =
       'The lock was somehow lost. Someone else is updating the backlog, please wait.';
@@ -50,4 +62,28 @@ function updateViews() {
   permitmanyviewscript.getReport();
   permitmdcenviewscript.getReport();
   permitcaviewscript.getReport();
+}
+
+/**
+ * Used to display toaster messages
+ * @param {String} alertMessage
+ */
+function toastThis(alertMessage) {
+  SpreadsheetApp.openById('121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0').toast(
+    alertMessage,
+    'Alert',
+    60
+  );
+}
+
+/**
+ * Used to display toaster messages for auto updater
+ * @param {String} alertMessage
+ */
+function toastThis_Auto(alertMessage) {
+  SpreadsheetApp.openById('121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0').toast(
+    alertMessage,
+    'Auto Updater',
+    60
+  );
 }

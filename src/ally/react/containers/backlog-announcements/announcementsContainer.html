@@ -33,12 +33,16 @@ class Announcement extends React.Component {
   }
 
   render() {
-    const messages = this.state.teamMessage.map(function(message) {
-      return <li><p class='announcement-paragraph'>{message}</p></li>
+    const messages = this.state.teamMessage.map(function(message, index) {
+      return (
+        <li key={index}>
+          <p className='announcement-paragraph'>{message}</p>
+        </li>
+      );
     });
     return (
       <div>
-        <div class='announcement-title'>
+        <div className='announcement-title'>
           <h1>Team Announcements</h1>
         </div>
         <ul>

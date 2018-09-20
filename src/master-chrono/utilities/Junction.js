@@ -1,5 +1,6 @@
 /**
- *
+ * The backbone of the code. Backlogs will always come back here
+ * after operations have been performed on them.
  * @param {*} backlogSheetArray
  * @param {*} override
  */
@@ -25,9 +26,6 @@ function backlogProcessJunction(backlogSheetArray, override) {
       backlogName !== 'PERMIT RD BACKLOG'
     ) {
       continue;
-    }
-    if (override !== undefined) {
-      backlog = overrideIfDebugging(override);
     }
     var workThisBacklog;
     if (backlogSheetArray[backlog].getName() === 'PERMIT BACKLOG') {
@@ -89,18 +87,4 @@ function backlogProcessJunction(backlogSheetArray, override) {
   //    throw "The lock was somehow lost. Someone else is updating the backlog, please wait."
   //  }
   // -------------------- Comment out above for debugging without lock --------------------
-}
-
-/**
- *
- * @param {*} array
- */
-function testUnit(array) {
-  var checkServiceNumber = 'S-5961855';
-  var found = array.filter(function(row) {
-    if (row[0] === checkServiceNumber) {
-      debugger;
-      return true;
-    }
-  });
 }

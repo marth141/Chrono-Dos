@@ -1,0 +1,70 @@
+<h1>Ballast Viability Checker</h1>
+<div class="alert" role="alert" id="testStatus" style="visibility: hidden;">
+  Ballast Viable!
+</div>
+<form role="form">
+  <div class="form-group">
+    <label for="adddress">Address:
+      <span class="badge badge-warning" style="visibility: hidden;" id="addressWarning">Warning</span>
+    </label>
+    <input type="text" class="form-control" id="address">
+  </div>
+
+  <div class="form-group">
+    <label for="slope">Slope:
+      <span class="badge badge-warning" style="visibility: hidden;" id="slopeWarning">Warning</span>
+    </label>
+    <input type="number" class="form-control" id="slope">
+  </div>
+
+  <div class="form-group">
+    <label for="material">Roof Material:</label>
+    <select class="form-control" id="material">
+      <option selected>Choose...</option>
+      <option>TPO</option>
+      <option>EPDM</option>
+      <option>Rolled Comp</option>
+      <option>Rubber or Membrane</option>
+      <option>Silicone</option>
+      <option>PVC</option>
+      <option>Foam</option>
+      <option>Tar and Gravel</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="parapet">Parapet Height:</label>
+    <input type="number" class="form-control" id="parapet">
+  </div>
+
+  <button type="button" class="btn btn-primary" id="ballastTest">Validate</button>
+</form>
+
+<br>
+
+<table class="table table-sm table-dark">
+  <thead>
+    <tr>
+      <th scope="col" width="30%">Description</th>
+      <th scope="col" width="70%">Offset</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Between seperate solar arrays of similiar construction</th>
+      <td id="offset1"></td>
+    </tr>
+    <tr>
+      <th scope="row">Between a solar array and a fixed object on the roof or solar array of different construction</th>
+      <td id="offset2"></td>
+    </tr>
+    <tr>
+      <th scope="row">Roof edge with parapet over 2'</th>
+      <td id="offset3"></td>
+    </tr>
+    <tr>
+      <th scope="row">Roof edge with parapet under 2'</th>
+      <td id="offset4"></td>
+    </tr>
+  </tbody>
+</table>

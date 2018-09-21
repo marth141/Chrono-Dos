@@ -1,0 +1,40 @@
+<script>
+  //The first thing to load.
+  $(document).ready(function () {
+    searchGetSetHTML("pages/login", null);
+  });
+
+  function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log("Name: " + profile.getName());
+    console.log("Image URL: " + profile.getImageUrl());
+    console.log("Email: " + profile.getEmail()); // This is null if the "email" scope is not present.
+    searchGetSetHTML("pages/ballastCheckForm", "buttonHandler");
+  }
+
+  //Gets content by using searchContent.
+  //Will pass return to updateDiv function.
+  function searchGetSetHTML(content, callbackfname) {
+    google.script.run.withSuccessHandler(updateDiv)
+      .searchContent(content, callbackfname);
+  }
+
+  //Updates the indexContent tag.
+  function updateDiv(content) {
+    $("#indexContent").fadeOut(500, function () {
+      $("#indexContent").html(content[0]);
+      $("#indexContent").fadeIn(500);
+      if (content.length > 1) {
+        window[content[1]].call();
+      }
+    })
+  }
+
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
+</script>

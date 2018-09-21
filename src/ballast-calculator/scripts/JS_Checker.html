@@ -1,0 +1,106 @@
+<script>
+  function buttonHandler() {
+    $("#ballastTest").on("click", function (e) {
+      var inputs = {
+        address: $("#address").val(),
+        slope: $("#slope").val(),
+        material: $("#material").val(),
+        parapet: $("#parapet").val()
+      }
+      $("#testStatus").removeClass("alert-warning").removeClass("alert-success");
+      document.getElementById("testStatus").style.visibility = "hidden";
+      document.getElementById("addressWarning").style.visibility = "hidden";
+      document.getElementById("slopeWarning").style.visibility = "hidden";
+
+      document.getElementById("offset1").innerHTML = "";
+      document.getElementById("offset2").innerHTML = "";
+      document.getElementById("offset3").innerHTML = "";
+      document.getElementById("offset4").innerHTML = "";
+
+      google.script.run.withSuccessHandler(displayViabilityResults)
+        .geoCoder(inputs);
+    });
+  }
+
+  function displayViabilityResults(viabilityResults) {
+    if (viabilityResults.stateResults === false) {
+      $("#testStatus").addClass("alert-warning");
+      document.getElementById("testStatus").innerHTML = "State not viable.";
+      document.getElementById("testStatus").style.visibility = "visible";
+      document.getElementById("addressWarning").style.visibility = "visible";
+      document.getElementById("offset1").innerHTML = "";
+      document.getElementById("offset2").innerHTML = "";
+      document.getElementById("offset3").innerHTML = "";
+      document.getElementById("offset4").innerHTML = "";
+      return;
+    }
+    if (viabilityResults.sdcSlopeResults === 3) {
+      $("#testStatus").addClass("alert-warning");
+      document.getElementById("testStatus").innerHTML = "Slope not viable on CD SDC.";
+      document.getElementById("testStatus").style.visibility = "visible";
+      document.getElementById("slopeWarning").style.visibility = "visible";
+      document.getElementById("offset1").innerHTML = "";
+      document.getElementById("offset2").innerHTML = "";
+      document.getElementById("offset3").innerHTML = "";
+      document.getElementById("offset4").innerHTML = "";
+      return;
+    }
+    if (viabilityResults.sdcSlopeResults === 2) {
+      $("#testStatus").addClass("alert-warning");
+      document.getElementById("testStatus").innerHTML = "Slope not viable on AB SDC.";
+      document.getElementById("testStatus").style.visibility = "visible";
+      document.getElementById("slopeWarning").style.visibility = "visible";
+      document.getElementById("offset1").innerHTML = "";
+      document.getElementById("offset2").innerHTML = "";
+      document.getElementById("offset3").innerHTML = "";
+      document.getElementById("offset4").innerHTML = "";
+      return;
+    }
+    if (viabilityResults.sdcSlopeResults === 1) {
+      $("#testStatus").addClass("alert-warning");
+      document.getElementById("testStatus").innerHTML = "SDC EF not viable.";
+      document.getElementById("testStatus").style.visibility = "visible";
+      document.getElementById("addressWarning").style.visibility = "visible";
+      document.getElementById("offset1").innerHTML = "";
+      document.getElementById("offset2").innerHTML = "";
+      document.getElementById("offset3").innerHTML = "";
+      document.getElementById("offset4").innerHTML = "";
+      return;
+    }
+    if (viabilityResults.stateResults === true && viabilityResults.sdcSlopeResults === 0) {
+      $("#testStatus").addClass("alert-success");
+      document.getElementById("testStatus").innerHTML = "Viable! SDC: " + viabilityResults.sdc + " S<sub>s</sub>:" + viabilityResults.ss;
+      document.getElementById("testStatus").style.visibility = "visible";
+      
+      if (viabilityResults.offsets.offset1.raw < 6
+      && (viabilityResults.sdc === "A"
+      || viabilityResults.sdc === "B"
+      || viabilityResults.sdc === "C")) {
+      document.getElementById("offset1").innerHTML = 6 + "\"";
+      } else {
+      document.getElementById("offset1").innerHTML = viabilityResults.offsets.offset1.inch + "\"";
+      };
+      
+      if (viabilityResults.offsets.offset2.raw < 6
+      && (viabilityResults.sdc === "A"
+      || viabilityResults.sdc === "B"
+      || viabilityResults.sdc === "C")) {
+      document.getElementById("offset2").innerHTML = 6 + "\"";
+      } else {
+      document.getElementById("offset2").innerHTML = viabilityResults.offsets.offset2.inch + "\"";
+      }
+      
+      if (viabilityResults.offsets.offset3.raw < 36) {
+      document.getElementById("offset3").innerHTML = 36 + "\"";
+      } else {
+      document.getElementById("offset3").innerHTML = viabilityResults.offsets.offset3.inch + "\"";
+      }
+
+      if (viabilityResults.offsets.offset4.raw < 36) {
+      document.getElementById("offset4").innerHTML = 36 + "\"";
+      } else {
+      document.getElementById("offset4").innerHTML = viabilityResults.offsets.offset4.inch + "\"";
+      }
+    }
+  }
+</script>

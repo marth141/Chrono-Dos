@@ -1,7 +1,7 @@
 /**
  * Used to alert if updater is late.
  */
-function alertEmailer() {
+function ppQCQ_alertEmailer() {
   var cellB2Time = SpreadsheetApp.openById('1J8CCOMP5XOkusS9NI73wvOBa4D_ZEC0MJq2pEoZL9Fs')
     .getSheetByName('Queue')
     .getRange('B2')

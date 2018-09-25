@@ -12,7 +12,7 @@
  * @param {String} e.user
  * @param {*} e.value
  */
-function onEdit(e) {
+function permitDept_onEdit(e) {
   // POPULATES THE APPROPRIATE ACCOUNT INFORMATION WHEN THE SERVICE NUMBER IS CHANGED IN
   // REQUIREMENTS!C2
   var headers = new ChronoHeaders();

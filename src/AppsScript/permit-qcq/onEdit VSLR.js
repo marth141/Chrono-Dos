@@ -1,4 +1,4 @@
-function onEdit(callerId) 
+function ppQCQ_onEdit(callerId) 
 { 
   Logger.log("On Edit");
   var ss = SpreadsheetApp.getActiveSheet();

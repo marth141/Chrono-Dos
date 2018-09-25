@@ -10,7 +10,7 @@
  * @param {String} e.user
  * @param {*} e.value
  */
-function onEdit(e) {
+function master_onEdit(e) {
   if (e.source.getActiveSheet().getName() == 'Report') {
     var ss = e.source.getActiveSheet();
     var r = e.range;

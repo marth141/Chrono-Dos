@@ -1,4 +1,4 @@
-function onOpen()
+function permitOutsource_onOpen()
 { 
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   

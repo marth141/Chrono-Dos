@@ -1,0 +1,39 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 5,
+        "ecmaFeatures": {
+            "impliedStrict": true
+        }
+    },
+    "env": {
+        "browser": true
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+        "indent": [
+            "error",
+            2,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "linebreak-style": [
+            "off",
+            "windows"
+        ],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "no-unused-vars": [
+            "error",
+            {"args": "after-used"}
+        ],
+        "no-console": "off",
+        "no-undef": "warn"
+    }
+}

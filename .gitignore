@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 .DS_Store
 node_modules
 .gradle
+=======
+*.exe
+*.bak
+**/AHK-Studio Backup/**
+>>>>>>> add-ahk

@@ -17,8 +17,6 @@ AutoUpdate:
 	CoordMode, Mouse, Screen
 	CoordMode, Pixel, Screen
 	CoordMode, ToolTip, Screen
-	;ToolTip % "Running SQL", 0, 0
-	;runSQLUpdate()
 	successfulRuns = 0
 	ToolTip % "Checking if in Chrono Inputter", 0, 30
 	WinActivate, Chrono ONE Updater
@@ -48,6 +46,7 @@ AutoUpdate:
 			successfulRuns := runUpdateONE(electricalEscalations, successfulRuns)
 
 			;Broken in Google
+			;None right now
 
 			Sleep, 6000
 			Send, ^{F5}

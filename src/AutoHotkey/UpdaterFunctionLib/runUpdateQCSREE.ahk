@@ -1,4 +1,3 @@
-;#Include %A_ScriptDir%\UpdaterFunctionLib\checkSalesforceReport.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\checkChronoONEStatus.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\checkChronoInputterStatus.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\checkColors.ahk

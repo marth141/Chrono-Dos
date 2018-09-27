@@ -1,5 +1,0 @@
-^p::
-{
-   MsgBox, PAUSE
-   return
-}

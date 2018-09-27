@@ -1,4 +1,3 @@
-;#Include %A_ScriptDir%\UpdaterFunctionLib\checkSalesforceReport.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\checkChronoONEStatus.ahk
 
 runUpdateONE(urlArray, successfulRuns)

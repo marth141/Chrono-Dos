@@ -1,5 +1,0 @@
-^Esc::
-{
-   ExitApp
-   Return
-}

@@ -1,13 +1,3 @@
-<style>
-  .center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 300px;
-  }
-</style>
-
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <meta name="google-signin-scope" content="https://www.googleapis.com/auth/plus.login" />
 <meta name="google-signin-client_id" content="473707889116-sb71vsdflkdsa1vv0c60kk08lppait9t.apps.googleusercontent.com">
@@ -55,6 +45,7 @@
         myAccountsRequest();
       })
       .getFilterSettings(userEmail);
+    $('#react').show();
   }
 
   /**

@@ -72,17 +72,13 @@ function hitup_Libraries() {
     updateJSON.identity.team.match(/EE/i) &&
     updateJSON.identity.sheetNames.normal.match(/backlog/i)
   ) {
-    EE_Chrono.getAccounts(
-      SpreadsheetApp.openById('1jvUx8XUuTFvHgDDk9CB21ZwLsI8jCIHhMIKHZ27flLw')
-    );
+    EE_Chrono.getAccounts(SpreadsheetApp.openById('1jvUx8XUuTFvHgDDk9CB21ZwLsI8jCIHhMIKHZ27flLw'));
     return;
   } else if (
     updateJSON.identity.team.match(/CP QCD/i) &&
     updateJSON.identity.sheetNames.normal.match(/Props Checked/i)
   ) {
-    CPQCD_Chrono.main(
-      SpreadsheetApp.openById('1kDYROn2VEwprWRyzS7vk8t8ZKXzsM0FhtICyjpgRpMo')
-    );
+    CPQCD_Chrono.main(SpreadsheetApp.openById('1kDYROn2VEwprWRyzS7vk8t8ZKXzsM0FhtICyjpgRpMo'));
     return;
   } else if (
     updateJSON.identity.team.match(/PP QCD/i) &&
@@ -98,7 +94,7 @@ function hitup_Libraries() {
     return;
   }
   // todo: add permit qc Permit QCD QUEUE VSLR.arrangeQueue
-  console.log("Ain't no library for that.");
+  console.log('Ain\'t no library for that.');
 }
 
 /**

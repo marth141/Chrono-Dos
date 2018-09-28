@@ -37,6 +37,7 @@
     if (list.length < 1 || list === false) {
       title.innerHTML = '';
       table.innerHTML = 'No Accounts Are In Your Name';
+      $('#waiting').hide();
     } else {
       title.innerHTML = 'My Accounts';
       thead = document.createElement('thead');

@@ -1,15 +1,14 @@
 #Persistent
-#Include %A_ScriptDir%\UpdaterFunctionLib\globals.ahk
-#Include %A_ScriptDir%\UpdaterFunctionLib\runUpdateONE.ahk
-#Include %A_ScriptDir%\UpdaterFunctionLib\runUpdateQCSREE.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\checkColors.ahk
-#Include %A_ScriptDir%\UpdaterFunctionLib\copyPaste.ahk
-#Include %A_ScriptDir%\UpdaterFunctionLib\clickPlayButton.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\checkForClear.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\clickPlayButton.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\copyPaste.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\globals.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\postPasteColorCheck.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\runUpdateONE.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\salesforceLoading.ahk
-#Include %A_ScriptDir%\UpdaterFunctionLib\urlOpener.ahk
 #Include %A_ScriptDir%\UpdaterFunctionLib\successfulRunCounter.ahk
+#Include %A_ScriptDir%\UpdaterFunctionLib\urlOpener.ahk
 
 AutoUpdate:
 {

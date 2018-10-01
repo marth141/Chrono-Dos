@@ -75,9 +75,12 @@ function cpQCD_onFormSubmit() {
     k++;
   }
   body +=
-    '</ul>Please fill out this <a href=\'https://docs.google.com/forms/d/e/1FAIpQLSfMPKb5q9OIVZCpZpKJFcc5znCjiFG6R2TXSiHHco1vaK2nPg/viewform?usp=pp_url&entry.979780390=' +
+    '</ul>Please fill out this <a href=\'https://docs.google.com/forms/d/e/' +
+    '1FAIpQLSfMPKb5q9OIVZCpZpKJFcc5znCjiFG6R2TXSiHHco1vaK2nPg/' +
+    'viewform?usp=pp_url&entry.979780390=' +
     sNum +
-    '&entry.268153607=Yes&entry.841170452\'>Error Acknowledgement form</a> to acknowledge the error(s)<br><br>';
+    '&entry.268153607=Yes&entry.841170452\'>' +
+    'Error Acknowledgement form</a> to acknowledge the error(s)<br><br>';
   debugger;
   sendEmail(email, subject, body);
 

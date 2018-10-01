@@ -1,12 +1,7 @@
 /**
  * The main function
  */
-function main() {
-  //  var sheet = SpreadsheetApp.getActiveSheet().getSheetName();
-  //  Logger.log(sheet);
-  //  if(sheet != "Form Responses 1")
-  //    return;
-
+function cpQCD_onFormSubmit() {
   var ss = SpreadsheetApp.getActive().getSheetByName('Form Responses 1');
   var flag = ss.getLastRow();
 
@@ -48,17 +43,9 @@ function main() {
   }
 
   // If no errors then don't send email
-  if (Object.keys(errors).length <= 0) return;
-
-  //  var html = HtmlService.createTemplateFromFile('template');
-  //  html.sNum = sNum;
-  //  html.designer = sNum;
-  //  html.errors = errors;
-  //  var htmlOutput = html.evaluate();
-
-  //  SpreadsheetApp.getUi() // Or DocumentApp or FormApp.
-  //      .showModalDialog(htmlOutput, 'Dialog title');
-
+  if (Object.keys(errors).length <= 0) {
+    return;
+  }
   var ssEmp = SpreadsheetApp.openById(
     '1PXK8X9gSPU76Q1wqGIanljxcVe7i6Fso2SXKn4UR1nQ'
   ).getSheetByName('CP');
@@ -91,11 +78,18 @@ function main() {
     '</ul>Please fill out this <a href=\'https://docs.google.com/forms/d/e/1FAIpQLSfMPKb5q9OIVZCpZpKJFcc5znCjiFG6R2TXSiHHco1vaK2nPg/viewform?usp=pp_url&entry.979780390=' +
     sNum +
     '&entry.268153607=Yes&entry.841170452\'>Error Acknowledgement form</a> to acknowledge the error(s)<br><br>';
+  debugger;
   sendEmail(email, subject, body);
 
   return;
 }
 
+/**
+ * Used to send emails
+ * @param {*} email
+ * @param {*} subject
+ * @param {*} body
+ */
 function sendEmail(email, subject, body) {
   MailApp.sendEmail({
     'to': email,
@@ -106,6 +100,12 @@ function sendEmail(email, subject, body) {
   });
 }
 
+/**
+ * Used to get email addresses
+ * @param {*} value
+ * @param {*} ids
+ * @return {*}
+ */
 function getEmail(value, ids) {
   var l = ids.length;
   var emails;
@@ -126,6 +126,12 @@ function getEmail(value, ids) {
   return emails;
 }
 
+/**
+ * Does a search on things
+ * @param {*} items
+ * @param {*} value
+ * @return {*}
+ */
 function binarySearch(items, value) {
   var startIndex = 0,
     check,

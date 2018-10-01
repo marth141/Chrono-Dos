@@ -30,6 +30,9 @@ function move_ToDestination() {
   }
 }
 
+/**
+ * Moves for QCD
+ */
 function qcd_Move() {
   updateJSON.backlog2Update
     .getRange(

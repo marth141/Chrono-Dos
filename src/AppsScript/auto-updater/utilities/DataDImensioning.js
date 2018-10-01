@@ -53,7 +53,8 @@ function getArrayDimensions(array) {
     dimensions.push(colCount);
     return dimensions;
   } else {
-    throw 'getArrayDimensions() was given a null.';
+    var getArrayError = 'getArrayDimensions() was given a null.';
+    throw getArrayError;
   }
 }
 
@@ -75,6 +76,7 @@ function getSheetDimensions(sheet) {
     dimensions.push(lastCol);
     return dimensions;
   } else {
-    throw 'getSheetDimensions() was given a null.';
+    var getSheetError = 'getSheetDimensions() was given a null.';
+    throw getSheetError;
   }
 }

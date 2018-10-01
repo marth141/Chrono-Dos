@@ -2,20 +2,26 @@
  * Used to clear QCD Destination
  */
 function qcd_Clear_Destination() {
-  try {
-    updateJSON.backlog2Update
-      .getRange(
-        1,
-        1,
-        dimensionsJSON.destination.sheetDimensions[0],
-        dimensionsJSON.source.sheetDimensions[1]
-      )
-      .clear();
-    SpreadsheetApp.flush();
-
-    // Try to clear dev backlog
+  if (updateJSON.identity.sheetNames.normal === 'Props Complete') {
     try {
-      updateJson.dev2Update
+      updateJSON.backlog2Update
+        .getRange(
+          1,
+          1,
+          dimensionsJSON.destination.arrayDimensions[0],
+          dimensionsJSON.source.arrayDimensions[1]
+        )
+        .clear();
+      SpreadsheetApp.flush();
+      return;
+    } catch (e) {
+      var clearError =
+        'Check Input!A5:A6 & A14:A15. The Master Backlog does not have a sheet for this report.';
+      throw clearError;
+    }
+  } else {
+    try {
+      updateJSON.backlog2Update
         .getRange(
           1,
           1,
@@ -24,14 +30,12 @@ function qcd_Clear_Destination() {
         )
         .clear();
       SpreadsheetApp.flush();
-    } catch (e) {
-      console.info('No dev to clear');
       return;
+    } catch (e) {
+      var clearError =
+        'Check Input!A5:A6 & A14:A15. The Master Backlog does not have a sheet for this report.';
+      throw clearError;
     }
-
-    return;
-  } catch (e) {
-    throw 'Check Input!A5:A6 & A14:A15. The Master Backlog does not have a sheet for this report.';
   }
 }
 

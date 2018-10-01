@@ -34,7 +34,8 @@ function btn_Main() {
   // ---------COULD BE IT'S OWN FUNCTION------------
   // Checks if backlog2Update exists. If not, throw.
   if (updateJSON.backlog2Update === null) {
-    throw 'Sheet not found.';
+    var sheetNotFound = 'Sheet not found.';
+    throw sheetNotFound;
   }
 
   // Clears the destination space.

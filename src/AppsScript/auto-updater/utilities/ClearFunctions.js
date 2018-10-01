@@ -8,16 +8,14 @@ function qcd_Clear_Destination() {
         .getRange(
           1,
           1,
-          dimensionsJSON.destination.arrayDimensions[0],
+          dimensionsJSON.destination.sheetDimensions[0],
           dimensionsJSON.source.arrayDimensions[1]
         )
         .clear();
       SpreadsheetApp.flush();
       return;
     } catch (e) {
-      var clearError =
-        'Check Input!A5:A6 & A14:A15. The Master Backlog does not have a sheet for this report.';
-      throw clearError;
+      throw e;
     }
   } else {
     try {

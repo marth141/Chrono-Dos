@@ -78,12 +78,16 @@ function pp_MarkUnits(
     var accountOppType = account[opporTypeCol];
     var accountOffice = account[officeCol];
 
+    var accountAssigned = account[assignCol];
+
     var isAddon = accountOppType.match(/add/i) !== null;
     var isNewInst = accountOppType.match(/new/i) !== null;
 
     var isAZ = accountOffice.match(/az-/i) !== null;
     var isNY09 = accountOffice.match(/ny-09/i) !== null;
     var isIL = accountOffice.match(/il-/i) !== null;
+
+    var isAustin = accountAssigned.match(/Austin Seawright/i) !== null;
 
     // If it is a new installation...
     if (isNewInst) {
@@ -101,6 +105,8 @@ function pp_MarkUnits(
         // If it is a new install and is AZ, NY-09, or IL
       } else if (isNY09 || isIL) {
         // Be permit
+        designPathString = 'PERMIT';
+      } else if (isAustin) {
         designPathString = 'PERMIT';
       } else {
         // ! there be trouble in these parts

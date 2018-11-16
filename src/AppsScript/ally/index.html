@@ -14,7 +14,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js" integrity="sha256-FiZMk1zgTeujzf/+vomWZGZ9r00+xnGvOgXoj0Jo1jA="
     crossorigin="anonymous"></script>
 
-  <?!= getContent('jsScripts') ?>
   <?!= getContent('designer') ?>
   <?!= getContent('selectRow') ?>
   <?!= getContent('updateAccountView') ?>
@@ -34,14 +33,24 @@
 
 <body>
 
-  <nav class="navbar navbar-dark bg-dark">
+  <nav class="navbar navbar-inverse">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#" style="pointer-events: none;">Ally</a>
-      <span class="navbar-text" id="designer_logged_in" style="color:white"></span>
-      <span class="navbar-text" id="designer_region" style="color:white"></span>
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#" id="designer_logged_in" style="pointer-events: none;"></a>
+      </div>
+      <ul id="filter_settings-list">
+        <p class="navbar-text" id="filter_settings-regions" style="display:none">
+          <label>Regions: </label>
+        </p>
+        <p class="navbar-text" id="filter_settings-unitTypes" style="display:none">
+          <label>Unit Types: </label>
+        </p>
+        <p class="navbar-text" id="filter_settings-offices">
+          <label id="include-exclude"></label>
+        </p>
+      </ul>
     </div>
   </nav>
-  <br />
 
   <div id="login">
     <?!= getContent('login') ?>
@@ -53,10 +62,10 @@
 
   <div id="myAccounts">
     <div class="row">
-      <div class="column-accounts">
+      <div class="column">
         <h2 id="title-my-accounts"></h2>
       </div>
-      <div class="column-accounts">
+      <div class="column">
         <div id="waiting"></div>
       </div>
     </div>

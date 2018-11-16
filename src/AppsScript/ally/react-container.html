@@ -1,18 +1,4 @@
 <script type="text/babel">
-const {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
-} = Reactstrap;
-
 class ReactContainer extends React.Component {
   constructor() {
     super();
@@ -51,11 +37,11 @@ class ReactContainer extends React.Component {
     return (
       <div>
         <section>
-          <div className="row">
-            <div className="column">
+          <div class="row">
+            <div class="column">
               <Announcement team={this.state.team} />
             </div>
-            <div className="Column">
+            <div class="Column">
               <BacklogStats team={this.state.team}/>
             </div>
           </div>

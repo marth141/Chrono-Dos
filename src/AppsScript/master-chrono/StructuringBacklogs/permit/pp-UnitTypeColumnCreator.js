@@ -70,6 +70,17 @@ function pp_MarkUnits(
       // debugger;
     }
 
+    /** @type Array[] */
+    var outsourceTeam2 = SpreadsheetApp.openById(
+      '121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0'
+    )
+      .getSheetByName('Filter Settings')
+      .getRange('D82:D107')
+      .getValues().filter(
+        function(value) {
+          return value[0] !== "";
+        });
+
     // If the opportunity type is add-on, or the offices are az, ny-09, or il
     // Then set design path string as permit
     // All else set as outsource
@@ -103,9 +114,16 @@ function pp_MarkUnits(
           // Unless SR
           designPathString = 'SR';
         }
+        // If part of Outsource Team 2, change to permit.
+        for (var i = 0; i < outsourceTeam2.length; i++) {
+          var check = new RegExp(outsourceTeam2[i], 'i');
 
-        if (isAustin || isShaun) {
-          designPathString = 'PERMIT';
+          /** @type String */
+          var nameString = outsourceTeam2[i][0];
+          var result = nameString.match(check) !== null;
+          if (result) {
+            designPathString = 'PERMIT';
+          }
         }
         // If it is a new install and is AZ, NY-09, or IL
       } else if (isNY09 || isIL) {

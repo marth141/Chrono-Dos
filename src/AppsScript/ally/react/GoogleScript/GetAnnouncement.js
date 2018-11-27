@@ -40,7 +40,7 @@ function getTeamAnnouncement(designerTeam) {
           return message !== '';
         });
       return message;
-    case 'Outsource':
+    case 'OUTSOURCE':
       var teamChrono = teamKeys.OTSTeam;
       var message = SpreadsheetApp.openById(teamChrono)
         .getSheetByName('Announcements')

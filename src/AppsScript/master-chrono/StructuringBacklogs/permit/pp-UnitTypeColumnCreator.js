@@ -114,14 +114,11 @@ function pp_MarkUnits(
           // Unless SR
           designPathString = 'SR';
         }
-        // If part of Outsource Team 2, change to permit.
+        // Check if Outsource Team 2
         for (var i = 0; i < outsourceTeam2.length; i++) {
-          var check = new RegExp(outsourceTeam2[i], 'i');
-
-          /** @type String */
-          var nameString = outsourceTeam2[i][0];
-          var result = nameString.match(check) !== null;
-          if (result) {
+          var listMember = outsourceTeam2[i][0];
+          var inList = accountAssigned === listMember;
+          if (inList) {
             designPathString = 'PERMIT';
           }
         }

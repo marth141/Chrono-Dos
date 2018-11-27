@@ -25,7 +25,7 @@ function getTeamStats(designerTeam) {
         .getRange('E43')
         .getValue();
       return stats;
-    case 'Outsource':
+    case 'OUTSOURCE':
       stats = analysisPage
         .getRange('C17')
         .getValue();

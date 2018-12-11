@@ -1,12 +1,19 @@
+<!-- https://n-aa76z4yugu63b6y3c46thywmebbm5wktyerpwna-0lu-script.googleusercontent.com,  https://n-pbrkav7csa4sz643b6ia4osqprbm5wktyerpwna-0lu-script.googleusercontent.com-->
+
+
 <!DOCTYPE html>
 <html>
 
 <head>
   <base target="_top">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js" integrity="sha256-FiZMk1zgTeujzf/+vomWZGZ9r00+xnGvOgXoj0Jo1jA="
+    crossorigin="anonymous"></script>
 
-  <?!= getContent('jsScripts') ?>
   <?!= getContent('designer') ?>
   <?!= getContent('selectRow') ?>
   <?!= getContent('updateAccountView') ?>
@@ -16,24 +23,34 @@
 
   <?!= getContent('stylesheet') ?>
 
-  <?!= getContent('react/containers/backlog-announcements/announcementsContainer') ?>
-  <?!= getContent('react/containers/backlog-announcements/announcementsCSS') ?>
-  <?!= getContent('react/containers/backlog-stats/statsContainer') ?>
-  <?!= getContent('react/containers/backlog-stats/statsCSS') ?>
-  <?!= getContent('react/react-container') ?>
+  <?!= getContent('announcementsContainer') ?>
+  <?!= getContent('announcementsCSS') ?>
+  <?!= getContent('statsContainer') ?>
+  <?!= getContent('statsCSS') ?>
+  <?!= getContent('react-container') ?>
   <?!= getContent('React') ?>
 </head>
 
 <body>
 
-  <nav class="navbar navbar-dark bg-dark">
+  <nav class="navbar navbar-inverse">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#" style="pointer-events: none;">Ally</a>
-      <span class="navbar-text" id="designer_logged_in" style="color:white"></span>
-      <span class="navbar-text" id="designer_region" style="color:white"></span>
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#" id="designer_logged_in" style="pointer-events: none;"></a>
+      </div>
+      <ul id="filter_settings-list">
+        <p class="navbar-text" id="filter_settings-regions" style="display:none">
+          <label>Regions: </label>
+        </p>
+        <p class="navbar-text" id="filter_settings-unitTypes" style="display:none">
+          <label>Unit Types: </label>
+        </p>
+        <p class="navbar-text" id="filter_settings-offices">
+          <label id="include-exclude"></label>
+        </p>
+      </ul>
     </div>
   </nav>
-  <br />
 
   <div id="login">
     <?!= getContent('login') ?>
@@ -45,17 +62,17 @@
 
   <div id="myAccounts">
     <div class="row">
-      <div class="column-accounts">
+      <div class="column">
         <h2 id="title-my-accounts"></h2>
       </div>
-      <div class="column-accounts">
+      <div class="column">
         <div id="waiting"></div>
       </div>
     </div>
     <table id="table-my-accounts"></table>
   </div>
 
-  <div id="react" style="display:none"/>
+  <div id="react" />
 
 </body>
 

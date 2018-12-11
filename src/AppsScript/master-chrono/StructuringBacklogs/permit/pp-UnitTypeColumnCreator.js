@@ -70,6 +70,17 @@ function pp_MarkUnits(
       // debugger;
     }
 
+    /** @type Array[] */
+    var outsourceTeam2 = SpreadsheetApp.openById(
+      '121UKskNpiVK2ocT8pFIx9uO6suw3o7S7C4VhiIaqzI0'
+    )
+      .getSheetByName('Filter Settings')
+      .getRange('D82:D107')
+      .getValues().filter(
+        function(value) {
+          return value[0] !== "";
+        });
+
     // If the opportunity type is add-on, or the offices are az, ny-09, or il
     // Then set design path string as permit
     // All else set as outsource
@@ -78,12 +89,17 @@ function pp_MarkUnits(
     var accountOppType = account[opporTypeCol];
     var accountOffice = account[officeCol];
 
+    var accountAssigned = account[assignCol];
+
     var isAddon = accountOppType.match(/add/i) !== null;
     var isNewInst = accountOppType.match(/new/i) !== null;
 
     var isAZ = accountOffice.match(/az-/i) !== null;
     var isNY09 = accountOffice.match(/ny-09/i) !== null;
     var isIL = accountOffice.match(/il-/i) !== null;
+
+    var isAustin = accountAssigned.match(/Austin Seawright/i) !== null;
+    var isShaun = accountAssigned.match(/Shaun Oaks/i) !== null;
 
     // If it is a new installation...
     if (isNewInst) {
@@ -97,6 +113,14 @@ function pp_MarkUnits(
         ) {
           // Unless SR
           designPathString = 'SR';
+        }
+        // Check if Outsource Team 2
+        for (var i = 0; i < outsourceTeam2.length; i++) {
+          var listMember = outsourceTeam2[i][0];
+          var inList = accountAssigned === listMember;
+          if (inList) {
+            designPathString = 'PERMIT';
+          }
         }
         // If it is a new install and is AZ, NY-09, or IL
       } else if (isNY09 || isIL) {

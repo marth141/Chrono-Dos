@@ -1,12 +1,9 @@
 <script>
-  /**
-   * Used to make an assign request
-   * @param {*} evt
-   */
+
   function assignRequest(evt) {
-    console.log('Function assignRequest');
+    console.log("Function assignRequest");
     // Prevent the default action of the calling event.
-    // Google seems to have a problem with the anchor tag default action.
+    //Google seems to have a problem with the anchor tag default action.
     evt.preventDefault();
 
     // *** Check account is not assigned already
@@ -14,42 +11,48 @@
 
     // Check if they have five accounts in their name already...
     var rows = document.getElementById('table-my-accounts').rows.length;
+    //  if(rows >= 5 && designer.team.toUpperCase() !== "OUTSOURCE") {
+    //    console.log("Number of Accounts: ", rows);
+    //    alert("You already have 5 accounts in your name. Please resolve one of them before assigning more.");
+    //    return;
+    //  }
 
     // Dispaly loading circle
-    $('#waiting').show();
+    $("#waiting").show();
     // request filter settings
-    google.script.run
-      .withSuccessHandler(function (designer) {
-        addDesigner(designer);
-        // Get assignemnt after return of getting designer
-        google.script.run.withSuccessHandler(assignedReturn).getAssignment(designer);
-      })
-      .getFilterSettings(userEmail);
+    google.script.run.withSuccessHandler(function (designer) {
+      addDesigner(designer);
+      // Get assignemnt after return of getting designer
+      google.script.run.withSuccessHandler(assignedReturn).getAssignment(designer);
+    }).getFilterSettings(userEmail);
+
   }
 
-  /**
-   * Used to handle when an assign request is returned
-   * @param {*} accountInfo
-   */
+
+
   function assignedReturn(accountInfo) {
-    console.log('Function assignedReturn');
-    console.log('Account Info: ', accountInfo);
+    console.log("Function assignedReturn");
+    console.log("Account Info: ", accountInfo);
 
     if (accountInfo == 0) {
       alert('There are no more accounts in your queue');
-      $('#waiting').hide();
+      $("#waiting").hide();
       return;
     }
     if (accountInfo == -1) {
       alert('The Chrono Report is currently being updated, try again in a minute!');
-      $('#waiting').hide();
+      $("#waiting").hide();
       return;
     }
+    //  accountInfo = JSON.parse(accountInfo);
 
     // get accounts in designers name
     myAccountsRequest();
 
-    // Update account info in Main view
+    // Color Assigned Row
+    //  selectRow(document.getElementById('serviceNumber'));
+
+    // Update account info in Main view 
     updateView(accountInfo);
   }
 </script>

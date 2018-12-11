@@ -4,7 +4,7 @@ runUpdateONE(urlArray, successfulRuns)
 {
 	for i, salesforceLink in urlArray
 	{
-		if (salesforceLink = "https://vivintsolar.my.salesforce.com/00O41000008qhV1")
+		if (salesforceLink = 'https://vivintsolar.my.salesforce.com/00O41000008qhV1')
 		{
 			sleep, 10000
 		}

@@ -33,15 +33,15 @@ AutoUpdate:
 
 			;Tested to work
 			clearAtStart()
-			successfulRuns := runUpdateONE(chronoDOS, successfulRuns)
-			successfulRuns := runUpdateONE(CPQCD, successfulRuns)
-			successfulRuns := runUpdateONE(PPQCD, successfulRuns)
-			successfulRuns := runUpdateONE(PPSubmitted, successfulRuns)
-			successfulRuns := runUpdateONE(CP_and_PP_DIN, successfulRuns)
+			;successfulRuns := runUpdateONE(chronoDOS, successfulRuns)
+			;successfulRuns := runUpdateONE(CPQCD, successfulRuns)
+			;successfulRuns := runUpdateONE(PPQCD, successfulRuns)
+			;successfulRuns := runUpdateONE(PPSubmitted, successfulRuns)
+			;successfulRuns := runUpdateONE(CP_and_PP_DIN, successfulRuns)
 			successfulRuns := runUpdateONE(electricalEscalations, successfulRuns)
-			successfulRuns := runUpdateONE(Permit_Outsource, successfulRuns)
-			successfulRuns := runUpdateONE(qualityConPass, successfulRuns)
-			successfulRuns := runUpdateONE(structrualEscalationsReports, successfulRuns)
+			;successfulRuns := runUpdateONE(Permit_Outsource, successfulRuns)
+			;successfulRuns := runUpdateONE(qualityConPass, successfulRuns)
+			;successfulRuns := runUpdateONE(structrualEscalationsReports, successfulRuns)
 			successfulRuns := runUpdateONE(electricalEscalations, successfulRuns)
 
 			;Broken in Google

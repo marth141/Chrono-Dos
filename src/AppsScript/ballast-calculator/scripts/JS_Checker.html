@@ -5,21 +5,27 @@
         address: $("#address").val(),
         slope: $("#slope").val(),
         material: $("#material").val(),
-        parapet: $("#parapet").val()
+        parapet: $("#parapet").val(),
+        sdc: $("#sdc").val(),
+        sdc: $("#sds").val()
       }
       $("#testStatus").removeClass("alert-warning").removeClass("alert-success");
       document.getElementById("testStatus").style.visibility = "hidden";
       document.getElementById("addressWarning").style.visibility = "hidden";
       document.getElementById("slopeWarning").style.visibility = "hidden";
 
-      document.getElementById("offset1").innerHTML = "";
-      document.getElementById("offset2").innerHTML = "";
-      document.getElementById("offset3").innerHTML = "";
-      document.getElementById("offset4").innerHTML = "";
+      blankOffsets();
 
       google.script.run.withSuccessHandler(displayViabilityResults)
         .geoCoder(inputs);
     });
+  }
+
+  function blankOffsets() {
+    document.getElementById("offset1").innerHTML = "";
+    document.getElementById("offset2").innerHTML = "";
+    document.getElementById("offset3").innerHTML = "";
+    document.getElementById("offset4").innerHTML = "";
   }
 
   function displayViabilityResults(viabilityResults) {
@@ -28,10 +34,7 @@
       document.getElementById("testStatus").innerHTML = "State not viable.";
       document.getElementById("testStatus").style.visibility = "visible";
       document.getElementById("addressWarning").style.visibility = "visible";
-      document.getElementById("offset1").innerHTML = "";
-      document.getElementById("offset2").innerHTML = "";
-      document.getElementById("offset3").innerHTML = "";
-      document.getElementById("offset4").innerHTML = "";
+      blankOffsets();
       return;
     }
     if (viabilityResults.sdcSlopeResults === 3) {
@@ -39,10 +42,7 @@
       document.getElementById("testStatus").innerHTML = "Slope not viable on CD SDC.";
       document.getElementById("testStatus").style.visibility = "visible";
       document.getElementById("slopeWarning").style.visibility = "visible";
-      document.getElementById("offset1").innerHTML = "";
-      document.getElementById("offset2").innerHTML = "";
-      document.getElementById("offset3").innerHTML = "";
-      document.getElementById("offset4").innerHTML = "";
+      blankOffsets();
       return;
     }
     if (viabilityResults.sdcSlopeResults === 2) {
@@ -50,10 +50,7 @@
       document.getElementById("testStatus").innerHTML = "Slope not viable on AB SDC.";
       document.getElementById("testStatus").style.visibility = "visible";
       document.getElementById("slopeWarning").style.visibility = "visible";
-      document.getElementById("offset1").innerHTML = "";
-      document.getElementById("offset2").innerHTML = "";
-      document.getElementById("offset3").innerHTML = "";
-      document.getElementById("offset4").innerHTML = "";
+      blankOffsets();
       return;
     }
     if (viabilityResults.sdcSlopeResults === 1) {
@@ -61,10 +58,7 @@
       document.getElementById("testStatus").innerHTML = "SDC EF not viable.";
       document.getElementById("testStatus").style.visibility = "visible";
       document.getElementById("addressWarning").style.visibility = "visible";
-      document.getElementById("offset1").innerHTML = "";
-      document.getElementById("offset2").innerHTML = "";
-      document.getElementById("offset3").innerHTML = "";
-      document.getElementById("offset4").innerHTML = "";
+      blankOffsets();
       return;
     }
     if (viabilityResults.stateResults === true && viabilityResults.sdcSlopeResults === 0) {
@@ -96,8 +90,8 @@
       document.getElementById("offset3").innerHTML = viabilityResults.offsets.offset3.inch + "\"";
       }
 
-      if (viabilityResults.offsets.offset4.raw < 36) {
-      document.getElementById("offset4").innerHTML = 36 + "\"";
+      if (viabilityResults.offsets.offset4.raw < 72) {
+      document.getElementById("offset4").innerHTML = 72 + "\"";
       } else {
       document.getElementById("offset4").innerHTML = viabilityResults.offsets.offset4.inch + "\"";
       }

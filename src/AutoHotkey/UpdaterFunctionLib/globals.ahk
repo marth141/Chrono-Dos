@@ -18,7 +18,7 @@ Permit_Outsource := ["https://vivintsolar.my.salesforce.com/00O41000008r1LL","ht
 /*
 	Proposal QCD
 */
-CPQCD := ["https://vivintsolar.my.salesforce.com/00O41000008qhV1", "https://vivintsolar.my.salesforce.com/00O41000008qhV6", "https://vivintsolar.my.salesforce.com/00O41000008qhVB"]
+CPQCD := ["https://vivintsolar.my.salesforce.com/00O41000008qhV1", "https://vivintsolar.my.salesforce.com/00O41000008qhV6", "https://vivintsolar.my.salesforce.com/00O41000008qhVB", "https://vivintsolar.my.salesforce.com/00O1M000007QNg9"]
 
 /*
 	QCD Backlogs

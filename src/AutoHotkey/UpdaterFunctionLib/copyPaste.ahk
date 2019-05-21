@@ -40,13 +40,13 @@ copy()
 paste()
 {
 	Sleep, 1000
-	MouseClick, Left, 93, 257, 1
-	MouseMove, 93, 257
+	MouseClick, Left, 93, 265, 1
+	MouseMove, 93, 265
 	Sleep, 2000
 	SendInput, ^v
 	ToolTip % "Pasted the backlog", 0, 30
 	Sleep, 4000
-	MouseClick, Left, 93, 257, 1
-	MouseMove, 93, 257
+	MouseClick, Left, 93, 265, 1
+	MouseMove, 93, 265
 	clipboard = ; Empty the clipboard
 }

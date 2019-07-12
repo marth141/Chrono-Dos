@@ -17,7 +17,7 @@ var getCPQCDLabelKey = function() {
   };
 }
 
-var matchLabel = function(input_label) {
+var getLabelKey = function(input_label) {
   switch(input_label[0][0]) {
     case "CP QCD":
       return getCPQCDLabelKey();
@@ -61,7 +61,7 @@ var libraryTap = function(label_key, input_label) {
 function Main() {
   var input_sheet = getInputSheet();
   var input_label = getInputLabels(input_sheet);
-  var label_key = matchLabel(input_label);
+  var label_key = getLabelKey(input_label);
   var input_Ends = getInputEnds(input_sheet);
   var input_data = getInputData(input_sheet, input_Ends);
   var destination = getDestinationSheet(label_key, input_label);

@@ -21,34 +21,8 @@
 /**
  * Used to send reports to destination backlog
  */
-function btn_Main() {
-  // Get's the input sheet of the updater.
-  var inputSheet = new SourceSheetService().inputSheet;
-
-  // Sets up the pasted sheets identity and destination.
-  whoIsUpdating(inputSheet);
-
-  // Gathers up the data and its dimensions.
-  dataDimensioning(inputSheet);
-
-  // ---------COULD BE IT'S OWN FUNCTION------------
-  // Checks if backlog2Update exists. If not, throw.
-  if (updateJSON.backlog2Update === null) {
-    var sheetNotFound = 'Sheet not found.';
-    throw sheetNotFound;
-  }
-
-  // Clears the destination space.
-  qcd_Clear_Destination();
-
-  // Moves to destination
-  move_ToDestination();
-
-  // Starts backlogs builder library.
-  hitup_Libraries();
-
-  // Clears the input sheet.
-  clear_Source(inputSheet);
+function btn_Main() { 
+  Main();
 }
 
 /**
